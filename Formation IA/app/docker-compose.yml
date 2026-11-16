@@ -1,0 +1,50 @@
+# Next Formation IA : application + PostgreSQL 16 (volume persistant).
+# Depuis app/ : cp .env.example .env (renseigner APP_SECRET, ADMIN_*), puis `docker compose up -d --build`.
+# Le conteneur `app` exécute au démarrage `node dist/setup.cjs` (migrations + admin + compte démo, idempotent).
+# Relancer l'initialisation à la main : `docker compose run --rm setup`.
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: nfia
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nfia}
+      POSTGRES_DB: nfia
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nfia -d nfia"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: ..
+      dockerfile: app/Dockerfile
+    image: nextformation-ia:latest
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://nfia:${POSTGRES_PASSWORD:-nfia}@db:5432/nfia
+    ports:
+      # Derrière Caddy (deploy/Caddyfile.example) : exposer seulement en local.
+      - "127.0.0.1:3000:3000"
+
+  # Initialisation manuelle (mêmes opérations qu'au démarrage d'`app`).
+  setup:
+    image: nextformation-ia:latest
+    profiles: ["tools"]
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://nfia:${POSTGRES_PASSWORD:-nfia}@db:5432/nfia
+    command: ["node", "dist/setup.cjs"]
+
+volumes:
+  pgdata:

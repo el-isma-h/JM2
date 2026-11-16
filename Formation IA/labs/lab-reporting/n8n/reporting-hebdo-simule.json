@@ -1,0 +1,320 @@
+{
+  "name": "Lab L058 — Reporting Mobidesk (simulé, sans clé)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Reporting Mobidesk — mode simulé (aucune credential)\n**Objet** : vérifier toute la chaîne *données → KPI → rédaction → contrôle → aiguillage* sans clé ni compte Google.\n**Comment** : modifiez `date_ref` (et `panne`) dans **Paramètres**, puis *Execute workflow*.\n- `2026-06-29` → 1 078,20 € ; 2 443,00 € ; −55,9 % ; 33 500,00 € → branche *direction*\n- `2026-05-04` → avoir C-1016, −349,00 €, −131,4 %\n- `2026-08-03` → « Rapport non généré » → branche *responsable*\n- `panne` = `faute_de_frappe`, `arrondi` ou `invente` → le contrôle doit router vers *responsable*\n**Passer au réel** : importez `reporting-hebdo.json` (Google Sheets + Claude + Gmail + Slack).",
+        "height": 380,
+        "width": 620
+      },
+      "id": "6a241ebd-ce77-528f-89a1-eb9cfbcb7213",
+      "name": "Note — mode simulé",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        -380
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "7d15bee8-0ff1-5bfc-ade8-d40744ebadaf",
+      "name": "Lancer le test",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -380,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6a3eab1c-eeab-513d-bcfc-b31b2716fe54",
+              "name": "date_ref",
+              "value": "2026-06-29",
+              "type": "string"
+            },
+            {
+              "id": "0779be11-6096-5855-a7ff-116c5ef390ad",
+              "name": "panne",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "50d55a0b-1230-5d51-968b-fc8fd1005862",
+      "name": "Paramètres",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Nœud Code — \"Données Mobidesk (CSV intégré)\" : remplace Google Sheets en mode simulé.\n// Collez ici un autre export CSV (même en-tête) pour tester vos propres données.\nconst csv = `date,commande,commercial,region,categorie,produit,quantite,prix_unitaire_ht,montant_ht\n2026-01-06,C-1001,Aïcha Benali,Île-de-France,Mobilier,Bureau Oslo,4,349.00,1396.00\n2026-01-13,C-1002,Thomas Roussel,Auvergne-Rhône-Alpes,Éclairage,Lampe Halo,12,59.90,718.80\n2026-01-20,C-1003,Léa Martin,Nouvelle-Aquitaine,Mobilier,Fauteuil Ergo+,3,289.00,867.00\n2026-01-27,C-1004,Aïcha Benali,Île-de-France,Consommables,Pack papeterie,25,18.50,462.50\n2026-02-03,C-1005,Thomas Roussel,Auvergne-Rhône-Alpes,Mobilier,Bureau Oslo,2,349.00,698.00\n2026-02-10,C-1006,Léa Martin,Nouvelle-Aquitaine,Rangement,Caisson Nova,6,129.00,774.00\n2026-02-17,C-1007,Aïcha Benali,Île-de-France,Mobilier,Fauteuil Ergo+,8,289.00,2312.00\n2026-02-24,C-1008,Thomas Roussel,Auvergne-Rhône-Alpes,Consommables,Pack papeterie,40,18.50,740.00\n2026-03-03,C-1009,Léa Martin,Nouvelle-Aquitaine,Éclairage,Lampe Halo,20,59.90,1198.00\n2026-03-10,C-1010,Aïcha Benali,Île-de-France,Rangement,Caisson Nova,10,129.00,1290.00\n2026-03-17,C-1011,Thomas Roussel,Auvergne-Rhône-Alpes,Mobilier,Fauteuil Ergo+,5,289.00,1445.00\n2026-03-24,C-1012,Léa Martin,Nouvelle-Aquitaine,Mobilier,Bureau Oslo,6,349.00,2094.00\n2026-04-07,C-1013,Aïcha Benali,Île-de-France,Éclairage,Lampe Halo,30,59.90,1797.00\n2026-04-14,C-1014,Thomas Roussel,Auvergne-Rhône-Alpes,Rangement,Caisson Nova,4,129.00,516.00\n2026-04-21,C-1015,Léa Martin,Nouvelle-Aquitaine,Consommables,Pack papeterie,60,18.50,1110.00\n2026-04-28,C-1016,Aïcha Benali,Île-de-France,Mobilier,Bureau Oslo,-1,349.00,-349.00\n2026-05-05,C-1017,Thomas Roussel,Auvergne-Rhône-Alpes,Mobilier,Fauteuil Ergo+,10,289.00,2890.00\n2026-05-12,C-1018,Léa Martin,Nouvelle-Aquitaine,Rangement,Caisson Nova,8,129.00,1032.00\n2026-05-19,C-1019,Aïcha Benali,Île-de-France,Mobilier,Fauteuil Ergo+,12,289.00,3468.00\n2026-05-26,C-1020,Thomas Roussel,Auvergne-Rhône-Alpes,Éclairage,Lampe Halo,15,59.90,898.50\n2026-06-02,C-1021,Léa Martin,Nouvelle-Aquitaine,Mobilier,Bureau Oslo,9,349.00,3141.00\n2026-06-09,C-1022,Aïcha Benali,Île-de-France,Consommables,Pack papeterie,80,18.50,1480.00\n2026-06-16,C-1023,Thomas Roussel,Auvergne-Rhône-Alpes,Mobilier,Bureau Oslo,7,349.00,2443.00\n2026-06-23,C-1024,Léa Martin,Nouvelle-Aquitaine,Éclairage,Lampe Halo,18,59.90,1078.20`;\nconst [entete, ...lignes] = csv.trim().split(\"\\n\");\nconst colonnes = entete.split(\",\");\n// Les valeurs restent des chaînes, comme ce que renvoie souvent Google Sheets : le nœud KPI les convertit.\nreturn lignes.map(l => {\n  const v = l.split(\",\");\n  return { json: Object.fromEntries(colonnes.map((c, i) => [c, v[i]])) };\n});\n"
+      },
+      "id": "7a440f8c-5b83-5182-b706-8239a52e3e05",
+      "name": "Données Mobidesk (CSV intégré)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        60,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Nœud Code — \"Calcul des KPI de la semaine\" (mode Run Once for All Items)\n// Entrée : un item par ligne de la feuille ventes (colonnes du CSV Mobidesk)\n// Sortie : un item { kpi: {...} } — tous les chiffres sont calculés ICI, jamais par le LLM.\n// Différence avec la leçon L058 : la date de référence vient du nœud \"Paramètres\" (et non de $env,\n// souvent bloqué par N8N_BLOCK_ENV_ACCESS_IN_NODE), et les montants sont aussi fournis déjà formatés.\n\n// Toutes les dates sont manipulées en UTC à minuit pour éviter les décalages de fuseau.\nconst jour = s => new Date(String(s).slice(0, 10) + \"T00:00:00Z\");\nconst ref = $('Paramètres').first().json.date_ref;\nconst DATE_REF = jour(ref || new Date().toISOString());        // ex. \"2026-06-29\" pour tester\nconst lundi = new Date(DATE_REF);\nlundi.setUTCDate(lundi.getUTCDate() - ((lundi.getUTCDay() + 6) % 7)); // lundi de la semaine en cours\nconst debutN = new Date(lundi); debutN.setUTCDate(debutN.getUTCDate() - 7);    // lundi précédent\nconst debutN1 = new Date(lundi); debutN1.setUTCDate(debutN1.getUTCDate() - 14);\n\nconst lignes = $input.all().map(i => i.json);\nconst num = v => Number(String(v).replace(/\\s/g, \"\").replace(\",\", \".\"));   // \"1 078,20\" → 1078.2\nconst dans = (l, d1, d2) => { const d = jour(l.date); return d >= d1 && d < d2; };\n\nconst semN  = lignes.filter(l => dans(l, debutN, lundi));\nconst semN1 = lignes.filter(l => dans(l, debutN1, debutN));\nconst somme = arr => Math.round(arr.reduce((s, l) => s + num(l.montant_ht), 0) * 100) / 100;\nconst parCle = (arr, cle) => {\n  const m = {};\n  for (const l of arr) m[l[cle]] = (m[l[cle]] || 0) + num(l.montant_ht);\n  return Object.entries(m).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ nom: k, ca: Math.round(v * 100) / 100 }));\n};\n\nconst caN = somme(semN), caN1 = somme(semN1);\nconst variation = caN1 === 0 ? null : Math.round((caN - caN1) / caN1 * 1000) / 10;\nconst avoirs = semN.filter(l => num(l.quantite) < 0).length;\nconst fmt = d => d.toISOString().slice(0, 10);\n\n// Formatage français fait par le CODE (le modèle recopie des chaînes prêtes) : « 1 078,20 € », « −55,9 % »\nconst euros = x => (x < 0 ? \"-\" : \"\") + Math.abs(x).toFixed(2).replace(\".\", \",\").replace(/\\B(?=(\\d{3})+(?!\\d))/g, \" \") + \" €\";\nconst pct = v => v === null ? null : (v < 0 ? \"−\" : \"+\") + Math.abs(v).toFixed(1).replace(\".\", \",\") + \" %\";\nconst cumul = somme(lignes);\nconst topCom = parCle(semN, \"commercial\"), topProd = parCle(semN, \"produit\");\n\nreturn [{ json: { kpi: {\n  periode: { debut: fmt(debutN), fin: fmt(new Date(lundi - 1)) },\n  nb_lignes_semaine: semN.length,\n  ca_semaine: caN,\n  ca_semaine_precedente: caN1,\n  variation_pct: variation,            // null si pas de référence\n  cumul_semestre: cumul,               // toutes les lignes de la feuille\n  avoirs_semaine: avoirs,\n  top_commerciaux: topCom,\n  top_produits: topProd,\n  affichage: {                         // les mêmes chiffres, formatés pour être recopiés tels quels\n    ca_semaine: euros(caN),\n    ca_semaine_precedente: euros(caN1),\n    variation_pct: pct(variation),\n    cumul_semestre: euros(cumul),\n    top_commerciaux: topCom.map(t => ({ nom: t.nom, ca: euros(t.ca) })),\n    top_produits: topProd.map(t => ({ nom: t.nom, ca: euros(t.ca) })),\n  },\n  alerte: semN.length === 0 ? \"Aucune ligne cette semaine : vérifier la source\" : null\n} } }];\n"
+      },
+      "id": "c62b1c72-b576-5c27-9379-fc2b4b515c91",
+      "name": "Calcul des KPI de la semaine",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        280,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Nœud Code — \"Rédaction simulée (sans clé)\" : remplace la Basic LLM Chain en mode simulé.\n// Rédige à partir de kpi.affichage, comme un modèle obéissant. Paramètres.panne permet de simuler\n// une erreur typique d'un vrai modèle pour vérifier que le contrôle l'attrape :\n//   \"\"              → texte fidèle            \"faute_de_frappe\" → 1 078,20 devient 1 087,20\n//   \"arrondi\"       → « environ 1 100 € »     \"invente\"         → montant absent du JSON\nconst k = $input.first().json.kpi;\nconst panne = $('Paramètres').first().json.panne || \"\";\nif (k.alerte) return [{ json: { text: `Rapport non généré : ${k.alerte}` } }];\n\nconst a = k.affichage;\nlet ca = a.ca_semaine;\nif (panne === \"faute_de_frappe\") ca = ca.replace(/(\\d)(\\d),/, \"$2$1,\");\nif (panne === \"arrondi\") ca = \"environ \" + String(Math.round(k.ca_semaine / 100) * 100).replace(/\\B(?=(\\d{3})+(?!\\d))/g, \" \") + \" €\";\nconst comparaison = a.variation_pct ? `(${a.variation_pct})` : \"(pas de semaine de référence)\";\nlet attention = k.avoirs_semaine > 0 ? `${k.avoirs_semaine} avoir(s) cette semaine.` : \"aucun avoir cette semaine.\";\nif (k.ca_semaine < 0) attention += \" Chiffre d'affaires de la semaine négatif.\";\nconst lignes = [\n  `Objet : Mobidesk — ventes semaine du ${k.periode.debut} au ${k.periode.fin}`,\n  `1. Chiffre de la semaine : CA ${ca}, contre ${a.ca_semaine_precedente} la semaine précédente ${comparaison}. Cumul du semestre : ${a.cumul_semestre}.`,\n  `2. Faits marquants : ${a.top_commerciaux[0].nom} en tête (${a.top_commerciaux[0].ca}) ; produit en tête : ${a.top_produits[0].nom} (${a.top_produits[0].ca}).`,\n  `3. Points d'attention : ${attention}`,\n];\nif (panne === \"invente\") lignes.push(\"Objectif mensuel atteint à 4 250,00 €.\");\nreturn [{ json: { text: lignes.join(\"\\n\") } }];\n"
+      },
+      "id": "8c1e82fb-3e4f-579c-ab11-83a30d3d7b70",
+      "name": "Rédaction simulée (sans clé)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        500,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Nœud Code — \"Contrôle des chiffres du rapport\" (mode Run Once for All Items)\n// Vérifie que chaque nombre du texte rédigé existe dans le JSON kpi ; sinon, avertissement + relecture humaine.\n// Différence avec la leçon L058 (section 5) : les numéros de section en début de ligne (« 1. », « 2. », « 3. »)\n// sont retirés avant l'analyse ; sans cela, le format imposé par le prompt déclenche de fausses alertes.\nconst entree = $input.first().json;\nconst texte = entree.text ?? entree.output ?? \"\";       // sortie de la Basic LLM Chain\nconst kpi = $('Calcul des KPI de la semaine').first().json.kpi;\n\n// Tous les nombres autorisés : valeurs du JSON (en valeur absolue, arrondies à 2 décimales)\nconst autorises = new Set();\nconst collecter = v => {\n  if (typeof v === \"number\") autorises.add(Math.abs(Math.round(v * 100) / 100));\n  else if (v && typeof v === \"object\") Object.values(v).forEach(collecter);\n};\ncollecter(kpi);\n\n// Nombres trouvés dans le texte (formats « 1 078,20 », « 55,9 », « 33500.00 »),\n// après avoir retiré les dates ISO (2026-06-22), les numéros de section, et en ignorant les années isolées.\nconst sansDates = texte\n  .replace(/\\d{4}-\\d{2}-\\d{2}/g, \" \")\n  .replace(/^\\s*\\d+[.)]\\s/gm, \" \");\nconst trouves = [...sansDates.matchAll(/\\d[\\d   ]*(?:[.,]\\d+)?/g)]\n  .map(m => Number(m[0].replace(/[\\s ]/g, \"\").replace(\",\", \".\")))\n  .filter(n => !Number.isNaN(n) && n >= 1 && !(n >= 2000 && n <= 2100));\nconst inconnus = [...new Set(trouves)].filter(n => !autorises.has(n));\n\n// Une alerte (semaine vide) ne doit produire AUCUN chiffre : on vérifie la phrase imposée.\nconst alerte_respectee = !kpi.alerte || texte.trim().startsWith(\"Rapport non généré\");\n\nreturn [{ json: {\n  texte,\n  controle_ok: inconnus.length === 0 && alerte_respectee && !kpi.alerte,\n  alerte: kpi.alerte,\n  chiffres_inconnus: inconnus,\n  texte_final: inconnus.length === 0 ? texte\n    : texte + `\\n\\n⚠️ CONTRÔLE AUTOMATIQUE : chiffres non reconnus ${inconnus.join(\", \")} — rapport à relire avant diffusion.`\n} }];\n"
+      },
+      "id": "659d1edf-27cb-54d3-b2fb-1605361af437",
+      "name": "Contrôle des chiffres du rapport",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6b0da36f-5313-5090-89a6-9e4f2270d915",
+              "leftValue": "={{ $json.controle_ok }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "53e47923-7861-58c0-92b5-a274c9e94a92",
+      "name": "Contrôle OK ?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        940,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "59512bd1-8f8f-5cc3-bb90-77dbb3eeae5a",
+              "name": "destinataires",
+              "value": "direction-commerciale@mobidesk.example + Slack #ventes",
+              "type": "string"
+            },
+            {
+              "id": "41ab7c52-ab7e-57db-8e97-6cd370aec383",
+              "name": "objet",
+              "value": "={{ $json.texte_final.split('\\n')[0].replace('Objet : ', '') }}",
+              "type": "string"
+            },
+            {
+              "id": "30f6ff5a-a1ef-5590-91df-7381d5493eca",
+              "name": "corps",
+              "value": "={{ $json.texte_final }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6e7202ae-f60f-5252-9e38-6787c5f02673",
+      "name": "Diffusion direction (simulée)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1180,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "04198d7a-f74e-55f6-b47e-edfcafe8caee",
+              "name": "destinataire",
+              "value": "reporting@mobidesk.example",
+              "type": "string"
+            },
+            {
+              "id": "68fe1354-1ce8-5460-b84d-7f356adc6cf7",
+              "name": "motif",
+              "value": "={{ $json.alerte ?? ('chiffres non reconnus : ' + $json.chiffres_inconnus.join(', ')) }}",
+              "type": "string"
+            },
+            {
+              "id": "d5aa2851-795a-5872-b3e6-f187cc4a0e51",
+              "name": "corps",
+              "value": "={{ $json.texte_final }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "aa59f14f-288a-5192-b0fd-5515a54cf195",
+      "name": "Relecture responsable (simulée)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1180,
+        220
+      ]
+    }
+  ],
+  "connections": {
+    "Lancer le test": {
+      "main": [
+        [
+          {
+            "node": "Paramètres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Paramètres": {
+      "main": [
+        [
+          {
+            "node": "Données Mobidesk (CSV intégré)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Données Mobidesk (CSV intégré)": {
+      "main": [
+        [
+          {
+            "node": "Calcul des KPI de la semaine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calcul des KPI de la semaine": {
+      "main": [
+        [
+          {
+            "node": "Rédaction simulée (sans clé)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rédaction simulée (sans clé)": {
+      "main": [
+        [
+          {
+            "node": "Contrôle des chiffres du rapport",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contrôle des chiffres du rapport": {
+      "main": [
+        [
+          {
+            "node": "Contrôle OK ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contrôle OK ?": {
+      "main": [
+        [
+          {
+            "node": "Diffusion direction (simulée)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Relecture responsable (simulée)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Paris",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "active": false,
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": [
+    {
+      "name": "lab-L058"
+    },
+    {
+      "name": "simulation"
+    }
+  ]
+}

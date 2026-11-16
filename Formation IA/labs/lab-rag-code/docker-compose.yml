@@ -1,0 +1,68 @@
+# docker-compose.yml — RAG Bréval Matériaux : `docker compose up -d --build` puis
+# `docker compose run --rm ingestion` (à planifier chaque nuit par un cron hôte).
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASSWORD:?définissez PG_PASSWORD dans .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # Aucun "ports:" : la base n'est pas exposée hors du réseau Docker
+
+  api:
+    build:
+      context: .
+      args:
+        APP_DIR: ${RAG_APP_DIR:-starter}
+    environment:
+      RAG_BACKEND: pgvector
+      PG_DSN: postgresql://postgres:${PG_PASSWORD}@db:5432/postgres
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      LAB_MODE: ${LAB_MODE:-}
+      RAG_MODEL: ${RAG_MODEL:-claude-sonnet-5-5}
+      RAG_EMBEDDINGS: ${RAG_EMBEDDINGS:-hash}
+      LOCAL_EMBEDDING_MODEL: ${LOCAL_EMBEDDING_MODEL:-BAAI/bge-m3}
+      RAG_SEUIL: ${RAG_SEUIL:-0.5}
+      RAG_CACHE_DB: /app/var/cache.sqlite
+      DOCS_DIR: /app/procedures
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./procedures:/app/procedures:ro
+      - apivar:/app/var
+      - hf_cache:/root/.cache/huggingface
+
+  ingestion:
+    build:
+      context: .
+      args:
+        APP_DIR: ${RAG_APP_DIR:-starter}
+    command: ["python", "-m", "rag.ingestion"]
+    environment:
+      RAG_BACKEND: pgvector
+      PG_DSN: postgresql://postgres:${PG_PASSWORD}@db:5432/postgres
+      RAG_EMBEDDINGS: ${RAG_EMBEDDINGS:-hash}
+      LOCAL_EMBEDDING_MODEL: ${LOCAL_EMBEDDING_MODEL:-BAAI/bge-m3}
+      DOCS_DIR: /app/procedures
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./procedures:/app/procedures:ro
+      - hf_cache:/root/.cache/huggingface
+    profiles: ["batch"]
+
+volumes:
+  pgdata: {}
+  apivar: {}
+  hf_cache: {}

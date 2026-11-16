@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "client": { "type": ["string", "null"] },
+    "resume_besoin": { "type": "string" },
+    "lignes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string" },
+          "libelle": { "type": "string" },
+          "quantite": { "type": "number" },
+          "prix_unitaire_ht": { "type": "number" },
+          "page_catalogue": { "type": "integer" }
+        },
+        "required": ["code", "libelle", "quantite", "prix_unitaire_ht", "page_catalogue"],
+        "additionalProperties": false
+      }
+    },
+    "taux_tva": { "type": ["number", "null"] },
+    "total_ht": { "type": "number" },
+    "prestations_hors_catalogue": { "type": "array", "items": { "type": "string" } },
+    "questions_manquantes": { "type": "array", "items": { "type": "string" } },
+    "pret_a_valider": { "type": "boolean" }
+  },
+  "required": ["client", "resume_besoin", "lignes", "taux_tva", "total_ht", "prestations_hors_catalogue", "questions_manquantes", "pret_a_valider"],
+  "additionalProperties": false
+}

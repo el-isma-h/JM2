@@ -1,0 +1,196 @@
+{
+  "name": "Lab L048 — RAG Lacombe : ingestion",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Workflow 1 — Ingestion (tutoriel A, section 1.2)\nLit `documents/*.md` (monté sur `/home/node/lab-files/lacombe`), découpe **1 000 / 150**, vectorise avec\n**Ollama nomic-embed-text** et range dans le *Simple Vector Store* `lacombe-procedures`.\n⚠️ Le Simple Vector Store vit en mémoire : **tout disparaît au redémarrage** de n8n. Relancez ce workflow après chaque redémarrage\n(l'option *Clear Store* vide la base avant chaque ingestion : pas de doublons).\nModèle d'embeddings : **nomic-embed-text** — le même doit être branché sur la consultation.",
+        "height": 300,
+        "width": 640
+      },
+      "id": "a75462fd-2353-5f79-b7d6-eeb1e7b8668f",
+      "name": "Note — ingestion",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        -400
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "f6b32b93-7a4e-5d78-bd51-298905a38c6a",
+      "name": "Lancer l'ingestion",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -380,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "fileSelector": "/home/node/lab-files/lacombe/*.md",
+        "options": {}
+      },
+      "id": "f69ea2d6-fe78-5955-949c-f4c70f76908b",
+      "name": "Lire les documents",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": "lacombe-procedures",
+        "clearStore": true
+      },
+      "id": "781cafae-9fe5-5776-ab29-40d86935b95c",
+      "name": "Simple Vector Store — insérer",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1,
+      "position": [
+        100,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "titre",
+                "value": "={{ $binary.data.fileName }}"
+              },
+              {
+                "name": "categorie",
+                "value": "procedures"
+              },
+              {
+                "name": "date_maj",
+                "value": "={{ $now.toISODate() }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "a32c7969-da65-5105-bc2d-8b85f4f6617e",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        120,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "chunkSize": 1000,
+        "chunkOverlap": 150,
+        "options": {}
+      },
+      "id": "e9bc758c-5716-5fd5-9322-01484a5a6de3",
+      "name": "Recursive Character Text Splitter",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        140,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text"
+      },
+      "id": "c0e0b32f-cc90-5af2-9063-d6e7d944f58d",
+      "name": "Embeddings Ollama",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        360,
+        280
+      ],
+      "credentials": {
+        "ollamaApi": {
+          "name": "Ollama local"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Lancer l'ingestion": {
+      "main": [
+        [
+          {
+            "node": "Lire les documents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lire les documents": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store — insérer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store — insérer",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store — insérer",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Paris",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "active": false,
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": [
+    {
+      "name": "lab-L048"
+    }
+  ]
+}

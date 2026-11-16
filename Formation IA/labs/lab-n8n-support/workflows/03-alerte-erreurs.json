@@ -1,0 +1,90 @@
+{
+  "name": "Lab L038 — Alerte erreurs",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Workflow d'erreur (leçon 33)\nÀ désigner dans *Settings → Error workflow* de l'assistant. Test : credential Anthropic invalide → l'agent passe par sa\nsortie d'erreur (escalade « IA indisponible ») ; une panne Gmail ou Sheets après 3 essais déclenche ce workflow.",
+        "height": 220,
+        "width": 520
+      },
+      "id": "766b5bd6-4e1b-551f-8a3c-aaec47e21e11",
+      "name": "Note — alerte",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        -280
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "79f355f7-9979-504c-ae05-70cfca0b8833",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "#support-alertes"
+        },
+        "text": "=:rotating_light: Support : échec du workflow {{ $json.workflow.name }}\nNœud : {{ $json.execution.lastNodeExecuted }} — {{ $json.execution.error.message }}\n{{ $json.execution.url }}\nVérifiez qu'aucun ticket n'est resté sans réponse (journal, statut « recu »).",
+        "otherOptions": {}
+      },
+      "id": "1dbcf71d-0a47-52f2-9af4-210cfbada769",
+      "name": "Slack — #support-alertes",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        160,
+        60
+      ],
+      "credentials": {
+        "slackApi": {
+          "name": "Slack support"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Slack — #support-alertes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Paris",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "active": false,
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": [
+    {
+      "name": "lab-L038"
+    },
+    {
+      "name": "erreurs"
+    }
+  ]
+}

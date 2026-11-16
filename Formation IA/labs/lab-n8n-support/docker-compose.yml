@@ -1,0 +1,54 @@
+# docker-compose.yml — Lab L038 : n8n + Qdrant + Ollama, tout en local, sans clé API.
+#   cp .env.example .env   (puis générez N8N_ENCRYPTION_KEY : openssl rand -hex 32)
+#   docker compose up -d n8n                     # mode simulé : n8n seul suffit
+#   docker compose up -d                         # + Qdrant et Ollama pour l'ingestion et le RAG
+#   docker compose exec ollama ollama pull nomic-embed-text
+# Interfaces : n8n http://localhost:5678 · Qdrant http://localhost:6333/dashboard
+services:
+  n8n:
+    # Épinglez une version vérifiée (ex. :3.0.x) : n8n 3.0 (27/10/2026) apporte des changements incompatibles.
+    image: docker.n8n.io/n8nio/n8n:${N8N_VERSION:-latest}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5678:5678"            # local uniquement ; en production, derrière Caddy en HTTPS (L037)
+    environment:
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:?définissez N8N_ENCRYPTION_KEY dans .env}
+      GENERIC_TIMEZONE: Europe/Paris
+      TZ: Europe/Paris
+      # URL publique de l'instance : la validation Slack (Send and Wait) rappelle cette URL.
+      # En local, Slack ne peut pas la joindre : utilisez un tunnel HTTPS ou testez la validation sur n8n Cloud.
+      WEBHOOK_URL: ${WEBHOOK_URL:-http://localhost:5678/}
+      # Les nœuds de fichiers ne lisent que ce dossier (fiches montées en lecture seule ci-dessous)
+      N8N_RESTRICT_FILE_ACCESS_TO: /home/node/lab-files
+      EXECUTIONS_DATA_PRUNE: "true"
+      EXECUTIONS_DATA_MAX_AGE: 336        # heures (14 jours)
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./base-connaissances:/home/node/lab-files/support:ro
+      - ./donnees:/home/node/lab-files/donnees:ro
+
+  qdrant:
+    image: qdrant/qdrant:${QDRANT_VERSION:-latest}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:6333:6333"            # tableau de bord ; n8n s'y connecte par http://qdrant:6333
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  ollama:
+    image: ollama/ollama:${OLLAMA_VERSION:-latest}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:11434:11434"          # n8n s'y connecte par http://ollama:11434
+    volumes:
+      - ollama_models:/root/.ollama
+    # GPU NVIDIA : installez le NVIDIA Container Toolkit puis décommentez
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices: [{ driver: nvidia, count: all, capabilities: [gpu] }]
+
+volumes:
+  n8n_data: {}
+  qdrant_data: {}
+  ollama_models: {}

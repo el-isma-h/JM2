@@ -1,0 +1,1624 @@
+{
+  "levelId": "N5",
+  "title": "Examen de certification — Niveau 5 Data engineering & Big Data pour l'IA",
+  "passScore": 70,
+  "timeLimitMinutes": 60,
+  "bankSize": 80,
+  "drawPerAttempt": 40,
+  "competences": {
+    "C5.1": [
+      "N5-E01",
+      "N5-E02",
+      "N5-E03",
+      "N5-E04",
+      "N5-E05",
+      "N5-E06",
+      "N5-E07",
+      "N5-E08",
+      "N5-E09",
+      "N5-E41",
+      "N5-E42",
+      "N5-E43",
+      "N5-E44",
+      "N5-E45",
+      "N5-E46",
+      "N5-E47",
+      "N5-E48",
+      "N5-E49"
+    ],
+    "C5.2": [
+      "N5-E12",
+      "N5-E13",
+      "N5-E14",
+      "N5-E15",
+      "N5-E16",
+      "N5-E17",
+      "N5-E18",
+      "N5-E52",
+      "N5-E53",
+      "N5-E54",
+      "N5-E55",
+      "N5-E56",
+      "N5-E76"
+    ],
+    "C5.3": [
+      "N5-E10",
+      "N5-E11",
+      "N5-E19",
+      "N5-E20",
+      "N5-E21",
+      "N5-E22",
+      "N5-E23",
+      "N5-E24",
+      "N5-E50",
+      "N5-E51",
+      "N5-E57",
+      "N5-E58",
+      "N5-E59",
+      "N5-E60",
+      "N5-E61",
+      "N5-E62"
+    ],
+    "C5.4": [
+      "N5-E25",
+      "N5-E26",
+      "N5-E27",
+      "N5-E28",
+      "N5-E36",
+      "N5-E63",
+      "N5-E64",
+      "N5-E65",
+      "N5-E66",
+      "N5-E75"
+    ],
+    "C5.5": [
+      "N5-E31",
+      "N5-E32",
+      "N5-E33",
+      "N5-E34",
+      "N5-E35",
+      "N5-E37",
+      "N5-E69",
+      "N5-E70",
+      "N5-E71",
+      "N5-E72",
+      "N5-E73",
+      "N5-E74",
+      "N5-E77"
+    ],
+    "C5.6": [
+      "N5-E29",
+      "N5-E30",
+      "N5-E38",
+      "N5-E39",
+      "N5-E40",
+      "N5-E67",
+      "N5-E68",
+      "N5-E78",
+      "N5-E79",
+      "N5-E80"
+    ]
+  },
+  "questions": [
+    {
+      "id": "N5-E01",
+      "lessonId": "L152",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "Bréval passe à l'échelle 10 et vous rédigez l'étude de cas de choix de formats. Quatre flux sont à servir : (1) chaque changement de statut de commande publié dans Kafka, avec un schéma appelé à évoluer ; (2) la table `commandes` analytique, lue aujourd'hui par DuckDB et demain par un entrepôt cloud ; (3) le corpus des 90 000 tickets SAV, relu à la main pendant le prototypage puis servi à grande échelle ; (4) le passage d'un résultat DuckDB à Polars sans recopie. Quelle affectation est la mieux justifiée ?",
+      "options": [
+        "(1) JSONL compressé, plus lisible ; (2) Parquet zstd sous un format de table ouvert ; (3) Avro, qui gère l'évolution de schéma du corpus ; (4) Arrow IPC écrit sur disque puis relu",
+        "(1) Avro + Schema Registry ; (2) ORC, plus compact que Parquet dans les entrepôts cloud ; (3) CSV UTF-8 en un seul gros fichier pour faciliter le partage ; (4) Arrow en mémoire (`.pl()`)",
+        "(1) Parquet, un fichier par événement pour garder les statistiques ; (2) Arrow IPC zstd, lu sans conversion par tous les moteurs ; (3) JSONL du début à la fin ; (4) Parquet temporaire",
+        "(1) Avro + Schema Registry ; (2) Parquet zstd sous un format de table ouvert ; (3) JSONL pour prototyper, puis shards Parquet de 50 à 500 Mo avec manifeste ; (4) Arrow en mémoire (`.pl()`)"
+      ],
+      "answer": 3,
+      "explanation": "Avro sérialise un enregistrement à la fois et porte des règles d'évolution de schéma vérifiées par le Schema Registry : c'est le format des messages. Parquet (colonnes, statistiques) sous Iceberg ou Delta sert l'analytique multi-moteurs, et l'atelier UPPMAX cité en L152 recommande JSONL pour relire puis des shards Parquet/Arrow de 50 à 500 Mo avec manifeste. Arrow est le format mémoire partagé sans copie par DuckDB et Polars ; il n'est pas conçu pour l'archivage, et un Parquet par événement produirait une nuée de petits fichiers.",
+      "source": {
+        "title": "Apache Parquet — documentation",
+        "url": "https://parquet.apache.org/"
+      }
+    },
+    {
+      "id": "N5-E02",
+      "lessonId": "L152",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "À l'échelle 10, `commandes.parquet` (≈ 1,2 million de lignes triées par date, row groups d'environ 122 880 lignes) sert la requête « CA d'octobre 2026 ». `EXPLAIN ANALYZE` et `parquet_metadata()` montrent que DuckDB lit 2 row groups au lieu du seul dernier attendu ; le row group n° 3 affiche, pour `date_commande`, `stats_min_value = 2024-09-02` et `stats_max_value = 2063-05-11`. Quelle analyse et quelle correction retenez-vous ?",
+      "options": [
+        "Une date « 206x » élargit le max du row group 3, qui ne peut plus être sauté ; corriger ces dates en silver puis réécrire le fichier trié par date",
+        "Le row group 3 est corrompu : DuckDB relit par sécurité tout bloc dont les statistiques sont incohérentes ; il faut régénérer le fichier en zstd",
+        "Les row groups sont trop gros : des row groups de 10 000 lignes supprimeront toute lecture parasite, quelles que soient les dates présentes",
+        "Le filtre n'est pas poussé dans la lecture : il faut convertir `date_commande` en VARCHAR pour que DuckDB compare les statistiques texte"
+      ],
+      "answer": 0,
+      "explanation": "Le saut de blocs compare le filtre aux min/max de chaque row group : une seule année « 206x » injectée au milieu du fichier rend l'intervalle du row group 3 compatible avec octobre 2026, qui doit donc être lu. La correction est en amont : traiter ces dates aberrantes en silver (L155) et réécrire le fichier trié. Réduire la taille des row groups limiterait le coût sans le supprimer, et un filtre sur du texte dégraderait le pruning au lieu de l'améliorer.",
+      "source": {
+        "title": "Apache Parquet — documentation",
+        "url": "https://parquet.apache.org/"
+      }
+    },
+    {
+      "id": "N5-E03",
+      "lessonId": "L153",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "Un ticket SAV a `ouvert_le = 2026-03-29T10:30:00+02:00` ; la commande concernée a `date_commande = 2026-03-29 09:00:00` (heure locale de Paris sans fuseau, comme tout l'ERP de Bréval). Un analyste calcule `ouvert_le - CAST(date_commande AS TIMESTAMPTZ)` dans une session DuckDB réglée en UTC. Quel résultat obtient-il, et quel est le délai réel ?",
+      "options": [
+        "−30 min, la commande étant lue comme 09:00 UTC ; délai réel 1 h 30, obtenu avec `timezone('Europe/Paris', date_commande)`",
+        "30 min, DuckDB appliquant l'heure d'hiver +01:00 par défaut ; délai réel 1 h 30, obtenu en ajoutant `INTERVAL 1 HOUR`",
+        "1 h 30 dans les deux cas : un `TIMESTAMPTZ` convertit toujours l'heure locale selon le fuseau du serveur Postgres de l'ERP",
+        "−30 min ; délai réel 30 min, car le 29 mars 2026 Paris reste à +01:00 jusqu'à midi, heure du changement d'heure"
+      ],
+      "answer": 0,
+      "explanation": "Le 29 mars 2026 est le jour du passage à l'heure d'été (à 2 h) : 09:00 à Paris vaut 07:00 UTC, et 10:30+02:00 vaut 08:30 UTC, soit un délai réel de 1 h 30. Avec une session en UTC, le cast lit 09:00 comme 09:00 UTC et le ticket semble ouvert 30 minutes avant la commande. La règle de L153 : interpréter explicitement l'heure locale avec `timezone('Europe/Paris', …)` avant de comparer des instants ; un décalage fixe d'une heure serait faux une partie de l'année.",
+      "source": {
+        "title": "DuckDB — documentation",
+        "url": "https://duckdb.org/docs/"
+      }
+    },
+    {
+      "id": "N5-E04",
+      "lessonId": "L153",
+      "competence": "C5.1",
+      "type": "trouve_erreur",
+      "q": "Pour octobre 2026, le CA HT mensuel vaut ANC 45 000 €, NAN 165 000 €, STN 90 000 €. Le tableau de bord affiche pourtant ANC 100 %, NAN 78,6 %, STN 30,0 %. Où est l'erreur ?\n\n```sql\nSELECT agence_id, mois, ca_ht,\n       round(100 * ca_ht / sum(ca_ht) OVER (PARTITION BY mois ORDER BY agence_id), 1)\n           AS part_du_mois_pct\nFROM mensuel;\n```",
+      "options": [
+        "`PARTITION BY mois` mélange les trois agences dans une même ligne : il faut un `GROUP BY ALL` avant la fenêtre pour obtenir 15,0 %, 55,0 % et 30,0 %",
+        "La division de deux DECIMAL tronque les décimales : il faut `CAST(ca_ht AS DOUBLE)`, et les parts deviennent 15,0 %, 55,0 % et 30,0 %",
+        "Il manque `QUALIFY row_number() = 1` : les doublons d'export du bronze gonflent le CA d'Ancenis et faussent le dénominateur du mois",
+        "Le `ORDER BY` dans `OVER` impose un cadre cumulatif par défaut : seule la dernière agence est juste ; sans lui, on obtient 15,0 %, 55,0 % et 30,0 %"
+      ],
+      "answer": 3,
+      "explanation": "Avec `ORDER BY` et sans cadre explicite, la fenêtre va du début de la partition à la ligne courante : le dénominateur est un cumul (45 000, puis 210 000, puis 300 000), d'où 100 %, 78,6 % et 30,0 %. Pour un total par partition, on retire l'`ORDER BY` de `OVER` : 45/300 = 15,0 %, 165/300 = 55,0 %, 90/300 = 30,0 %. C'est le piège signalé en L153 ; les autres causes ne produiraient pas ce motif où seule la dernière ligne est juste.",
+      "source": {
+        "title": "PostgreSQL — tutoriel sur les fonctions de fenêtre",
+        "url": "https://www.postgresql.org/docs/current/tutorial-window.html"
+      }
+    },
+    {
+      "id": "N5-E05",
+      "lessonId": "L154",
+      "competence": "C5.1",
+      "type": "trouve_erreur",
+      "q": "Après l'ajout des commandes de novembre, le CA de quelques clients ayant changé de segment est compté deux fois. Ces commandes ont été saisies dans la transaction même qui a modifié le client : leur `date_commande` égale exactement le `mis_a_jour_le` du fichier de mise à jour. La mise à jour SCD 2 ferme l'ancienne version avec `valide_au = m.mis_a_jour_le` et ouvre la nouvelle avec `valide_du = m.mis_a_jour_le`. Le fait est construit ainsi :\n\n```sql\nJOIN dim_client d ON d.client_id = c.client_id\n                 AND c.date_commande BETWEEN d.valide_du AND d.valide_au\n```\n\nQuelle est la cause ?",
+      "options": [
+        "La séquence `seq_client_sk` a donné la même clé de substitution aux deux versions : il faut la recréer avant chaque chargement SCD 2",
+        "L'étape 1 ferme les versions de tous les clients du fichier, même inchangés : il faut comparer `hash_suivi` avant de fermer une version",
+        "`BETWEEN` inclut les deux bornes : à l'instant de bascule, la commande correspond aux deux versions ; il faut `>= valide_du AND < valide_au`",
+        "La date infinie `9999-12-31` dépasse le type TIMESTAMP de DuckDB et rend la condition vraie pour toutes les versions du client"
+      ],
+      "answer": 2,
+      "explanation": "Avec des intervalles jointifs (la fin de l'un est le début du suivant), `BETWEEN` rend la condition vraie pour les deux versions à l'instant exact de la bascule : la ligne de fait est dupliquée. La convention de L154 est l'intervalle semi-ouvert `date >= valide_du AND date < valide_au`, qui rattache chaque instant à une seule version. Une séquence ne réattribue pas une valeur déjà tirée, et le code de L154 compare bien `hash_suivi` avant de fermer.",
+      "source": {
+        "title": "O'Reilly — Fundamentals of Data Engineering",
+        "url": "https://oreilly.com/library/view/fundamentals-of-data/9781098108298"
+      }
+    },
+    {
+      "id": "N5-E06",
+      "lessonId": "L154",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "Bréval rachète un négociant vendéen doté de son propre ERP. Pendant 18 mois, les deux ERP coexistent : un même artisan peut y figurer avec des segments et des villes différents, et l'auditeur exige de retrouver, à toute date, ce que disait chaque source. La direction veut par ailleurs garder ses tableaux de bord de CA. Quelle architecture de modélisation proposez-vous ?",
+      "options": [
+        "Une couche d'intégration Data Vault 2.0 (hub client sur la clé métier normalisée, un satellite par ERP), puis des marts en étoile avec `dim_client` SCD 2",
+        "Une seule `dim_client` SCD 2 alimentée par les deux ERP, la dernière source chargée écrasant l'autre en cas de conflit, pour garder une étoile simple",
+        "Une table large dénormalisée par ERP, réunies par `UNION ALL` dans le tableau de bord, l'historique étant assuré par le time travel du format de table",
+        "Un modèle 3NF fusionné des deux ERP, interrogé directement par la BI, les conflits étant tranchés par une règle SCD de type 1 sur chaque attribut"
+      ],
+      "answer": 0,
+      "explanation": "Le Data Vault 2.0 sépare la clé métier (hub), les relations (links) et les attributs historisés par source (satellites) : chaque ERP garde sa version des faits, ce qu'exige l'auditeur. Les marts en étoile, construits au-dessus, restent la meilleure interface pour la BI, avec une SCD 2 pour rattacher le CA à la bonne version du client. Écraser une source par l'autre ou appliquer un type 1 détruit justement l'historique demandé, et le time travel n'est pas un mécanisme d'historisation métier.",
+      "source": {
+        "title": "O'Reilly — Fundamentals of Data Engineering",
+        "url": "https://oreilly.com/library/view/fundamentals-of-data/9781098108298"
+      }
+    },
+    {
+      "id": "N5-E07",
+      "lessonId": "L156",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "Un collègue écrit la couche silver des commandes de Bréval (échelle 1 : 120 000 commandes sur 34 mois, quelques Mo en Parquet) avec `partitionBy(\"client_id\")`, « pour que les requêtes par client soient instantanées ». Quelle est votre analyse ?",
+      "options": [
+        "C'est un bon choix tant que le nombre de partitions reste sous 10 000, limite au-delà de laquelle le stockage objet refuse de lister les préfixes",
+        "Le partitionnement par client est idéal pour le RAG, mais il faut ajouter des sous-partitions `annee/mois/jour` pour que le pruning temporel fonctionne",
+        "≈ 5 075 dossiers de ≈ 24 commandes : ces petits fichiers pénalisent toute requête par mois ou par agence ; partitionner par `annee/mois` (≈ 3 500 lignes), voire pas du tout",
+        "Le seul problème est le coût : chaque petit objet est facturé au minimum 1 Mo par le stockage objet, soit environ 5 Go facturés pour la table"
+      ],
+      "answer": 2,
+      "explanation": "120 000 commandes réparties sur 5 075 clients donnent environ 24 lignes par fichier : le coût d'ouverture et de listage de milliers d'objets domine toute lecture, et aucune requête par mois ou par agence ne profite du pruning. Un partitionnement doit suivre les filtres les plus fréquents et produire des fichiers de taille raisonnable : `annee/mois` donne 34 fichiers d'environ 3 500 lignes, et à ce volume une table non partitionnée triée par date suffit. Ajouter des sous-partitions par jour aggraverait encore l'émiettement.",
+      "source": {
+        "title": "Amazon S3 — documentation",
+        "url": "https://docs.aws.amazon.com/s3/"
+      }
+    },
+    {
+      "id": "N5-E08",
+      "lessonId": "L157",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "La table Iceberg `silver.commandes` de Bréval est partitionnée par `months(date_commande)`. À l'échelle 50, la direction veut des partitions quotidiennes à partir de 2027. Que se passe-t-il si vous faites évoluer la spécification de partitionnement vers `days(date_commande)` ?",
+      "options": [
+        "Iceberg réécrit tous les fichiers existants au commit suivant : la table reste lisible, mais la durée du commit est proportionnelle à l'historique",
+        "Les requêtes doivent désormais filtrer sur une colonne technique `jour` ajoutée par Iceberg, sinon le pruning ne s'applique pas aux nouvelles partitions",
+        "L'opération est refusée : le partitionnement d'une table Iceberg ne peut changer qu'en recréant la table et en recopiant toutes les données",
+        "Seules les nouvelles données sont écrites par jour ; l'historique reste mensuel, et les requêtes, qui filtrent sur `date_commande`, profitent des deux sans changement"
+      ],
+      "answer": 3,
+      "explanation": "L'évolution du partitionnement est une opération de métadonnées : chaque fichier garde la spécification avec laquelle il a été écrit, et les nouvelles écritures suivent la nouvelle. Grâce au partitionnement caché, l'utilisateur filtre sur `date_commande` et Iceberg applique la bonne transformation à chaque spécification. C'est l'un des deux atouts d'Iceberg cités en L157 ; une réécriture de l'historique reste possible mais n'est jamais imposée.",
+      "source": {
+        "title": "Apache Iceberg",
+        "url": "https://iceberg.apache.org/"
+      }
+    },
+    {
+      "id": "N5-E09",
+      "lessonId": "L158",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "Une ETI de négoce, cliente de votre cabinet, stocke dans BigQuery (facturation à la demande) une table de ventes de 3 To couvrant 1 000 jours, non partitionnée. Les 3 colonnes lues par la requête « CA d'hier par agence » pèsent 20 % de la table. Le tableau de bord lance 30 requêtes différentes par jour (filtres variés, cache de résultats inopérant), 30 jours par mois. Avec un prix supposé de 6,25 $ par To scanné, à vérifier le jour du devis, quel est le coût mensuel avant puis après un partitionnement par jour avec filtre sur la date d'hier ?",
+      "options": [
+        "≈ 16 875 $ par mois, puis ≈ 16,90 $ : une table non partitionnée est toujours lue en entier",
+        "≈ 3 375 $ par mois, puis ≈ 3,40 $ : 600 Go lus par requête, puis environ 0,6 Go",
+        "≈ 3 375 $ par mois, puis ≈ 337 $ : le partitionnement divise le volume lu par 10 au plus",
+        "≈ 3,40 $ par mois, puis ≈ 0,003 $ : 600 Go × 900 requêtes font 540 Go, soit 0,54 To"
+      ],
+      "answer": 1,
+      "explanation": "Sans partition, chaque requête lit 20 % de 3 To, soit 600 Go ; 900 requêtes par mois font 540 To, donc 540 × 6,25 ≈ 3 375 $. Avec une partition par jour et un filtre sur hier, on ne lit qu'environ 1/1 000 de ces colonnes (0,6 Go), soit 0,54 To par mois ≈ 3,40 $. BigQuery facture les colonnes lues, pas la table entière ; ce n'est qu'avec un `SELECT *` que l'on atteindrait 16 875 $.",
+      "source": {
+        "title": "BigQuery — documentation",
+        "url": "https://cloud.google.com/bigquery/docs"
+      }
+    },
+    {
+      "id": "N5-E10",
+      "lessonId": "L159",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "À l'échelle 10, la jointure `fait_lignes ⋈ dim_client` (dim_client : 50 750 lignes, ≈ 3 Mo) prend 3 minutes : 199 tâches durent 2 s, une seule dure 2 min 50, celle de la clé du client « COMPTOIR ANONYME » (30 % des lignes). Le plan montre un `SortMergeJoin` ; un collègue a fixé `spark.sql.autoBroadcastJoinThreshold=-1` et l'AQE est désactivée par la politique du cluster. Quelle action est la plus efficace ?",
+      "options": [
+        "Passer `spark.sql.shuffle.partitions` de 200 à 2 000 : la clé du comptoir sera répartie sur dix fois plus de tâches et la tâche lente disparaîtra",
+        "Diffuser `dim_client` avec `F.broadcast()` : la grande table n'est plus redistribuée, donc plus de partition déséquilibrée sur la clé du comptoir",
+        "Appeler `fait_lignes.repartition(\"client_id\")` avant la jointure, pour que chaque exécuteur reçoive des partitions de taille équilibrée",
+        "Saler la clé des deux côtés (suffixe aléatoire de 0 à 9) puis agréger deux fois : c'est la seule parade possible sans AQE pour une jointure"
+      ],
+      "answer": 1,
+      "explanation": "La dimension fait 3 Mo : la copier sur chaque exécuteur (`BroadcastHashJoin`) supprime le shuffle de la table de faits, donc le regroupement de toutes les lignes du comptoir dans une seule tâche. L'indice explicite `F.broadcast()` s'applique même quand la diffusion automatique est désactivée. Augmenter le nombre de partitions ou repartitionner par `client_id` laisse la clé chaude dans une seule partition ; le salage fonctionne, mais il est plus lourd et n'est pas la seule parade.",
+      "source": {
+        "title": "Spark — SQL performance tuning",
+        "url": "https://spark.apache.org/docs/latest/sql-performance-tuning.html"
+      }
+    },
+    {
+      "id": "N5-E11",
+      "lessonId": "L160",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "Associez à chaque besoin le moteur le plus raisonnable (nov. 2026). (a) Bréval : 3 Go de Parquet transformés chaque nuit par une seule personne ; (b) une ETI : 4 To de journaux à joindre chaque nuit, en parallèle sur plusieurs machines ; (c) 30 analystes en SQL interactif simultané ; (d) vectoriser 2 millions de chunks sur GPU.",
+      "options": [
+        "(a) Spark local, pour être prêt à grandir ; (b) Dask ; (c) DuckDB embarqué ; (d) Spark Structured Streaming",
+        "(a) DuckDB ou Polars ; (b) Polars en mode streaming ; (c) un cluster Spark partagé ; (d) Dask sur CPU",
+        "(a) DuckDB ou Polars ; (b) Spark managé ; (c) entrepôt cloud ou MotherDuck ; (d) Ray Data",
+        "(a) pandas, le plus répandu ; (b) Spark managé ; (c) entrepôt cloud ou MotherDuck ; (d) Kafka Streams"
+      ],
+      "answer": 2,
+      "explanation": "La règle de L160 : DuckDB ou Polars jusqu'à quelques centaines de Go sur une machine ; Spark (managé de préférence) pour plusieurs To à paralléliser ; un entrepôt cloud ou MotherDuck pour la concurrence SQL de nombreux utilisateurs ; Ray Data pour l'inférence et les embeddings par lots sur GPU. Choisir Spark « pour être prêt » alourdit l'exploitation sans gain, et un moteur de flux comme Kafka Streams ne sert pas à vectoriser un corpus.",
+      "source": {
+        "title": "Ray — Offline batch inference",
+        "url": "https://docs.ray.io/en/latest/data/batch_inference.html"
+      }
+    },
+    {
+      "id": "N5-E12",
+      "lessonId": "L161",
+      "competence": "C5.2",
+      "type": "trouve_erreur",
+      "q": "Le 5 novembre, après le chargement normal du jour, vous lancez un rattrapage du 3 novembre (déjà chargé normalement le 3) avec cette fonction, `jour` étant fourni par l'orchestrateur. Que contient ensuite `bronze.commandes_export` ?\n\n```python\ndef charger(jour: str) -> None:\n    con.execute(\"BEGIN TRANSACTION\")\n    con.execute(\"DELETE FROM bronze.commandes_export WHERE _jour_chargement = current_date\")\n    con.execute(f\"INSERT INTO bronze.commandes_export \"\n                f\"SELECT *, DATE '{jour}', now() FROM {lire_export(jour)}\")\n    con.execute(\"COMMIT\")\n```",
+      "options": [
+        "Une seule copie du 3 novembre : la transaction rend la paire DELETE + INSERT idempotente, quel que soit le filtre du DELETE",
+        "Une seule copie du 3 novembre, avec un `_charge_le` du 5 : seul l'horodatage technique change, comportement attendu d'un rattrapage",
+        "Rien de nouveau : DuckDB refuse, dans une transaction ouverte, un INSERT dont la date de chargement diffère de `current_date`",
+        "Le 3 novembre en double et la partition du 5 effacée : le DELETE vise l'horloge (`current_date`) et non la période passée en paramètre"
+      ],
+      "answer": 3,
+      "explanation": "Le DELETE supprime la partition du jour d'exécution (le 5), puis l'INSERT ajoute une deuxième copie du 3 : on perd le 5 et on double le 3. Une transaction garantit l'atomicité, pas l'idempotence ; c'est le filtre du DELETE qui doit porter sur la même période que l'INSERT. La règle de L161 : bronze immuable et transformations paramétrées par la période fournie par l'orchestrateur, jamais par l'horloge.",
+      "source": {
+        "title": "O'Reilly — Fundamentals of Data Engineering",
+        "url": "https://oreilly.com/library/view/fundamentals-of-data/9781098108298"
+      }
+    },
+    {
+      "id": "N5-E13",
+      "lessonId": "L162",
+      "competence": "C5.2",
+      "type": "mise_en_situation",
+      "q": "L'ingestion dlt de `erp.commandes` (curseur `mis_a_jour_le`, `merge` sur `commande_id`) tourne toutes les heures. Le journal Postgres montre que la facturation ouvre des transactions qui durent jusqu'à 4 minutes, et le déclencheur fixe `mis_a_jour_le = now()`, c'est-à-dire l'heure de début de la transaction. Chaque semaine, quelques factures n'atteignent jamais le bronze. Quelle correction est la plus sûre sans changer d'architecture ?",
+      "options": [
+        "Passer la disposition d'écriture de `merge` à `append` : les lignes arrivées en retard seront ajoutées au lieu d'être fusionnées avec les anciennes",
+        "Relire à chaque passage une marge plus longue que la plus longue transaction (10 min avant le curseur), le `merge` sur `commande_id` absorbant les relectures",
+        "Remplacer le curseur `mis_a_jour_le` par `commande_id`, qui croît avec le temps et n'est donc jamais attribué dans le désordre",
+        "Planifier l'ingestion toutes les 5 minutes au lieu d'une heure : un intervalle plus court que la plus longue transaction rend la perte impossible"
+      ],
+      "answer": 1,
+      "explanation": "`now()` renvoie l'heure de début de la transaction : une ligne validée après le passage de l'ingestion porte une valeur antérieure au curseur déjà mémorisé, et elle est sautée pour toujours. Relire une fenêtre de recouvrement plus longue que la plus longue transaction, en comptant sur `merge` pour dédoublonner, est la parade de L162 (l'autre étant le CDC). Un curseur sur `commande_id` ignorerait toutes les mises à jour, et une fréquence plus élevée ne change rien au décalage entre début et validation.",
+      "source": {
+        "title": "dlt — documentation",
+        "url": "https://dlthub.com/docs"
+      }
+    },
+    {
+      "id": "N5-E14",
+      "lessonId": "L163",
+      "competence": "C5.2",
+      "type": "trouve_erreur",
+      "q": "Le 1er novembre, 80 clients changent de segment. Le lendemain, `fct_commandes` (construit chaque nuit) affiche encore l'ancien segment sur toutes leurs commandes d'octobre, alors que la direction veut le segment courant. Pourquoi ?\n\n```sql\n{{ config(materialized='incremental', unique_key='commande_id',\n          incremental_strategy='delete+insert') }}\nselect c.commande_id, c.montant_ht, c.mis_a_jour_le, cl.segment\nfrom {{ ref('stg_erp__commandes') }} as c\nleft join {{ ref('stg_erp__clients') }} as cl using (client_id)\n{% if is_incremental() %}\n  where c.mis_a_jour_le > (select max(mis_a_jour_le) from {{ this }})\n{% endif %}\n```",
+      "options": [
+        "Le filtre ne retient que les commandes modifiées : un changement de client ne recharge aucune commande ; `--full-refresh`, ou segment pris dans `dim_client`",
+        "`delete+insert` supprime les lignes modifiées sans les réinsérer quand la jointure gauche ne trouve pas le client ; il faut la stratégie `merge`",
+        "Le `unique_key` interdit de mettre à jour une commande déjà chargée : dbt ignore toute ligne dont la clé existe déjà dans `{{ this }}`",
+        "La vue `stg_erp__clients` est mise en cache par DuckDB pendant 24 h : le nouveau segment ne sera visible qu'à la deuxième exécution"
+      ],
+      "answer": 0,
+      "explanation": "Un modèle incrémental ne recalcule que les lignes sélectionnées par `is_incremental()` : ici, les commandes dont `mis_a_jour_le` a avancé. Un attribut venu d'une autre table (le segment du client) peut changer sans qu'aucune commande ne soit modifiée, et les anciennes lignes gardent leur valeur. Comme le rappelle L163, un changement de logique ou d'attribut amont impose un `--full-refresh` ; le plus propre est de laisser le segment dans la dimension et de le joindre à la lecture.",
+      "source": {
+        "title": "dbt — documentation officielle",
+        "url": "https://docs.getdbt.com/"
+      }
+    },
+    {
+      "id": "N5-E15",
+      "lessonId": "L163",
+      "competence": "C5.2",
+      "type": "mise_en_situation",
+      "q": "Un script de maintenance de l'ERP corrige chaque mois des villes mal orthographiées par `UPDATE erp.clients SET ville = …` en désactivant le déclencheur : `mis_a_jour_le` ne bouge pas. L'ingestion dlt lit `clients` par curseur sur `mis_a_jour_le`, et le snapshot `snap_clients` utilise `strategy: timestamp`. Quelles conséquences, et quelle correction ?",
+      "options": [
+        "Le snapshot les voit, car il compare toutes les colonnes à chaque exécution ; seule la date `dbt_valid_from` sera fausse, calée sur l'ancien `mis_a_jour_le`",
+        "Il suffit de passer le snapshot en `strategy: check` : la nouvelle ville arrivera dans le bronze dès la prochaine exécution de l'ingestion dlt",
+        "Ni le curseur ni le snapshot ne voient ces corrections ; recharger `clients` en complet (petite table) et passer le snapshot en `strategy: check` sur les colonnes suivies",
+        "Il faut ajouter un test `unique` sur `client_id` dans le snapshot : il échouera à chaque correction silencieuse et signalera le problème"
+      ],
+      "answer": 2,
+      "explanation": "Le curseur ne relit que les lignes dont `mis_a_jour_le` dépasse le marque-page : la correction n'arrive jamais dans le bronze, et le snapshot, qui lit ce bronze, ne peut pas la voir. `strategy: timestamp` ne compare d'ailleurs que la colonne de mise à jour. Pour une table de 5 000 lignes, le rechargement complet (`replace`) voit tout, et `strategy: check` détecte les changements de valeurs même sans horodatage fiable, au prix d'une comparaison plus coûteuse.",
+      "source": {
+        "title": "dbt — documentation officielle",
+        "url": "https://docs.getdbt.com/"
+      }
+    },
+    {
+      "id": "N5-E16",
+      "lessonId": "L164",
+      "competence": "C5.2",
+      "type": "mise_en_situation",
+      "q": "Airflow 3 : le DAG `breval_ingestion` (2 h 00, 3 relances, `outlets=[Asset(\"breval_bronze\")]`, alerte en cas d'échec) et le DAG `breval_transformation`, planifié sur cet asset. Cette nuit, l'ingestion a échoué trois fois (mot de passe Postgres changé) ; l'alerte est partie à 3 h 12. À 8 h 30, le secret est corrigé. Quelle séquence remet le tableau de bord à jour sans effet de bord ?",
+      "options": [
+        "Lancer à la main `breval_transformation`, puis l'ingestion : la transformation attendra l'asset et traitera automatiquement les données de la nuit",
+        "Relancer (clear) la tâche d'ingestion du run échoué : son succès met à jour l'asset et déclenche seul la transformation, qu'on ne lance pas en plus à la main",
+        "Ne rien faire : à la correction du secret, Airflow relance les tâches échouées de la nuit et rattrape les exécutions manquées par backfill automatique",
+        "Lancer un backfill de `breval_transformation` sur tout le mois, car la transformation de la nuit a tourné à 2 h 30 sur un bronze incomplet"
+      ],
+      "answer": 1,
+      "explanation": "Planifiée sur un asset, la transformation n'a pas tourné cette nuit : l'asset n'a pas été mis à jour, puisque l'ingestion a échoué après ses relances. Relancer la tâche d'ingestion du run échoué suffit : son succès émet l'événement d'asset et déclenche la transformation, qui ne traite que des données complètes. Une transformation lancée à la main avant l'ingestion tournerait sur des données périmées, et rien ne se relance tout seul après une correction de secret.",
+      "source": {
+        "title": "Airflow — notes de version 3.0.0",
+        "url": "https://airflow.apache.org/docs/apache-airflow/3.0.0/release_notes.html"
+      }
+    },
+    {
+      "id": "N5-E17",
+      "lessonId": "L165",
+      "competence": "C5.2",
+      "type": "mise_en_situation",
+      "q": "Une pull request renomme `montant_ht` en `montant` dans `stg_erp__commandes`. La CI lance `dbt build --select \"+state:modified+\" --state etat-main` sur une base DuckDB éphémère alimentée par le jeu de test. `fct_commandes` lit `c.montant_ht` ; `ca_journalier_par_agence` lit `fct_commandes` ; seul `dim_client` a un contrat imposé. Que se passe-t-il ?",
+      "options": [
+        "Le contrat de `dim_client` échoue en premier, car dbt le réévalue dès qu'un ancêtre de la chaîne des commandes est modifié dans la PR",
+        "`stg_erp__commandes` et ses tests passent ; `fct_commandes` échoue à l'exécution (colonne introuvable) et `ca_journalier_par_agence` est sauté",
+        "Rien n'échoue : le sélecteur ne construit que le modèle modifié, les descendants pointant vers les tables de production grâce à `--defer`",
+        "La CI échoue avant toute construction : dbt compare les manifest et refuse une PR qui supprime une colonne encore référencée en aval"
+      ],
+      "answer": 1,
+      "explanation": "`+state:modified+` construit le modèle modifié, ses ancêtres (base de CI vide) et ses descendants. Le staging renommé s'exécute et ses tests (clé, statuts) passent ; `fct_commandes`, qui référence `montant_ht`, échoue à l'exécution, et `dbt build` saute ses descendants. Le contrat de `dim_client` n'est pas sur ce chemin, aucun `--defer` n'est utilisé, et la comparaison des manifest sert seulement à sélectionner les nœuds.",
+      "source": {
+        "title": "dbt — guide d'étude de la certification v1.11",
+        "url": "https://www.getdbt.com/dbt-assets/certifications/dbt-certificate-study-guide-version-1-11"
+      }
+    },
+    {
+      "id": "N5-E18",
+      "lessonId": "L162",
+      "competence": "C5.2",
+      "type": "mise_en_situation",
+      "q": "L'ERP de Bréval autorise désormais le service ADV à corriger la quantité d'une ligne de commande déjà saisie (`UPDATE erp.lignes_commande`) ; l'ERP recalcule alors l'en-tête de la commande et avance son `mis_a_jour_le`. Votre ingestion charge `lignes_commande` par curseur sur `ligne_id` (croissant) avec `merge` sur `ligne_id`. Quel est l'effet, et comment le détecter avant le comité de direction ?",
+      "options": [
+        "Les lignes corrigées ne sont jamais relues (aucun nouveau `ligne_id`) ; un contrôle « montant d'en-tête = somme des lignes » en silver révèle l'écart",
+        "Les lignes corrigées sont relues mais dupliquées, car `merge` ne fusionne que sur une clé déclarée `unique` dans le contrat de la source",
+        "dlt détecte la correction grâce à `_dlt_id`, qui change avec le contenu de la ligne, et met la ligne à jour au chargement suivant",
+        "Les lignes corrigées sont relues si leur `ligne_id` dépasse le curseur ; un test `not_null` sur `quantite` signalera toutes les autres"
+      ],
+      "answer": 0,
+      "explanation": "Un curseur sur un identifiant croissant ne voit que les insertions : une ligne existante modifiée ne dépasse jamais le marque-page. L'en-tête, lui, est relu (son `mis_a_jour_le` avance) : l'en-tête et la somme de ses lignes divergent, ce qu'un test de réconciliation en silver attrape. La correction durable est une colonne de mise à jour fiable sur les lignes ou le CDC (L162) ; `_dlt_id` est un identifiant technique, pas un détecteur de changement.",
+      "source": {
+        "title": "dlt — documentation",
+        "url": "https://dlthub.com/docs"
+      }
+    },
+    {
+      "id": "N5-E19",
+      "lessonId": "L166",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "Reprenez la simulation de L166 (fenêtres fixes de 5 min ; filigrane = plus grand temps d'événement vu − retard toléré ; une fenêtre est close dès que le filigrane atteint sa fin). La commande 6 (STN, 99 €, temps d'événement 10:04:10) arrive à 10:12:30, juste après la commande 7 (temps d'événement 10:11:00, arrivée 10:11:01), dernière du flux à part elle. Quel est le plus petit retard toléré, en minutes entières, qui la fait compter dans la fenêtre 10:00-10:05, et avec quelle conséquence ?",
+      "options": [
+        "6 min : le filigrane vaut alors 10:05 à l'arrivée de la commande 6, et une fenêtre n'est close que lorsqu'il la dépasse strictement",
+        "7 min : la fenêtre STN 10:00-10:05 vaut 144,50 €, mais le filigrane n'atteint jamais 10:05 sur ce flux et le résultat reste provisoire",
+        "9 min : son retard réel (10:12:30 − 10:04:10, soit 8 min 20 s) arrondi à la minute supérieure, seuil en dessous duquel elle est écartée",
+        "3 min : il suffit que le retard toléré couvre l'écart entre la fin de la fenêtre (10:05) et la commande précédente en temps d'événement"
+      ],
+      "answer": 1,
+      "explanation": "À l'arrivée de la commande 6, le filigrane vaut 10:11:00 − retard toléré ; elle est écartée si 10:05 ≤ filigrane, donc tant que le retard toléré est ≤ 6 min (à 6 min, le filigrane vaut exactement 10:05 et la fenêtre est déjà close). À 7 min, elle rejoint la fenêtre : 45,50 + 99 = 144,50 €. Mais aucun événement n'atteint ensuite 10:12 en temps d'événement : le filigrane reste à 10:04 et la fenêtre n'est jamais émise comme définitive, le compromis complétude/délai décrit en L166.",
+      "source": {
+        "title": "Apache Flink — documentation",
+        "url": "https://nightlies.apache.org/flink/flink-docs-stable/"
+      }
+    },
+    {
+      "id": "N5-E20",
+      "lessonId": "L167",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "Le topic `commandes-evenements` compte 6 partitions ; le groupe `ca-temps-reel` a 4 consommateurs. Le producteur utilise `agence_id` comme clé (NAN 55 %, STN 30 %, ANC 15 % des messages). Le lag d'un seul consommateur grimpe sans cesse ; un collègue propose de passer à 12 partitions et 8 consommateurs. Votre diagnostic ?",
+      "options": [
+        "Un rééquilibrage KIP-848 est en cours : le lag se résorbera seul dès que le coordinateur aura réparti les 6 partitions entre les 4 consommateurs",
+        "Passer à 12 partitions résout le problème : Kafka répartit alors les messages d'une même clé sur plusieurs partitions pour équilibrer la charge",
+        "Avec 3 clés, au plus 3 partitions reçoivent des messages : un consommateur reste inactif, celui de NAN porte 55 % du flux ; il faut changer de clé (`commande_id`)",
+        "Il faut 6 consommateurs, un par partition : avec 4 instances, deux partitions ne sont jamais lues, d'où le lag observé sur l'une d'elles"
+      ],
+      "answer": 2,
+      "explanation": "Le producteur choisit la partition par hachage de la clé : trois valeurs d'`agence_id` occupent au plus trois partitions, quel que soit leur nombre total. Le consommateur qui reçoit la partition de Nantes porte au moins 55 % du flux pendant que d'autres restent sans travail ; 12 partitions et 8 consommateurs n'y changent rien. La clé `commande_id` répartit la charge tout en gardant l'ordre des événements d'une même commande, seul ordre requis ici.",
+      "source": {
+        "title": "Apache Kafka — documentation",
+        "url": "https://kafka.apache.org/documentation/#connect"
+      }
+    },
+    {
+      "id": "N5-E21",
+      "lessonId": "L167",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "Le consommateur `ca-temps-reel` additionne `montant_ht` par agence dans un dictionnaire en mémoire et ignore les doublons grâce à un ensemble `deja_vus` (identifiants déjà traités), lui aussi en mémoire. Le groupe est arrêté, ses offsets sont replacés 10 minutes en arrière (`kafka-consumer-groups.sh --reset-offsets --to-datetime …`), puis il redémarre en rechargeant ses totaux depuis une sauvegarde écrite juste avant l'arrêt. Que constatez-vous ?",
+      "options": [
+        "Les 10 dernières minutes sont comptées deux fois, `deja_vus` étant vide au redémarrage ; il faut un état durable ou un upsert idempotent par `commande_id`",
+        "Rien : Kafka ne renvoie jamais au groupe un message dont l'offset a déjà été validé, même après un reset, ce qui protège les totaux",
+        "Les 10 dernières minutes sont perdues : un reset vers une date passée saute les messages jusqu'à l'offset le plus récent de chaque partition",
+        "Les totaux sont justes, car `deja_vus` est reconstruit au démarrage à partir du topic interne `__consumer_offsets` du groupe"
+      ],
+      "answer": 0,
+      "explanation": "Le reset replace la position du groupe : les messages des 10 dernières minutes sont relus, alors que leurs montants figurent déjà dans les totaux sauvegardés. L'ensemble `deja_vus`, en mémoire, a disparu avec le processus : rien n'empêche le double comptage. Kafka conserve les messages pendant la rétention et ne mémorise que des offsets, jamais les identifiants métier ; d'où la règle de L166 : au moins une fois + écriture idempotente sur une clé, ou un état sauvegardé avec les offsets.",
+      "source": {
+        "title": "Apache Kafka — documentation",
+        "url": "https://kafka.apache.org/documentation/#connect"
+      }
+    },
+    {
+      "id": "N5-E22",
+      "lessonId": "L168",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "Un job Spark Structured Streaming calcule le CA par fenêtre de 5 min et par agence, puis écrit chaque micro-lot dans Postgres via `foreachBatch` avec un `INSERT INTO ca_fenetres VALUES (…)`. Après un crash, Spark redémarre depuis son `checkpointLocation` et certaines fenêtres apparaissent deux fois dans `ca_fenetres`. Que corrigez-vous ?",
+      "options": [
+        "Supprimer le checkpoint à chaque redémarrage : sans état sauvegardé, Spark repart du dernier offset Kafka et ne rejoue jamais un micro-lot",
+        "Passer en `outputMode(\"update\")` : chaque fenêtre est alors émise une seule fois, au moment où le watermark dépasse sa fin",
+        "Rendre la sortie idempotente (upsert sur `(window_start, agence_id)` ou `batch_id` mémorisé) : le checkpoint seul ne protège pas une sortie externe",
+        "Activer `processing.guarantee=exactly_once_v2` dans les options du lecteur Kafka : les écritures dans Postgres deviennent transactionnelles"
+      ],
+      "answer": 2,
+      "explanation": "Le checkpoint mémorise offsets et état ; après un crash, le dernier micro-lot peut être recalculé et `foreachBatch` rappelé avec le même `batch_id`. Avec un INSERT, l'effet est « au moins une fois », d'où les doublons. Le tableau de L168 donne la parade : une sortie idempotente (MERGE sur la clé de fenêtre, ou `batch_id` mémorisé). Le mode `update` émet au contraire plusieurs versions d'une fenêtre, et `exactly_once_v2` est un réglage de Kafka Streams, limité aux écritures dans Kafka.",
+      "source": {
+        "title": "Spark Structured Streaming",
+        "url": "https://spark.apache.org/docs/latest/streaming/index.html"
+      }
+    },
+    {
+      "id": "N5-E23",
+      "lessonId": "L169",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "Vous voulez un flux d'audit « ancien statut → nouveau statut » des commandes à partir du topic Debezium `breval.erp.commandes`. Les événements `u` arrivent bien, mais leur champ `before` est toujours `null`, et les événements `d` ne contiennent que `commande_id`. Quelle est la cause, et quelle correction appliquez-vous ?",
+      "options": [
+        "`decimal.handling.mode=string` vide `before` pour les tables à colonnes NUMERIC ; il faut revenir au mode `precise` du connecteur",
+        "Le plugin `pgoutput` ne transmet jamais l'ancienne ligne ; il faut le remplacer par un plugin de décodage tiers installé dans Postgres",
+        "`REPLICA IDENTITY DEFAULT` : Postgres n'écrit dans le WAL que la clé de l'ancienne ligne ; `ALTER TABLE erp.commandes REPLICA IDENTITY FULL`",
+        "Le tombstone qui suit chaque événement efface `before` lors du compactage du topic ; il faut désactiver les tombstones du connecteur"
+      ],
+      "answer": 2,
+      "explanation": "Avec l'identité de réplique par défaut, Postgres ne journalise de l'ancienne ligne que sa clé primaire, et seulement quand elle est utile : `before` est nul pour une mise à jour et réduit à la clé pour une suppression (L169). `REPLICA IDENTITY FULL` fait écrire toute l'ancienne ligne dans le WAL, au prix d'un journal plus volumineux. Le tombstone est un message distinct, de valeur nulle, qui n'altère pas l'événement précédent.",
+      "source": {
+        "title": "Debezium — documentation",
+        "url": "https://debezium.io/documentation/"
+      }
+    },
+    {
+      "id": "N5-E24",
+      "lessonId": "L169",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "Le consommateur CDC de L169 (MERGE Delta sur `commande_id`, mise à jour seulement si `s._lsn > t._lsn`, insertion si absente et `_op <> 'd'`, commit après écriture) est arrêté ; ses offsets sont replacés 10 minutes en arrière. Dans cet intervalle, la commande 43 a été modifiée (`u`, LSN 7 100) puis supprimée (`d`, LSN 7 400), et les deux événements tombent dans des lots différents à la relecture. Quel est l'état final de la commande 43 ?",
+      "options": [
+        "Présente définitivement : la garde LSN ne peut rien comparer à une ligne absente, et un événement `d` déjà appliqué n'est jamais rejoué",
+        "Absente à tout instant : la garde `s._lsn > t._lsn` refuse le `u`, plus ancien que la suppression déjà appliquée à la table",
+        "Absente : le `u` relu la réinsère un temps (plus de ligne cible, donc pas de garde LSN), puis le `d`, de même clé donc même partition, la supprime",
+        "Imprévisible : Kafka ne garantit l'ordre qu'au sein d'un même lot, le `d` peut donc être relu avant le `u` selon le découpage"
+      ],
+      "answer": 2,
+      "explanation": "Chaque message Debezium a pour clé la clé primaire (le tombstone porte « même clé ») : même clé, même partition, donc les événements de la commande 43 sont relus dans l'ordre du WAL (L167). Le `u` ne trouve plus de ligne cible (la suppression l'a retirée, avec son `_lsn`) : la clause d'insertion s'applique et la commande ressuscite le temps d'un lot, puis le `d` la supprime. L'état final est juste, mais cette résurrection transitoire illustre l'invariant « pas de résurrection » de M37 : l'état courant y est recalculé depuis le journal CDC (dernier événement par clé selon le LSN, suppressions écartées, L182) et ce que le flux a supprimé ne doit jamais être remis.",
+      "source": {
+        "title": "Debezium — documentation",
+        "url": "https://debezium.io/documentation/"
+      }
+    },
+    {
+      "id": "N5-E25",
+      "lessonId": "L170",
+      "competence": "C5.4",
+      "type": "mise_en_situation",
+      "q": "Gold de Bréval : CA HT d'octobre 2026 = 1 214 380 € ; grand livre comptable = 1 186 920 €. Tous les tests dbt passent (`unique`, `not_null`, `accepted_values`, `relationships`) et la fraîcheur est conforme. Quelle dimension de qualité est en défaut, et quel contrôle ajoutez-vous ?",
+      "options": [
+        "La cohérence : un test `relationships` de `client_id` vers `clients` attrape les commandes rattachées au mauvais client et explique l'écart",
+        "L'exactitude, que seule une référence externe vérifie : réconciliation avec la comptabilité et test singulier « en-tête = somme des lignes »",
+        "La validité : un test `accepted_values` sur `statut` montrera que des brouillons ont été comptés comme validés, seule cause possible",
+        "L'unicité : l'écart de 2,3 % correspond aux 240 commandes exportées deux fois, qu'un test `unique` sur `commande_id` aurait signalées"
+      ],
+      "answer": 1,
+      "explanation": "L'écart de 27 460 € (2,3 %) apparaît alors que les règles de forme, de domaine, d'unicité et de référence passent : c'est l'exactitude, la seule dimension qu'une table ne peut presque jamais vérifier seule (L170). Il faut une référence externe, ici la comptabilité, et un contrôle croisé comme l'en-tête comparé à la somme des lignes (le jeu de Bréval contient des en-têtes faux). Le test `unique` passe déjà : les doublons d'export ne sont pas en cause.",
+      "source": {
+        "title": "dbt — Data tests",
+        "url": "https://docs.getdbt.com/docs/build/data-tests"
+      }
+    },
+    {
+      "id": "N5-E26",
+      "lessonId": "L171",
+      "competence": "C5.4",
+      "type": "mise_en_situation",
+      "q": "Le contrat ODCS de `commandes` est en version 1.4.2. La prochaine livraison de l'équipe ventes contient : l'ajout d'une colonne facultative `canal_vente`, l'élargissement de `montant_ttc` de `DECIMAL(10,2)` à `DECIMAL(12,2)`, et le passage de `cree_le` de `TIMESTAMP` à `DATE`. Quelle version publiez-vous, et comment ?",
+      "options": [
+        "2.0.0, car passer en `DATE` est cassant (perte de l'heure) : préavis et double diffusion, ou les deux ajouts compatibles livrés avant en 1.5.0",
+        "1.5.0 : les trois changements élargissent ou enrichissent le schéma, et aucun n'empêche une requête existante de s'exécuter",
+        "1.4.3 : ces modifications ne touchent que des types et une colonne facultative, ce qui relève d'un correctif de schéma",
+        "1.5.0 pour `canal_vente`, puis 1.6.0 pour les deux changements de type, publiés le même jour afin de limiter le nombre de versions du contrat"
+      ],
+      "answer": 0,
+      "explanation": "Selon le tableau de L171, ajouter une colonne facultative et élargir un type sont compatibles (version mineure), mais restreindre `TIMESTAMP` en `DATE` est cassant : l'heure disparaît et les contrôles de fraîcheur sont faussés. Un seul changement cassant impose une version majeure, publiée avec préavis et période de double diffusion (démarche expand/contract). Séparer la livraison permet de publier sans attendre les deux ajouts compatibles.",
+      "source": {
+        "title": "Bitol — Open Data Contract Standard",
+        "url": "https://github.com/bitol-io/open-data-contract-standard"
+      }
+    },
+    {
+      "id": "N5-E27",
+      "lessonId": "L172",
+      "competence": "C5.4",
+      "type": "trouve_erreur",
+      "q": "Demande d'effacement du client 2. Dans Marquez, le graphe OpenLineage montre `duckdb://breval` / `main.tickets_sav` → `duckdb://breval` / `silver.rag_chunks`, mais aucun lien vers l'index : l'équipe conclut qu'aucun chunk n'est concerné. Voici un événement émis par l'indexeur maison (champs `eventTime`, `producer` et `schemaURL` omis). Où est l'erreur ?\n\n```json\n{\"eventType\": \"COMPLETE\",\n \"run\": {\"runId\": \"3f0c9a7e-5b21-4c8e-9d0f-1a2b3c4d5e6f\"},\n \"job\": {\"namespace\": \"breval-rag\", \"name\": \"indexer_tickets\"},\n \"inputs\": [{\"namespace\": \"duckdb\", \"name\": \"rag_chunks\"}],\n \"outputs\": [{\"namespace\": \"qdrant://local\", \"name\": \"tickets_chunks\"}]}\n```",
+      "options": [
+        "Un événement `COMPLETE` sans `START` préalable est ignoré par Marquez : l'indexeur doit d'abord émettre `START` pour que ses datasets apparaissent",
+        "Le `runId` doit être identique à chaque exécution du job pour relier ses entrées et ses sorties ; un UUID aléatoire crée un graphe par exécution",
+        "Une base vectorielle n'est pas un dataset OpenLineage : l'index doit être déclaré comme une facette du job, et non comme une sortie",
+        "L'entrée ne suit pas la convention (`duckdb`/`rag_chunks` au lieu de `duckdb://breval`/`silver.rag_chunks`) : nœud distinct, graphe coupé, effacement incomplet"
+      ],
+      "answer": 3,
+      "explanation": "OpenLineage identifie un dataset par le couple (`namespace`, `name`) : `duckdb`/`rag_chunks` et `duckdb://breval`/`silver.rag_chunks` sont deux nœuds différents, et le chemin vers Qdrant est rattaché au mauvais. C'est le piège de L172 : fixer et documenter une convention de nommage avant d'instrumenter. Le `runId` identifie au contraire chaque exécution (un UUID par run), et un dataset peut parfaitement désigner un index vectoriel ; sans lignage complet, la demande d'effacement oublierait les chunks de l'assistant.",
+      "source": {
+        "title": "OpenLineage — Object model",
+        "url": "https://openlineage.io/docs/spec/object-model"
+      }
+    },
+    {
+      "id": "N5-E28",
+      "lessonId": "L174",
+      "competence": "C5.4",
+      "type": "trouve_erreur",
+      "q": "Alice (rôle `lecteur_nan`) ne voit que ses clients nantais quand elle interroge `silver.clients` dans `psql`. Pourtant, dans l'application interne, elle voit aussi des clients de Saint-Nazaire. L'application se connecte à Postgres avec le rôle `breval`, propriétaire de `silver.clients`, et transmet à chaque requête l'agence de l'utilisateur connecté. Les politiques sont celles de L174 (`ENABLE ROW LEVEL SECURITY`, `CREATE POLICY clients_nan … TO lecteur_nan USING (agence_id = 'NAN')`). Quelle est la cause ?",
+      "options": [
+        "Les politiques `FOR SELECT` ne s'appliquent qu'aux connexions `psql` interactives ; les pilotes applicatifs (psycopg, JDBC) exigent des politiques `FOR ALL`",
+        "La politique `clients_nan` est écrite `TO lecteur_nan` : il faut la réécrire `TO PUBLIC` pour qu'elle s'applique aussi à l'application",
+        "La vue `silver.clients_analyse` contourne la RLS de la table : il faut supprimer la vue pour que les politiques reprennent effet",
+        "Le propriétaire d'une table échappe à la RLS sauf `FORCE ROW LEVEL SECURITY` : l'application doit utiliser un rôle dédié, sans `BYPASSRLS`, aux droits de l'utilisateur"
+      ],
+      "answer": 3,
+      "explanation": "Dans PostgreSQL, le propriétaire d'une table (comme les superutilisateurs et les rôles `BYPASSRLS`) n'est pas soumis à la RLS, sauf `ALTER TABLE … FORCE ROW LEVEL SECURITY` ; et les politiques ne visent ici que `lecteur_nan` et `lecteur_stn`. Transmettre l'agence en paramètre ne protège rien si la base ne l'applique pas. L174 le dit : ne jamais faire tourner l'application ou le pipeline avec le rôle propriétaire ; même règle pour les filtres de droits de l'index vectoriel.",
+      "source": {
+        "title": "CNIL — Recommandations pour respecter le RGPD lors du développement des systèmes d'IA",
+        "url": "https://www.cnil.fr/fr/developpement-des-systemes-dia-les-recommandations-de-la-cnil-pour-respecter-le-rgpd"
+      }
+    },
+    {
+      "id": "N5-E29",
+      "lessonId": "L173",
+      "competence": "C5.6",
+      "type": "mise_en_situation",
+      "q": "Incident du mardi : à 05:50, l'API e-commerce commence à livrer les montants en centimes. Le test d'anomalie Elementary sonne à 06:05 dans le canal `#data-alertes`, que personne ne suit la nuit ; la première personne le voit à 09:40. La correction est en production à 10:10 et le rattrapage `dbt build --select stg_commandes+` se termine à 10:55. Pendant tout ce temps, l'assistant SAV communique ces montants aux clients. Quel diagnostic retenez-vous pour le post-mortem ?",
+      "options": [
+        "Data downtime de 5 h 05, dont 15 min de détection et 3 h 35 avant prise en charge : SEV1 ; l'action prioritaire est de router ces alertes vers l'astreinte",
+        "Data downtime de 1 h 15 (correction et rattrapage) : la détection a fonctionné, le post-mortem doit porter sur la durée du rattrapage dbt",
+        "Data downtime de 5 h 05, SEV2 (outil interne) : l'action prioritaire est d'acheter une plateforme d'observabilité à détection automatique",
+        "Data downtime de 4 h 50, compté depuis l'alerte : la détection doit d'abord passer sous 5 min avec un z-score calculé chaque minute"
+      ],
+      "answer": 0,
+      "explanation": "Le data downtime court de l'apparition du problème (05:50) au retour à la normale (10:55), soit 5 h 05 : 15 min de détection, 3 h 35 d'alerte non vue, 1 h 15 de correction et de rattrapage. Des montants faux exposés aux clients relèvent du SEV1 (L173). Le maillon faible n'est ni l'outil ni la détection, mais l'acheminement de l'alerte : router ce type d'alerte vers l'astreinte et écrire la règle dans le runbook est l'action qui réduit le plus le downtime.",
+      "source": {
+        "title": "DataDriven — Data Observability: 5 Pillars and Tools",
+        "url": "https://datadriven.io/data-observability"
+      }
+    },
+    {
+      "id": "N5-E30",
+      "lessonId": "L173",
+      "competence": "C5.6",
+      "type": "mise_en_situation",
+      "q": "Le contrat de `commandes` fixe une latence maximale de 4 h. La fraîcheur est surveillée par `dbt source freshness` sur `mis_a_jour_le` (warn 24 h, error 48 h). Samedi à 02:00, l'ingestion s'arrête ; personne ne le remarque avant lundi 08:00. Les agences sont fermées le dimanche et commandent peu le samedi après-midi. Quelle surveillance respecte le contrat sans fausses alertes le dimanche ?",
+      "options": [
+        "Passer `error_after` à 4 h sur `mis_a_jour_le` : un week-end calme déclenchera des alertes, mais c'est le prix à payer pour respecter le contrat",
+        "Garder 24 h et 48 h et ajouter un z-score de volume quotidien, qui aurait révélé la panne du samedi dans l'heure en comparant au samedi précédent",
+        "Remplacer la fraîcheur par un test `not_null` sur `mis_a_jour_le` exécuté toutes les heures, indépendant du calendrier des agences",
+        "Un horodatage technique écrit à chaque exécution réussie de l'ingestion, même sans nouvelle commande (battement de cœur), avec une erreur au-delà de 4 h"
+      ],
+      "answer": 3,
+      "explanation": "Une fraîcheur mesurée sur une date métier ne distingue pas « rien ne se passe » de « la chaîne est cassée » : un seuil de 4 h sur `mis_a_jour_le` sonnerait chaque dimanche. Mesurer l'âge du dernier passage réussi de l'ingestion, comme le heartbeat de Debezium en L184, alerte en 4 h même sans activité métier. Un z-score quotidien ne réagit qu'une fois la journée écoulée, et un test `not_null` ne mesure aucune fraîcheur.",
+      "source": {
+        "title": "dbt — Source freshness",
+        "url": "https://docs.getdbt.com/docs/deploy/source-freshness"
+      }
+    },
+    {
+      "id": "N5-E31",
+      "lessonId": "L176",
+      "competence": "C5.5",
+      "type": "mise_en_situation",
+      "q": "Avec des 3-grammes sur le corps sans en-tête, les anciennes versions de procédures de Bréval ont un Jaccard de 0,86 à 0,90 avec leur version en vigueur, et aucune paire de procédures distinctes ne dépasse 0,70. Chaque paire candidate est ensuite vérifiée (seuil 0,8). Vous hésitez entre b = 14 bandes de r = 8 et b = 20 bandes de r = 5. Quel choix est le mieux justifié ?",
+      "options": [
+        "14 × 8 : seuil ≈ 0,72 et P(candidats) ≈ 0,99 à 0,86 ; à 0,70, 0,56 contre 0,97 pour 20 × 5 (seuil ≈ 0,55) : même rappel, moins de vérifications",
+        "20 × 5 : seuil ≈ 0,55, indispensable car avec 14 × 8 une ancienne version à 0,86 n'a qu'une chance sur deux de devenir candidate",
+        "14 × 8, car moins de bandes abaisse le seuil : davantage de quasi-doublons sont attrapés pour un nombre de hachages comparable",
+        "Les deux se valent : avec 112 et 100 fonctions, l'écart-type de l'estimation de Jaccard est presque identique et seul compte le seuil de 0,8"
+      ],
+      "answer": 0,
+      "explanation": "P(candidats) = 1 − (1 − s^r)^b : pour 14 × 8, ≈ 0,993 à s = 0,86 et ≈ 0,565 à s = 0,70 ; pour 20 × 5, ≈ 1,000 et ≈ 0,975. Les deux attrapent les anciennes versions, mais 20 × 5 (seuil (1/20)^(1/5) ≈ 0,55) transforme presque toutes les paires de procédures proches en candidats à vérifier. Moins de bandes relève le seuil (il ne l'abaisse pas) ; on place donc le seuil juste sous la zone visée, puis on relit les paires détectées (L182).",
+      "source": {
+        "title": "Mining of Massive Datasets",
+        "url": "http://www.mmds.org"
+      }
+    },
+    {
+      "id": "N5-E32",
+      "lessonId": "L177",
+      "competence": "C5.5",
+      "type": "mise_en_situation",
+      "q": "Le reconnaisseur NIR de L177 valide la clé : clé = 97 − (nombre à 13 chiffres modulo 97), en remplaçant 2A par 19 et 2B par 18. Il analyse quatre numéros relevés dans des tickets SAV. Lequel sera retenu comme NIR valide ?",
+      "options": [
+        "2 85 05 2A 123 456 53",
+        "2 85 05 44 109 002 58",
+        "2 85 05 2A 123 456 80",
+        "1 02 07 44 123 045 98"
+      ],
+      "answer": 2,
+      "explanation": "Pour 2 85 05 2A 123 456, on calcule sur 2850519123456 : le reste modulo 97 vaut 17, d'où la clé 97 − 17 = 80, valide. La clé 53 est celle qu'on obtient en remplaçant à tort 2A par 20 ; 2850544109002 et 1020744123045 ont tous deux pour clé 85, et non 58 ou 98. Cette validation par la clé élimine presque tous les faux positifs, comme les numéros de commande de 15 chiffres.",
+      "source": {
+        "title": "Microsoft Presidio",
+        "url": "https://microsoft.github.io/presidio"
+      }
+    },
+    {
+      "id": "N5-E33",
+      "lessonId": "L177",
+      "competence": "C5.5",
+      "type": "mise_en_situation",
+      "q": "Sur le jeu de référence de 236 exemples (150 téléphones, 86 noms de responsables), Presidio configuré pour le français trouve 129 téléphones, avec 6 fausses alertes, et 82 responsables. Les téléphones manqués sont presque tous écrits `0639981940` ou `+33 6…`. Le critère C5.5 exige au moins 90 % des PII détectées. Que concluez-vous, et que faites-vous ?",
+      "options": [
+        "Rappel global ≈ 95,6 % (129 vraies détections sur 135) : le critère est atteint, et les fausses alertes deviennent le seul point à améliorer",
+        "Rappel global ≈ 89,4 % : échec ; baisser `score_threshold` pour toutes les entités jusqu'à franchir 90 %, un corpus RAG privilégiant le rappel",
+        "Rappel ≈ 86 % : échec ; remplacer l'opérateur `replace` par `encrypt`, qui détecte davantage d'écritures grâce à la validation modulo 97",
+        "Rappel global ≈ 89,4 % (téléphones 86 %) : échec ; ajouter un `PatternRecognizer` pour ces écritures et remesurer, sans baisser le seuil de toutes les entités"
+      ],
+      "answer": 3,
+      "explanation": "Le rappel compte les vraies PII trouvées : (129 + 82) / 236 ≈ 89,4 %, sous le seuil, avec 86 % pour les téléphones ; 129/135 ≈ 95,6 % est la précision des téléphones, pas leur rappel. L182 recommande d'ajouter un reconnaisseur dédié aux écritures manquées puis de remesurer, plutôt que de baisser le seuil pour tout le monde, ce qui multiplierait les faux positifs. L'opérateur (`replace`, `encrypt`) agit après la détection et ne change rien au rappel.",
+      "source": {
+        "title": "Microsoft Presidio",
+        "url": "https://microsoft.github.io/presidio"
+      }
+    },
+    {
+      "id": "N5-E34",
+      "lessonId": "L178",
+      "competence": "C5.5",
+      "type": "mise_en_situation",
+      "q": "Une ETI veut indexer 800 000 pages (environ 5 chunks par page, 250 tokens par chunk) avec un modèle d'embedding de dimension 768 et 12 services cloisonnés. Estimez la mémoire des seuls vecteurs et le coût d'une indexation complète par API à 0,10 $ par million de tokens.",
+      "options": [
+        "4 M de chunks : ≈ 3,1 Go en float32, ≈ 0,8 Go en int8 ; 1 milliard de tokens, soit ≈ 100 $ par indexation complète",
+        "4 M de chunks : ≈ 12,3 Go en float32, ≈ 0,4 Go en int8 ; 1 milliard de tokens, soit ≈ 1 000 $ par indexation complète",
+        "800 000 chunks : ≈ 2,5 Go en float32, ≈ 0,6 Go en int8 ; 200 M de tokens, soit ≈ 20 $ par indexation complète",
+        "4 M de chunks : ≈ 12,3 Go en float32, ≈ 3,1 Go en int8 ; 1 milliard de tokens, soit ≈ 100 $ par indexation complète"
+      ],
+      "answer": 3,
+      "explanation": "800 000 × 5 = 4 millions de chunks ; 4 M × 768 dimensions × 4 octets ≈ 12,3 Go en float32, et 1 octet par dimension en int8 donne ≈ 3,1 Go (le binaire, 32 fois plus compact, ferait ≈ 0,4 Go). 4 M × 250 tokens = 1 milliard de tokens, soit 1 000 × 0,10 $ = 100 $ par indexation complète. Avec 12 services sans locataire dominant, une collection unique avec `tenant_id` indexé et filtré pendant la recherche reste la règle de L178.",
+      "source": {
+        "title": "Qdrant — documentation",
+        "url": "https://qdrant.tech/documentation/"
+      }
+    },
+    {
+      "id": "N5-E35",
+      "lessonId": "L179",
+      "competence": "C5.5",
+      "type": "trouve_erreur",
+      "q": "La table `stats_clients` (une ligne par client et par jour depuis le 1er septembre) alimente un `ASOF JOIN` (`e.date_etiquette >= s.event_timestamp`) pour le modèle d'attrition. La feature `nb_tickets_ouverts` y est calculée ainsi. Pourquoi le jeu d'entraînement contient-il quand même une fuite temporelle ?\n\n```sql\n(SELECT count(*) FROM tickets_sav t\n  WHERE t.client_id = j.client_id\n    AND t.statut = 'ouvert'\n    AND t.cree_le <= j.event_timestamp) AS nb_tickets_ouverts\n```",
+      "options": [
+        "L'`ASOF JOIN` prend la première ligne postérieure à la date d'étiquette ; il faut inverser la condition en `e.date_etiquette <= s.event_timestamp`",
+        "`statut` est la valeur d'aujourd'hui : un ticket ouvert le 3 septembre et clos le 10 octobre compte 0 au 15 septembre ; il faut l'état à la date (`ferme_le`)",
+        "`cree_le <= j.event_timestamp` inclut les tickets créés le jour même : il faut une inégalité stricte pour exclure tout ticket de la journée",
+        "La sous-requête corrélée est recalculée à chaque lecture, donc la valeur change d'un entraînement à l'autre ; il faut matérialiser la table"
+      ],
+      "answer": 1,
+      "explanation": "La condition sur `cree_le` regarde bien le passé, mais `statut = 'ouvert'` lit l'état actuel du ticket : la feature mélange une date passée et une information du futur (la clôture survenue depuis). C'est la fuite que la jointure point-in-time de L179 doit éviter : chaque valeur doit être celle connue à la date, ici « créé avant la date et non clos à cette date ». L'`ASOF JOIN` avec `>=` prend bien la dernière ligne antérieure ou égale ; le problème est dans la feature elle-même.",
+      "source": {
+        "title": "Feast — Feature repository",
+        "url": "https://docs.feast.dev/getting-started/concepts/feature-repo"
+      }
+    },
+    {
+      "id": "N5-E36",
+      "lessonId": "L180",
+      "competence": "C5.4",
+      "type": "mise_en_situation",
+      "q": "Matrice de droits de Bréval Assist (L180) : un chunk est visible si au moins une agence ET au moins un groupe de l'utilisateur figurent dans ses listes ; un document `restreint` est réservé au service propriétaire et à la direction ; NOTE-002 ne concerne que Saint-Nazaire ; un ticket SAV porte l'agence de la commande et les groupes `service:sav`, `service:commerce`, `service:direction`. Léa (NAN ; `tous`, `service:rh`) et Erwan (ANC ; `tous`, `service:logistique`) interrogent l'assistant. Quel résultat est conforme ?",
+      "options": [
+        "Léa obtient PRC-001 et NOTE-002, la note étant `interne` ; Erwan obtient les tickets SAV d'Ancenis, puisqu'ils appartiennent à son agence",
+        "Léa obtient PRC-001 (RH, restreint) mais pas NOTE-002 ; Erwan n'obtient ni PRC-001 ni les tickets SAV d'Ancenis, mais obtient les fiches techniques",
+        "Léa n'obtient pas PRC-001, réservé à la direction ; Erwan obtient les tickets SAV d'Ancenis ainsi que les fiches techniques",
+        "Léa obtient PRC-001 mais pas NOTE-002 ; Erwan obtient les tickets SAV d'Ancenis, mais pas les fiches techniques, réservées au commerce"
+      ],
+      "answer": 1,
+      "explanation": "PRC-001 porte les trois agences et les groupes `service:rh` et `service:direction` : Léa y a droit, pas Erwan. NOTE-002 n'est ouverte qu'à l'agence STN, que ni l'un ni l'autre ne possède, quelle que soit sa confidentialité. Les tickets d'Ancenis passent le filtre d'agence d'Erwan mais pas celui des groupes, alors que les fiches techniques (`public`, groupe `tous`) sont visibles de tous : les deux conditions sont cumulatives.",
+      "source": {
+        "title": "Qdrant — documentation",
+        "url": "https://qdrant.tech/documentation/"
+      }
+    },
+    {
+      "id": "N5-E37",
+      "lessonId": "L183",
+      "competence": "C5.5",
+      "type": "mise_en_situation",
+      "q": "Évaluation au niveau document (5 premiers documents distincts) sur 4 questions :\n- Q1 attendu {PRC-001} ; obtenu PRC-001, PRC-014, FT-012, CGV-2026-PRO, PRC-003\n- Q2 attendu {PRC-014, NOTE-004} ; obtenu PRC-021, PRC-014, FT-003, PRC-002, PRC-030\n- Q3 attendu {CGV-2026-PRO} ; obtenu PRC-007, FT-044, PRC-001, CGV-2026-PRO, FT-010\n- Q4 attendu {SAV-0008372} ; obtenu PRC-009, FT-001, FT-002, PRC-004, PRC-011\n\nQue valent recall@5 et MRR, et que concluez-vous au regard de l'objectif recall@5 ≥ 0,80 ?",
+      "options": [
+        "recall@5 = 0,75 et MRR ≈ 0,44 : 3 questions sur 4 ont au moins un bon document, ce qui suffit à valider la configuration",
+        "recall@5 ≈ 0,63 et MRR ≈ 0,44 : objectif non tenu ; analyser d'abord les questions ratées par type (Q4, Q2) avant de modifier un paramètre",
+        "recall@5 ≈ 0,63 et MRR ≈ 0,58 : Q4, qui n'a aucun bon document dans le top 5, est exclue du calcul du rang réciproque moyen",
+        "recall@5 = 0,50 et MRR ≈ 0,44 : une question ne compte que si tous ses documents attendus figurent dans le top 5"
+      ],
+      "answer": 1,
+      "explanation": "recall@5 par question : 1, 1/2, 1 et 0, soit une moyenne de 0,625 ; rangs réciproques du premier bon document : 1, 1/2, 1/4 et 0, soit un MRR de 0,4375. Une question sans bon document compte 0 dans le MRR, elle n'est pas exclue, et le recall mesure la part des documents attendus retrouvés, pas un taux de réussite. L184 l'impose : sous 0,80, on analyse les questions ratées avant de toucher un paramètre ; une question portant un numéro de ticket relève souvent de la recherche hybride (L183).",
+      "source": {
+        "title": "Qdrant — documentation",
+        "url": "https://qdrant.tech/documentation/"
+      }
+    },
+    {
+      "id": "N5-E38",
+      "lessonId": "L184",
+      "competence": "C5.6",
+      "type": "mise_en_situation",
+      "q": "Hypothèses de L184 : 65 W sous charge, 0,25 € le kWh, amortissement 0,05 € par heure, 1 352 exécutions par mois (toutes les 15 min, 7 h-19 h, du lundi au samedi). Une exécution incrémentale sans changement dure 8 s. Une ré-indexation complète par API (9 426 chunks × 300 tokens, 0,10 $ par million de tokens, 0,9 € pour 1 $) est prévue à chaque rotation de la clé de pseudonymisation. Quel ordre de grandeur, et quelle conclusion ?",
+      "options": [
+        "≈ 20 € par mois de micro-batch et ≈ 25 € par ré-indexation : l'API d'embeddings reste le premier poste de coût à optimiser",
+        "≈ 0,05 € par mois, l'électricité seule comptant, et ≈ 283 € par ré-indexation : il faut s'interdire toute rotation de la clé",
+        "≈ 0,20 € par mois de micro-batch et ≈ 0,25 € par ré-indexation : le coût machine est négligeable, le vrai coût est le temps humain",
+        "≈ 2 € par mois de micro-batch, chaque exécution relançant Presidio sur 9 174 textes, et ≈ 0,25 € par ré-indexation"
+      ],
+      "answer": 2,
+      "explanation": "1 352 × 8 s ≈ 3,0 h par mois ; 3,0 h × (0,065 kW × 0,25 € + 0,05 €) ≈ 0,20 €. La ré-indexation représente 9 426 × 300 ≈ 2,83 M tokens, soit ≈ 0,28 $ ≈ 0,25 €. Une exécution sans changement ne relance pas Presidio (cache par empreinte, L182) ; comme le conclut L184, le coût d'un RAG de PME bien conçu est surtout l'heure d'ingénieur, d'où l'intérêt d'un pipeline incrémental, testé et documenté.",
+      "source": {
+        "title": "Mistral Embed",
+        "url": "https://docs.mistral.ai/models/mistral-embed-23-12"
+      }
+    },
+    {
+      "id": "N5-E39",
+      "lessonId": "L184",
+      "competence": "C5.6",
+      "type": "mise_en_situation",
+      "q": "Nuit de mercredi : le conteneur Kafka Connect s'arrête à 01:10 ; à 01:20, PRC-030 est supprimé dans la GED. Le moniteur `slot_debezium_actif` passe à 0 et `wal_retenu_mo` monte à 140 Mo (seuil : 100 Mo). À 08:05, l'astreinte redémarre Connect. Que se passe-t-il, et quelle action durable inscrivez-vous au post-mortem ?",
+      "options": [
+        "Debezium reprend au dernier LSN confirmé : suppression propagée vers 08:05 (SLO de 5 min violé), rien de perdu ; redémarrage automatique et alerte sur slot inactif",
+        "La suppression de PRC-030 est perdue, le WAL au-delà de 100 Mo étant recyclé par Postgres ; il faut relancer un instantané initial complet de Debezium",
+        "Rien à signaler : le micro-batch de 15 min a déjà retiré PRC-030 de l'index vers 01:30, puisqu'il lit directement la GED dans Postgres",
+        "Supprimer le slot de réplication pour libérer le WAL, puis redémarrer Connect : Debezium recréera le slot et rejouera les changements de la nuit"
+      ],
+      "answer": 0,
+      "explanation": "Le slot de réplication retient le WAL non confirmé : à son redémarrage, Debezium reprend exactement au dernier LSN confirmé et l'événement `d` de PRC-030 est publié, mais près de 7 h après la suppression, très au-delà du SLO de 5 min. Le micro-batch ne lit pas la GED directement : il déduit l'état des événements CDC du bronze (et ne tourne pas la nuit). Supprimer le slot ferait perdre les changements retenus ; le post-mortem de L184 retient `restart: unless-stopped` et une alerte d'astreinte sur slot inactif.",
+      "source": {
+        "title": "Debezium — documentation",
+        "url": "https://debezium.io/documentation/"
+      }
+    },
+    {
+      "id": "N5-E40",
+      "lessonId": "L183",
+      "competence": "C5.6",
+      "type": "mise_en_situation",
+      "q": "Vous construisez `chunks_e5_v1` pour un nouveau modèle d'embedding pendant que l'alias `chunks` sert `chunks_bge_m3_v1`. La nouvelle collection a été remplie lundi depuis `silver.rag_chunks`, puis évaluée pendant deux jours. Entre-temps, trois documents ont été supprimés et un client a exercé son droit à l'effacement ; l'indexeur de suppressions n'agit que sur la collection pointée par l'alias. Que se passe-t-il à la bascule, et quelle règle retenez-vous ?",
+      "options": [
+        "Rien : la bascule d'alias est atomique et recopie vers la nouvelle collection les suppressions appliquées à l'ancienne depuis sa création",
+        "Seuls les chunks du client réapparaissent, le registre RGPD étant relu par l'alias ; les documents supprimés de la GED restent absents",
+        "Les documents ne réapparaissent pas, mais leurs vecteurs restent dans le cache Parquet d'embeddings, qu'il suffit de purger après la bascule",
+        "Les 3 documents et les chunks du client réapparaissent ; l'indexeur doit supprimer dans toutes les collections `chunks_*`, resynchronisées avant la bascule"
+      ],
+      "answer": 3,
+      "explanation": "La nouvelle collection reflète l'état de lundi : les suppressions survenues depuis n'y ont jamais été appliquées, et la bascule les remet en service d'un coup. L183 l'inscrit dans ses erreurs fréquentes : supprimer dans la seule collection servie fait ressusciter le document à la bascule ; l'indexeur agit sur toutes les collections `chunks_*`. Une bascule d'alias ne copie rien : elle redirige les requêtes, d'où la synchronisation et l'évaluation juste avant de basculer.",
+      "source": {
+        "title": "Qdrant — documentation",
+        "url": "https://qdrant.tech/documentation/"
+      }
+    },
+    {
+      "id": "N5-E41",
+      "lessonId": "L151",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "Le dirigeant de Bréval veut recruter. Le prototype d'assistant RAG cite parfois une procédure périmée, ne voit les suppressions de documents que le lendemain, et les tickets SAV indexés contiennent des téléphones de clients. Il hésite entre quatre profils. Lequel répond le mieux à ce besoin, et pourquoi ?",
+      "options": [
+        "Un data engineer IA : corpus dédoublonné et anonymisé, index tenu à jour lors des modifications et suppressions, jeux versionnés",
+        "Un analytics engineer : les symptômes viennent de définitions métier ambiguës, à modéliser et tester dans l'entrepôt avec dbt",
+        "Un data scientist : il faut surtout un meilleur modèle de langage, capable de repérer seul les procédures périmées du corpus",
+        "Un ML engineer : la priorité est de réduire la latence et le coût des réponses de l'assistant une fois en production"
+      ],
+      "answer": 0,
+      "explanation": "L151 définit le data engineer IA comme celui dont le « client final » est souvent un modèle : il prépare des corpus dédupliqués et anonymisés (M36), alimente un index vectoriel qui doit rester à jour quand un document est modifié ou supprimé (M37) et versionne les jeux. Les trois symptômes relèvent du volume, de la fraîcheur, de la qualité et de la conformité des données, pas de la modélisation analytique ni du modèle lui-même. Comme le rappelle le piège de L151, un RAG branché sur des doublons ou des procédures périmées répond faux avec aplomb.",
+      "source": {
+        "title": "O'Reilly — Fundamentals of Data Engineering (Reis & Housley, 2022)",
+        "url": "https://oreilly.com/library/view/fundamentals-of-data/9781098108298"
+      }
+    },
+    {
+      "id": "N5-E42",
+      "lessonId": "L152",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "Vous relancez `vers_bronze.py` à l'échelle 10 (environ 90 000 tickets rangés par date d'ouverture depuis janvier 2024) après qu'un collègue a retiré `sample_size = -1` de la lecture JSONL « pour aller plus vite ». Le `DESCRIBE` de `tickets_sav.parquet` ne montre plus la colonne `agent`, qui existait à l'échelle 1. Quel diagnostic retenez-vous ?",
+      "options": [
+        "Le champ `agent` est nul avant juin 2025 : DuckDB supprime toujours les colonnes majoritairement nulles, quelle que soit la taille de l'échantillon",
+        "Parquet ne sait pas stocker une structure imbriquée : il faut convertir `agent` en texte JSON avant l'écriture du fichier en couche bronze",
+        "Le schéma est déduit d'un échantillon du début du fichier, antérieur à juin 2025, où `agent` n'existe pas : il faut lire tout le fichier (`sample_size = -1`)",
+        "La compression zstd écarte les colonnes rares d'un fichier Parquet ; il suffit de passer en snappy pour retrouver `agent` dans le schéma"
+      ],
+      "answer": 2,
+      "explanation": "Sans `sample_size = -1`, DuckDB devine le schéma JSONL à partir d'un échantillon ; le commentaire de `vers_bronze.py` (L152) prévient qu'un champ apparu tardivement, comme `agent` depuis juin 2025, peut alors être ignoré à grande échelle. C'est un défaut d'échelle : il n'apparaît que lorsque le fichier dépasse l'échantillon. Parquet stocke très bien les structures (`agent` y est un `STRUCT(id, agence)`), et le codec de compression ne retire aucune colonne.",
+      "source": {
+        "title": "DuckDB 2.0 — Integration with Polars",
+        "url": "https://duckdb.org/docs/2.0/guides/python/polars.html"
+      }
+    },
+    {
+      "id": "N5-E43",
+      "lessonId": "L153",
+      "competence": "C5.1",
+      "type": "trouve_erreur",
+      "q": "Le CA HT mensuel de Nantes vaut 180 000 € en juillet 2026, 90 000 € en août, 160 000 € en septembre et 165 000 € en octobre. Le tableau de bord affiche une « moyenne mobile sur 3 mois » de 148 750 € pour octobre. Où est l'erreur ?\n\n```sql\nSELECT agence_id, mois, ca_ht,\n       avg(ca_ht) OVER (PARTITION BY agence_id ORDER BY mois\n                        ROWS BETWEEN 3 PRECEDING AND CURRENT ROW) AS moyenne_mobile_3m\nFROM mensuel\n```",
+      "options": [
+        "Sans cadre `RANGE`, une fenêtre ordonnée calcule un cumul depuis janvier ; il faut retirer l'`ORDER BY` de la clause `OVER`",
+        "`PARTITION BY agence_id` mélange les mois des trois agences ; il faut partitionner par `mois` pour obtenir environ 138 333 €",
+        "Le cadre couvre 4 lignes (juillet à octobre) ; avec `ROWS BETWEEN 2 PRECEDING AND CURRENT ROW`, octobre vaut environ 138 333 €",
+        "La moyenne est juste : août, mois creux du BTP, doit d'abord être exclu par un `WHERE` avant le calcul de la fenêtre"
+      ],
+      "answer": 2,
+      "explanation": "`ROWS BETWEEN 3 PRECEDING AND CURRENT ROW` prend la ligne courante et les trois précédentes : (180 000 + 90 000 + 160 000 + 165 000) / 4 = 148 750 €. Une moyenne sur 3 mois, comme dans la requête de L153, s'écrit `2 PRECEDING` : (90 000 + 160 000 + 165 000) / 3 ≈ 138 333 €. Le cadre est ici explicite, retirer l'`ORDER BY` donnerait la moyenne de toute la partition, et partitionner par mois mélangerait les agences.",
+      "source": {
+        "title": "DuckDB — documentation",
+        "url": "https://duckdb.org/docs/"
+      }
+    },
+    {
+      "id": "N5-E44",
+      "lessonId": "L153",
+      "competence": "C5.1",
+      "type": "trouve_erreur",
+      "q": "L'export du 3 novembre contient la commande 120001 (validée, 1 249,90 €) et deux versions de la 120002 (389,00 €) : `brouillon` avec `mis_a_jour_le` = 10:40, puis `validee` avec `mis_a_jour_le` = 11:05. Le CA validé du jour affiché est de 1 249,90 €. Où est l'erreur ?\n\n```sql\nCREATE OR REPLACE TABLE commandes_dedup AS\nSELECT * FROM bz_commandes\nQUALIFY row_number() OVER (PARTITION BY commande_id ORDER BY mis_a_jour_le) = 1;\n-- puis : SELECT sum(montant_ht) FROM commandes_dedup WHERE statut = 'validee'\n```",
+      "options": [
+        "Le tri croissant garde la version la plus ancienne (le brouillon) ; avec `ORDER BY mis_a_jour_le DESC`, le CA validé vaut 1 638,90 €",
+        "`QUALIFY` ne peut pas filtrer sur `row_number()` dans DuckDB : il faut une sous-requête avec `WHERE rn = 1`, sinon la 120002 disparaît",
+        "Le `PARTITION BY` devrait porter sur `numero` : `commande_id` change entre le brouillon et la version validée d'une même commande",
+        "Le dédoublonnage est juste : une commande validée le jour même reste exclue du CA validé jusqu'à sa livraison, soit 1 249,90 €"
+      ],
+      "answer": 0,
+      "explanation": "`row_number()` numérote dans l'ordre de l'`ORDER BY` : en tri croissant, le rang 1 est la version de 10:40, au statut `brouillon`, que le filtre `statut = 'validee'` écarte ensuite. La requête de L153 trie par `mis_a_jour_le DESC` pour garder la version la plus récente : la 120002 validée est alors conservée et le CA vaut 1 249,90 + 389,00 = 1 638,90 €. `QUALIFY` existe bien dans DuckDB (c'est Postgres qui ne l'a pas), et les deux versions partagent le même `commande_id`.",
+      "source": {
+        "title": "DuckDB — documentation",
+        "url": "https://duckdb.org/docs/"
+      }
+    },
+    {
+      "id": "N5-E45",
+      "lessonId": "L154",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "Vous concevez `dim_client` pour Bréval. Le métier exprime quatre besoins : (a) la date de création du compte ne doit jamais changer ; (b) une faute de frappe corrigée dans la raison sociale ne doit pas créer d'historique ; (c) le CA d'octobre doit rester rattaché à la ville et au segment du client à la date de commande ; (d) l'analyste veut consulter l'e-mail et le téléphone. Quelle conception est la bonne ?",
+      "options": [
+        "(a) type 0 ; (b) type 2, pour tracer toute correction ; (c) type 3 avec une colonne `segment_precedent` ; (d) e-mail et téléphone ajoutés en type 1",
+        "(a) type 1 ; (b) type 1 ; (c) type 2, en recopiant la ville courante dans le fait ; (d) e-mail et téléphone ajoutés en type 2 pour l'audit",
+        "(a) type 0 ; (b) type 1 ; (c) un `MERGE` sur `client_id` suffit à suivre la ville ; (d) e-mail et téléphone ajoutés, hachés en SHA-256",
+        "(a) type 0 ; (b) type 1 ; (c) type 2 avec `valide_du`/`valide_au` et jointure à la date ; (d) refusé : ces données personnelles restent hors de la dimension"
+      ],
+      "answer": 3,
+      "explanation": "L154 choisit la stratégie attribut par attribut : type 0 pour `date_creation`, type 1 (écrasement) pour une correction de libellé, type 2 pour la ville et le segment, reliés aux faits par l'intervalle `valide_du`/`valide_au`. Un `MERGE` écraserait la ville et réattribuerait le CA d'octobre, et le type 3 ne garde qu'une étape d'historique. Les données personnelles directes (`nom`, `prenom`, `email`, `telephone`) ne vont pas dans la dimension analytique, par minimisation RGPD.",
+      "source": {
+        "title": "O'Reilly — Fundamentals of Data Engineering (ch. modélisation et transformation)",
+        "url": "https://oreilly.com/library/view/fundamentals-of-data/9781098108298"
+      }
+    },
+    {
+      "id": "N5-E46",
+      "lessonId": "L155",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "Après votre refonte de `vers_silver.py`, le contrôle « lignes : bronze = silver + quarantaine » de L155 affiche `ok = false` : bronze 335 153 lignes, silver 334 951, quarantaine `lignes_commande` 171. Les autres contrôles sont verts et les 11 commandes datées « 206x » sont bien en quarantaine. Quel diagnostic est le plus probable ?",
+      "options": [
+        "Les 171 lignes à quantité négative sont comptées deux fois, en silver et en quarantaine : il faut retirer le filtre sur la quantité",
+        "Les 240 doublons d'export du bronze faussent le contrôle : il faut comparer à `count(DISTINCT ligne_id)` côté bronze pour les lignes",
+        "Les 31 lignes des 11 commandes « 206x » ont été écartées de silver sans être écrites en quarantaine : 335 153 − 334 951 − 171 = 31",
+        "Le contrôle est trop strict : 31 lignes sur 335 153 représentent moins de 0,01 % et restent dans la tolérance d'un nettoyage"
+      ],
+      "answer": 2,
+      "explanation": "Les valeurs de référence de L155 sont 334 951 lignes en silver et 213 enregistrements en quarantaine : 11 commandes, leurs 31 lignes rattachées et 171 quantités négatives. Ici, 335 153 − 334 951 − 171 = 31 : ce sont les lignes des commandes « 206x », retirées de silver sans être tracées en quarantaine. Le principe « ne rien supprimer en silence » ne tolère aucun écart, et les doublons d'export concernent les en-têtes de commandes, pas les lignes.",
+      "source": {
+        "title": "DuckDB — documentation",
+        "url": "https://duckdb.org/docs/"
+      }
+    },
+    {
+      "id": "N5-E47",
+      "lessonId": "L156",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "Un script écrit chaque minute, 24 h sur 24, un fichier Parquet d'environ 20 Ko dans `s3://breval-lake/bronze/evenements/`. Au bout d'un an, une requête DuckDB qui relit tout le préfixe est lente et la facture de requêtes grimpe. Quelle analyse et quelle correction retenez-vous ?",
+      "options": [
+        "Environ 525 600 objets (≈ 10,5 Go), donc autant de GET par lecture complète : compacter en fichiers de quelques centaines de Mo, une cinquantaine de 200 Mo",
+        "Environ 525 600 objets, mais un stockage objet ne facture que les Go stockés : basculer le préfixe en classe archive suffit à réduire la facture",
+        "Environ 8 760 objets de 1,2 Mo : le volume est normal, il faut partitionner par `client_id` pour accélérer les lectures par client",
+        "Environ 525 600 objets : activer le versioning du bucket regroupera automatiquement les petits fichiers en objets plus gros"
+      ],
+      "answer": 0,
+      "explanation": "60 × 24 × 365 = 525 600 fichiers de 20 Ko, soit environ 10,5 Go. L156 prévient qu'un million de petits fichiers coûte un million de GET à chaque lecture complète et ralentit tous les moteurs : visez des Parquet de quelques centaines de Mo (≈ 53 fichiers de 200 Mo ici), par compaction (formats de table, L157). La facture objet inclut aussi les requêtes et la sortie réseau, une classe froide rend les lectures plus chères, et le versioning conserve d'anciennes versions sans rien regrouper.",
+      "source": {
+        "title": "Amazon S3 — documentation",
+        "url": "https://docs.aws.amazon.com/s3/"
+      }
+    },
+    {
+      "id": "N5-E48",
+      "lessonId": "L157",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "Un client de Bréval exerce son droit à l'effacement. Le pipeline a exécuté un `DELETE` sur la table Delta `silver/clients`, stockée dans un bucket MinIO versionné. Huit jours plus tard, un auditeur relit encore ses données par *time travel* sur une version antérieure. Que manque-t-il à la procédure ?",
+      "options": [
+        "Rien : un `DELETE` Delta réécrit les fichiers Parquet en place ; l'auditeur lit forcément une sauvegarde externe au lakehouse",
+        "Un `VACUUM` après le délai de rétention, pour purger les fichiers retirés du journal, puis la purge des versions d'objets du bucket",
+        "Un second `DELETE` dans `_delta_log/` : supprimer les fichiers JSON du journal efface les données des versions précédentes",
+        "Un `OPTIMIZE` de compactage : en fusionnant les fichiers, il fait disparaître les lignes supprimées des anciennes versions"
+      ],
+      "answer": 1,
+      "explanation": "Un `DELETE` Delta retire les fichiers du journal mais les laisse physiquement en place : c'est ce qui permet le *time travel*. L157 précise que l'effacement RGPD doit inclure le `VACUUM` après le délai de rétention, et la purge des versions objet si le versioning S3 est actif, procédure à documenter dans le registre des traitements. Supprimer des fichiers du journal casserait la table, et seul le `VACUUM` purge les fichiers des versions passées.",
+      "source": {
+        "title": "Delta Lake — documentation",
+        "url": "https://delta.io/"
+      }
+    },
+    {
+      "id": "N5-E49",
+      "lessonId": "L158",
+      "competence": "C5.1",
+      "type": "mise_en_situation",
+      "q": "Un tableau de bord de Bréval se rafraîchit toutes les 5 minutes de 7:00 à 18:55 (144 requêtes de 20 s par jour) sur un entrepôt Snowflake XS créé avec `AUTO_SUSPEND = 600`. Hypothèse simplificatrice : le calcul est facturé à la seconde tant que l'entrepôt est allumé. Que gagne-t-on en passant à `AUTO_SUSPEND = 60` ?",
+      "options": [
+        "Rien : la facture Snowflake dépend du volume scanné par chaque requête, pas de la durée pendant laquelle l'entrepôt virtuel reste allumé",
+        "Environ 12 h d'allumage par jour deviennent environ 3,2 h (144 × 80 s) : avec 10 min de délai, l'entrepôt ne s'endormait jamais entre deux rafraîchissements",
+        "Environ 12 h deviennent environ 48 min (144 × 20 s) : avec 60 s de délai, l'entrepôt s'éteint dès la fin de chaque requête",
+        "Environ 2 h 24 deviennent environ 48 min : chaque requête est facturée 60 s au lieu de 600 s, soit un gain de 90 % sur le calcul"
+      ],
+      "answer": 1,
+      "explanation": "Snowflake facture au temps de calcul (crédits) : le levier de L158 est la mise en veille automatique. Avec 600 s de délai et une requête toutes les 300 s, l'entrepôt reste allumé de 7:00 à environ 19:05, soit près de 12 h par jour. Avec 60 s, chaque rafraîchissement coûte 20 s de calcul + 60 s d'attente : 144 × 80 s = 11 520 s ≈ 3,2 h, près de quatre fois moins. La facturation au volume scanné est celle de BigQuery à la demande.",
+      "source": {
+        "title": "Snowflake — documentation",
+        "url": "https://docs.snowflake.com/"
+      }
+    },
+    {
+      "id": "N5-E50",
+      "lessonId": "L159",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "À l'échelle 10, un job PySpark (AQE désactivée, `spark.sql.shuffle.partitions = 200`) termine par une jointure puis `.write.partitionBy(\"annee\", \"agence_id\").parquet(...)`, sur 3 années et 3 agences. Le dossier de sortie contient près de 1 800 petits fichiers. Quelle correction est la plus juste ?",
+      "options": [
+        "Ajouter `.coalesce(1)` : un fichier par dossier, sans shuffle et sans perte de parallélisme pour écrire les 9 dossiers",
+        "Ajouter `.repartition(\"annee\", \"agence_id\")` avant l'écriture : une partition mémoire par dossier, soit 9 fichiers au lieu de 200 × 9",
+        "Remplacer `partitionBy` par un partitionnement sur `client_id` : les fichiers regroupés par client seront moins nombreux",
+        "Monter `spark.sql.shuffle.partitions` à 800 : des partitions de shuffle plus nombreuses produisent des fichiers plus gros"
+      ],
+      "answer": 1,
+      "explanation": "Sans `repartition`, chacune des 200 tâches écrit un fichier dans chaque dossier qu'elle rencontre : jusqu'à 200 × 3 × 3 = 1 800 fichiers (L159 en compte 600 pour la seule année). `repartition(\"annee\", \"agence_id\")` envoie toutes les lignes d'un même dossier dans une même partition mémoire, d'où un fichier par dossier. `coalesce(1)` donnerait aussi 9 fichiers, mais écrits par une seule tâche, et plus de partitions de shuffle produiraient davantage de fichiers ; partitionner par `client_id` créerait des milliers de dossiers (L156).",
+      "source": {
+        "title": "Apache Spark — SQL performance tuning (AQE, broadcast)",
+        "url": "https://spark.apache.org/docs/latest/sql-performance-tuning.html"
+      }
+    },
+    {
+      "id": "N5-E51",
+      "lessonId": "L160",
+      "competence": "C5.3",
+      "type": "trouve_erreur",
+      "q": "Sur une machine de 8 Go, ce traitement de l'échelle 50 échoue par manque de mémoire, alors que la même logique écrite en SQL DuckDB passe. Quelle est la cause principale ?\n\n```python\nlignes = pl.scan_parquet(\"data/silver/lignes_commande.parquet\").collect()\nca = (lignes.lazy()\n      .join(pl.scan_parquet(\"data/silver/commandes.parquet\"), on=\"commande_id\")\n      .filter(pl.col(\"statut\").is_in([\"livree\", \"facturee\"]))\n      .group_by(\"agence_id\").agg(pl.col(\"quantite\").sum())\n      .collect())\n```",
+      "options": [
+        "Le premier `collect()` matérialise toute la table des lignes avant la jointure : rester lazy jusqu'au bout (`sink_parquet()` si le résultat est gros)",
+        "`scan_parquet` charge tout le fichier en mémoire dès son appel : il faut le remplacer par `read_parquet`, plus économe, dans les deux lectures",
+        "La jointure Polars ne sait pas déborder : seul un passage par `to_pandas()` avant la jointure permet de traiter l'échelle 50 sur 8 Go",
+        "Le `group_by` n'est pas disponible en mode lazy : il faut collecter avant l'agrégation, comme le fait déjà la première ligne du script"
+      ],
+      "answer": 0,
+      "explanation": "L160 recommande d'écrire Polars lazy par défaut (`scan_*` … `collect()`) et met en garde contre un `collect()` intermédiaire : il matérialise tout et casse l'optimisation globale (projection et filtres poussés). Ici, toutes les colonnes de toutes les lignes sont chargées avant même la jointure. Un `scan_parquet` ne lit rien tant que la requête n'est pas exécutée, et passer par pandas aggraverait la consommation mémoire.",
+      "source": {
+        "title": "Polars — documentation",
+        "url": "https://docs.pola.rs/"
+      }
+    },
+    {
+      "id": "N5-E52",
+      "lessonId": "L161",
+      "competence": "C5.2",
+      "type": "mise_en_situation",
+      "q": "Le 3 novembre, l'ingestion de l'export de L161 (120001 validée à 1 249,90 € ; 120002 en brouillon puis validée, 389,00 €) utilise `charger_naif`. Elle échoue juste après l'écriture, et l'orchestrateur la relance deux fois avec succès. Le modèle gold `ca_jour` somme `montant_ht` directement sur `bronze.commandes_export`, pour les lignes `validee`. Que voit la direction, et quelle correction s'impose ?",
+      "options": [
+        "1 638,90 € : le `QUALIFY` du silver élimine les doublons, donc toute table construite ensuite reste juste, même lue sur le bronze",
+        "6 083,70 € au lieu de 2 027,90 € : ajouter des relances automatiques pour que l'ingestion aboutisse en une seule exécution",
+        "4 916,70 € au lieu de 1 638,90 € : remplacer la partition du jour dans une transaction et construire le gold sur un silver dédoublonné",
+        "4 916,70 € au lieu de 1 638,90 € : supprimer le bronze après chaque construction du silver pour éviter toute accumulation"
+      ],
+      "answer": 2,
+      "explanation": "`charger_naif` ajoute les trois lignes à chaque exécution : après trois exécutions, le bronze en contient neuf, dont six `validee`, soit 3 × (1 249,90 + 389,00) = 4 916,70 €. L161 note que le silver reste juste grâce au `QUALIFY` « seulement par chance », alors qu'une table gold construite directement sur le bronze double. La parade est un chargement idempotent (suppression puis réécriture de la partition du jour dans une transaction) et un gold alimenté par le silver ; supprimer le bronze détruirait la rejouabilité.",
+      "source": {
+        "title": "DuckDB 2.0 — documentation (guide Python / Polars)",
+        "url": "https://duckdb.org/docs/2.0/guides/python/polars.html"
+      }
+    },
+    {
+      "id": "N5-E53",
+      "lessonId": "L163",
+      "competence": "C5.2",
+      "type": "mise_en_situation",
+      "q": "Le snapshot dbt `snap_clients` (`strategy: timestamp` sur `mis_a_jour_le`) tourne chaque dimanche à 3 h. Le client 17 passe du segment « artisan » à « entreprise BTP » le mardi 3 novembre, puis le commercial annule ce changement le jeudi 5 ; entre-temps, le client a passé deux commandes. Que contiendra le snapshot, et que faut-il changer ?",
+      "options": [
+        "Deux versions fermées et une ouverte : au snapshot suivant, dbt relit tout l'historique de `mis_a_jour_le` pour reconstituer chaque état intermédiaire",
+        "Aucune trace du passage par « entreprise BTP » : un changement apparu puis annulé entre deux exécutions n'est jamais photographié ; planifier le snapshot avec l'ingestion",
+        "Une version « entreprise BTP » datée du 3 novembre, car `strategy: timestamp` reconstitue les dates de validité à partir de `mis_a_jour_le`",
+        "Aucune trace, et c'est voulu : seule `strategy: check` détecte un changement annulé, `timestamp` ne compare que la dernière valeur"
+      ],
+      "answer": 1,
+      "explanation": "Un snapshot compare l'état courant aux versions enregistrées au moment où il s'exécute : L163 prévient qu'un changement qui apparaît et disparaît entre deux exécutions n'est jamais photographié. Le dimanche, dbt ne voit que la valeur courante (« artisan ») : l'état intermédiaire est perdu, et les deux commandes ne pourront pas être rattachées au segment en vigueur ce jour-là. Le snapshot doit tourner régulièrement, par exemple à chaque `dbt build` après l'ingestion ; `strategy: check` compare elle aussi l'état à un instant donné.",
+      "source": {
+        "title": "dbt — documentation officielle",
+        "url": "https://docs.getdbt.com/"
+      }
+    },
+    {
+      "id": "N5-E54",
+      "lessonId": "L163",
+      "competence": "C5.2",
+      "type": "mise_en_situation",
+      "q": "Trois incidents à prévenir sur le projet dbt de Bréval : (1) une modification du `WHERE` de `ca_journalier_par_agence` fait réapparaître les brouillons dans le CA ; (2) un rejeu de l'ingestion duplique des `commande_id` dans `stg_erp__commandes` ; (3) un refactoring change le type de `dim_client.client_id` en `varchar`, ce qui casse un tableau de bord. Quel garde-fou dbt associez-vous à chacun ?",
+      "options": [
+        "(1) un test `accepted_values` sur `statut` ; (2) un unit test sur des lignes déclarées dans `given` ; (3) un test `not_null` sur `client_id`",
+        "(1) un unit test sur des lignes déclarées dans `given` ; (2) un test de données `unique` ; (3) un contrat de modèle appliqué (`enforced: true`)",
+        "(1) un contrat de modèle appliqué ; (2) un test singulier réglé en `warn` ; (3) un unit test sur des lignes déclarées dans `given`",
+        "(1) un test de données `unique` ; (2) un contrat de modèle appliqué ; (3) un test `relationships` vers `stg_erp__clients`"
+      ],
+      "answer": 1,
+      "explanation": "L163 distingue trois niveaux : les unit tests vérifient la logique d'un modèle sur des données déclarées dans `given` (comme `ca_exclut_brouillons_et_annulations`), les tests de données vérifient le contenu réel (un doublon de `commande_id` fait échouer `unique` et arrête `dbt build` en aval), et les contrats garantissent la forme (colonnes et types) avant d'atteindre les consommateurs. Un unit test ne voit pas les doublons réels, et `accepted_values` sur la source ne détecte pas un filtre mal écrit en aval.",
+      "source": {
+        "title": "dbt — Data tests",
+        "url": "https://docs.getdbt.com/docs/build/data-tests"
+      }
+    },
+    {
+      "id": "N5-E55",
+      "lessonId": "L164",
+      "competence": "C5.2",
+      "type": "trouve_erreur",
+      "q": "Une règle de TVA était fausse en octobre. Après correction, vous lancez le 5 novembre `airflow backfill create --dag-id breval_ingestion --from-date 2026-10-01 --to-date 2026-10-31`. Les 31 exécutions réussissent, mais octobre reste faux et la partition du 4 novembre a été réécrite 31 fois. Où est l'erreur ?\n\n```python\n@task\ndef transformer():\n    jour = (datetime.now() - timedelta(days=1)).date()\n    recalculer_partition(jour)\n```",
+      "options": [
+        "Le backfill n'existe pas dans Airflow 3 : il faut relancer le DAG 31 fois à la main depuis l'interface, un jour après l'autre",
+        "`recalculer_partition` n'est pas idempotente : réécrire 31 fois une partition la duplique, il faut un simple `INSERT` à la place",
+        "Le calcul doit être placé au niveau supérieur du fichier DAG pour que le planificateur l'évalue avec la date de chaque exécution",
+        "La période vient de l'horloge : la tâche doit utiliser la date logique de son exécution (`ds`), seule à changer d'un rattrapage à l'autre"
+      ],
+      "answer": 3,
+      "explanation": "Chaque exécution reçoit sa date logique (`ds`) : c'est elle, et non l'horloge, que les tâches doivent utiliser pour savoir quelle période traiter (L164, règle de rejouabilité de L161). Avec `datetime.now()`, les 31 exécutions de rattrapage traitent toutes « hier », soit le 4 novembre. Le backfill est proposé par Airflow 3 (interface ou ligne de commande), réécrire une partition est justement l'écrasement idempotent de L161, et le code de haut niveau d'un fichier DAG s'exécute à chaque lecture par le planificateur.",
+      "source": {
+        "title": "Apache Airflow 3.0.0 — notes de version",
+        "url": "https://airflow.apache.org/docs/apache-airflow/3.0.0/release_notes.html"
+      }
+    },
+    {
+      "id": "N5-E56",
+      "lessonId": "L165",
+      "competence": "C5.2",
+      "type": "mise_en_situation",
+      "q": "Bréval migre ses environnements dbt de développement et de production vers MotherDuck, un entrepôt partagé. La CI « slim » actuelle construit `+state:modified+` dans une base DuckDB éphémère alimentée par un jeu de test à 5 %. Une PR ne modifie que `fct_commandes`, dont dépendent deux marts. Quelle commande adopter, et pourquoi ?",
+      "options": [
+        "`dbt build --select +state:modified+` sans `--defer` : c'est la seule forme qui garantit que les ancêtres de `fct_commandes` sont à jour",
+        "`dbt build --select state:modified` : les deux marts n'ont pas changé de code, il est donc inutile de les reconstruire et de les tester en CI",
+        "`dbt build --full-refresh` sur tout le projet : avec un entrepôt partagé, le manifeste de la branche principale n'est plus comparable",
+        "`dbt build --select state:modified+ --defer --state <artefacts_prod>` : les `ref()` non modifiés pointent vers la production, non reconstruite"
+      ],
+      "answer": 3,
+      "explanation": "L165 donne la forme canonique avec un entrepôt partagé (Snowflake, BigQuery, Databricks, MotherDuck) : `state:modified+` construit le modèle modifié et ses descendants, et `--defer` fait lire aux `ref()` des modèles non modifiés les tables de production. Le préfixe `+` (ancêtres) n'est nécessaire que si l'entrepôt de CI est vide, comme la base éphémère de l'atelier. Sans le `+` final, les deux marts qu'une modification peut casser ne seraient pas testés.",
+      "source": {
+        "title": "dbt — documentation officielle",
+        "url": "https://docs.getdbt.com/"
+      }
+    },
+    {
+      "id": "N5-E57",
+      "lessonId": "L166",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "Pour l'indicateur « CA de Nantes sur les 10 dernières minutes, rafraîchi toutes les 5 minutes », vous rejouez en temps d'événement les commandes NAN de la simulation de L166, sans en écarter aucune : 1 (1 120 €, 10:00:30), 2 (80 €, 10:01:10), 4 (60 €, 10:05:20), 5 (30 €, 10:07:00) et 7 (15 €, 10:11:00). Que valent les fenêtres 10:00-10:10 et 10:05-10:15 ?",
+      "options": [
+        "1 290 € et 105 € : en fenêtres glissantes de 10 min au pas de 5 min, les commandes 4 et 5 appartiennent aux deux fenêtres",
+        "1 200 € et 90 € : chaque commande n'appartient qu'à une fenêtre, celle qui commence au début de sa tranche de 5 minutes",
+        "1 290 € et 1 395 € : chaque fenêtre glissante cumule le CA de toutes les fenêtres qui la précèdent dans la partition",
+        "1 290 € et 15 € : une commande déjà comptée dans une fenêtre est retirée des suivantes, pour ne pas compter deux fois"
+      ],
+      "answer": 0,
+      "explanation": "Les fenêtres glissantes de L166 se recouvrent : avec une taille de 10 min et un pas de 5 min, un événement appartient à deux fenêtres. 10:00-10:10 contient les commandes 1, 2, 4 et 5 : 1 120 + 80 + 60 + 30 = 1 290 € ; 10:05-10:15 contient 4, 5 et 7 : 60 + 30 + 15 = 105 €. Les valeurs 1 200 € et 90 € sont celles des fenêtres fixes 10:00-10:05 et 10:05-10:10.",
+      "source": {
+        "title": "Apache Flink — documentation (stable)",
+        "url": "https://nightlies.apache.org/flink/flink-docs-stable/"
+      }
+    },
+    {
+      "id": "N5-E58",
+      "lessonId": "L166",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "Vous mesurez pendant une semaine les retards des terminaux de caisse de Bréval : ils suivent à peu près une loi exponentielle de moyenne 30 s. Le métier accepte au plus 1 % de retardataires écartés et veut des résultats définitifs le plus tôt possible. Quel retard toléré fixez-vous ?",
+      "options": [
+        "Environ 2 min 20 s : P(retard > x) = e^(−x/30) vaut 1 % pour x = 30 × ln 100 ≈ 138 s",
+        "30 s, la moyenne des retards : la moitié environ des retardataires sont alors comptés",
+        "2 min : à ce seuil, il ne reste qu'environ 0,2 % de retardataires, sous le 1 % accepté",
+        "5 min : un retard toléré plus long ne coûte rien, il rend seulement les résultats plus complets"
+      ],
+      "answer": 0,
+      "explanation": "Avec une loi exponentielle de moyenne 30 s, P(retard > x) = e^(−x/30) : environ 37 % au-delà de 30 s, 14 % au-delà de 60 s et 2 % au-delà de 120 s, comme l'indique le corrigé de L166. Le seuil de 1 % est atteint pour x = 30 × ln 100 ≈ 138 s. L166 rappelle que le retard toléré est un compromis : le prolonger rend les résultats plus complets, mais les émet plus tard et garde plus d'état en mémoire ; on le fixe d'après un centile mesuré, ici le 99ᵉ.",
+      "source": {
+        "title": "Apache Flink — documentation (stable)",
+        "url": "https://nightlies.apache.org/flink/flink-docs-stable/"
+      }
+    },
+    {
+      "id": "N5-E59",
+      "lessonId": "L167",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "Le sujet `commandes-avro-value` est en compatibilité BACKWARD. L'équipe e-commerce doit ajouter un champ `canal` au schéma `CommandeEvenement` ; le contrôle `/compatibility` renvoie `{\"is_compatible\":false}` et le déploiement est bloqué. Un développeur propose de passer le sujet en `NONE` pour la soirée. Que décidez-vous ?",
+      "options": [
+        "Accepter `NONE` pour la soirée puis revenir en BACKWARD : le Schema Registry revérifiera alors les messages déjà écrits avec le nouveau schéma",
+        "Passer le sujet en FORWARD : les consommateurs dotés du nouveau schéma pourront ainsi lire les anciens messages, même sans valeur par défaut",
+        "Envoyer `canal` en JSON dans la clé du message : la clé échappe au contrôle de schéma de la valeur, ce qui débloque le déploiement sans risque",
+        "Refuser `NONE` : déclarer `canal` avec une valeur par défaut, ce que BACKWARD accepte, ou publier dans un nouveau topic versionné"
+      ],
+      "answer": 3,
+      "explanation": "En BACKWARD, mode par défaut, un consommateur doté du nouveau schéma doit pouvoir lire les messages écrits avec l'ancien : ajouter un champ avec valeur par défaut est accepté, un champ obligatoire sans défaut est refusé (L167). Passer en `NONE` supprime le seul garde-fou entre les producteurs et les consommateurs ; la voie recommandée est une évolution compatible ou un nouveau topic versionné. Glisser le champ dans la clé reviendrait au JSON qui « n'impose rien ».",
+      "source": {
+        "title": "Apache Avro — site officiel",
+        "url": "https://avro.apache.org/"
+      }
+    },
+    {
+      "id": "N5-E60",
+      "lessonId": "L167",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "Le topic `commandes-evenements` a une rétention de 7 jours. Le groupe `stock` est arrêté le vendredi 30 octobre à 18:00 pour une migration et redémarré le dimanche 8 novembre à 18:00 ; le groupe `ca-temps-reel` a continué de lire pendant ce temps. Que retrouve le groupe `stock` ?",
+      "options": [
+        "Tout : Kafka conserve un message tant qu'un groupe abonné au topic ne l'a pas lu, quelle que soit la rétention configurée",
+        "Tout, parce que `ca-temps-reel` les a déjà lus : le broker garde alors une copie de ces messages pour les autres groupes",
+        "Les messages du 30 octobre 18:00 au 1er novembre 18:00 environ sont perdus pour lui : la rétention s'applique, lus ou non",
+        "Rien de la période d'arrêt : un groupe redémarré reprend toujours à la fin du journal, comme un nouvel abonné au topic"
+      ],
+      "answer": 2,
+      "explanation": "Kafka garde chaque message pendant toute la durée de rétention, indépendante de la lecture (L167) : plusieurs groupes peuvent le lire et l'on peut rembobiner, mais seulement dans cette limite. Au redémarrage, 9 jours se sont écoulés : les messages de plus de 7 jours, soit les deux premiers jours de l'arrêt, ont été supprimés pour tous les groupes. Chaque groupe a ses propres offsets, et la lecture par un autre groupe ne prolonge rien ; il fallait une rétention couvrant la durée de l'arrêt.",
+      "source": {
+        "title": "Apache Kafka — téléchargements (version courante)",
+        "url": "https://kafka.apache.org/downloads"
+      }
+    },
+    {
+      "id": "N5-E61",
+      "lessonId": "L168",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "Le job Spark Structured Streaming de L168 calcule le CA par fenêtres de 5 min et par agence, avec `checkpointLocation = \"checkpoints/ca_temps_reel\"`. La direction veut désormais des fenêtres de 15 min par agence et par canal. Un collègue modifie le `groupBy` et relance le job avec le même checkpoint « pour ne rien relire ». Quelle est la bonne démarche ?",
+      "options": [
+        "Garder le checkpoint : Spark détecte la nouvelle requête et convertit seul l'état des fenêtres de 5 min en fenêtres de 15 min",
+        "Garder le checkpoint mais passer en `outputMode(\"update\")` : seul le mode `append` dépend de l'état sauvegardé des fenêtres",
+        "Supprimer le checkpoint et repartir de la fin du topic : les agrégats de 5 min déjà écrits suffisent à reconstituer les fenêtres de 15 min",
+        "Utiliser un nouveau `checkpointLocation` et retraiter depuis un offset choisi : l'état sauvegardé ne correspond plus à la nouvelle agrégation"
+      ],
+      "answer": 3,
+      "explanation": "L168 met en garde : changer le code d'agrégation puis relancer avec le même `checkpointLocation`, c'est repartir d'un état qui ne correspond plus à la requête ; Spark refuse de démarrer, ou pire, produit des résultats incohérents. Une modification de la logique à état impose un nouveau checkpoint, donc un retraitement depuis un offset choisi. Les agrégats de 5 min ne contiennent pas le canal : ils ne peuvent pas être recombinés en fenêtres de 15 min par canal.",
+      "source": {
+        "title": "Apache Spark — Structured Streaming",
+        "url": "https://spark.apache.org/docs/latest/streaming/index.html"
+      }
+    },
+    {
+      "id": "N5-E62",
+      "lessonId": "L169",
+      "competence": "C5.3",
+      "type": "mise_en_situation",
+      "q": "Dans un même lot du consommateur CDC de L169, la commande 77, absente de la table Delta, apparaît deux fois : création `c` (LSN 9 000) puis suppression `d` (LSN 9 050), suivie de son tombstone. La commande 78, présente avec `_lsn` = 8 800, reçoit deux mises à jour `u` : LSN 9 010 (statut `livree`) puis LSN 9 040 (statut `facturee`). Quel est l'état après le `MERGE` ?",
+      "options": [
+        "77 présente : insérée par le `c`, elle n'est jamais supprimée puisque le tombstone est ignoré ; 78 au statut `facturee`",
+        "77 absente (seul son `d` est gardé : il ne trouve rien à supprimer et n'est pas inséré) ; 78 au statut `facturee`, avec `_lsn` = 9 040",
+        "77 absente ; 78 au statut `livree` : la garde `s._lsn > t._lsn` refuse la seconde mise à jour arrivée dans le même lot",
+        "Le `MERGE` échoue : deux lignes sources visent la commande 78, et le `d` de la 77 ne trouve aucune ligne cible à supprimer"
+      ],
+      "answer": 1,
+      "explanation": "`appliquer()` trie le lot par LSN et ne garde que le dernier changement de chaque commande : il reste le `d` de la 77 (LSN 9 050) et le `u` de la 78 (LSN 9 040). Le `d` ne correspond à aucune ligne cible et la clause d'insertion exige `_op <> 'd'` : rien n'est écrit. Pour la 78, 9 040 > 8 800 : la mise à jour s'applique. Ce dédoublonnage préalable évite le cas, refusé ou ambigu pour un `MERGE`, de plusieurs lignes sources visant la même ligne cible ; le tombstone, lui, est ignoré dès la lecture.",
+      "source": {
+        "title": "Delta Lake — site officiel",
+        "url": "https://delta.io/"
+      }
+    },
+    {
+      "id": "N5-E63",
+      "lessonId": "L170",
+      "competence": "C5.4",
+      "type": "mise_en_situation",
+      "q": "Le rapport qualité hebdomadaire relève quatre anomalies sur `commandes` : (1) 12 commandes ont un `maj_le` antérieur à leur `cree_le` ; (2) 30 commandes n'ont pas de `client_id` ; (3) 5 commandes portent le statut `expediee` ; (4) le total de septembre diffère de 2 % du grand livre comptable. Quelle classification est juste ?",
+      "options": [
+        "(1) fraîcheur ; (2) complétude ; (3) validité ; (4) cohérence, vérifiable en SQL par une jointure avec les lignes",
+        "(1) cohérence ; (2) complétude ; (3) validité ; (4) exactitude, seule à exiger une référence externe pour être vérifiée",
+        "(1) cohérence ; (2) unicité ; (3) exactitude ; (4) validité, contrôlable par un test `accepted_values` sur le montant",
+        "(1) validité ; (2) complétude ; (3) cohérence ; (4) exactitude, que dbt vérifie seul grâce au test `relationships`"
+      ],
+      "answer": 1,
+      "explanation": "Le tableau de L170 associe `maj_le ≥ cree_le` à la cohérence, un `client_id` nul à la complétude et un statut hors de l'énumération à la validité. L'écart avec la comptabilité relève de l'exactitude : c'est la seule dimension qu'on ne peut presque jamais vérifier avec la table seule, il faut une référence externe. La fraîcheur porte sur l'âge de la dernière mise à jour, pas sur l'ordre de deux dates d'une même ligne.",
+      "source": {
+        "title": "dbt — Data tests",
+        "url": "https://docs.getdbt.com/docs/build/data-tests"
+      }
+    },
+    {
+      "id": "N5-E64",
+      "lessonId": "L171",
+      "competence": "C5.4",
+      "type": "mise_en_situation",
+      "q": "Le contrat ODCS de `commandes` est en version 1.3.0. L'équipe ventes veut renommer `montant_ttc` en `total_ttc` sans couper ses trois consommateurs (BI, modèle d'attrition, assistant SAV). Quel plan suivez-vous ?",
+      "options": [
+        "Renommer la colonne en 1.3.1, un renommage ne changeant que le nom, puis prévenir les consommateurs sur le canal de support du contrat",
+        "Renommer la colonne en 2.0.0 le jour même, en l'annonçant sur le canal du contrat : la version majeure suffit à prévenir la casse",
+        "Ajouter `total_ttc` alimentée en double (1.4.0), faire migrer, vérifier par le lignage, puis supprimer `montant_ttc` en 2.0.0 après préavis",
+        "Ajouter `total_ttc` en 2.0.0, puis supprimer `montant_ttc` en 2.1.0 dès que la BI a basculé, sans attendre les deux autres consommateurs"
+      ],
+      "answer": 2,
+      "explanation": "Un renommage est cassant : toutes les requêtes qui citent l'ancienne colonne échouent (L171). La démarche expand/contract l'évite : EXPAND (nouvelle colonne facultative alimentée en double, version mineure), MIGRER (prévenir les consommateurs), VÉRIFIER (le lignage montre que plus aucun modèle ne lit `montant_ttc`), CONTRACT (suppression en version majeure, après la date de préavis annoncée). Un correctif (x.y.1) est réservé aux descriptions, et une version majeure publiée le jour même ne laisse aucune période de double diffusion.",
+      "source": {
+        "title": "Bitol — Open Data Contract Standard (dépôt officiel)",
+        "url": "https://github.com/bitol-io/open-data-contract-standard"
+      }
+    },
+    {
+      "id": "N5-E65",
+      "lessonId": "L172",
+      "competence": "C5.4",
+      "type": "mise_en_situation",
+      "q": "Quatre tâches attendent chez Bréval : (a) décider si le contrôle de gestion peut lire les marges par client ; (b) rédiger la définition « commande livrée » du glossaire ; (c) mettre en place la politique d'accès par ligne qui a été décidée ; (d) inscrire ce nouvel usage au registre des traitements. Quelle répartition des rôles est conforme à L172 ?",
+      "options": [
+        "(a) dépositaire, l'équipe data ; (b) steward ; (c) propriétaire des données ; (d) DPO",
+        "(a) propriétaire des données ; (b) steward ; (c) dépositaire, l'équipe data ; (d) DPO",
+        "(a) DPO ; (b) propriétaire des données ; (c) dépositaire, l'équipe data ; (d) steward",
+        "(a) propriétaire des données ; (b) dépositaire, l'équipe data ; (c) steward ; (d) consommateur"
+      ],
+      "answer": 1,
+      "explanation": "Le propriétaire décide des usages et des accès ; le steward tient les définitions métier et le glossaire (chez Bréval, l'assistante ADV) ; le dépositaire, souvent l'équipe data, assure stockage, sécurité technique et pipelines, donc la mise en œuvre de la politique décidée ; la DPO veille à la conformité RGPD et tient le registre des traitements. L172 insiste : des rôles avant des outils, faute de quoi un catalogue reste sans description métier ni personne pour répondre.",
+      "source": {
+        "title": "OpenMetadata",
+        "url": "https://open-metadata.org/"
+      }
+    },
+    {
+      "id": "N5-E66",
+      "lessonId": "L174",
+      "competence": "C5.4",
+      "type": "mise_en_situation",
+      "q": "Un prestataire livre à Bréval des tickets SAV « anonymisés » : chaque nom de client y est remplacé par `PERSONNE_7f3a`, `PERSONNE_91c2`…, et il conserve la table de correspondance « au cas où ». Il en conclut que le RGPD ne s'applique plus et propose d'indexer ces tickets sans durée de conservation ni contrôle d'accès. Quelle est votre analyse ?",
+      "options": [
+        "C'est une anonymisation : sans la table de correspondance, personne ne peut réidentifier ; seul le prestataire reste soumis au RGPD",
+        "C'est une pseudonymisation : la donnée reste personnelle, le RGPD s'applique (finalité, conservation, accès, effacement jusqu'à l'index)",
+        "C'est une anonymisation, dès lors que la table de correspondance est chiffrée au repos et conservée par un tiers de confiance",
+        "C'est une pseudonymisation, qui sort du RGPD dès que les tickets ne contiennent plus aucun numéro de téléphone en clair"
+      ],
+      "answer": 1,
+      "explanation": "L174 le dit sans ambiguïté : remplacer « Claire Martin » par `PERSONNE_7f3a` avec une table de correspondance (ou une clé) est une pseudonymisation, et la donnée reste personnelle au sens du RGPD. L'anonymisation suppose qu'aucune réidentification ne soit raisonnablement possible, ce qui est très difficile sur du texte libre : dans le doute, on traite la donnée comme personnelle. Les principes s'appliquent donc : conservation limitée, contrôle d'accès, et droits des personnes propagés jusqu'à l'index vectoriel.",
+      "source": {
+        "title": "CNIL — Les fiches pratiques IA",
+        "url": "https://cnil.fr/fr/les-fiches-pratiques-ia"
+      }
+    },
+    {
+      "id": "N5-E67",
+      "lessonId": "L173",
+      "competence": "C5.6",
+      "type": "mise_en_situation",
+      "q": "Le moniteur de volume de `commandes` lève une alerte si |z| > 3, avec un z-score calculé sur les 28 derniers jours, tous jours confondus. L'historique compte 24 jours ouvrés à environ 3 000 commandes et 4 dimanches à environ 200. Un mardi, une ingestion partielle ne charge que 40 commandes. Que se passe-t-il ?",
+      "options": [
+        "Une alerte : avec z ≈ −2,6, le seuil est franchi dès que la moyenne historique descend sous 3 000 commandes par jour",
+        "Une alerte : moyenne 3 000 et écart-type presque nul sur les jours ouvrés, donc z très inférieur à −3 pour ce mardi",
+        "Aucune alerte, et c'est normal : un z-score ne signale que les hausses, une baisse relève du pilier fraîcheur",
+        "Aucune alerte : moyenne 2 600, écart-type ≈ 998 à cause des dimanches, z ≈ −2,6 ; il faut comparer au même jour de la semaine"
+      ],
+      "answer": 3,
+      "explanation": "Sur 28 jours mélangés, la moyenne vaut (24 × 3 000 + 4 × 200) / 28 = 2 600 et l'écart-type ≈ 998 : z = (40 − 2 600) / 998 ≈ −2,57, sous le seuil. Les dimanches gonflent l'écart-type et masquent un effondrement réel du volume, alors que chaque dimanche frôle lui-même l'alerte (z ≈ −2,4). C'est le piège de saisonnalité de L173 : comparez au même jour de la semaine, ou utilisez un outil qui modélise la saisonnalité.",
+      "source": {
+        "title": "DataDriven — Data Observability: 5 Pillars and Tools (2026)",
+        "url": "https://datadriven.io/data-observability"
+      }
+    },
+    {
+      "id": "N5-E68",
+      "lessonId": "L173",
+      "competence": "C5.6",
+      "type": "mise_en_situation",
+      "q": "Trois anomalies le même matin : (A) l'assistant SAV communique à des clients des délais de livraison faux depuis 07:30 ; (B) le tableau de bord interne des marges par agence est vide depuis la nuit ; (C) le taux de `client_id` nuls des tickets dérive lentement de 0,5 % à 0,9 % en un mois, sans impact constaté. Comment les traitez-vous selon la grille de L173 ?",
+      "options": [
+        "B en SEV1, car la direction en dépend ; A en SEV2, l'assistant n'étant qu'un outil d'aide ; C en SEV3, planifiée",
+        "A et B en SEV1, toute donnée fausse ou absente étant critique ; C ignorée tant qu'elle reste sous le seuil de 1 %",
+        "A en SEV1, prise en charge immédiate et coupure du flux si besoin ; B en SEV2, dans la journée ; C en SEV3, planifiée",
+        "A en SEV1 ; B en SEV3, faute d'impact hors de l'entreprise ; C en SEV2, une dérive lente finissant toujours en incident"
+      ],
+      "answer": 2,
+      "explanation": "La grille de L173 classe en SEV1 une donnée fausse exposée à des clients ou à une décision réglementaire (l'exemple donné est un assistant SAV qui communique de faux montants), avec prise en charge immédiate et coupure du flux si besoin. Un tableau de bord ou un modèle interne faux ou absent est SEV2 (dans la journée), une anomalie sans impact avéré ou une dérive lente SEV3 (planifiée). Chaque incident traité doit ensuite produire au moins une règle nouvelle au post-mortem.",
+      "source": {
+        "title": "Elementary — documentation",
+        "url": "https://docs.elementary-data.com/"
+      }
+    },
+    {
+      "id": "N5-E69",
+      "lessonId": "L175",
+      "competence": "C5.5",
+      "type": "mise_en_situation",
+      "q": "Le pipeline de corpus de Bréval garde pour chaque document un `doc_id` stable (identifiant métier) et le `sha256` du fichier. Cette nuit : PRC-014 a été réenregistré sans aucune modification de contenu ; FT-012 a reçu une nouvelle version sous le même identifiant ; NOTE-005 est apparu. Que doit retraiter l'ingestion incrémentale ?",
+      "options": [
+        "Les trois documents : un réenregistrement change la date du fichier, ce qui suffit à le traiter comme une nouvelle version",
+        "NOTE-005 seulement : FT-012 a gardé son `doc_id`, l'ingestion le considère donc comme un document déjà traité",
+        "FT-012 seulement : NOTE-005 n'a pas encore d'empreinte de référence et attend le prochain recalcul complet du corpus",
+        "FT-012 (même `doc_id`, `sha256` différent : il a changé) et NOTE-005 (nouveau `doc_id`) ; PRC-014, d'empreinte identique, est ignoré"
+      ],
+      "answer": 3,
+      "explanation": "L175 recommande deux empreintes : le `doc_id` dit « c'est le même document », le `sha256` du fichier dit « il a changé ». Un fichier réenregistré à l'identique garde la même empreinte de contenu, une nouvelle version garde son `doc_id` mais change de `sha256`, et un nouveau `doc_id` est un ajout. C'est la base de l'ingestion incrémentale de M37, où Presidio n'est relancé que si l'empreinte de la source ou la version du traitement a changé (L182).",
+      "source": {
+        "title": "UPPMAX LLM workshop — Data pipelines",
+        "url": "https://uppmax.github.io/LLM-workshop/day2/data_pipelines"
+      }
+    },
+    {
+      "id": "N5-E70",
+      "lessonId": "L176",
+      "competence": "C5.5",
+      "type": "trouve_erreur",
+      "q": "Le corpus RAG de Bréval est trié par `doc_id` : CGV-2024-PRO, CGV-2025-PRO, puis CGV-2026-PRO. Après la déduplication sémantique ci-dessous (similarité cosinus `sim`), l'assistant cite les conditions de 2024. Où est l'erreur ?\n\n```python\nfor i in range(len(docs)):\n    if i in a_retirer:\n        continue\n    for j in np.where(sim[i] > 0.95)[0]:\n        if j > i:\n            a_retirer.add(int(j))\n```",
+      "options": [
+        "La survie dépend de l'ordre du fichier : il faut garder la version en vigueur (`version`/`date_maj` de `documents.csv`) et archiver les autres",
+        "Le seuil de 0,95 est trop bas : à 0,99, les trois CGV resteraient dans le corpus et l'assistant choisirait de lui-même la plus pertinente",
+        "Le `continue` saute les documents déjà retirés : sans lui, la boucle comparerait aussi la CGV 2026 et la conserverait à la place de 2024",
+        "Les CGV auraient dû passer par MinHash plutôt que par la similarité cosinus, qui ignore les différences de dates entre documents"
+      ],
+      "answer": 0,
+      "explanation": "Le code garde le document d'indice le plus petit et retire ses voisins à plus de 0,95 : avec un tri par `doc_id`, c'est la CGV 2024 qui survit. L176 prévient que les CGV 2024, 2025 et 2026 sont sémantiquement presque identiques : il faut garder la version en vigueur (la plus récente `version`/`date_maj` de `documents.csv`) et archiver les autres, pas en garder une au hasard ; la règle de survie se décide avec le métier. Sans le `continue`, la CGV 2026 serait retirée de la même façon, et changer de seuil ou de méthode de comparaison ne règle pas ce choix.",
+      "source": {
+        "title": "Leskovec, Rajaraman, Ullman — Mining of Massive Datasets (ch. 3, Finding Similar Items)",
+        "url": "http://www.mmds.org"
+      }
+    },
+    {
+      "id": "N5-E71",
+      "lessonId": "L177",
+      "competence": "C5.5",
+      "type": "mise_en_situation",
+      "q": "Quatre usages des tickets SAV de Bréval : (1) le corpus RAG, où l'IBAN d'un client n'a aucune utilité ; (2) l'écran d'un agent SAV qui doit reconnaître le numéro à rappeler ; (3) l'analyse d'un fil de conversation où il faut savoir que deux messages viennent de la même personne ; (4) un litige où l'identité doit pouvoir être retrouvée, de façon tracée. Quel opérateur choisir pour chacun ?",
+      "options": [
+        "(1) `mask` ; (2) `replace` ; (3) `hash` SHA-256 simple, stable et irréversible ; (4) `encrypt`, réversible avec la clé",
+        "(1) `replace` ; (2) `mask` ; (3) `hash` SHA-256 simple, stable et irréversible ; (4) pseudonyme HMAC, réversible sans clé",
+        "(1) `encrypt`, pour pouvoir réutiliser l'IBAN ; (2) `mask` ; (3) `replace` ; (4) pseudonyme cohérent par HMAC à clé secrète",
+        "(1) `replace` ; (2) `mask` ; (3) pseudonyme cohérent par HMAC à clé secrète ; (4) `encrypt`, réversible avec la clé"
+      ],
+      "answer": 3,
+      "explanation": "Le tableau de L177 associe `replace` (`<IBAN>`) au corpus RAG, `mask` (`06 •• •• •• 78`) à l'affichage partiel pour un agent, le pseudonyme cohérent par HMAC au suivi d'une conversation sans l'identité, et `encrypt` (AES, `DeanonymizeEngine`) à la réidentification autorisée et tracée. Un SHA-256 simple est vulnérable : quelques centaines de millions de numéros français se hachent en quelques minutes. Un HMAC n'est pas réversible sans la clé, et son résultat reste une donnée personnelle (L174).",
+      "source": {
+        "title": "Microsoft Presidio — Data Protection and De-identification SDK",
+        "url": "https://microsoft.github.io/presidio"
+      }
+    },
+    {
+      "id": "N5-E72",
+      "lessonId": "L178",
+      "competence": "C5.5",
+      "type": "mise_en_situation",
+      "q": "Avec `chunker.py` de L178 (`chunk_id = sha256(doc_id | chunking_v | position | texte)`, où `position` est le rang du chunk dans le document), PRC-014 compte 12 sections courtes, une par chunk. Deux scénarios indépendants : (a) une coquille est corrigée dans la section 7 ; (b) une section « Objet » est insérée avant la première. Combien d'embeddings l'anti-jointure sur `(chunk_id, modele_v)` fait-elle calculer dans chaque cas ?",
+      "options": [
+        "(a) 1, seul le chunk 7 change d'identifiant ; (b) 13, car toutes les positions sont décalées et tous les identifiants changent",
+        "(a) 1 ; (b) 1 : seul le chunk inséré est nouveau, les 12 autres textes étant identiques à ceux déjà vectorisés",
+        "(a) 12, toute modification changeant le `sha256` du document et donc tous ses `chunk_id` ; (b) 13",
+        "(a) 6, les chunks 7 à 12 étant décalés par la correction ; (b) 13, l'insertion décalant toutes les positions"
+      ],
+      "answer": 0,
+      "explanation": "L'identifiant combine le document, la version de chunking, la position et le texte : rejouer sans changement redonne les mêmes `chunk_id`, d'où un upsert idempotent. En (a), seul le texte du chunk 7 change et les positions restent les mêmes : un nouvel identifiant, donc un embedding. En (b), chaque chunk existant passe à la position suivante : ses identifiants changent alors que ses textes sont identiques, et l'anti-jointure fait recalculer les 13 vecteurs. Le `sha256` du document n'entre pas dans la clé.",
+      "source": {
+        "title": "Qdrant — documentation",
+        "url": "https://qdrant.tech/documentation/"
+      }
+    },
+    {
+      "id": "N5-E73",
+      "lessonId": "L179",
+      "competence": "C5.5",
+      "type": "mise_en_situation",
+      "q": "Le marketing veut confier à une agence externe un jeu de 600 clients et leurs commandes, généré par SDV à partir de 300 clients réels de Bréval, « puisque c'est synthétique, donc anonyme ». Votre mesure de DCR montre que 3 % des commandes synthétiques sont à distance quasi nulle d'une commande réelle, dont le seul panier à 12 000 € d'un client de Redon. Que décidez-vous ?",
+      "options": [
+        "Le partager : une donnée produite par un modèle génératif n'est jamais une donnée personnelle, quelle que soit la DCR mesurée",
+        "Le partager après avoir retiré les seules lignes à DCR nulle : les autres ne peuvent plus rien révéler des clients réels",
+        "Le partager si le score `evaluate_quality` est élevé : un bon score de qualité statistique garantit aussi la confidentialité du jeu",
+        "Ne pas le partager : retirer ou généraliser les valeurs rares avant l'apprentissage, remesurer la DCR, étiqueter le jeu synthétique"
+      ],
+      "answer": 3,
+      "explanation": "L179 prévient qu'une donnée synthétique n'est pas automatiquement anonyme : un générateur qui a mémorisé un cas rare peut le reproduire, et une DCR quasi nulle signale une recopie. La démarche est de retirer ou généraliser les valeurs rares avant l'apprentissage, de remesurer, et d'étiqueter le jeu comme synthétique dans le catalogue, avec la version des données réelles d'origine. Le score de qualité mesure la ressemblance statistique, pas la confidentialité, et retirer quelques lignes après coup laisse le générateur inchangé.",
+      "source": {
+        "title": "SDV — documentation",
+        "url": "https://docs.sdv.dev/sdv"
+      }
+    },
+    {
+      "id": "N5-E74",
+      "lessonId": "L179",
+      "competence": "C5.5",
+      "type": "mise_en_situation",
+      "q": "Le modèle d'attrition de Bréval a été entraîné avec `nb_commandes_90j` calculé en SQL dans un notebook, commandes annulées comprises. En production, l'API recalcule cette feature en Python sur les seules commandes livrées ou facturées. Les performances s'effondrent, alors que le jeu de test était bon. Quel est le diagnostic, et la parade ?",
+      "options": [
+        "Une fuite temporelle : il faut remplacer la jointure du jeu d'entraînement par un `ASOF JOIN` point-in-time sur la date d'étiquette",
+        "Une contamination du jeu de test : il faut rechercher les 13-grammes communs entre les jeux d'entraînement et de test, puis les retirer",
+        "Un *training-serving skew* : deux définitions de la feature ; n'en garder qu'une, versionnée (modèle dbt, SQL partagé ou feature store)",
+        "Une dérive de schéma de `commandes` : il suffit d'ajouter un moniteur d'empreinte des colonnes sur la table source du modèle"
+      ],
+      "answer": 2,
+      "explanation": "L179 nomme ce piège *training-serving skew* : la feature est calculée différemment à l'entraînement et en production, et le modèle reçoit des valeurs qui n'ont pas la même définition. Un feature store comme Feast, ou au minimum une seule définition versionnée, l'évite. Une fuite temporelle ou une contamination gonfleraient les scores de test, mais la cause décrite ici est l'écart de définition entre les deux chemins de calcul.",
+      "source": {
+        "title": "Feast — Feature repository",
+        "url": "https://docs.feast.dev/getting-started/concepts/feature-repo"
+      }
+    },
+    {
+      "id": "N5-E75",
+      "lessonId": "L180",
+      "competence": "C5.4",
+      "type": "mise_en_situation",
+      "q": "Pour le dossier de Bréval Assist, la DPO examine quatre propositions de traitement des données personnelles. Laquelle respecte la minimisation telle que L180 la décrit ?",
+      "options": [
+        "Tickets : HMAC des noms et e-mails, téléphones remplacés ; procédures : nom et téléphone retirés par principe ; registre RGPD : purgé des `client_id`",
+        "Tickets : texte conservé tel quel, accès réservé au SAV ; procédures : nom et téléphone du responsable gardés ; registre RGPD : `client_id` conservé",
+        "Tickets : HMAC des noms et e-mails, téléphones remplacés ; procédures : nom du responsable gardé, téléphone remplacé ; registre RGPD : `client_id` conservé",
+        "Tickets : téléphones hachés en SHA-256 ; procédures : nom du responsable gardé, téléphone remplacé ; registre RGPD : vidé après un mois"
+      ],
+      "answer": 2,
+      "explanation": "Le tableau de L180 pseudonymise par HMAC les noms et e-mails des tickets et remplace les téléphones, conserve le nom du responsable des procédures (utile : « à qui m'adresser ? ») en renvoyant le téléphone vers l'annuaire, et garde le `client_id` du registre RGPD, sur la base d'une obligation légale, pour exclure et supprimer les chunks. La minimisation consiste à garder ce qui sert la finalité et à documenter pourquoi, pas à tout retirer par principe ; un SHA-256 simple sur des téléphones se retrouve par dictionnaire (L177).",
+      "source": {
+        "title": "CNIL — Développement des systèmes d'IA : les recommandations de la CNIL pour respecter le RGPD",
+        "url": "https://www.cnil.fr/fr/developpement-des-systemes-dia-les-recommandations-de-la-cnil-pour-respecter-le-rgpd"
+      }
+    },
+    {
+      "id": "N5-E76",
+      "lessonId": "L181",
+      "competence": "C5.2",
+      "type": "mise_en_situation",
+      "q": "Le consommateur `cdc_vers_bronze.py` de L181 a écrit `p0-o1000-2999.parquet` (2 000 événements de `breval.erp.commandes`, partition 0, sans suppression donc sans tombstone), puis il a été tué avant le `commit`. Au redémarrage, il relit depuis l'offset 1000 et écrit `p0-o1000-3499.parquet`. `bronze.cdc_evenements` contenait déjà les offsets 0 à 999 de cette partition. Combien de nouveaux événements `charger_cdc` annonce-t-il ?",
+      "options": [
+        "4 500 : chaque fichier Parquet est immuable et numéroté par ses offsets, il est donc chargé en entier, une seule fois",
+        "2 000 : le second fichier recouvre le premier, et `INSERT OR IGNORE` écarte donc tout le fichier `p0-o1000-3499`",
+        "2 500 : les 4 500 lignes lues sont dédoublonnées par `(_topic, _partition, _offset)` ; les offsets 1000 à 3499 sont nouveaux",
+        "500 : seuls les offsets 3000 à 3499 sont nouveaux, l'écriture du premier fichier ayant validé les autres"
+      ],
+      "answer": 2,
+      "explanation": "Un arrêt entre l'écriture et le `commit` fait relire le lot : c'est le « au moins une fois », et un même message peut figurer dans deux fichiers (L181). `charger_cdc` lit tous les fichiers, garde une ligne par triplet `(_topic, _partition, _offset)` puis insère avec `INSERT OR IGNORE` sur la clé primaire : les 4 500 lignes lues donnent 2 500 offsets distincts (1000 à 3499), tous absents de la table. Seul le `commit` Kafka valide une position ; l'écriture d'un fichier ne valide rien.",
+      "source": {
+        "title": "Debezium — documentation",
+        "url": "https://debezium.io/documentation/"
+      }
+    },
+    {
+      "id": "N5-E77",
+      "lessonId": "L182",
+      "competence": "C5.5",
+      "type": "mise_en_situation",
+      "q": "Pour gagner du temps, un collègue réordonne `rag/preparer.py` : (1) découper chaque document en chunks ; (2) passer Presidio sur chaque chunk ; (3) appliquer MinHash/LSH aux chunks pour retirer les quasi-doublons. Quelles conséquences pouvez-vous annoncer ?",
+      "options": [
+        "Aucune : Presidio et MinHash donnent les mêmes résultats sur des chunks que sur des documents, seul le temps de calcul change",
+        "Des téléphones coupés entre deux chunks échappent aux détecteurs, et des chunks d'anciennes versions survivent à la déduplication",
+        "Presidio devient plus précis sur des textes courts, mais MinHash échoue, car il exige des documents d'au moins 100 mots",
+        "Les gabarits ne sont plus détectés, car une section répétée n'apparaît qu'à l'échelle d'un document entier, jamais d'un chunk"
+      ],
+      "answer": 1,
+      "explanation": "L182 pose trois règles d'ordre : PII avant chunking, car un numéro coupé (« 06 39 » | « 98 19 40 ») échappe aux détecteurs ; déduplication avant chunking, car on compare des documents et une ancienne version doit disparaître en entier avec tous ses chunks ; incrémental par empreinte. Dédupliquer des morceaux retirerait certains chunks d'une ancienne version et en laisserait d'autres. La détection des gabarits, elle, porte justement sur des corps de chunks identiques présents dans au moins 5 documents.",
+      "source": {
+        "title": "Microsoft Presidio — Data Protection and De-identification SDK",
+        "url": "https://microsoft.github.io/presidio"
+      }
+    },
+    {
+      "id": "N5-E78",
+      "lessonId": "L183",
+      "competence": "C5.6",
+      "type": "mise_en_situation",
+      "q": "Entre deux micro-batchs de Bréval Assist : PRC-024 passe en `restreint` sans changement de texte (8 chunks indexables) ; une coquille est corrigée dans une section de PRC-014 (1 chunk modifié, les autres inchangés) ; FT-BRV-ELE-00005 est supprimé dans la GED et `indexeur_suppressions.py` a déjà retiré ses 3 points ; 2 nouveaux tickets donnent 1 chunk chacun. Que renvoie `synchroniser()`, et combien d'embeddings ont été calculés ?",
+      "options": [
+        "3 insérés, 8 droits mis à jour, 1 supprimé ; 3 embeddings calculés",
+        "11 insérés, 0 droit mis à jour, 4 supprimés ; 11 embeddings calculés",
+        "3 insérés, 8 droits mis à jour, 4 supprimés ; 3 embeddings calculés",
+        "3 insérés, 8 droits mis à jour, 1 supprimé ; 11 embeddings calculés"
+      ],
+      "answer": 0,
+      "explanation": "`synchroniser()` compare l'attendu (`silver.rag_chunks` indexables) au présent (points lus par `scroll`) : sont insérés les chunks attendus absents (le nouveau chunk de PRC-014 et les 2 tickets), mis à jour par `set_payload` les chunks de même identifiant dont le `droits_hash` change (les 8 de PRC-024), supprimés les points présents non attendus (l'ancien chunk de PRC-014). Les 3 points de la fiche, déjà retirés par le flux, ne sont ni attendus ni présents. L'anti-jointure sur `(chunk_id, modele_v)` ne calcule que les 3 nouveaux vecteurs : un changement de droits ne revectorise rien.",
+      "source": {
+        "title": "Qdrant — documentation",
+        "url": "https://qdrant.tech/documentation/"
+      }
+    },
+    {
+      "id": "N5-E79",
+      "lessonId": "L184",
+      "competence": "C5.6",
+      "type": "mise_en_situation",
+      "q": "Lundi 08:20, deux moniteurs de Bréval Assist sonnent ensemble : `fuites_droits` = 2 (deux questions posées avec le profil de Karim ont reçu des chunks de PRC-001, document restreint) et `recall_at_5` = 0,76. Que prévoit le runbook de L184, et dans quel ordre ?",
+      "options": [
+        "D'abord l'incident sécurité : basculer l'alias sur la dernière collection saine et prévenir la DPO ; puis analyser les questions ratées par type",
+        "D'abord le rappel : augmenter k et réindexer en production pour repasser au-dessus de 0,80, puis traiter les fuites de droits au prochain run planifié",
+        "Supprimer PRC-001 de l'index et de la GED pour faire cesser la fuite, puis relancer `rag_quart_heure` pour corriger le rappel de la collection",
+        "Traiter les deux comme des écarts de volume : relancer `rag_quart_heure` et, à défaut, reconstruire la collection à partir de silver"
+      ],
+      "answer": 0,
+      "explanation": "Dans le tableau « Alertes → actions » du runbook de L184, `fuites_droits > 0` est un INCIDENT SÉCURITÉ : on bascule l'alias sur la dernière collection saine et on prévient la DPO. Pour `recall_at_5 < 0,80`, la consigne est d'analyser les questions ratées par type avant de changer un paramètre, jamais directement en production. Supprimer un document légitime de la GED ne corrige pas la cause, et la relance de `rag_quart_heure` répond à l'alerte `ecart_index_silver`.",
+      "source": {
+        "title": "Dagster — documentation",
+        "url": "https://docs.dagster.io/"
+      }
+    },
+    {
+      "id": "N5-E80",
+      "lessonId": "L184",
+      "competence": "C5.6",
+      "type": "mise_en_situation",
+      "q": "Pour accélérer le micro-batch, un collègue passe le job Dagster `rag_quart_heure` sur un exécuteur multiprocessus. Depuis, des runs échouent au hasard avec « could not set lock on file » sur `data/breval.duckdb`, et `ecart_index_silver` affiche 9 180 points pour 9 326 chunks attendus. Quelle analyse retenez-vous ?",
+      "options": [
+        "Le verrou vient de Qdrant, qui refuse les upserts concurrents : ajouter des relances suffit, et un écart de 1,6 % reste dans la tolérance de 2 %",
+        "Le fichier DuckDB est corrompu : le restaurer depuis la veille, puis lancer une ré-indexation complète par API, imposée par un écart de 1,6 %",
+        "Le verrou est normal pendant un `dbt build` : il suffit d'attendre le run suivant, l'écart de 1,6 % se résorbant seul en 15 minutes",
+        "DuckDB n'accepte qu'un écrivain : revenir à `in_process_executor` (ou une base serveur) et relancer `rag_quart_heure`, l'écart de 1,6 % dépassant le seuil de 1 %"
+      ],
+      "answer": 3,
+      "explanation": "L184 range l'« exécuteur parallèle avec DuckDB » parmi les erreurs fréquentes : DuckDB n'autorise qu'un processus écrivain à la fois (L165), d'où des runs en échec aléatoire ; la parade est `in_process_executor` ou une base serveur (Postgres) pour les tables partagées. Le moniteur de volume calcule |9 326 − 9 180| / 9 326 ≈ 1,6 %, au-delà du seuil de 1 % ; le runbook prévoit alors de relancer `rag_quart_heure`, et à défaut de reconstruire l'index. Rien n'indique une corruption, et attendre laisserait l'index désynchronisé.",
+      "source": {
+        "title": "Dagster — documentation",
+        "url": "https://docs.dagster.io/"
+      }
+    }
+  ]
+}

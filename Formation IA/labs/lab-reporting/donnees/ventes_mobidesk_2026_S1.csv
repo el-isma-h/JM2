@@ -1,0 +1,25 @@
+date,commande,commercial,region,categorie,produit,quantite,prix_unitaire_ht,montant_ht
+2026-01-06,C-1001,Aïcha Benali,Île-de-France,Mobilier,Bureau Oslo,4,349.00,1396.00
+2026-01-13,C-1002,Thomas Roussel,Auvergne-Rhône-Alpes,Éclairage,Lampe Halo,12,59.90,718.80
+2026-01-20,C-1003,Léa Martin,Nouvelle-Aquitaine,Mobilier,Fauteuil Ergo+,3,289.00,867.00
+2026-01-27,C-1004,Aïcha Benali,Île-de-France,Consommables,Pack papeterie,25,18.50,462.50
+2026-02-03,C-1005,Thomas Roussel,Auvergne-Rhône-Alpes,Mobilier,Bureau Oslo,2,349.00,698.00
+2026-02-10,C-1006,Léa Martin,Nouvelle-Aquitaine,Rangement,Caisson Nova,6,129.00,774.00
+2026-02-17,C-1007,Aïcha Benali,Île-de-France,Mobilier,Fauteuil Ergo+,8,289.00,2312.00
+2026-02-24,C-1008,Thomas Roussel,Auvergne-Rhône-Alpes,Consommables,Pack papeterie,40,18.50,740.00
+2026-03-03,C-1009,Léa Martin,Nouvelle-Aquitaine,Éclairage,Lampe Halo,20,59.90,1198.00
+2026-03-10,C-1010,Aïcha Benali,Île-de-France,Rangement,Caisson Nova,10,129.00,1290.00
+2026-03-17,C-1011,Thomas Roussel,Auvergne-Rhône-Alpes,Mobilier,Fauteuil Ergo+,5,289.00,1445.00
+2026-03-24,C-1012,Léa Martin,Nouvelle-Aquitaine,Mobilier,Bureau Oslo,6,349.00,2094.00
+2026-04-07,C-1013,Aïcha Benali,Île-de-France,Éclairage,Lampe Halo,30,59.90,1797.00
+2026-04-14,C-1014,Thomas Roussel,Auvergne-Rhône-Alpes,Rangement,Caisson Nova,4,129.00,516.00
+2026-04-21,C-1015,Léa Martin,Nouvelle-Aquitaine,Consommables,Pack papeterie,60,18.50,1110.00
+2026-04-28,C-1016,Aïcha Benali,Île-de-France,Mobilier,Bureau Oslo,-1,349.00,-349.00
+2026-05-05,C-1017,Thomas Roussel,Auvergne-Rhône-Alpes,Mobilier,Fauteuil Ergo+,10,289.00,2890.00
+2026-05-12,C-1018,Léa Martin,Nouvelle-Aquitaine,Rangement,Caisson Nova,8,129.00,1032.00
+2026-05-19,C-1019,Aïcha Benali,Île-de-France,Mobilier,Fauteuil Ergo+,12,289.00,3468.00
+2026-05-26,C-1020,Thomas Roussel,Auvergne-Rhône-Alpes,Éclairage,Lampe Halo,15,59.90,898.50
+2026-06-02,C-1021,Léa Martin,Nouvelle-Aquitaine,Mobilier,Bureau Oslo,9,349.00,3141.00
+2026-06-09,C-1022,Aïcha Benali,Île-de-France,Consommables,Pack papeterie,80,18.50,1480.00
+2026-06-16,C-1023,Thomas Roussel,Auvergne-Rhône-Alpes,Mobilier,Bureau Oslo,7,349.00,2443.00
+2026-06-23,C-1024,Léa Martin,Nouvelle-Aquitaine,Éclairage,Lampe Halo,18,59.90,1078.20

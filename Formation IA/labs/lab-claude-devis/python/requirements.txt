@@ -1,0 +1,4 @@
+# Mode simulé (tests hors ligne) : seul pytest est nécessaire.
+pytest>=8
+# Mode réel : décommentez (version du SDK Python v2, oct. 2026 — voir la leçon L077)
+# anthropic>=2.0

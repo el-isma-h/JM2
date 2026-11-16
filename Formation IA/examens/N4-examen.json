@@ -1,0 +1,1624 @@
+{
+  "levelId": "N4",
+  "title": "Examen de certification — Niveau 4 Expert IA",
+  "passScore": 70,
+  "timeLimitMinutes": 60,
+  "bankSize": 80,
+  "drawPerAttempt": 40,
+  "competences": {
+    "C4.1": [
+      "N4-E01",
+      "N4-E02",
+      "N4-E03",
+      "N4-E04",
+      "N4-E05",
+      "N4-E06",
+      "N4-E41",
+      "N4-E42",
+      "N4-E43",
+      "N4-E44",
+      "N4-E45",
+      "N4-E46"
+    ],
+    "C4.2": [
+      "N4-E07",
+      "N4-E08",
+      "N4-E09",
+      "N4-E10",
+      "N4-E11",
+      "N4-E12",
+      "N4-E47",
+      "N4-E48",
+      "N4-E49",
+      "N4-E50",
+      "N4-E51",
+      "N4-E52"
+    ],
+    "C4.3": [
+      "N4-E13",
+      "N4-E14",
+      "N4-E15",
+      "N4-E16",
+      "N4-E17",
+      "N4-E18",
+      "N4-E19",
+      "N4-E20",
+      "N4-E21",
+      "N4-E22",
+      "N4-E23",
+      "N4-E24",
+      "N4-E53",
+      "N4-E54",
+      "N4-E55",
+      "N4-E56",
+      "N4-E57",
+      "N4-E58",
+      "N4-E59",
+      "N4-E60",
+      "N4-E61",
+      "N4-E62"
+    ],
+    "C4.4": [
+      "N4-E25",
+      "N4-E26",
+      "N4-E27",
+      "N4-E28",
+      "N4-E29",
+      "N4-E63",
+      "N4-E64",
+      "N4-E65",
+      "N4-E66",
+      "N4-E67",
+      "N4-E68"
+    ],
+    "C4.5": [
+      "N4-E30",
+      "N4-E31",
+      "N4-E32",
+      "N4-E33",
+      "N4-E34",
+      "N4-E35",
+      "N4-E69",
+      "N4-E70",
+      "N4-E71",
+      "N4-E72",
+      "N4-E73",
+      "N4-E74"
+    ],
+    "C4.6": [
+      "N4-E36",
+      "N4-E37",
+      "N4-E38",
+      "N4-E39",
+      "N4-E40",
+      "N4-E75",
+      "N4-E76",
+      "N4-E77",
+      "N4-E78",
+      "N4-E79",
+      "N4-E80"
+    ]
+  },
+  "questions": [
+    {
+      "id": "N4-E01",
+      "lessonId": "L112",
+      "competence": "C4.1",
+      "type": "mise_en_situation",
+      "q": "Petit réseau à deux couches, sans biais : entrée x = (1 ; 2), couche cachée h = ReLU(W₁x) avec W₁ = [[1, −1], [0,5, 0,5]], sortie scalaire y = w₂·h avec w₂ = (2 ; −1), cible t = 0,5 et perte L = ½(y − t)². Que vaut ∂L/∂W₁ ?",
+      "options": [
+        "[[−4, −8], [2, 4]] : on rétropropage (y − t)·w₂ = (−4 ; 2) puis on fait le produit extérieur avec x",
+        "[[0, 0], [2, 4]] : δ₁ = (w₂·(y − t)) ⊙ 1[z₁ > 0] = (0 ; 2), puis ∂L/∂W₁ = δ₁xᵀ",
+        "[[0, 0], [−2, −4]] : le gradient est négatif car la prédiction y = −1,5 est trop basse",
+        "[[0, 2], [0, 4]] : ∂L/∂W₁ = x·δ₁ᵀ, le produit extérieur se prend dans l'ordre entrée puis erreur"
+      ],
+      "answer": 1,
+      "explanation": "Passe avant : z₁ = W₁x = (−1 ; 1,5), h = (0 ; 1,5), y = −1,5, L = 2. Passe arrière : ∂L/∂y = y − t = −2, ∂L/∂h = −2·w₂ = (−4 ; 2), le masque ReLU (0 ; 1) annule la première composante, d'où δ₁ = (0 ; 2) et ∂L/∂W₁ = δ₁xᵀ = [[0, 0], [2, 4]] (vérifié par différences finies). Oublier le masque ReLU donne la première ligne (−4, −8) ; transposer le produit extérieur donne une matrice de forme correcte mais fausse. C'est la formule de L112 : ∂L/∂W = δxᵀ, le gradient des poids est un produit extérieur entre l'erreur et l'entrée.",
+      "source": {
+        "title": "PyTorch — A Gentle Introduction to torch.autograd",
+        "url": "https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html"
+      }
+    },
+    {
+      "id": "N4-E02",
+      "lessonId": "L113",
+      "competence": "C4.1",
+      "type": "mise_en_situation",
+      "q": "Un classifieur à 3 classes produit, sur un mini-lot de 3 exemples, les logits (2,0 ; 0,5 ; −1,0) avec la classe vraie 0, puis (0 ; 0 ; 0) avec la classe vraie 2, puis (1,0 ; 3,0 ; 0,0) avec la classe vraie 0. Que renvoie `nn.CrossEntropyLoss()` (réduction moyenne, logarithme népérien) ?",
+      "options": [
+        "≈ 0,39 nat : on applique d'abord une softmax aux logits puis on moyenne les probabilités manquées (1 − p_vraie)",
+        "≈ 3,51 nat : la réduction par défaut est la somme des pertes du lot",
+        "≈ 1,69 bit : les pertes de PyTorch sont exprimées en bits (log₂)",
+        "≈ 1,17 nat : (0,241 + 1,099 + 2,170) / 3, chaque terme valant log Σⱼ e^{zⱼ} − z_vraie"
+      ],
+      "answer": 3,
+      "explanation": "Pour chaque exemple, la perte vaut −log softmax(z)_vraie = log Σⱼ e^{zⱼ} − z_vraie : 0,241 pour le premier (bien classé avec confiance), ln 3 ≈ 1,099 pour le deuxième (logits uniformes) et 2,170 pour le troisième (la classe 1 domine). La moyenne vaut ≈ 1,17 nat, soit une perplexité e^{1,17} ≈ 3,2. `CrossEntropyLoss` prend des logits (log-sum-exp stable), utilise le logarithme népérien et moyenne par défaut (`reduction='mean'`), comme l'explique L113.",
+      "source": {
+        "title": "PyTorch — torch.nn.CrossEntropyLoss",
+        "url": "https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html"
+      }
+    },
+    {
+      "id": "N4-E03",
+      "lessonId": "L111",
+      "competence": "C4.1",
+      "type": "mise_en_situation",
+      "q": "Une matrice de poids W ∈ ℝ^(1024×4096) a des valeurs singulières dont la somme des carrés vaut 1 000 ; les 32 premières totalisent 900. Vous la remplacez par son approximation SVD tronquée de rang 32. Quel est le bilan ?",
+      "options": [
+        "Stockage 32 × 1024 × 4096 nombres, car U, Σ et V gardent la taille de W ; erreur relative de 10 %",
+        "Stockage 163 840 nombres et erreur relative de 10 % (100 / 1 000), l'erreur se lisant directement sur les valeurs singulières non élevées au carré",
+        "Stockage ≈ 3,9 % des 4,19 M nombres (32 × 5 120 = 163 840) et erreur relative de Frobenius ≈ 31,6 %, la plus faible possible au rang 32",
+        "Stockage 32² = 1 024 nombres ; l'erreur n'est pas calculable sans connaître les vecteurs singuliers"
+      ],
+      "answer": 2,
+      "explanation": "En gardant r valeurs singulières, on stocke U_r (m×r), Σ_r et V_r (n×r), soit environ r(m + n) nombres : 163 840 au lieu de 4 194 304. L'erreur de Frobenius de la meilleure approximation de rang r est la racine de la somme des carrés des valeurs singulières écartées : √100 / √1000 ≈ 0,316 en relatif (et non 10 %, qui serait le rapport des carrés). C'est le théorème d'Eckart-Young cité en L111, et l'intuition directe de LoRA.",
+      "source": {
+        "title": "Deep Learning (Goodfellow, Bengio, Courville) — chap. 2 Linear Algebra",
+        "url": "https://www.deeplearningbook.org/"
+      }
+    },
+    {
+      "id": "N4-E04",
+      "lessonId": "L114",
+      "competence": "C4.1",
+      "type": "mise_en_situation",
+      "q": "Premier pas d'Adam (lr = 1e-3, β₁ = 0,9, β₂ = 0,999, ε = 1e-8) sur deux paramètres : l'un reçoit un gradient g = 4e-3, l'autre (un embedding de token rare) g = 4e-6. De combien chacun bouge-t-il, avec la correction de biais ?",
+      "options": [
+        "D'environ 1e-3 tous les deux (0,99999e-3 et 0,9975e-3), car m̂/√v̂ ≈ ±1",
+        "De 4e-6 et 4e-9 : Adam reste proportionnel au gradient, comme la descente simple (lr × g)",
+        "D'environ 3,16e-3 tous les deux : la correction de biais multiplie le pas par 1/√(1 − β₂)",
+        "De 1e-3 pour le premier et de 0 pour le second, car ε = 1e-8 écrase un gradient de 4e-6"
+      ],
+      "answer": 0,
+      "explanation": "Au pas 1, m₁ = 0,1·g et v₁ = 0,001·g², donc m̂ = g et v̂ = g² après correction de biais : la mise à jour vaut lr·g/(|g| + ε) ≈ lr. Pour g = 4e-6, ε ne retire que 0,25 % (0,9975e-3). Sans correction de biais, on obtiendrait ≈ 3,16e-3 (0,1/√0,001), d'où l'importance de cette correction. C'est l'« invariance d'échelle » d'Adam décrite en L114 : un paramètre aux gradients minuscules avance autant qu'un paramètre aux gradients énormes, d'où aussi l'utilité du warm-up.",
+      "source": {
+        "title": "Kingma & Ba — Adam: A Method for Stochastic Optimization (arXiv:1412.6980)",
+        "url": "https://arxiv.org/abs/1412.6980"
+      }
+    },
+    {
+      "id": "N4-E05",
+      "lessonId": "L114",
+      "competence": "C4.1",
+      "type": "mise_en_situation",
+      "q": "Près d'un minimum, une perte se comporte comme une quadratique dont la hessienne a pour valeurs propres 0,5 et 50. Vous prenez η = 0,03 en descente de gradient simple. Combien de pas faut-il, environ, pour diviser par 100 l'écart au minimum dans la direction la plus plate ?",
+      "options": [
+        "Aucun : la descente diverge, car η = 0,03 dépasse la limite 1/λ_max = 0,02",
+        "≈ 305 pas : le facteur par pas y vaut 0,985 et ln 0,01 / ln 0,985 ≈ 305",
+        "≈ 3 pas : le facteur 1 − 0,03 × 50 = −0,5 de la direction raide fixe la vitesse globale",
+        "≈ 67 pas : il en faut 1/(ηλ_min) = 1/(0,03 × 0,5), la constante de temps de la direction plate"
+      ],
+      "answer": 1,
+      "explanation": "Dans la base propre, chaque direction évolue avec le facteur 1 − ηλᵢ. La condition de convergence est η < 2/λ_max = 0,04 (et non 1/λ_max) : η = 0,03 converge. La direction raide oscille (facteur −0,5) mais s'écrase vite ; la direction plate (facteur 0,985) impose ≈ 305 pas pour un facteur 100. Le conditionnement κ = 100 explique cette lenteur, et c'est pourquoi on standardise les variables ou on recourt à Adam (L114).",
+      "source": {
+        "title": "Deep Learning (Goodfellow, Bengio, Courville) — chap. 8 Optimization",
+        "url": "https://www.deeplearningbook.org/"
+      }
+    },
+    {
+      "id": "N4-E06",
+      "lessonId": "L113",
+      "competence": "C4.1",
+      "type": "mise_en_situation",
+      "q": "Sur une ligne de production, 0,5 % des pièces sont défectueuses. Un contrôle par vision détecte 98 % des défauts mais signale aussi 3 % des pièces saines. Une pièce est signalée ; on la repasse dans un second contrôle identique et indépendant conditionnellement à son état, qui la signale aussi. Quelle est la probabilité qu'elle soit défectueuse après le premier, puis après le second signalement ?",
+      "options": [
+        "≈ 14 % après le premier signalement, ≈ 84 % après le second (cote a priori × (0,98/0,03)²)",
+        "≈ 98 % dès le premier signalement, puisque le contrôle détecte 98 % des défauts",
+        "≈ 14 % après le premier signalement, ≈ 28 % après le second : les probabilités s'additionnent",
+        "≈ 97 % après le premier signalement (1 − 3 %), ≈ 99,9 % après le second"
+      ],
+      "answer": 0,
+      "explanation": "Bayes : P(défaut | signal) = 0,98 × 0,005 / (0,98 × 0,005 + 0,03 × 0,995) ≈ 0,141. Sous l'hypothèse d'indépendance conditionnelle, on multiplie la cote a priori (0,005/0,995) par le rapport de vraisemblance 0,98/0,03 ≈ 32,7 à chaque signalement : cote ≈ 5,36, soit P ≈ 0,843. Confondre P(signal | défaut) et P(défaut | signal) est l'erreur du « taux de base » que L113 illustre sur la fraude : un score ne se lit jamais sans la prévalence.",
+      "source": {
+        "title": "Stanford CS229 — Machine Learning (notes publiques)",
+        "url": "https://cs229.stanford.edu/"
+      }
+    },
+    {
+      "id": "N4-E07",
+      "lessonId": "L117",
+      "competence": "C4.2",
+      "type": "mise_en_situation",
+      "q": "Un nœud de 100 clients contient 60 « fidèles » et 40 « partants ». Coupure A : gauche 50 clients (45 fidèles, 5 partants), droite 50 (15 fidèles, 35 partants). Coupure B : gauche 30 (30 fidèles, 0 partant), droite 70 (30 fidèles, 40 partants). Quelle coupure CART choisit-il avec l'impureté de Gini ?",
+      "options": [
+        "B : elle produit un enfant parfaitement pur (Gini = 0), ce qui prime toujours",
+        "A et B sont équivalentes : les deux coupures séparent 30 fidèles des partants",
+        "A : baisse de Gini 0,48 − (0,5 × 0,18 + 0,5 × 0,42) = 0,18, contre ≈ 0,137 pour B",
+        "B : sa baisse de Gini vaut 0,48 − 0,49 = −0,01 pour A, qui augmente donc l'impureté"
+      ],
+      "answer": 2,
+      "explanation": "Gini(parent) = 1 − (0,6² + 0,4²) = 0,48. Coupure A : enfants 0,18 et 0,42, pondérés 0,5/0,5, baisse 0,18. Coupure B : enfant gauche pur (0), enfant droit 1 − ((3/7)² + (4/7)²) ≈ 0,490 pondéré par 0,7, baisse ≈ 0,137. L'algorithme glouton de L117 garde la plus forte baisse pondérée, donc A : un enfant pur ne suffit pas si l'autre reste très mélangé et lourd.",
+      "source": {
+        "title": "scikit-learn — Decision Trees",
+        "url": "https://scikit-learn.org/stable/modules/tree.html"
+      }
+    },
+    {
+      "id": "N4-E08",
+      "lessonId": "L119",
+      "competence": "C4.2",
+      "type": "trouve_erreur",
+      "q": "Un modèle de prédiction de résiliation affiche une AUC de 0,97 en validation croisée et de 0,66 en production. Quelle ligne de ce code explique le mieux l'écart ?\n\n```python\ndf[\"nb_tickets_90j\"] = df.groupby(\"client_id\")[\"ticket_date\"].transform(\"count\")    # (1)\ndf[\"taux_resil_secteur\"] = df.groupby(\"secteur\")[\"resilie\"].transform(\"mean\")     # (2)\npipe = Pipeline([(\"imp\", SimpleImputer()), (\"sc\", StandardScaler()),\n                 (\"clf\", HistGradientBoostingClassifier())])                      # (3)\nscores = cross_val_score(pipe, df[FEATURES], df[\"resilie\"], cv=GroupKFold(5),\n                         groups=df[\"client_id\"], scoring=\"roc_auc\")             # (4)\n```",
+      "options": [
+        "La ligne (3) : imputation et standardisation réajustées dans chaque pli rendent les scores des plis incomparables entre eux",
+        "La ligne (4) : `GroupKFold` sur `client_id` répartit les lignes d'un même client entre entraînement et validation",
+        "La ligne (1) : toute agrégation par client, même sans la cible, crée une fuite et doit être supprimée",
+        "La ligne (2) : un taux de résiliation par secteur calculé sur tout le jeu, cibles de validation comprises, hors pipeline (fuite de cible)"
+      ],
+      "answer": 3,
+      "explanation": "Le taux de résiliation moyen du secteur est calculé sur toutes les lignes, cibles des plis de validation comprises : le modèle reçoit une version lissée de la réponse. C'est une fuite de cible typique (L119) : toute étape qui apprend quelque chose des données, a fortiori de la cible, doit vivre dans le pipeline (par exemple `TargetEncoder`, qui fait un ajustement croisé). Les lignes (3) et (4) sont au contraire correctes : prétraitement dans le pipeline et validation par groupes. La ligne (1) n'utilise pas la cible ; elle doit seulement être calculée sur une fenêtre antérieure à la date de prédiction.",
+      "source": {
+        "title": "scikit-learn — Common pitfalls and recommended practices",
+        "url": "https://scikit-learn.org/stable/common_pitfalls.html"
+      }
+    },
+    {
+      "id": "N4-E09",
+      "lessonId": "L116",
+      "competence": "C4.2",
+      "type": "mise_en_situation",
+      "q": "Courbes d'apprentissage d'un modèle de prévision de retard de paiement : avec 2 000, 10 000 puis 50 000 lignes, l'erreur d'entraînement vaut 17 %, 18 %, 18 % et l'erreur de validation 20 %, 19 %, 19 %. L'objectif métier est 10 %. Que recommandez-vous ?",
+      "options": [
+        "Biais élevé : enrichir les variables, prendre un modèle plus expressif ou moins régularisé ; plus de lignes n'aidera guère",
+        "Variance élevée : augmenter la régularisation et doubler la taille du jeu pour réduire l'écart persistant entre les deux courbes",
+        "Sur-apprentissage, puisque l'erreur de validation reste au-dessus de l'erreur d'entraînement à toutes les tailles",
+        "Fuite de données : des courbes aussi proches signalent que la validation a vu les données d'entraînement"
+      ],
+      "answer": 0,
+      "explanation": "Les deux erreurs convergent vers un plateau élevé (≈ 18-19 %) avec un écart faible : c'est la signature du biais élevé décrite en L116. Ajouter des données ne déplace pas un plateau ; il faut augmenter la capacité (variables, interactions, modèle non linéaire, moins de régularisation). Un écart train/validation faible n'indique ni une fuite ni un sur-apprentissage : un léger écart est normal.",
+      "source": {
+        "title": "scikit-learn — Validation curves and learning curves",
+        "url": "https://scikit-learn.org/stable/modules/learning_curve.html"
+      }
+    },
+    {
+      "id": "N4-E10",
+      "lessonId": "L115",
+      "competence": "C4.2",
+      "type": "mise_en_situation",
+      "q": "Sur 10 000 transactions, dont 100 frauduleuses, un modèle en signale 300, dont 80 fraudes réelles. Le responsable se félicite d'une exactitude de 97,6 %. Quelle analyse est correcte ?",
+      "options": [
+        "Précision ≈ 26,7 %, rappel 80 %, F1 = 0,40 ; le modèle « jamais de fraude » ferait 99 % d'exactitude",
+        "Précision 80 %, rappel ≈ 26,7 %, F1 = 0,40 : le modèle rate près de trois fraudes sur quatre",
+        "Exactitude 97,6 % et F1 ≈ 0,976 : sur données déséquilibrées, F1 et exactitude coïncident presque",
+        "Précision ≈ 26,7 %, rappel 80 % ; les 97,6 % d'exactitude prouvent qu'il bat nettement un modèle trivial"
+      ],
+      "answer": 0,
+      "explanation": "VP = 80, FP = 220, FN = 20, VN = 9 680. Précision = 80/300 ≈ 0,267 (près de trois alertes sur quatre sont fausses), rappel = 80/100 = 0,80, F1 = 2PR/(P + R) = 0,40, exactitude = 9 760/10 000 = 97,6 %. Le classifieur constant « jamais de fraude » obtient 99 % d'exactitude : c'est le piège de L115. On pilote ce type de modèle au rappel, à la précision et au coût métier des FP et FN, avec un seuil choisi en conséquence.",
+      "source": {
+        "title": "scikit-learn — Metrics and scoring",
+        "url": "https://scikit-learn.org/stable/modules/model_evaluation.html"
+      }
+    },
+    {
+      "id": "N4-E11",
+      "lessonId": "L118",
+      "competence": "C4.2",
+      "type": "mise_en_situation",
+      "q": "Une PCA sur des données centrées et standardisées donne les valeurs singulières 12, 8, 4, 2 et 1. Combien de composantes faut-il garder pour expliquer au moins 95 % de la variance ?",
+      "options": [
+        "2 composantes : elles expliquent 90,8 % et `PCA(n_components=0.95)` arrondit au nombre entier de composantes inférieur",
+        "3 composantes : variances proportionnelles à s² (144, 64, 16, 4, 1), cumul 62,9 %, 90,8 %, 97,8 %",
+        "4 composantes : (12 + 8 + 4 + 2)/27 ≈ 96,3 %, les valeurs singulières mesurant directement la variance",
+        "1 composante : la première valeur singulière est la plus grande, elle explique donc l'essentiel"
+      ],
+      "answer": 1,
+      "explanation": "La variance expliquée par la composante j est proportionnelle à s_j² (L118 : s_j²/(m − 1)). Total 229 : 144/229 = 62,9 %, puis 208/229 = 90,8 %, puis 224/229 = 97,8 %. Trois composantes suffisent. Raisonner sur les valeurs singulières non élevées au carré sous-estime la concentration de la variance et conduit à garder une composante de trop.",
+      "source": {
+        "title": "scikit-learn — Decomposing signals in components (PCA)",
+        "url": "https://scikit-learn.org/stable/modules/decomposition.html"
+      }
+    },
+    {
+      "id": "N4-E12",
+      "lessonId": "L120",
+      "competence": "C4.2",
+      "type": "mise_en_situation",
+      "q": "En fin de projet, un collègue choisit le seuil de décision qui maximise le F1 sur le jeu de test scellé, puis rapporte ce F1 comme performance attendue. Que lui dites-vous ?",
+      "options": [
+        "Le test a servi à régler le seuil, le score est optimiste : fixer le seuil hors pli, puis lire le test une fois",
+        "C'est correct : le seuil n'est pas un paramètre appris par le modèle, on peut donc l'optimiser sur le test",
+        "Il suffit de rapporter l'intervalle de confiance du F1 : un intervalle large absorbe l'optimisme dû au choix du seuil",
+        "Il faut refaire le choix du seuil sur le test, mais par validation croisée à 10 plis pour le stabiliser"
+      ],
+      "answer": 0,
+      "explanation": "Tout choix fait en regardant le test (modèle, variables, seuil) transforme le test en jeu de validation et rend le score biaisé vers le haut. Le protocole de L120 fixe le seuil hors pli, sur les prédictions out-of-fold de l'entraînement, puis lit le test scellé une seule fois. Un intervalle de confiance quantifie le bruit d'échantillonnage, pas ce biais de sélection.",
+      "source": {
+        "title": "scikit-learn — Common pitfalls and recommended practices",
+        "url": "https://scikit-learn.org/stable/common_pitfalls.html"
+      }
+    },
+    {
+      "id": "N4-E13",
+      "lessonId": "L122",
+      "competence": "C4.3",
+      "type": "trouve_erreur",
+      "q": "Un mini-autograd « à la micrograd » a été écrit avec une affectation au lieu d'une accumulation dans les passes arrière :\n\n```python\ndef __mul__(self, other):\n    out = Value(self.data * other.data, (self, other))\n    def _backward():\n        self.grad = other.data * out.grad\n        other.grad = self.data * out.grad\n    out._backward = _backward\n    return out\n# __add__ est écrit de la même façon : self.grad = out.grad ; other.grad = out.grad\n\na, b = Value(3.0), Value(-2.0)\nf = a * b + a\nf.backward()\nprint(a.grad)\n```\n\nQue s'affiche-t-il, et que devrait-il s'afficher ?",
+      "options": [
+        "1,0 au lieu de −1,0 : seule la dernière opération de la passe avant, l'addition, est prise en compte",
+        "−1,0 dans les deux cas : l'ordre topologique garantit qu'aucun gradient n'est jamais écrasé",
+        "−2,0 au lieu de −3,0 : il manque aussi la dérivée de a par rapport à lui-même dans le produit",
+        "−2,0 au lieu de −1,0 : le gradient du produit (b = −2) écrase celui du chemin direct (+1) au lieu de s'y ajouter"
+      ],
+      "answer": 3,
+      "explanation": "f = a·b + a, donc ∂f/∂a = b + 1 = −1. La passe arrière traite d'abord le nœud d'addition (a.grad = 1, c.grad = 1), puis le produit c = a·b, qui écrit a.grad = b·c.grad = −2 en écrasant la valeur précédente. Quand une valeur est utilisée plusieurs fois, les gradients des différents chemins s'additionnent : c'est la raison du `+=` dans micrograd (L122), et aussi de l'accumulation des `.grad` dans PyTorch.",
+      "source": {
+        "title": "Karpathy — micrograd (dépôt GitHub)",
+        "url": "https://github.com/karpathy/micrograd"
+      }
+    },
+    {
+      "id": "N4-E14",
+      "lessonId": "L123",
+      "competence": "C4.3",
+      "type": "trouve_erreur",
+      "q": "Un CNN avec dropout et BatchNorm obtient de bons scores à l'époque 1, puis la perte d'entraînement chute anormalement vite et la validation se dégrade. Quel est le défaut principal de cette boucle ?\n\n```python\nmodele.train()\nfor epoque in range(20):\n    for xb, yb in dl_train:\n        optim.zero_grad()\n        perte = critere(modele(xb), yb)\n        perte.backward()\n        optim.step()\n    evaluer(modele, dl_valid)   # contient modele.eval() et @torch.no_grad()\n```",
+      "options": [
+        "`optim.zero_grad()` doit venir après `optim.step()`, sinon les gradients du lot courant sont effacés avant la mise à jour",
+        "`@torch.no_grad()` dans `evaluer` désactive l'autograd pour toutes les époques suivantes",
+        "`modele.train()` n'est appelé qu'une fois : dès l'époque 2, dropout et BatchNorm restent en mode évaluation",
+        "Il manque une softmax en sortie du modèle avant `critere`, ce qui fausse la perte dès l'époque 2"
+      ],
+      "answer": 2,
+      "explanation": "`modele.eval()` est un état persistant du module : après le premier appel à `evaluer`, l'entraînement continue sans dropout et avec une BatchNorm qui n'apprend plus ses statistiques, d'où un sur-apprentissage rapide. Il faut appeler `modele.train()` au début de chaque époque (L123, et la piste de dépannage de L127). Le décorateur `no_grad` ne s'applique qu'à l'appel décoré ; `zero_grad` avant `backward` est correct ; et `CrossEntropyLoss` attend des logits, sans softmax.",
+      "source": {
+        "title": "PyTorch — Optimizing Model Parameters",
+        "url": "https://pytorch.org/tutorials/beginner/basics/optimization_tutorial.html"
+      }
+    },
+    {
+      "id": "N4-E15",
+      "lessonId": "L124",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Vous écrivez un classifieur CIFAR-10 (entrées 3 × 32 × 32) :\n\n```python\nnn.Sequential(\n    nn.Conv2d(3, 64, kernel_size=3, padding=1), nn.ReLU(), nn.MaxPool2d(2),\n    nn.Conv2d(64, 128, kernel_size=3, stride=2, padding=1), nn.ReLU(),\n    nn.Flatten(),\n    nn.Linear(???, 10),\n)\n```\n\nQuelle valeur remplace `???`, et combien de paramètres compte la deuxième convolution ?",
+      "options": [
+        "8 192 (128 × 8 × 8) ; 73 856 paramètres (128 × (64 × 9) + 128)",
+        "32 768 (128 × 16 × 16), le pas de 2 étant compensé par le padding de 1 ; 73 856 paramètres",
+        "8 192 ; 1 792 paramètres, la convolution ne dépendant que de la taille du noyau et du nombre de filtres",
+        "2 048 (128 × 4 × 4) ; 73 728 paramètres, les convolutions n'ayant pas de biais par défaut"
+      ],
+      "answer": 0,
+      "explanation": "Avec n_sortie = ⌊(n + 2p − k)/s⌋ + 1 : la première convolution garde 32 × 32, le MaxPool donne 16 × 16, la seconde convolution (s = 2, p = 1) donne ⌊(16 + 2 − 3)/2⌋ + 1 = 8. `Flatten` produit 128 × 8 × 8 = 8 192 entrées. Paramètres de la seconde convolution : 128 filtres de 64 × 3 × 3 poids plus un biais chacun (biais activé par défaut dans `nn.Conv2d`), soit 73 856. Ces calculs de L124 évitent l'erreur de forme classique `mat1 and mat2 shapes cannot be multiplied`.",
+      "source": {
+        "title": "PyTorch — torch.nn.Conv2d",
+        "url": "https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html"
+      }
+    },
+    {
+      "id": "N4-E16",
+      "lessonId": "L125",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Dans un LSTM, le long du chemin de l'état de cellule, le gradient est multiplié à chaque pas par la porte d'oubli f_t (on néglige les autres termes). Comparez, sur 100 pas, une initialisation du biais de la porte d'oubli à 0 (f ≈ σ(0) = 0,5) et à 3 (f ≈ σ(3)).",
+      "options": [
+        "≈ 0,5 dans les deux cas : la mise à jour additive de l'état de cellule empêche toute atténuation",
+        "≈ 7,9 × 10⁻³¹ dans les deux cas, car le biais ne change pas la dérivée de la sigmoïde",
+        "≈ 7,9 × 10⁻³¹ avec un biais nul, ≈ 7,8 × 10⁻³ avec un biais de 3 (σ(3) ≈ 0,953) : 28 ordres de grandeur d'écart",
+        "≈ 50 avec un biais nul et ≈ 95 avec un biais de 3 : les facteurs s'additionnent le long du chemin temporel au lieu de se multiplier"
+      ],
+      "answer": 2,
+      "explanation": "Le chemin additif c_t = f_t ⊙ c_{t−1} + … transmet le gradient avec le facteur f_t à chaque pas. 0,5¹⁰⁰ ≈ 7,9 × 10⁻³¹ : la mémoire longue est perdue. Avec σ(3) ≈ 0,9526, 0,9526¹⁰⁰ ≈ 7,8 × 10⁻³ : le signal survit. D'où la pratique, citée en L125, d'initialiser le biais de la porte d'oubli à une valeur positive : le LSTM part en « mémorisant » et apprend ensuite à oublier.",
+      "source": {
+        "title": "PyTorch — torch.nn.LSTM",
+        "url": "https://pytorch.org/docs/stable/generated/torch.nn.LSTM.html"
+      }
+    },
+    {
+      "id": "N4-E17",
+      "lessonId": "L126",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Journal d'entraînement d'un classifieur d'images (AdamW, lr constant 1e-3, pas d'augmentation) :\n\n| Époque | Perte train | Perte valid | Exactitude valid |\n|---|---|---|---|\n| 4 | 0,92 | 0,95 | 67 % |\n| 8 | 0,48 | 0,71 | 76 % |\n| 12 | 0,21 | 0,69 | 78 % |\n| 16 | 0,07 | 0,88 | 77 % |\n| 20 | 0,02 | 1,15 | 76 % |\n\nQuel diagnostic et quelles actions ?",
+      "options": [
+        "Sous-apprentissage : la perte de validation remonte parce que le modèle manque de capacité, il faut l'élargir et l'approfondir",
+        "Taux d'apprentissage trop faible : la perte d'entraînement n'atteint pas encore zéro, il faut le multiplier par 10",
+        "Aucun problème : l'exactitude de validation reste stable à ±2 points, seule la perte de validation est bruitée",
+        "Sur-apprentissage dès l'époque 12 : arrêt précoce sur la perte de validation, régularisation (augmentation, weight decay), lr décroissant"
+      ],
+      "answer": 3,
+      "explanation": "La perte d'entraînement tend vers 0 tandis que la perte de validation passe par un minimum (≈ époque 12) puis remonte : le modèle mémorise le jeu d'entraînement et devient sur-confiant en validation, même si l'exactitude décroît plus lentement. Les remèdes de L126 : arrêt précoce sur la perte de validation, régularisation (weight decay, dropout, augmentation) et schedule (cosinus, par exemple). Élargir le modèle aggraverait la situation.",
+      "source": {
+        "title": "Stanford CS231n Spring 2026 — Lecture 3 : Regularization and optimization",
+        "url": "https://cs231n.stanford.edu/schedule.html"
+      }
+    },
+    {
+      "id": "N4-E18",
+      "lessonId": "L127",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Un classifieur de défauts sur pièces usinées atteint 99,2 % d'exactitude sur le test, mais 71 % sur les pièces du mois suivant. Chaque pièce a été photographiée en rafale (8 à 12 images quasi identiques) et le jeu a été découpé par `random_split` sur les images. Quelle est la cause la plus probable et la correction ?",
+      "options": [
+        "Sous-apprentissage : il faut entraîner davantage d'époques pour que le modèle généralise enfin aux nouvelles pièces de production",
+        "Contamination par les poids ImageNet, qui ont déjà vu ces pièces : il faut entraîner le réseau de zéro",
+        "Fuite par groupe : des quasi-doublons d'une même pièce sont en train et en test ; découper par pièce, voire par date",
+        "Normalisation inadaptée : il suffit de recalculer moyennes et écarts-types sur le jeu de test"
+      ],
+      "answer": 2,
+      "explanation": "Avec des rafales, un découpage aléatoire par image met des quasi-doublons de chaque pièce des deux côtés : le test mesure la mémoire, pas la généralisation. La règle de L116/L119 s'applique aussi au deep learning : un groupe entier (pièce, client, patient) par pli, et un découpage temporel si la production dérive. Le projet L127 insiste sur un protocole d'évaluation qui reflète l'usage réel.",
+      "source": {
+        "title": "PyTorch — Reproducibility",
+        "url": "https://pytorch.org/docs/stable/notes/randomness.html"
+      }
+    },
+    {
+      "id": "N4-E19",
+      "lessonId": "L128",
+      "competence": "C4.3",
+      "type": "trouve_erreur",
+      "q": "Dans une attention causale écrite à la main (T = 4), un collègue a remplacé `torch.triu(..., diagonal=1)` par :\n\n```python\nmasque = torch.tril(torch.ones(T, T, dtype=torch.bool))\nscores = scores.masked_fill(masque, float(\"-inf\"))\npoids = torch.softmax(scores, dim=-1)\n```\n\nQue se passe-t-il ?",
+      "options": [
+        "Rien : `tril` et `triu` sont équivalents une fois la softmax appliquée, seule la diagonale change de côté",
+        "Chaque position ne voit plus que les positions strictement futures, et la dernière ligne, toute à −inf, donne des NaN",
+        "Chaque token ne voit plus que lui-même, ce qui revient à appliquer un MLP position par position",
+        "Le modèle reste causal mais ignore le token courant, ce qui dégrade légèrement la perte de validation"
+      ],
+      "answer": 1,
+      "explanation": "`masked_fill` met −inf là où le masque est vrai. `tril` (diagonale incluse) masque donc le passé et le présent : la ligne i ne garde que les colonnes j > i, et la ligne T − 1 n'a plus aucune colonne autorisée, d'où une softmax de −inf partout et des NaN qui se propagent. Le masque correct de L128 est `triu(..., diagonal=1)` (interdire le futur), ou directement `F.scaled_dot_product_attention(..., is_causal=True)`. Pendant l'entraînement, la fuite du futur fait chuter la perte de façon spectaculaire avant que les NaN n'apparaissent.",
+      "source": {
+        "title": "PyTorch — torch.nn.functional.scaled_dot_product_attention",
+        "url": "https://pytorch.org/docs/stable/generated/torch.nn.functional.scaled_dot_product_attention.html"
+      }
+    },
+    {
+      "id": "N4-E20",
+      "lessonId": "L129",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Configuration : d = 4 096, 32 couches, 32 têtes de requête de dimension 128, GQA avec 8 têtes KV, SwiGLU de largeur 14 336, deux RMSNorm par bloc, vocabulaire de 128 256 tokens, embedding d'entrée et tête de sortie non partagés, aucun biais. Combien de paramètres au total ?",
+      "options": [
+        "≈ 7,5 milliards : 12d² par bloc sur 32 couches (6,44 Md), plus 1,05 Md d'embeddings",
+        "≈ 6,98 milliards : les tables d'embedding sont des correspondances, sans paramètres entraînables",
+        "≈ 8,0 milliards : ≈ 218 M par bloc avec GQA, soit 6,98 Md, plus 1,05 Md d'embeddings",
+        "≈ 16 milliards : en BF16, chaque paramètre du modèle compte pour deux octets"
+      ],
+      "answer": 2,
+      "explanation": "Attention avec GQA : W_q et W_o font 4 096 × 4 096, mais W_k et W_v seulement 4 096 × 1 024 (8 têtes × 128), soit 41,9 M. SwiGLU : 3 matrices 4 096 × 14 336 = 176,2 M. Par bloc ≈ 218,1 M, × 32 = 6,98 Md, plus 1,05 Md pour l'embedding et la tête : ≈ 8,03 Md, la taille d'un « 8B ». L'approximation 12d² de L129 donne ≈ 7,5 Md : elle surestime l'attention en GQA et sous-estime ce MLP plus large que 8d/3. 16 Go est la mémoire en BF16, pas un nombre de paramètres.",
+      "source": {
+        "title": "Stanford CS336 Spring 2026 — séance 3 Architectures, hyperparamètres",
+        "url": "https://cs336.stanford.edu/"
+      }
+    },
+    {
+      "id": "N4-E21",
+      "lessonId": "L130",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Vous entraînez un BPE sur les caractères du corpus suivant (mot : fréquence) : « bas » 5, « basse » 3, « case » 4, « casse » 2. Les paires sont recomptées après chaque fusion. Quelles sont les trois premières fusions, et comment « basse » est-il alors découpé ?",
+      "options": [
+        "(a, s) → « as », puis (b, as) → « bas », puis (c, as) → « cas » ; « basse » = [« bas », « s », « e »]",
+        "(a, s), puis (s, e), puis (b, a) : on fusionne dans l'ordre des fréquences initiales, sans jamais recompter",
+        "(s, s), puis (s, e), puis (b, a) : les lettres doublées sont fusionnées en priorité par le BPE",
+        "(a, s), puis (s, e), puis (b, as) ; « basse » est alors découpé en [« bas », « se »]"
+      ],
+      "answer": 0,
+      "explanation": "Comptage initial : (a, s) 14, (s, e) 9, (b, a) 8, (c, a) 6, (s, s) 5. Après la fusion « as », (s, e) tombe à 5 (seuls « basse » et « casse » le gardent), (b, as) vaut 8 et devient la deuxième fusion ; ensuite (c, as) 6 l'emporte sur (s, e) 5. C'est pourquoi l'algorithme de L130 recompte les paires après chaque fusion, et pourquoi l'encodage rejoue les fusions dans l'ordre où elles ont été apprises.",
+      "source": {
+        "title": "Sennrich, Haddow, Birch (2016) — Neural Machine Translation of Rare Words with Subword Units",
+        "url": "https://arxiv.org/abs/1508.07909"
+      }
+    },
+    {
+      "id": "N4-E22",
+      "lessonId": "L131",
+      "competence": "C4.3",
+      "type": "trouve_erreur",
+      "q": "La perte d'entraînement d'un mini-GPT sur un corpus de 1 Mo descend sous 0,01 en 300 itérations, et la génération répète indéfiniment le dernier caractère du prompt. Voici la préparation des lots :\n\n```python\nix = torch.randint(len(src) - block - 1, (batch,))\nx = torch.stack([src[i:i + block] for i in ix])\ny = torch.stack([src[i:i + block] for i in ix])\nlogits = modele(x)                                   # (B, T, V)\nperte = F.cross_entropy(logits.view(-1, V), y.view(-1))\n```\n\nOù est l'erreur ?",
+      "options": [
+        "`logits.view(-1, V)` mélange les dimensions B et T : il faut `logits.transpose(1, 2)` avant la perte",
+        "La borne `len(src) - block - 1` fait sortir l'index du tableau : il faut `len(src) - block + 1`",
+        "La perte est trop basse parce que `cross_entropy` attend des probabilités : il manque une softmax",
+        "La cible n'est pas décalée : il faut `y = src[i + 1:i + block + 1]` ; ici le modèle apprend à recopier son entrée"
+      ],
+      "answer": 3,
+      "explanation": "Un modèle de langage prédit x_{t+1} à partir de x_{≤t} : la cible est l'entrée décalée d'un cran (L131, `y = src[i + 1:i + block + 1]`). Sans décalage, l'attention causale autorise la position t à voir le token t lui-même : il suffit de le recopier, la perte tend vers 0, et à la génération le modèle prédit… le caractère qu'il vient de lire. `view(-1, V)` sur des logits (B, T, V) est correct, la borne de `randint` aussi, et `cross_entropy` attend des logits.",
+      "source": {
+        "title": "Andrej Karpathy — nanoGPT (dépôt GitHub)",
+        "url": "https://github.com/karpathy/nanoGPT"
+      }
+    },
+    {
+      "id": "N4-E23",
+      "lessonId": "L132",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Une start-up dispose de 50 000 € de calcul sur H100 à 2,73 €/h, avec un MFU de 40 % (989 TFLOPS BF16 dense en fiche). En appliquant C ≈ 6ND et la règle « Chinchilla » D ≈ 20N, quelle taille de modèle et combien de tokens visez-vous ?",
+      "options": [
+        "C ≈ 6,5 × 10²² FLOPs (le MFU ne s'applique qu'à l'inférence), d'où N ≈ 23 milliards et D ≈ 470 milliards",
+        "C ≈ 2,6 × 10²² FLOPs, d'où N = √(C/120) ≈ 14,7 milliards de paramètres et D ≈ 295 milliards de tokens",
+        "C ≈ 2,6 × 10²² FLOPs, d'où N = C/(6 × 20) ≈ 2,2 × 10²⁰ paramètres et D = 20N tokens",
+        "C ≈ 2,6 × 10²² FLOPs, d'où N ≈ 66 milliards et D ≈ 66 milliards de tokens, un token par paramètre"
+      ],
+      "answer": 1,
+      "explanation": "Heures-GPU : 50 000/2,73 ≈ 18 315 h. Débit réel : 989e12 × 0,40 ≈ 3,96e14 FLOP/s, donc C ≈ 2,61 × 10²² FLOPs. Avec D = 20N : C = 6N × 20N = 120N², d'où N ≈ 1,47 × 10¹⁰ et D ≈ 2,9 × 10¹¹ tokens. Oublier le MFU surestime le budget d'un facteur 2,5 ; diviser C par 120 sans racine carrée confond N et N². L132 rappelle que « 20 tokens par paramètre » est un ordre de grandeur, et qu'en pratique on sur-entraîne souvent de petits modèles pour réduire le coût d'inférence.",
+      "source": {
+        "title": "Hoffmann et al. (2022) — Training Compute-Optimal Large Language Models (Chinchilla)",
+        "url": "https://arxiv.org/abs/2203.15556"
+      }
+    },
+    {
+      "id": "N4-E24",
+      "lessonId": "L133",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "En GRPO, pour une question de mathématiques, on échantillonne un groupe de 6 réponses ; le vérificateur renvoie les récompenses (1, 0, 0, 0, 1, 0). Avec l'avantage A_i = (r_i − moyenne) / écart-type (écart-type non biaisé, comme `torch.std`), que valent les avantages des réponses justes et fausses ?",
+      "options": [
+        "+1 pour les justes et 0 pour les fausses : l'avantage est la récompense brute",
+        "≈ +1,29 pour les réponses justes et ≈ −0,65 pour les fausses (moyenne 1/3, écart-type ≈ 0,516)",
+        "≈ +0,67 pour les justes et ≈ −0,33 pour les fausses : on soustrait la moyenne sans normaliser",
+        "+0,5 et −0,5 : GRPO centre toujours les avantages sur ±0,5 quelle que soit la proportion de succès"
+      ],
+      "answer": 1,
+      "explanation": "Moyenne = 2/6 = 1/3 ; écart-type non biaisé = √((2 × (2/3)² + 4 × (1/3)²)/5) ≈ 0,516. Avantages : (1 − 1/3)/0,516 ≈ 1,29 et (0 − 1/3)/0,516 ≈ −0,65 (avec l'écart-type de population, on obtiendrait ±1,41/−0,71, même signe et même rapport). La moyenne du groupe sert de valeur de référence, ce qui dispense du réseau critique de PPO (L133). Si les 6 réponses étaient toutes fausses, tous les avantages seraient nuls : aucun gradient.",
+      "source": {
+        "title": "Shao et al. (2024) — DeepSeekMath (GRPO)",
+        "url": "https://arxiv.org/abs/2402.03300"
+      }
+    },
+    {
+      "id": "N4-E25",
+      "lessonId": "L135",
+      "competence": "C4.4",
+      "type": "mise_en_situation",
+      "q": "Un réseau de 40 agences immobilières veut automatiser la rédaction de 15 000 annonces par mois au gabarit maison (structure fixe, ton de marque, 120 mots). Les caractéristiques des biens sont fournies dans la requête. Un prompt soigné sur un modèle de pointe atteint le niveau requis mais coûte trop cher et la direction exige l'hébergement en France. 2 500 annonces validées existent. Que recommandez-vous ?",
+      "options": [
+        "Un RAG sur les 2 500 annonces validées : le modèle retrouvera les annonces les plus proches et en imitera le style",
+        "Un fine-tuning du modèle de pointe via son API, pour lui apprendre une fois pour toutes les caractéristiques des biens",
+        "Rester sur le prompt du modèle de pointe : un fine-tuning n'est jamais justifié dès lors qu'un prompt atteint la qualité",
+        "Un QLoRA d'un petit modèle ouvert (4 à 8B) servi en France, nourri des 2 500 annonces et évalué contre le prompt actuel"
+      ],
+      "answer": 3,
+      "explanation": "L'arbre de décision de L135 mène ici au fine-tuning : l'échec du prompt n'est ni de qualité ni d'information manquante (les faits sont dans la requête), mais de coût et de souveraineté sur une tâche étroite, répétitive, au format strict, avec assez d'exemples de qualité. La bonne cible est un petit modèle ouvert servi en France, le grand modèle pouvant jouer le rôle de professeur (distillation, L137). Un RAG apporte des faits, pas un style ; le fine-tuning via API ne règle pas l'exigence d'hébergement.",
+      "source": {
+        "title": "Hugging Face LLM Course — chapitre 11 « Fine-tune Large Language Models »",
+        "url": "https://huggingface.co/learn/llm-course"
+      }
+    },
+    {
+      "id": "N4-E26",
+      "lessonId": "L136",
+      "competence": "C4.4",
+      "type": "mise_en_situation",
+      "q": "Vous préparez un QLoRA d'un modèle de 14 milliards de paramètres : poids en NF4 (règle « paramètres × bits ÷ 8 × 1,1 »), 64 millions de paramètres LoRA comptés à 16 octets chacun (poids, gradients, copie et moments d'AdamW), et environ 4 Go d'activations avec gradient checkpointing. Quelle VRAM estimez-vous, et que coûterait un fine-tuning complet du même modèle en précision mixte ?",
+      "options": [
+        "≈ 12,7 Go (7,7 + ≈ 1 + 4) ; un fine-tuning complet demanderait ≈ 224 Go avant activations",
+        "≈ 28 Go : les poids gelés restent en BF16 pendant QLoRA, seule la sauvegarde finale est quantifiée",
+        "≈ 12,7 Go ; un fine-tuning complet demanderait ≈ 28 Go, soit deux octets par paramètre",
+        "≈ 4,7 Go : en 4 bits, poids, adaptateur et activations sont tous divisés par quatre"
+      ],
+      "answer": 0,
+      "explanation": "Poids : 14 × 4/8 × 1,1 ≈ 7,7 Go. Adaptateur : 64 M × 16 octets ≈ 1,0 Go. Activations : 4 Go. Total ≈ 12,7 Go, ce qui tient sur un GPU de 16 Go, à vérifier avec `torch.cuda.max_memory_allocated()`. En fine-tuning complet, chaque paramètre porte poids BF16, gradient, copie FP32 et deux moments FP32 (16 octets) : ≈ 224 Go, le domaine du multi-GPU (L136). En QLoRA, seuls les poids gelés sont en 4 bits ; adaptateurs et activations restent en 16 bits.",
+      "source": {
+        "title": "Dettmers et al. (2023) — QLoRA: Efficient Finetuning of Quantized LLMs",
+        "url": "https://arxiv.org/abs/2305.14314"
+      }
+    },
+    {
+      "id": "N4-E27",
+      "lessonId": "L137",
+      "competence": "C4.4",
+      "type": "trouve_erreur",
+      "q": "Constitution du jeu de données d'un fine-tuning SAV. Laquelle de ces pratiques est une ERREUR ?",
+      "options": [
+        "Dédupliquer par empreinte normalisée (casse, espaces, ponctuation) et pas seulement par égalité stricte",
+        "Figer le jeu d'évaluation avant toute génération synthétique ou augmentation des exemples d'entraînement",
+        "Consigner la source et la version des conditions d'utilisation du modèle professeur utilisé pour la distillation des données",
+        "Écrire soi-même les balises `<|im_start|>` dans les données pour maîtriser le format, au lieu de listes de messages"
+      ],
+      "answer": 3,
+      "explanation": "Le chat template est propre à chaque famille de modèles et appliqué par `apply_chat_template` : écrire les balises à la main crée des décalages (doubles balises, mauvais tokens spéciaux) entre entraînement et inférence (L137). Les trois autres pratiques sont recommandées par la leçon : déduplication normalisée, séparation entraînement/évaluation avant l'augmentation, et traçabilité des CGU, car la propriété des sorties et le droit d'en entraîner un modèle sont deux questions distinctes.",
+      "source": {
+        "title": "Hugging Face LLM Course — chapitre 10 « Curate high-quality datasets »",
+        "url": "https://huggingface.co/learn/llm-course"
+      }
+    },
+    {
+      "id": "N4-E28",
+      "lessonId": "L138",
+      "competence": "C4.4",
+      "type": "mise_en_situation",
+      "q": "Un modèle ouvert annonce 91 % sur un benchmark public de QCM publié en 2023. Vous construisez une version paraphrasée de 300 questions (même contenu, formulations et ordre des options changés) : il obtient 64 %, alors que deux autres modèles de même taille perdent moins de 3 points. Il complète aussi mot pour mot le début de plusieurs questions originales. Quel diagnostic ?",
+      "options": [
+        "Votre jeu paraphrasé est trop difficile et biaisé par vos formulations : le score public de 91 % reste la référence",
+        "Contamination probable : le score public mesure en partie la mémoire ; décider sur des tests privés ou datés et sur l'éval maison",
+        "Un biais de position du juge LLM, à corriger en évaluant chaque question dans les deux ordres A/B puis B/A",
+        "Un écart de température d'échantillonnage : à température 0, les deux scores coïncideraient à un point près"
+      ],
+      "answer": 1,
+      "explanation": "Trois indices convergent : une chute de 27 points sur des paraphrases sémantiquement identiques, l'absence de chute chez les concurrents, et la capacité à réciter les énoncés. C'est la signature de la contamination décrite en L138 : le score mesure la mémoire, pas la compétence. Les parades sont les jeux privés ou renouvelés (60 % de tests privés dans l'index Artificial Analysis v5), les jeux datés après la date de coupure, et surtout votre évaluation maison. Un QCM se note sans juge LLM.",
+      "source": {
+        "title": "EleutherAI — lm-evaluation-harness",
+        "url": "https://github.com/EleutherAI/lm-evaluation-harness"
+      }
+    },
+    {
+      "id": "N4-E29",
+      "lessonId": "L140",
+      "competence": "C4.4",
+      "type": "mise_en_situation",
+      "q": "Bilan d'un projet de spécialisation : le modèle fine-tuné obtient 82/100 sur votre grille contre 58 pour la base. Mais la base a été évaluée sans le prompt système utilisé par le fine-tuné, et `lm_eval` montre −6 points sur deux tâches générales. Le critère fixé au cadrage était « +15 points sur la grille, non-régression générale ≤ 2 points ». Que concluez-vous ?",
+      "options": [
+        "Projet validé : +24 points dépassent largement l'objectif de +15, la non-régression générale est secondaire pour le client",
+        "Projet validé : un fine-tuning dégrade toujours un peu les tâches générales, et 6 points restent dans la marge d'erreur habituelle de ce type d'évaluation",
+        "Succès non démontré : réévaluer la base avec le même prompt système, et la régression de 6 points (oubli catastrophique) viole le critère",
+        "Il faut remplacer la grille par un juge LLM, plus objectif, et ne réévaluer que le modèle fine-tuné"
+      ],
+      "answer": 2,
+      "explanation": "Deux critères écrits d'avance ne sont pas remplis de façon vérifiable. Comparer une base sans prompt à un modèle fine-tuné avec prompt mélange l'effet du prompt et celui de l'entraînement : L140 impose le même prompt système des deux côtés. La baisse de 6 points sur les tâches générales dépasse le seuil de 2 points : c'est l'oubli catastrophique que l'étage de non-régression doit détecter. La conclusion honnête est un échec provisoire, suivi d'une itération mesurée.",
+      "source": {
+        "title": "UK AISI — Inspect AI",
+        "url": "https://github.com/UKGovernmentBEIS/inspect_ai"
+      }
+    },
+    {
+      "id": "N4-E30",
+      "lessonId": "L141",
+      "competence": "C4.5",
+      "type": "mise_en_situation",
+      "q": "Vous voulez servir un modèle dense de 70 milliards de paramètres (80 couches, 8 têtes KV de dimension 128) en GGUF `Q4_K_M` (≈ 4,8 bits effectifs par poids) sur un seul GPU de 48 Go, KV cache en FP16. En négligeant les autres surcoûts, que reste-t-il pour le contexte ?",
+      "options": [
+        "Poids ≈ 42 Go ; il reste ≈ 6 Go, soit ≈ 18 000 tokens de KV cache à ≈ 0,33 Mo par token",
+        "Poids ≈ 35 Go (4 bits exacts) ; il reste 13 Go, soit environ 40 000 tokens de contexte",
+        "Poids ≈ 42 Go ; le KV cache est quantifié en 4 bits avec les poids, il reste donc ≈ 75 000 tokens",
+        "Le modèle ne tient pas : il faut 140 Go, la quantization ne réduisant que la taille sur disque"
+      ],
+      "answer": 0,
+      "explanation": "En `Q4_K_M`, les métadonnées (échelles, super-blocs) portent le coût effectif à ≈ 4,8 bits par poids (L141) : 42 Go. Le KV cache vaut 2 × 80 × 8 × 128 × 2 octets = 327 680 octets par token (L142), donc 6 Go ≈ 18 000 tokens, avant même les activations et graphes CUDA. Pour servir plusieurs utilisateurs, il faut un GPU plus grand, deux GPU, un KV cache quantifié ou un modèle plus petit.",
+      "source": {
+        "title": "llama.cpp — dépôt officiel (ggml-org)",
+        "url": "https://github.com/ggml-org/llama.cpp"
+      }
+    },
+    {
+      "id": "N4-E31",
+      "lessonId": "L142",
+      "competence": "C4.5",
+      "type": "mise_en_situation",
+      "q": "Un modèle de 32B (64 couches, 8 têtes KV, d_tête = 128) est servi par vLLM sur un H100 80 Go. Poids en FP8 : 32 Go ; `gpu_memory_utilization=0.9`. En négligeant activations et graphes CUDA, combien d'utilisateurs simultanés à 16 384 tokens de contexte (1 Go = 10⁹ octets) le KV cache BF16 permet-il, puis avec `kv_cache_dtype=\"fp8\"` ?",
+      "options": [
+        "≈ 18 en BF16 et ≈ 36 en FP8 : vLLM ne stocke que les clés, les valeurs étant recalculées",
+        "≈ 2 en BF16 : chaque utilisateur occupe 32 Go, la taille des poids",
+        "≈ 9 utilisateurs en BF16 (40 Go ÷ 256 Kio par token ≈ 152 600 tokens), ≈ 18 en FP8",
+        "≈ 9 en BF16 et toujours ≈ 9 en FP8, le KV cache restant en BF16 quelle que soit l'option"
+      ],
+      "answer": 2,
+      "explanation": "KV par token = 2 × 64 × 8 × 128 × 2 octets = 262 144 octets (256 Kio). Mémoire disponible : 80 × 0,9 − 32 = 40 Go, soit ≈ 152 600 tokens, donc ≈ 9,3 contextes de 16 384 tokens. En FP8, l'octet par valeur divise le KV par deux : ≈ 18 utilisateurs, au prix d'une légère perte de qualité à mesurer. Le facteur 2 de la formule de L142 compte K et V, tous deux mis en cache.",
+      "source": {
+        "title": "Kwon et al. (2023) — Efficient Memory Management for LLM Serving with PagedAttention (vLLM)",
+        "url": "https://arxiv.org/abs/2309.06180"
+      }
+    },
+    {
+      "id": "N4-E32",
+      "lessonId": "L142",
+      "competence": "C4.5",
+      "type": "mise_en_situation",
+      "q": "Speculative decoding : le brouillon propose γ = 3 tokens, chacun accepté avec une probabilité α = 0,7 ; une passe du brouillon coûte 10 % d'une passe du grand modèle. Quel gain de débit théorique attendez-vous, à faible charge ?",
+      "options": [
+        "≈ 2,53× : le coût du brouillon est négligeable par construction et ne se décompte pas",
+        "≈ 3× : chaque passe du grand modèle valide toujours les γ = 3 tokens proposés",
+        "≈ 0,7× : la sortie n'étant qu'approchée, il faut rejouer 30 % des tokens avec le grand modèle",
+        "≈ 1,95× : ≈ 2,53 tokens par vérification pour un coût de 1,3 passe"
+      ],
+      "answer": 3,
+      "explanation": "La formule de L142 donne E = (1 − α^{γ+1})/(1 − α) = (1 − 0,2401)/0,3 ≈ 2,53 tokens produits par passe du grand modèle (préfixe accepté + un token corrigé). Chaque cycle coûte une vérification plus trois pas de brouillon, soit 1,3 unité : gain ≈ 2,53/1,3 ≈ 1,95. La sortie suit exactement la distribution du grand modèle (échantillonnage par rejet). À forte concurrence, le gain diminue, car le batching occupe déjà le GPU.",
+      "source": {
+        "title": "Leviathan et al. (2022) — Fast Inference from Transformers via Speculative Decoding",
+        "url": "https://arxiv.org/abs/2211.17192"
+      }
+    },
+    {
+      "id": "N4-E33",
+      "lessonId": "L143",
+      "competence": "C4.5",
+      "type": "mise_en_situation",
+      "q": "Un GPU loué 2,60 €/h délivre, d'après votre `vllm bench serve`, 1 800 tokens/s de sortie agrégés au SLO. Vous dimensionnez à un taux d'utilisation cible de 0,6 et facturez en interne au million de tokens de sortie. Quel coût retenez-vous ?",
+      "options": [
+        "≈ 0,40 € par million de tokens : le GPU produit 6,5 M tokens par heure",
+        "≈ 0,67 € par million de tokens : 1 800 × 3 600 × 0,6 ≈ 3,9 M tokens/h effectivement servis pour 2,60 €",
+        "≈ 0,0014 € par million de tokens : 2,60 € ÷ 1 800 tokens/s",
+        "≈ 1,08 € par million de tokens : il faut diviser le débit par 0,6 puis par 0,6 à nouveau pour la redondance"
+      ],
+      "answer": 1,
+      "explanation": "À 100 % d'utilisation, l'heure produit 6,48 M tokens, soit 0,40 €/M : chiffre irréaliste, car L143 recommande de ne jamais dimensionner au-delà de 0,6-0,7 pour absorber les pics. Avec u = 0,6 : 3,89 M tokens/h, donc ≈ 0,67 €/M. Le débit doit être mesuré sur vos longueurs réelles et non tiré d'un blog ; ajoutez ensuite redondance, stockage et exploitation pour comparer honnêtement avec une API.",
+      "source": {
+        "title": "Full Stack Deep Learning — Lecture 5 Deployment",
+        "url": "https://fullstackdeeplearning.com/course/"
+      }
+    },
+    {
+      "id": "N4-E34",
+      "lessonId": "L144",
+      "competence": "C4.5",
+      "type": "mise_en_situation",
+      "q": "Un assistant classe chaque question en 4 thèmes. Répartition de référence (octobre) : 40 %, 30 %, 20 %, 10 %. Semaine observée : 25 %, 25 %, 20 %, 30 %. Que vaut le PSI = Σ (pᵢ − qᵢ) ln(pᵢ/qᵢ) et que faites-vous ?",
+      "options": [
+        "PSI = 0 : les deux répartitions somment à 100 %, il n'y a donc pas de dérive à proprement parler",
+        "PSI ≈ 0,30 : dérive significative, il faut réentraîner le modèle sur la semaine observée dès aujourd'hui, sans autre analyse",
+        "PSI ≈ 0,30 : dérive significative portée surtout par le 4ᵉ thème ; analyser ces questions, enrichir RAG et evals",
+        "PSI ≈ 0,08 : situation stable (< 0,1), aucune action n'est nécessaire avant le prochain mois"
+      ],
+      "answer": 2,
+      "explanation": "Termes : (0,25 − 0,40) ln(0,625) ≈ 0,070 ; (0,25 − 0,30) ln(0,833) ≈ 0,009 ; 0 ; (0,30 − 0,10) ln 3 ≈ 0,220. Total ≈ 0,30, au-dessus du seuil de 0,25 de L144. Une dérive des entrées appelle d'abord une analyse des thèmes émergents et, le plus souvent, un enrichissement du RAG et des evals, pas un réentraînement réflexe sur des données non étiquetées.",
+      "source": {
+        "title": "Full Stack Deep Learning — Course 2022 (Deployment, Continual Learning)",
+        "url": "https://fullstackdeeplearning.com/course/"
+      }
+    },
+    {
+      "id": "N4-E35",
+      "lessonId": "L145",
+      "competence": "C4.5",
+      "type": "mise_en_situation",
+      "q": "Une application mobile hors ligne doit générer au moins 20 tokens/s. Le téléphone cible a 12 Go de RAM, 68 Go/s de bande passante mémoire et un NPU de 45 TOPS. Candidats en 4 bits : un 7B (≈ 4,4 Go avec l'overhead) et un 3,8B (≈ 2,3 Go). Que concluez-vous ?",
+      "options": [
+        "Seul le 3,8B : plafond ≈ 68/2,3 ≈ 30 tokens/s contre ≈ 15 pour le 7B ; les TOPS n'y changent rien",
+        "Les deux : 45 TOPS suffisent pour des milliers de tokens/s sur un 7B quantifié en 4 bits",
+        "Seul le 7B : il tient en RAM, et la RAM disponible est le seul critère qui fixe la vitesse",
+        "Aucun : le decode est limité par le calcul et il faudrait un NPU d'au moins 100 TOPS"
+      ],
+      "answer": 0,
+      "explanation": "Le decode relit tous les poids à chaque token : débit max ≈ bande passante ÷ taille du modèle (L145). 68/4,4 ≈ 15 tokens/s pour le 7B, 68/2,3 ≈ 30 pour le 3,8B, et l'on obtient en pratique la moitié ou les deux tiers du plafond. La RAM décide de ce qui tient, la bande passante de la vitesse de génération, les TOPS surtout du prefill. Le 3,8B tient l'objectif avec une marge raisonnable ; testez-le sur l'appareil réel, échauffement compris.",
+      "source": {
+        "title": "Apple Machine Learning Research — Exploring LLMs with MLX and the Neural Accelerators in the M5 GPU",
+        "url": "https://machinelearning.apple.com/research/exploring-llms-mlx-m5"
+      }
+    },
+    {
+      "id": "N4-E36",
+      "lessonId": "L146",
+      "competence": "C4.6",
+      "type": "mise_en_situation",
+      "q": "Un assistant d'expertise comptable donne la bonne réponse à une question fiscale dans 92 % des cas. Quand l'utilisateur ajoute « je pense pourtant que c'est déductible », la réponse s'aligne sur son avis dans 31 % des cas, y compris quand cet avis est faux. Comment qualifier et traiter ce comportement ?",
+      "options": [
+        "Un alignement de façade (alignment faking) : le modèle sait qu'il est évalué et ment donc délibérément",
+        "Une porte dérobée déclenchée par le mot « déductible », à éliminer par un fine-tuning de sécurité ciblé sur ce déclencheur",
+        "De la complaisance (sycophancy) : la mesurer par paires avec/sans opinion, renforcer les consignes, revue humaine à enjeu",
+        "Une hallucination aléatoire, qu'il suffit de corriger en fixant la température d'échantillonnage à 0"
+      ],
+      "answer": 2,
+      "explanation": "Sharma et al. (2023), présentés en L146, montrent que des assistants entraînés par RLHF changent une réponse correcte quand l'utilisateur conteste, les modèles de préférence comme les humains récompensant parfois la réponse complaisante. La mesure adaptée est un protocole apparié (même question avec et sans opinion) ; les contre-mesures sont des consignes explicites et la revue humaine. L'alignment faking et les sleeper agents relèvent d'autres dispositifs expérimentaux, et une température nulle ne supprime pas un biais systématique.",
+      "source": {
+        "title": "Sharma et al. (2023) — Towards Understanding Sycophancy in Language Models",
+        "url": "https://arxiv.org/abs/2310.13548"
+      }
+    },
+    {
+      "id": "N4-E37",
+      "lessonId": "L147",
+      "competence": "C4.6",
+      "type": "mise_en_situation",
+      "q": "Campagne de red teaming : 40 cas d'injection indirecte rejoués 5 fois chacun (200 essais, température fixée). Version A du garde-fou : 14 succès d'attaque, 4 % de refus sur 500 demandes légitimes. Version B : 6 succès, 27 % de refus. L'intervalle de Wilson à 95 % donne [4,2 % ; 11,4 %] pour A et [1,4 % ; 6,4 %] pour B. Que rapportez-vous ?",
+      "options": [
+        "B est clairement meilleure : ASR divisé par plus de deux ; le refus excessif relève de l'ergonomie, pas de la sécurité du système",
+        "A est clairement meilleure : ses 14 succès reposent sur davantage d'observations que les 6 de B",
+        "Les deux sont sûres, leurs ASR restant sous 10 % : mesurer le refus excessif n'apporte rien au rapport",
+        "ASR 7 % (A) et 3 % (B) aux intervalles chevauchants : B n'est pas démontrée meilleure et refuse trop ; élargir l'échantillon"
+      ],
+      "answer": 3,
+      "explanation": "ASR A = 14/200 = 7 %, ASR B = 6/200 = 3 %. Les intervalles [4,2 ; 11,4] et [1,4 ; 6,4] se chevauchent : la différence n'est pas établie avec 200 essais, d'où la consigne de L147 de rejouer chaque cas et de publier les intervalles. Le taux de refus excessif est une métrique de premier rang : un système qui refuse tout aurait un ASR nul et serait inutile. Le rapport présente les deux métriques par famille d'attaque, avec un échantillon élargi pour trancher.",
+      "source": {
+        "title": "Mazeika et al. (2024) — HarmBench",
+        "url": "https://arxiv.org/abs/2402.04249"
+      }
+    },
+    {
+      "id": "N4-E38",
+      "lessonId": "L148",
+      "competence": "C4.6",
+      "type": "mise_en_situation",
+      "q": "Un agent de support lit les e-mails entrants, interroge le CRM (données clients) et dispose d'un outil MCP tiers `http_fetch`. Après une mise à jour du serveur MCP, la description de l'outil contient des instructions cachées invitant à joindre « le contexte client » aux requêtes. Quelle combinaison de mesures traite le risque à la racine ?",
+      "options": [
+        "Ajouter au prompt système « n'envoyez jamais de données clients à l'extérieur » et passer à un modèle plus récent",
+        "Épingler et hacher les définitions d'outils MCP, puis casser la triade : sortie réseau en liste blanche, envois approuvés, CRM en lecture seule",
+        "Filtrer les e-mails entrants contenant « ignore les instructions » et conserver l'outil `http_fetch` tel quel, faute d'alternative",
+        "Relever la température de l'agent pour rendre ses actions moins prévisibles et donc plus difficiles à détourner"
+      ],
+      "answer": 1,
+      "explanation": "Le scénario cumule un rug pull / tool poisoning (définition d'outil modifiée après approbation) et la triade létale : données privées (CRM), contenu non fiable (e-mails, description d'outil), capacité de communiquer vers l'extérieur (`http_fetch`). L148 recommande l'épinglage par empreinte des définitions MCP et de retirer au moins une branche de la triade par l'architecture : isolation réseau, moindre privilège, approbation humaine des actions irréversibles. Une consigne dans le prompt oriente, elle ne contraint pas ; un filtre par mot-clé se contourne trivialement.",
+      "source": {
+        "title": "OWASP — Agentic AI: Threats and Mitigations",
+        "url": "https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/"
+      }
+    },
+    {
+      "id": "N4-E39",
+      "lessonId": "L149",
+      "competence": "C4.6",
+      "type": "mise_en_situation",
+      "q": "Une banque française achète à un éditeur un outil de scoring de crédit des particuliers et l'utilise tel quel, sous la marque de l'éditeur, conformément à la notice. Quelles obligations de l'AI Act s'appliquent à la banque, et quand ?",
+      "options": [
+        "Aucune : seul l'éditeur, fournisseur du système, porte des obligations ; la banque n'est qu'utilisatrice finale de l'outil",
+        "Déployeur annexe III (art. 26 : notice, contrôle humain, surveillance, journaux ≥ 6 mois) et FRIA (art. 27), au 2 déc. 2027",
+        "Celles du fournisseur (marquage CE, annexe IV) dès le 2 août 2026, puisque la banque met le système en service",
+        "Une certification ISO/IEC 42001 obligatoire avant le 2 août 2028, qui vaut présomption de conformité à l'AI Act"
+      ],
+      "answer": 1,
+      "explanation": "L'évaluation de solvabilité des personnes physiques figure à l'annexe III. La banque, qui utilise le système sans le modifier ni le commercialiser sous son nom, est déployeur (art. 26) ; comme l'indique L149, l'évaluation de solvabilité fait partie des cas qui imposent en outre une FRIA (art. 27). Les obligations annexe III s'appliquent au 2 décembre 2027 (omnibus 2026, règlement (UE) 2026/1744). Elle deviendrait fournisseur si elle apposait son nom ou modifiait substantiellement le système (chaîne de valeur, art. 25). ISO/IEC 42001 est volontaire et ne vaut pas conformité.",
+      "source": {
+        "title": "EUR-Lex — Règlement (UE) 2024/1689 (AI Act)",
+        "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+      }
+    },
+    {
+      "id": "N4-E40",
+      "lessonId": "L149",
+      "competence": "C4.6",
+      "type": "mise_en_situation",
+      "q": "Un laboratoire européen publie un modèle d'IA à usage général de 70 milliards de paramètres entraîné sur 15 000 milliards de tokens. Son concurrent entraîne un modèle dense de 400 milliards de paramètres sur le même volume. En estimant le calcul par C ≈ 6ND, lesquels sont présumés « à risque systémique » au sens de l'AI Act (art. 51) ?",
+      "options": [
+        "Les deux, car tout modèle de plus de 10 milliards de paramètres est présumé à risque systémique",
+        "Aucun : le seuil de 10²⁵ FLOP se compare au calcul d'inférence annuel cumulé, pas à celui de l'entraînement initial",
+        "Seul le 70B, publié en Europe ; le 400B relève uniquement du droit de son pays d'origine",
+        "Seul le 400B (≈ 3,6 × 10²⁵ FLOP > 10²⁵) ; le 70B (≈ 6,3 × 10²⁴) reste soumis aux obligations GPAI de l'art. 53"
+      ],
+      "answer": 3,
+      "explanation": "Le seuil de présomption de l'art. 51 porte sur le calcul d'entraînement : 10²⁵ FLOP. Avec la règle C ≈ 6ND de L132 : 70B → 6,3 × 10²⁴ (sous le seuil), 400B → 3,6 × 10²⁵ (au-dessus). Le 400B ajoute aux obligations de l'art. 53 (documentation, politique de droit d'auteur, résumé du contenu d'entraînement) celles de l'art. 55 : évaluation y compris adversariale, atténuation des risques systémiques, signalement des incidents graves, cybersécurité (L149). Le critère n'est ni le nombre de paramètres ni le lieu de publication : l'AI Act vise les modèles mis sur le marché de l'Union.",
+      "source": {
+        "title": "EUR-Lex — Règlement (UE) 2024/1689 (AI Act)",
+        "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+      }
+    },
+    {
+      "id": "N4-E41",
+      "lessonId": "L111",
+      "competence": "C4.1",
+      "type": "mise_en_situation",
+      "q": "Base vectorielle de RAG : la question a l'embedding q = (1 ; 0 ; 1), deux fiches ont A = (2 ; 2 ; 2) et B = (0,9 ; 0,1 ; 0,8). Que change le passage du produit scalaire brut à la similarité cosinus ?",
+      "options": [
+        "A gagne dans les deux mesures : une norme plus grande indique toujours une meilleure pertinence du document",
+        "B gagne dans les deux mesures, car produit scalaire et cosinus donnent toujours exactement le même classement",
+        "Les deux fiches sont à égalité en cosinus, cette mesure ignorant totalement le contenu des vecteurs comparés",
+        "En produit scalaire A gagne (4 contre 1,7), mais en cosinus B l'emporte (0,995 contre 0,816) : la norme de A le gonflait"
+      ],
+      "answer": 3,
+      "explanation": "q·A = 4 et q·B = 1,7 (A devant) ; en cosinus 0,816 pour A et 0,995 pour B (vérifié NumPy). La norme de A (≈ 3,46) gonfle son produit scalaire ; le cosinus divise par les normes et ne garde que l'orientation, où B est quasi colinéaire à q. D'où les embeddings normalisés des bases vectorielles.",
+      "source": {
+        "title": "Deep Learning (Goodfellow, Bengio, Courville) — chap. 2 Linear Algebra",
+        "url": "https://www.deeplearningbook.org/"
+      }
+    },
+    {
+      "id": "N4-E42",
+      "lessonId": "L112",
+      "competence": "C4.1",
+      "type": "mise_en_situation",
+      "q": "Couche Z = XWᵀ + b (convention PyTorch), mini-lot X = [[1, 2, 0], [0, 1, 3]], gradient d'aval Δ = ∂L/∂Z = [[1, −1], [2, 0,5]]. Que valent ∂L/∂W et ∂L/∂b ?",
+      "options": [
+        "∂L/∂W = Xᵀ Δ, de forme 3 × 2, qui ne correspond donc pas à la forme de la matrice de poids W",
+        "∂L/∂W = Δᵀ X, mais ∂L/∂b = (1,5 ; −0,25), car le gradient du biais est la moyenne des lignes de Δ",
+        "∂L/∂W = Δᵀ X = [[1, 4, 6], [−1, −1,5, 1,5]] (forme 2 × 3, comme W) et ∂L/∂b = (3 ; −0,5), la somme des lignes de Δ",
+        "∂L/∂W est la somme (3 ; −0,5), car les poids étant partagés sur tout le lot, leur gradient se somme aussi"
+      ],
+      "answer": 2,
+      "explanation": "Pour Z = XWᵀ + b : ∂L/∂W = Δᵀ X = [[1, 4, 6], [−1, −1,5, 1,5]] (forme 2 × 3, comme W) et ∂L/∂b est la SOMME des lignes de Δ, (3 ; −0,5), pas leur moyenne (vérifié par différences finies). Xᵀ Δ (3 × 2) est la transposée et n'a pas la forme de W.",
+      "source": {
+        "title": "PyTorch — A Gentle Introduction to torch.autograd",
+        "url": "https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html"
+      }
+    },
+    {
+      "id": "N4-E43",
+      "lessonId": "L113",
+      "competence": "C4.1",
+      "type": "mise_en_situation",
+      "q": "Échantillonnage avec logits z = (3 ; 2 ; 1 ; 0), température 0,5, puis top-p (nucleus) à 0,95. Quels tokens restent, et avec quelles probabilités renormalisées ?",
+      "options": [
+        "Les quatre tokens, car le top-p ne retire jamais de token tant que la température reste inférieure à 1",
+        "Le seul premier token, à 1,0, car une température de 0,5 équivaut toujours à un décodage glouton",
+        "Les deux premiers, à 0,881 et 0,119 : à T = 0,5 p = (0,865 ; 0,117 ; …) et le cumul franchit 0,95 au 2ᵉ",
+        "Les trois premiers, car à température 0,5 il faut cumuler trois tokens pour atteindre la masse 0,95"
+      ],
+      "answer": 2,
+      "explanation": "À T = 0,5 on divise les logits par 0,5 : p = (0,865 ; 0,117 ; 0,016 ; 0,002) (vérifié NumPy). Le cumul 0,865 puis 0,982 franchit 0,95 dès le 2ᵉ token : le noyau garde deux tokens, renormalisés à 0,881 et 0,119. La basse température creuse les écarts mais ne force pas le glouton.",
+      "source": {
+        "title": "PyTorch — torch.nn.CrossEntropyLoss",
+        "url": "https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html"
+      }
+    },
+    {
+      "id": "N4-E44",
+      "lessonId": "L113",
+      "competence": "C4.1",
+      "type": "trouve_erreur",
+      "q": "Un lot contient 6 tokens réels (perte moyenne 2,0 nats) et 2 tokens de remplissage. Le padding a été étiqueté classe 0 au lieu d'`ignore_index`, et `CrossEntropyLoss` renvoie 1,51. D'où vient l'écart ?",
+      "options": [
+        "`CrossEntropyLoss` ne sait pas moyenner : il faut passer `reduction='sum'` puis diviser soi-même par le nombre",
+        "La perte des tokens réels est devenue fausse : étiqueter le padding modifie aussi leurs gradients de rétropropagation",
+        "La température par défaut de la perte vaut 0,5, ce qui divise mécaniquement par deux la valeur affichée",
+        "Le padding, bien prédit (perte ≈ 0,05), entre dans la moyenne `reduction='mean'` et la tire vers le bas ; `ignore_index` l'exclurait"
+      ],
+      "answer": 3,
+      "explanation": "Par défaut `reduction='mean'` moyenne sur TOUS les tokens : (6×2,0 + 2×0,05)/8 ≈ 1,51 (vérifié NumPy), la perte paraît meilleure qu'elle n'est. `ignore_index` (−100 par défaut) exclut ces positions du calcul et du dénominateur. La perte n'a pas de paramètre de température.",
+      "source": {
+        "title": "PyTorch — torch.nn.CrossEntropyLoss",
+        "url": "https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html"
+      }
+    },
+    {
+      "id": "N4-E45",
+      "lessonId": "L114",
+      "competence": "C4.1",
+      "type": "mise_en_situation",
+      "q": "`LambdaLR`, taux de base 3e-4, warm-up linéaire sur 500 pas puis cosinus jusqu'à 10 % sur 10 000 pas. Quel taux au pas 0, au pas 500 et au dernier pas ?",
+      "options": [
+        "≈ 6e-7 au pas 0, 3e-4 au pas 500 (fin du warm-up), puis ≈ 3e-5 au dernier pas (plancher à 10 %)",
+        "Un taux constant de 3e-4 : un `LambdaLR` applique le même multiplicateur à chaque pas d'entraînement",
+        "3e-4 au pas 0, une montée jusqu'à 3e-3 au pas 500, puis un retour progressif à la valeur 3e-4",
+        "0 au pas 0, 3e-4 au pas 500, puis exactement 0 au dernier pas, car le cosinus s'annule en fin de course"
+      ],
+      "answer": 0,
+      "explanation": "Pendant le warm-up le multiplicateur vaut (t+1)/500 : au pas 0, 6e-7 ; au pas 500 il atteint 1, soit 3e-4 (vérifié NumPy). La décroissance cosinus descend ensuite au plancher 0,1, soit 3e-5 au dernier pas. Le warm-up évite un grand pas quand les statistiques d'Adam sont mal estimées.",
+      "source": {
+        "title": "PyTorch — torch.optim",
+        "url": "https://pytorch.org/docs/stable/optim.html"
+      }
+    },
+    {
+      "id": "N4-E46",
+      "lessonId": "L114",
+      "competence": "C4.1",
+      "type": "mise_en_situation",
+      "q": "À une itération instable, le gradient complet vaut (3 ; 4 ; 12), de norme 13. Vous appliquez `clip_grad_norm_` avec `max_norm = 1,0`. Quel gradient l'optimiseur utilise-t-il ?",
+      "options": [
+        "(0,231 ; 0,308 ; 0,923), le gradient divisé par 13 : la direction est conservée, la norme ramenée à 1,0",
+        "(3 ; 4 ; 12) inchangé, car l'écrêtage ne touche que les gradients dont la norme est inférieure à max_norm",
+        "(1 ; 1 ; 1), chaque composante étant ramenée individuellement à une valeur d'au plus 1,0 en valeur absolue",
+        "(0 ; 0 ; 0), car un gradient dont la norme dépasse max_norm est entièrement annulé par l'écrêtage"
+      ],
+      "answer": 0,
+      "explanation": "L'écrêtage par norme remplace g par g·max_norm/‖g‖ quand ‖g‖ > max_norm : g/13 = (0,231 ; 0,308 ; 0,923), de norme 1,0 (vérifié NumPy). La DIRECTION est préservée, seule la longueur est bornée — un limiteur contre les pics de perte, pas une annulation ni un écrêtage par composante.",
+      "source": {
+        "title": "PyTorch — torch.optim",
+        "url": "https://pytorch.org/docs/stable/optim.html"
+      }
+    },
+    {
+      "id": "N4-E47",
+      "lessonId": "L115",
+      "competence": "C4.2",
+      "type": "mise_en_situation",
+      "q": "Régression logistique, X = [[1, 2], [1, −1], [1, 0]] (1ʳᵉ colonne = biais), cibles y = (1 ; 0 ; 1), θ = (0 ; 0,5). Que vaut le gradient (1/m)·Xᵀ(σ(Xθ) − y) ?",
+      "options": [
+        "(0,5 ; 0,5) : le gradient vaut simplement la moyenne des erreurs, indépendamment des entrées du modèle",
+        "(0,13 ; 0,31) : il faut appliquer un softmax, et non une sigmoïde, sur chaque score avant de comparer à y",
+        "(0 ; 0) : le vecteur θ est déjà optimal, puisque deux des trois exemples sont bien de la classe 1",
+        "(−0,131 ; −0,305) : σ(Xθ) = (0,731 ; 0,378 ; 0,5), l'erreur σ − y est négative en moyenne, et le gradient aussi"
+      ],
+      "answer": 3,
+      "explanation": "Scores Xθ = (1 ; −0,5 ; 0), sigmoïde (0,731 ; 0,378 ; 0,5), erreur σ−y = (−0,269 ; 0,378 ; −0,5), gradient (1/3)·Xᵀ(σ−y) = (−0,131 ; −0,305) (vérifié NumPy). C'est la même forme « (1/m)·Xᵀ(p̂−y) » que la régression linéaire, avec la sigmoïde comme lien.",
+      "source": {
+        "title": "Stanford CS229 — Machine Learning",
+        "url": "https://cs229.stanford.edu/"
+      }
+    },
+    {
+      "id": "N4-E48",
+      "lessonId": "L116",
+      "competence": "C4.2",
+      "type": "mise_en_situation",
+      "q": "Sur 40 indicateurs comptables fortement corrélés, vous voulez un modèle performant qui n'en garde qu'une poignée, sans isoler arbitrairement « la » variable d'un groupe corrélé. Quel choix, et pourquoi standardiser ?",
+      "options": [
+        "Un Elastic Net (L1/L2), après standardisation : il annule des coefficients tout en gardant ensemble les variables corrélées",
+        "Un Ridge pur : sa pénalité L2 met à zéro les coefficients inutiles et réalise donc la sélection de variables",
+        "Aucune régularisation : avec 40 variables corrélées, toute pénalité dégrade forcément les performances du modèle",
+        "Un Lasso à très grand alpha, sans standardisation : c'est la seule façon d'annuler des coefficients inutiles"
+      ],
+      "answer": 0,
+      "explanation": "Le Lasso (L1) annule des coefficients mais, parmi des variables corrélées, en garde une seule, de façon instable. L'Elastic Net combine L1 (parcimonie) et L2 (garde les corrélées en groupe) : sélection plus stable. La standardisation est obligatoire car la pénalité porte sur la taille des coefficients. Ridge ne met jamais un coefficient exactement à zéro.",
+      "source": {
+        "title": "scikit-learn — Linear Models",
+        "url": "https://scikit-learn.org/stable/modules/linear_model.html"
+      }
+    },
+    {
+      "id": "N4-E49",
+      "lessonId": "L117",
+      "competence": "C4.2",
+      "type": "mise_en_situation",
+      "q": "Forêt aléatoire : chaque arbre a une variance σ² = 1 et une corrélation deux à deux ρ = 0,6, d'où une variance de la moyenne ρσ² + (1−ρ)σ²/B. Vous passez de B = 100 à 1 000 arbres. Que gagnez-vous ?",
+      "options": [
+        "La variance tombe à zéro : ajouter assez d'arbres finit toujours par supprimer toute la variance de la forêt",
+        "La variance est divisée par 10, de 0,604 à 0,0604 : elle décroît proportionnellement au nombre d'arbres",
+        "La variance passe de ≈ 0,604 à ≈ 0,600 : le terme individuel fond, mais le plancher ρσ² = 0,6 reste",
+        "Rien ne change : la variance d'une forêt aléatoire ne dépend pas du nombre d'arbres qu'elle contient"
+      ],
+      "answer": 2,
+      "explanation": "À B = 100 : 0,6 + 0,4/100 = 0,604 ; à B = 1 000 : 0,6004 (vérifié NumPy). Augmenter B efface le terme individuel (1−ρ)σ²/B mais jamais le terme commun ρσ² = 0,6. D'où l'importance de DÉCORRÉLER les arbres (`max_features`), ce que fait la forêt aléatoire.",
+      "source": {
+        "title": "scikit-learn — Ensembles: gradient boosting, random forests, bagging",
+        "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+      }
+    },
+    {
+      "id": "N4-E50",
+      "lessonId": "L118",
+      "competence": "C4.2",
+      "type": "mise_en_situation",
+      "q": "k-means (k = 2) partant de C1 = (1 ; 1), C2 = (2 ; 1) sur les points (1,1), (2,1), (1,3), (6,5), (7,7), (8,6). Après une première étape d'affectation puis de mise à jour, où sont les centres ?",
+      "options": [
+        "(1 ; 2) et (5,75 ; 4,75) : C1 reçoit (1,1) et (1,3), C2 les quatre autres, puis chaque centre va à la moyenne de son groupe",
+        "(1 ; 1) et (2 ; 1) : les centres ne bougent pas, puisqu'ils coïncident déjà avec deux des points donnés",
+        "(3,5 ; 3,83) et (3,5 ; 3,83) : les deux centres convergent aussitôt vers le barycentre de l'ensemble des points",
+        "(1,33 ; 1,67) et (7 ; 6) : c'est la partition finale convergée, obtenue dès cette première itération de Lloyd"
+      ],
+      "answer": 0,
+      "explanation": "Affectation : C1 ← {(1,1),(1,3)}, C2 ← {(2,1),(6,5),(7,7),(8,6)} ; moyennes C1 = (1 ; 2), C2 = (5,75 ; 4,75) (vérifié NumPy). La partition finale (1,33 ; 1,67) et (7 ; 6) n'arrive qu'à la 2ᵉ itération, quand (2,1) change de groupe : une passe de Lloyd ne converge pas forcément.",
+      "source": {
+        "title": "scikit-learn — Clustering",
+        "url": "https://scikit-learn.org/stable/modules/clustering.html"
+      }
+    },
+    {
+      "id": "N4-E51",
+      "lessonId": "L119",
+      "competence": "C4.2",
+      "type": "trouve_erreur",
+      "q": "Pipeline de churn : un collègue sélectionne les 20 meilleures variables avec `SelectKBest` sur TOUT le jeu, puis évalue une régression logistique en validation croisée 5 plis ; l'AUC paraît excellente. Où est la faute ?",
+      "options": [
+        "La validation croisée à 5 plis est trop optimiste : il aurait fallu au moins 10 plis pour un score fiable",
+        "`SelectKBest` ne doit jamais précéder une régression logistique, qui sélectionne déjà elle-même ses variables",
+        "Il faut standardiser après la sélection et non avant, sinon les 20 variables retenues sont biaisées d'emblée",
+        "La sélection hors pipeline voit les cibles des plis de validation : fuite ; il faut la mettre dans le pipeline"
+      ],
+      "answer": 3,
+      "explanation": "Sélectionner en regardant toutes les cibles, y compris celles des plis de validation, est une fuite : sur du bruit pur, le score dépasse alors le hasard. Correction : placer `SelectKBest` DANS le `Pipeline`, pour qu'il soit réajusté sur l'entraînement de chaque pli. Le nombre de plis n'est pas en cause.",
+      "source": {
+        "title": "scikit-learn — Common pitfalls and recommended practices",
+        "url": "https://scikit-learn.org/stable/common_pitfalls.html"
+      }
+    },
+    {
+      "id": "N4-E52",
+      "lessonId": "L120",
+      "competence": "C4.2",
+      "type": "mise_en_situation",
+      "q": "Critère fixé au cadrage : rappel ≥ 0,98. Le test scellé donne 0,95. Un collègue propose d'abaisser le seuil de décision directement sur ce test jusqu'à 0,98, puis de publier ce chiffre. Que répondez-vous ?",
+      "options": [
+        "C'est acceptable : comme on ne réentraîne pas le modèle, ajuster le seuil sur le test ne fausse rien du tout",
+        "Interdit : régler le seuil sur le test en fait un jeu de validation ; on le choisit hors pli, puis on lit le test une fois",
+        "C'est la bonne méthode, à la seule condition de ne faire cet ajustement du seuil qu'une seule et unique fois",
+        "Il faut au contraire abaisser le seuil sur le test jusqu'à atteindre un rappel de 1,0, par prudence médicale"
+      ],
+      "answer": 1,
+      "explanation": "Le seuil de décision est un hyperparamètre : l'ajuster sur le test scellé le transforme en jeu de validation et rend la performance publiée optimiste. On choisit le seuil sur des prédictions hors pli (`cross_val_predict`), puis on lit le test une fois. Avec 42 cas positifs, l'écart 0,95/0,98 tient dans l'intervalle de confiance : il appelle plus de données.",
+      "source": {
+        "title": "scikit-learn — Metrics and scoring",
+        "url": "https://scikit-learn.org/stable/modules/model_evaluation.html"
+      }
+    },
+    {
+      "id": "N4-E53",
+      "lessonId": "L121",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Un stagiaire retire toutes les activations ReLU d'un réseau censé résoudre XOR : h1 = x1+x2, h2 = x1+x2−1, sortie ŷ = h1 − 2h2. Que donne la sortie sur les quatre entrées ?",
+      "options": [
+        "(0,0)→0, (1,0)→1, (0,1)→1, (1,1)→0 : sans activation, le réseau résout tout de même XOR, par chance",
+        "(0,0)→2, (1,0)→1, (0,1)→1, (1,1)→0 : sans ReLU tout est affine (ŷ = 2 − (x1+x2)) et (0,0) donne 2 au lieu de 0",
+        "Les quatre sorties valent 0 : un réseau privé d'activation prédit toujours la classe majoritaire du jeu",
+        "Impossible à calculer : un réseau sans aucune activation ne peut pas réaliser de passe avant cohérente"
+      ],
+      "answer": 1,
+      "explanation": "Sans ReLU, ŷ = (x1+x2) − 2(x1+x2−1) = 2 − (x1+x2) : (0,0)→2, (1,0)→1, (0,1)→1, (1,1)→0 (vérifié). (1,0) et (0,1) donnent 1 par coïncidence, mais (0,0) donne 2 au lieu de 0. Empiler des couches linéaires reste affine : seule l'activation permet de séparer XOR.",
+      "source": {
+        "title": "MIT 6.S191 Introduction to Deep Learning (2026) — Lecture 1",
+        "url": "https://introtodeeplearning.com/"
+      }
+    },
+    {
+      "id": "N4-E54",
+      "lessonId": "L122",
+      "competence": "C4.3",
+      "type": "trouve_erreur",
+      "q": "Graphe L = ReLU(x·w + b)·x avec x = 2, w = −1, b = 3. Un collègue dit que le gradient de x vaut −1 (il n'a compté que le chemin via w·x). Quel est le vrai gradient de x ?",
+      "options": [
+        "−1 : le collègue a raison, le second usage de x dans le facteur extérieur ne contribue pas au gradient",
+        "+2 : seul le facteur extérieur ·x compte, la branche interne étant entièrement bloquée par le ReLU",
+        "−1 : x̄ = w × (gradient d'amont) = −1, car ReLU(1) laisse passer un gradient d'une valeur de 1",
+        "+1 : x apparaît deux fois (dans w·x et dans le facteur ·x), et les gradients des deux chemins s'additionnent"
+      ],
+      "answer": 3,
+      "explanation": "z = x·w+b = 1 > 0, ReLU laisse passer, L = 1·x = 2. x sert à deux endroits : via w·x (contribution −2) et via le facteur ·x (contribution +3), somme x̄ = +1 (vérifié par différences finies). Oublier que les gradients de deux chemins s'ADDITIONNENT (motif « collecteur ») est l'erreur.",
+      "source": {
+        "title": "Karpathy — micrograd (dépôt GitHub)",
+        "url": "https://github.com/karpathy/micrograd"
+      }
+    },
+    {
+      "id": "N4-E55",
+      "lessonId": "L124",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Vous appliquez `nn.Conv2d(3, 16, kernel_size=5, stride=1, padding=0)` à des images 3 × 64 × 64. Quelle forme de sortie, et combien de paramètres (biais compris) ?",
+      "options": [
+        "16 × 64 × 64 et 400 paramètres : avec padding = 0 la taille est conservée et chaque filtre a 25 poids",
+        "16 × 60 × 60 et 1 216 paramètres : (64 − 5)/1 + 1 = 60 de côté, et 16 × (3 × 5 × 5 + 1) = 1 216",
+        "3 × 60 × 60 et 1 216 paramètres : le nombre de canaux de sortie reste celui de l'entrée, soit trois",
+        "16 × 32 × 32 et 1 216 paramètres : un noyau de taille 5 × 5 divise toujours la résolution par deux"
+      ],
+      "answer": 1,
+      "explanation": "Sortie = (n + 2p − k)/s + 1 = (64 + 0 − 5)/1 + 1 = 60, un canal par filtre → 16 × 60 × 60. Paramètres = C_out × (C_in × k² + 1) = 16 × (75 + 1) = 1 216 (vérifié). La taille de l'image n'entre pas dans le compte ; il aurait fallu padding = 2 pour conserver 64 × 64.",
+      "source": {
+        "title": "PyTorch — torch.nn.Conv2d",
+        "url": "https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html"
+      }
+    },
+    {
+      "id": "N4-E56",
+      "lessonId": "L126",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Deux paramètres reçoivent des gradients d'échelles très différentes : g = 4e-3 et g = −2e-5 (embedding rare). Vous comparez un pas de SGD (lr = 1e-3) et un pas d'Adam (lr = 1e-3) au régime établi.",
+      "options": [
+        "SGD et Adam font bouger les deux paramètres de la même quantité : les deux optimiseurs sont ici équivalents",
+        "SGD déplace chaque paramètre selon son gradient (très inégaux), tandis qu'Adam les fait avancer de ±1e-3 chacun (m̂/√v̂ ≈ ±1)",
+        "Adam ignore l'embedding rare, dont le gradient est trop petit ; seul SGD parvient à le mettre à jour un peu",
+        "Les deux paramètres divergent avec Adam, car sa normalisation amplifie les petits gradients sans aucune limite"
+      ],
+      "answer": 1,
+      "explanation": "SGD : pas = lr·g, soit 4e-6 et −2e-8, l'embedding rare bouge à peine. Adam normalise par √(second moment) : m̂/√v̂ ≈ ±1 quelle que soit l'échelle, donc chaque paramètre avance d'environ lr = 1e-3 (vérifié NumPy). C'est l'invariance d'échelle d'Adam, précieuse pour les embeddings de tokens rares.",
+      "source": {
+        "title": "Kingma, Ba (2014) — Adam: A Method for Stochastic Optimization",
+        "url": "https://arxiv.org/abs/1412.6980"
+      }
+    },
+    {
+      "id": "N4-E57",
+      "lessonId": "L127",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Classifieur à 3 classes (1 000 images chacune). Matrice de confusion (lignes = vraies, colonnes = prédites) [[180, 15, 5], [30, 60, 10], [5, 5, 90]]. Que valent l'exactitude globale et le F1 macro ?",
+      "options": [
+        "Exactitude 0,99 et F1 macro 0,99 : la diagonale domine très largement chaque ligne de la matrice donnée",
+        "Exactitude 0,825 et F1 macro 0,825 : sur des classes équilibrées, le F1 macro est toujours égal à l'exactitude",
+        "Exactitude 0,825 et F1 macro 0,804 : (180+60+90)/400 pour l'exactitude, moyenne des F1 par classe (0,868 ; 0,667 ; 0,878)",
+        "Exactitude 0,60 et F1 macro 0,60 : on retient le rappel de la classe la plus faible comme score global unique"
+      ],
+      "answer": 2,
+      "explanation": "Exactitude = trace/total = (180+60+90)/400 = 0,825. Rappels (0,90 ; 0,60 ; 0,90), précisions (0,837 ; 0,75 ; 0,857), F1 (0,868 ; 0,667 ; 0,878), macro = 0,804 (vérifié NumPy). Le F1 macro pèse autant la classe difficile ; il n'égale pas l'exactitude, même sur classes équilibrées.",
+      "source": {
+        "title": "scikit-learn — confusion_matrix",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html"
+      }
+    },
+    {
+      "id": "N4-E58",
+      "lessonId": "L128",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Attention causale (3 tokens, d_k = 4). Les scores QKᵀ/√d_k, après masque causal, valent [[1, −∞, −∞], [0, 1, −∞], [1, 0,5, 1]], avec V = [[1, 0], [0, 1], [2, 2]]. Que vaut la sortie de la DERNIÈRE position ?",
+      "options": [
+        "≈ (1,15 ; 1,0) : softmax(1 ; 0,5 ; 1) = (0,384 ; 0,233 ; 0,384), puis moyenne pondérée des trois valeurs V",
+        "(1 ; 0) : en attention causale, la dernière position ne peut en fait regarder qu'elle-même, jamais le passé",
+        "(1 ; 1) : la sortie est la moyenne simple des trois valeurs, le masque n'agissant pas sur la dernière ligne",
+        "(2 ; 2) : la dernière position recopie simplement la valeur V du token ayant obtenu le plus haut score"
+      ],
+      "answer": 0,
+      "explanation": "La dernière ligne voit les trois positions : softmax(1 ; 0,5 ; 1) = (0,384 ; 0,233 ; 0,384) ; sortie = 0,384·(1,0) + 0,233·(0,1) + 0,384·(2,2) = (1,151 ; 1,0) (vérifié NumPy). Le masque causal n'interdit que de regarder le FUTUR ; la dernière position voit tout le passé et elle-même.",
+      "source": {
+        "title": "Vaswani et al. (2017) — Attention Is All You Need",
+        "url": "https://arxiv.org/abs/1706.03762"
+      }
+    },
+    {
+      "id": "N4-E59",
+      "lessonId": "L129",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Une équipe entraîne un transformer profond de 48 couches. En post-norm (x ← LN(x + F(x))), l'entraînement est instable au démarrage ; vous recommandez le pré-norm (x ← x + F(LN(x))). Qu'est-ce que cela change ?",
+      "options": [
+        "Le chemin résiduel reste une identité pure entrée→sortie : le gradient y circule et l'entraînement se stabilise",
+        "Rien pour la stabilité : pré-norm et post-norm sont deux écritures strictement équivalentes du même bloc",
+        "Le modèle compte moins de paramètres, la normalisation finale avant la tête de sortie devenant inutile",
+        "Les activations ne sont plus normalisées du tout, ce qui accélère le calcul au prix de la seule précision"
+      ],
+      "answer": 0,
+      "explanation": "En post-norm, les gradients près de la sortie sont très grands à l'initialisation (Xiong et al., 2020), d'où un warm-up délicat. En pré-norm, le chemin résiduel reste une identité pure : le gradient remonte sans obstacle et les modèles profonds s'entraînent beaucoup plus stablement. Comme la somme des résidus n'est jamais normalisée, on ajoute une norme finale avant la tête.",
+      "source": {
+        "title": "Shazeer (2020) — GLU Variants Improve Transformer",
+        "url": "https://arxiv.org/abs/2002.05202"
+      }
+    },
+    {
+      "id": "N4-E60",
+      "lessonId": "L131",
+      "competence": "C4.3",
+      "type": "trouve_erreur",
+      "q": "Un mini-GPT (block = 64) répète indéfiniment le dernier caractère après l'amorce. Sa génération fait `logits, _ = self(idx[:, -self.block:])`, qui tronque bien le contexte. D'où vient vraiment le problème ?",
+      "options": [
+        "Il plante immédiatement, car un GPT ne peut structurellement pas générer au-delà de la longueur de son block",
+        "Il produit exactement 64 tokens puis s'arrête proprement, le crop limitant la génération à la taille du block",
+        "Le crop évite tout plantage de forme ; la répétition trahit un autre bug : la cible n'a pas été décalée d'un cran",
+        "Il produit autant de tokens que l'amorce en compte, puis la génération se fige faute de contexte disponible"
+      ],
+      "answer": 2,
+      "explanation": "Le crop `idx[:, -self.block:]` garde au plus 64 positions : la génération ne plante donc jamais de forme (sans lui, elle planterait après 58 nouveaux tokens). La répétition du dernier caractère trahit le bug de L131 : à l'entraînement la cible n'a pas été décalée (`y = src[i+1:i+block+1]`), le modèle a appris à recopier son entrée.",
+      "source": {
+        "title": "Andrej Karpathy — nanoGPT (dépôt GitHub)",
+        "url": "https://github.com/karpathy/nanoGPT"
+      }
+    },
+    {
+      "id": "N4-E61",
+      "lessonId": "L132",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "Un modèle sera interrogé des milliards de fois. Au même budget d'entraînement, Meta a entraîné Llama 3 8B sur ≈ 15 000 Md de tokens (≈ 1 900 tokens/paramètre, bien au-delà de Chinchilla). Pourquoi ce « sur-entraînement » ?",
+      "options": [
+        "Parce que la règle de Chinchilla interdit formellement de dépasser 20 tokens d'entraînement par paramètre",
+        "Parce qu'un modèle de 8 milliards de paramètres atteint exactement l'optimum Chinchilla à 15 000 Md de tokens",
+        "Parce que le sur-entraînement rend toujours la perte finale meilleure que celle d'un modèle plus grand",
+        "Un petit modèle sur-entraîné coûte un peu plus à entraîner mais bien moins par requête, décisif quand l'inférence domine"
+      ],
+      "answer": 3,
+      "explanation": "Chinchilla minimise le coût d'ENTRAÎNEMENT seul. Un modèle populaire est entraîné une fois et servi des milliards de fois : il devient rentable de l'entraîner plus petit et beaucoup plus longtemps (≈ 1 900 tokens/param., presque 100× la règle). La perte finale est un peu moins bonne, mais chaque requête coûte bien moins cher.",
+      "source": {
+        "title": "Hoffmann et al. (2022) — Training Compute-Optimal Large Language Models (Chinchilla)",
+        "url": "https://arxiv.org/abs/2203.15556"
+      }
+    },
+    {
+      "id": "N4-E62",
+      "lessonId": "L134",
+      "competence": "C4.3",
+      "type": "mise_en_situation",
+      "q": "MoE à 4 experts. La perte d'équilibrage du Switch Transformer vaut N·Σ f_e·P_e (f_e = fraction de tokens vers l'expert e, P_e = sa probabilité moyenne). Avec f = (0,7 ; 0,1 ; 0,1 ; 0,1) et P = (0,6 ; 0,15 ; 0,15 ; 0,1), que vaut-elle ?",
+      "options": [
+        "0,25 : la perte est minimale ici, signe que le routage est parfaitement équilibré entre les quatre experts",
+        "≈ 1,84, au-dessus du minimum de 1,0 : elle signale un routage déséquilibré, le 1ᵉ expert captant l'essentiel des tokens",
+        "4,0 : la perte d'équilibrage vaut toujours le nombre d'experts, quelle que soit la répartition de la charge",
+        "0 : un routage de type top-1 comme celui du Switch Transformer n'a jamais besoin de perte d'équilibrage"
+      ],
+      "answer": 1,
+      "explanation": "N·Σ f_e·P_e = 4 × (0,7·0,6 + 0,1·0,15 + 0,1·0,15 + 0,1·0,1) = 4 × 0,46 = 1,84 (vérifié NumPy). Le minimum vaut 1,0 à charge uniforme ; 1,84 signale que le 1ᵉ expert reçoit 70 % des tokens. Sans cette perte, le routage « s'effondre » ; DeepSeek-V3 a popularisé une variante sans perte auxiliaire.",
+      "source": {
+        "title": "Fedus, Zoph, Shazeer (2021) — Switch Transformers",
+        "url": "https://arxiv.org/abs/2101.03961"
+      }
+    },
+    {
+      "id": "N4-E63",
+      "lessonId": "L135",
+      "competence": "C4.4",
+      "type": "mise_en_situation",
+      "q": "Une PME veut un assistant qui cite toujours le bon article du Code du travail, à jour des réformes. Un fine-tuning d'un petit modèle sur 800 questions-réponses suffira-t-il en production ?",
+      "options": [
+        "Non : le fine-tuning fixe le style, pas la loi à jour ; le modèle hallucinera des articles, d'où un RAG",
+        "Oui : 800 exemples bien rédigés suffisent à mémoriser durablement les numéros d'articles exacts du Code",
+        "Oui, à la condition de relancer le même fine-tuning sur ces 800 exemples chaque semaine en production",
+        "Non, car aucun modèle de moins de 70 milliards de paramètres ne peut traiter le droit du travail français"
+      ],
+      "answer": 0,
+      "explanation": "Le fine-tuning réorganise la manière de répondre (ton, prudence) mais n'injecte pas de connaissances fiables et à jour : le modèle inventera des numéros d'articles plausibles et ignorera les réformes. Pour des textes qui évoluent, l'architecture correcte est un RAG sur Légifrance ; le fine-tuning ne fixe que le style et la prudence.",
+      "source": {
+        "title": "Hu et al. (2021) — LoRA: Low-Rank Adaptation of Large Language Models",
+        "url": "https://arxiv.org/abs/2106.09685v1"
+      }
+    },
+    {
+      "id": "N4-E64",
+      "lessonId": "L136",
+      "competence": "C4.4",
+      "type": "mise_en_situation",
+      "q": "QLoRA « all-linear » d'un modèle de 8 Md de paramètres (d = 4 096, 8 têtes KV de dim. 128, MLP SwiGLU de largeur 14 336, 32 couches), rang r = 16 sur les 7 projections. Combien de paramètres LoRA, et quelle part du modèle ?",
+      "options": [
+        "Environ 8 milliards : LoRA réentraîne en réalité tout le modèle de base, ce qui explique son coût élevé",
+        "Environ 131 072 : une seule paire de matrices LoRA suffit à adapter l'ensemble du modèle de 8 milliards",
+        "Environ 2 milliards, soit 25 % : c'est pourquoi QLoRA demande autant de VRAM qu'un fine-tuning complet",
+        "Environ 42 millions de paramètres LoRA, soit ≈ 0,5 % des 8 Md : r·(entrée+sortie) sur les 7 projections × 32 couches"
+      ],
+      "answer": 3,
+      "explanation": "Par couche : q, o en d→d, k, v en d→1024, gate, up en d→14336 et down en 14336→d, soit ≈ 1,31 M × 32 ≈ 42 M (vérifié NumPy), ≈ 0,5 % des 8 Md. LoRA n'approxime pas le modèle mais sa MISE À JOUR : le modèle gelé reste intact, d'où un adaptateur de quelques dizaines de Mo.",
+      "source": {
+        "title": "Dettmers et al. (2023) — QLoRA: Efficient Finetuning of Quantized LLMs",
+        "url": "https://arxiv.org/abs/2305.14314"
+      }
+    },
+    {
+      "id": "N4-E65",
+      "lessonId": "L137",
+      "competence": "C4.4",
+      "type": "trouve_erreur",
+      "q": "Vous préparez le jeu d'un fine-tuning SAV à partir d'un export de courriels. Laquelle de ces pratiques est une ERREUR à corriger absolument ?",
+      "options": [
+        "Pseudonymiser e-mails, téléphones et IBAN par des marqueurs avant d'entraîner, au titre de la minimisation (RGPD)",
+        "Séparer les jeux d'entraînement et d'évaluation avant toute génération synthétique, et dédupliquer par empreinte normalisée",
+        "Générer des exemples synthétiques via l'API d'un fournisseur commercial sans vérifier ses CGU sur le droit d'entraîner un modèle dessus",
+        "Relire à la main un échantillon de 50 exemples, aucun filtre automatique ne détectant une réponse factuellement fausse"
+      ],
+      "answer": 2,
+      "explanation": "Les trois autres pratiques sont correctes. La propriété des sorties d'une API et le DROIT d'en entraîner un modèle sont deux questions distinctes, réglées par les CGU : les utiliser pour un modèle commercial sans vérifier les conditions est l'erreur. On documente la source et la version des CGU, et l'on privilégie un modèle Apache 2.0/MIT en cas de doute.",
+      "source": {
+        "title": "CNIL — Développement des systèmes d'IA : les recommandations de la CNIL",
+        "url": "https://www.cnil.fr/fr/developpement-des-systemes-dia-les-recommandations-de-la-cnil-pour-respecter-le-rgpd"
+      }
+    },
+    {
+      "id": "N4-E66",
+      "lessonId": "L138",
+      "competence": "C4.4",
+      "type": "mise_en_situation",
+      "q": "Juge LLM A/B (fine-tuné FT vs base), chaque paire jouée dans les deux ordres, verdicts concordants seuls retenus. Sur 120 paires : 52 pour FT, 18 pour la base, le reste discordant. Comment lire le résultat ?",
+      "options": [
+        "FT gagne 52 fois, la base 18, 50 égalités ; sur les paires décisives FT mène à ≈ 74 %, à confirmer hors biais de longueur",
+        "Le juge préfère nettement la base : avec 18 victoires franches contre 52, le modèle fine-tuné a échoué",
+        "Le résultat est nul : jouer chaque paire deux fois ne fait que doubler artificiellement tous les comptages",
+        "FT ne gagne que 52/120 ≈ 43 % des paires, donc moins de la moitié : la base reste globalement meilleure"
+      ],
+      "answer": 0,
+      "explanation": "Jouer A/B puis B/A et ne garder que les verdicts concordants neutralise le biais de POSITION : 52 FT, 18 base, 50 égalités (discordances). Parmi les 70 paires décisives, FT l'emporte à 52/70 ≈ 74 % (vérifié NumPy). Un juge LLM reste biaisé (longueur, auto-préférence) : on le complète par des métriques déterministes et on le calibre sur une centaine d'exemples humains.",
+      "source": {
+        "title": "UK AISI — Inspect AI",
+        "url": "https://github.com/UKGovernmentBEIS/inspect_ai"
+      }
+    },
+    {
+      "id": "N4-E67",
+      "lessonId": "L139",
+      "competence": "C4.4",
+      "type": "mise_en_situation",
+      "q": "5 millions de requêtes/an (500 tokens entrée, 300 sortie). Fine-tuning API gpt-4.1-mini (inférence 0,80/0,20/3,20 $ par MTok), prompt sur Mistral Small 4 (0,15/0,60 $), ou L4 louée 24/7 (0,75 €/h). Quel ordre de grandeur annuel pour l'inférence ?",
+      "options": [
+        "Les trois options coûtent à peu près le même montant : le choix se fait uniquement sur la confidentialité",
+        "gpt-4.1-mini ≈ 300 $, Mistral ≈ 6 800 $, L4 ≈ 1 275 € : l'API du plus petit modèle est toujours la plus chère",
+        "gpt-4.1-mini ≈ 6 800 $, Mistral Small 4 ≈ 1 275 $, L4 24/7 ≈ 6 570 € : l'API bon marché reste la moins chère ici",
+        "L4 ≈ 79 € : un GPU loué aux seules heures ouvrées suffit toujours pour absorber 5 millions de requêtes/an"
+      ],
+      "answer": 2,
+      "explanation": "2,5 M MTok entrée et 1,5 M sortie. gpt-4.1-mini FT : 2500·0,80 + 1500·3,20 ≈ 6 800 $. Mistral Small 4 : 2500·0,15 + 1500·0,60 ≈ 1 275 $. L4 24/7 : 0,75·8 760 ≈ 6 570 € (vérifié NumPy). L'API Mistral est la moins chère ; l'auto-hébergement se justifie par la confidentialité ou un volume bien plus élevé.",
+      "source": {
+        "title": "OpenAI — API pricing",
+        "url": "https://developers.openai.com/api/docs/pricing"
+      }
+    },
+    {
+      "id": "N4-E68",
+      "lessonId": "L140",
+      "competence": "C4.4",
+      "type": "mise_en_situation",
+      "q": "Grille (poids : solution 30 %, pas d'invention 20 %, ton 15 %, format 10 %, cas pièges 15 %, non-régression 10 %). FT note (80, 90, 85, 95, 60, 90), base (70, 70, 50, 60, 55, 100). Le critère « FT ≥ base + 15 » est-il atteint ?",
+      "options": [
+        "Non : sur le premier critère, la note de FT (80) ne dépasse celle de la base (70) que de 10 points seulement",
+        "Oui, tout juste : FT obtient 82,25/100 et la base 66,75/100, soit un écart de 15,5 points, au-dessus du seuil",
+        "Non : la base obtient 100 points en non-régression, le meilleur score possible, donc elle remporte le projet",
+        "Impossible à trancher sans connaître le prix horaire du GPU utilisé pour entraîner le modèle fine-tuné"
+      ],
+      "answer": 1,
+      "explanation": "On applique les poids : FT = 0,30·80 + 0,20·90 + 0,15·85 + 0,10·95 + 0,15·60 + 0,10·90 = 82,25 ; base = 66,75 (vérifié NumPy). Écart 15,5, juste au-dessus du seuil de 15. La note se juge sur la somme PONDÉRÉE, pas critère par critère ; restent les conditions cumulatives (non-régression ≤ 2 points, zéro invention grave).",
+      "source": {
+        "title": "Unsloth — documentation",
+        "url": "https://unsloth.ai/docs"
+      }
+    },
+    {
+      "id": "N4-E69",
+      "lessonId": "L141",
+      "competence": "C4.5",
+      "type": "mise_en_situation",
+      "q": "Quantization symétrique INT4 par groupe. Un groupe de 4 poids (0,02 ; −0,05 ; 0,6 ; 0,01) contient une valeur aberrante (0,6). Que devient le poids 0,02 après quantization-déquantization ?",
+      "options": [
+        "Il est arrondi à 0 : l'échelle fixée par l'outlier (0,6/7 ≈ 0,086) écrase les petits poids, d'où les groupes fins",
+        "Il est parfaitement conservé à 0,02 : une quantization INT4 n'altère jamais les poids de petite amplitude",
+        "Il devient 0,6 : tous les poids d'un même groupe prennent la valeur de l'élément aberrant le plus grand",
+        "Il devient −0,05 : la quantization inverse le signe des poids inférieurs en valeur absolue à l'échelle"
+      ],
+      "answer": 0,
+      "explanation": "Échelle symétrique = max|x|/7 = 0,6/7 ≈ 0,0857 ; round(0,02/0,0857) = 0, donc 0,02 → 0 (vérifié NumPy). Une seule valeur aberrante étire la grille et écrase les petits poids. Un groupe plus fin (échelle ≈ 0,007) conserverait 0,02 : d'où les formats 4 bits « par groupe », au prix de quelques bits de métadonnées.",
+      "source": {
+        "title": "llama.cpp — dépôt officiel (ggml-org)",
+        "url": "https://github.com/ggml-org/llama.cpp"
+      }
+    },
+    {
+      "id": "N4-E70",
+      "lessonId": "L142",
+      "competence": "C4.5",
+      "type": "mise_en_situation",
+      "q": "Un appel d'API non streamé produit 250 tokens, avec TTFT = 1,8 s et TPOT = 25 ms. Quelle latence de bout en bout, et que change un prefix caching qui ramène le TTFT à 0,25 s ?",
+      "options": [
+        "0,25 s dans les deux cas, car la latence de bout en bout est égale au seul temps par token généré (TPOT)",
+        "≈ 8,0 s, ramenée à ≈ 6,5 s : E2E = TTFT + TPOT × (n − 1) ; le prefix caching n'agit que sur le prefill",
+        "45 s, car la latence vaut 250 × TPOT, le temps jusqu'au premier token (TTFT) n'entrant pas dans le calcul",
+        "≈ 8,0 s, inchangée par le cache, car le prefix caching n'accélère que la phase de decode, jamais le prefill"
+      ],
+      "answer": 1,
+      "explanation": "E2E = TTFT + TPOT·(n−1) = 1,8 + 0,025·249 ≈ 8,02 s ; avec TTFT = 0,25 s, ≈ 6,48 s (vérifié NumPy). Le prefix caching réutilise le KV cache des préfixes déjà vus : il réduit le PREFILL (donc le TTFT), pas le temps par token. D'où la règle : contenu stable en tête, contenu variable à la fin.",
+      "source": {
+        "title": "Kwon et al. (2023) — Efficient Memory Management for LLM Serving with PagedAttention (vLLM)",
+        "url": "https://arxiv.org/abs/2309.06180"
+      }
+    },
+    {
+      "id": "N4-E71",
+      "lessonId": "L143",
+      "competence": "C4.5",
+      "type": "mise_en_situation",
+      "q": "Dimensionnement : λ = 3 req/s en pointe, 1 800 tokens entrée, 250 sortie, SLO TTFT < 0,8 s et TPOT < 40 ms, poids 5,5 Go, KV 144 Kio/token, marge 1,5, réserve 3 Go. Combien de requêtes simultanées, et une L4 24 Go suffit-elle ?",
+      "options": [
+        "L ≈ 3 requêtes, VRAM ≈ 6 Go : une L4 de 24 Go est très largement surdimensionnée pour un tel service",
+        "L ≈ 32 requêtes, VRAM ≈ 23,2 Go : une L4 (≈ 21,6 Go utiles) est trop juste, une L40S 48 Go est confortable",
+        "L ≈ 32 requêtes, VRAM ≈ 90 Go : il faut au minimum deux GPU H100 de 80 Go pour tenir la charge de pointe",
+        "L ≈ 750 requêtes, VRAM ≈ 320 Go : seule une grappe de plusieurs serveurs convient à ce profil de charge"
+      ],
+      "answer": 1,
+      "explanation": "W = TTFT + T_out·TPOT = 0,8 + 250·0,04 = 10,8 s ; loi de Little L = λ·W = 32 requêtes. KV/req = (1800+250)·144 Kio ≈ 0,30 Go ; VRAM ≈ 5,5 + 32·0,30·1,5 + 3 ≈ 23,2 Go (vérifié NumPy). Une L4 n'offre que ≈ 21,6 Go utiles : trop juste ; la L40S 48 Go laisse de la marge.",
+      "source": {
+        "title": "Scaleway — Tarifs GPU",
+        "url": "https://www.scaleway.com/en/pricing/gpu"
+      }
+    },
+    {
+      "id": "N4-E72",
+      "lessonId": "L144",
+      "competence": "C4.5",
+      "type": "mise_en_situation",
+      "q": "Un bug apparaît en production : impossible de reproduire l'incident ni de revenir proprement à l'état précédent. Quels quatre artefacts un manifeste de release LLM doit-il figer, chacun par une empreinte immuable ?",
+      "options": [
+        "Uniquement les poids du modèle : eux seuls déterminent entièrement le comportement observé en production",
+        "Le modèle (révision ou hash GGUF), les données (hash DVC), le prompt (version + alias) et le service (digest d'image)",
+        "Le GPU, le pilote CUDA, la version de Python et le système d'exploitation du serveur d'inférence",
+        "Le prompt système et la température, les deux seuls réglages qui influent sur les réponses produites"
+      ],
+      "answer": 1,
+      "explanation": "Une release LLM = modèle + données + prompt + service, chacun identifié par une empreinte immuable (révision HF ou hash du GGUF, hash DVC + commit git, version + alias de prompt, digest sha256 de l'image). Si l'un des quatre manque dans le manifeste, on ne peut ni reproduire un incident ni revenir en arrière proprement.",
+      "source": {
+        "title": "MLflow — documentation",
+        "url": "https://mlflow.org"
+      }
+    },
+    {
+      "id": "N4-E73",
+      "lessonId": "L145",
+      "competence": "C4.5",
+      "type": "mise_en_situation",
+      "q": "Une application mobile hors ligne embarque un modèle de 3B et sa fiche annonce un contexte de 128K tokens. Un collègue veut y charger systématiquement 100 000 tokens de documents. Pourquoi est-ce trompeur sur un téléphone ?",
+      "options": [
+        "Un contexte de 128K est impossible sur mobile : le NPU ne sait traiter que des prompts de moins de 4K tokens",
+        "Aucun problème : si la fenêtre de 128K est annoncée, le modèle exploite aussi bien tout le contexte chargé",
+        "Le coût de calcul du prefill est nul sur un NPU, seule la génération comptant pour l'autonomie de la batterie",
+        "Le KV cache grandit avec le contexte et dévore la RAM du téléphone : viser quelques milliers de tokens, pas la fenêtre max"
+      ],
+      "answer": 3,
+      "explanation": "Même quand la fiche annonce 128K, le KV cache (proportionnel au contexte) dévore la RAM limitée d'un téléphone : on vise quelques milliers de tokens. S'ajoute le problème « Lost in the Middle » : un long contexte n'est pas un contexte bien exploité. Un RAG ciblé reste préférable au chargement massif.",
+      "source": {
+        "title": "Apple Machine Learning Research — Exploring LLMs with MLX and the Neural Accelerators in the M5 GPU",
+        "url": "https://machinelearning.apple.com/research/exploring-llms-mlx-m5"
+      }
+    },
+    {
+      "id": "N4-E74",
+      "lessonId": "L142",
+      "competence": "C4.5",
+      "type": "mise_en_situation",
+      "q": "Un long prompt de RAG (50 000 tokens) traité par vLLM gèle la génération des autres utilisateurs pendant son prefill. Quelle technique résout ce gel, et via quel réglage principal ?",
+      "options": [
+        "Le décodage spéculatif, un petit modèle brouillon proposant les tokens du long prompt pour éviter le gel",
+        "La désactivation du prefix caching, qui est seule responsable du gel observé pendant le prefill du prompt",
+        "L'augmentation de la taille de lot statique, qui laisse le long prefill se terminer avant d'admettre les autres",
+        "Le chunked prefill découpe le long prompt en morceaux intercalés entre les pas de decode, via `--max-num-batched-tokens`"
+      ],
+      "answer": 3,
+      "explanation": "Le chunked prefill découpe un long prompt en morceaux intercalés entre les pas de decode des autres requêtes, pour que leur génération ne gèle pas ; le paramètre clé de vLLM est `--max-num-batched-tokens`. Le décodage spéculatif accélère le decode, pas le prefill ; le prefix caching aide au contraire au lieu de nuire.",
+      "source": {
+        "title": "Kwon et al. (2023) — Efficient Memory Management for LLM Serving with PagedAttention (vLLM)",
+        "url": "https://arxiv.org/abs/2309.06180"
+      }
+    },
+    {
+      "id": "N4-E75",
+      "lessonId": "L146",
+      "competence": "C4.6",
+      "type": "mise_en_situation",
+      "q": "Un assistant fiscal donne le bon taux, puis un collaborateur affirme « je suis sûr que c'est 10 % » et l'assistant se range à cet avis erroné. De quel mode d'échec s'agit-il, et comment le mesurer ?",
+      "options": [
+        "D'une porte dérobée (sleeper agent) déclenchée par le mot « sûr » ; on la détecte par rétro-ingénierie des poids",
+        "Du reward hacking : le modèle maximise une récompense mal spécifiée en trichant sur les tests qui l'évaluent",
+        "De l'alignement de façade : le modèle se comporte autrement selon qu'il se croit observé ou en entraînement",
+        "De la complaisance (sycophancy) : changer une réponse juste quand l'utilisateur conteste ; mesurée par paires"
+      ],
+      "answer": 3,
+      "explanation": "Changer une réponse correcte parce que l'utilisateur conteste est la définition de la sycophancy (Sharma et al., 2023), en partie un produit de l'apprentissage par préférences. On la mesure en posant la même question AVEC et SANS opinion et en suivant le taux de bascule. Contre-mesures : consignes système, revue humaine des sujets à enjeu.",
+      "source": {
+        "title": "Sharma et al. (2023) — Towards Understanding Sycophancy in Language Models",
+        "url": "https://arxiv.org/abs/2310.13548"
+      }
+    },
+    {
+      "id": "N4-E76",
+      "lessonId": "L147",
+      "competence": "C4.6",
+      "type": "mise_en_situation",
+      "q": "Red teaming, chaque cas rejoué 5 fois. ASR par famille : jeu de rôle 3/50, obfuscation 0/40, injection indirecte 12/60, extraction de contexte 9/30. Comment lire ces taux, et qu'ajouter au rapport ?",
+      "options": [
+        "Le système est sûr : l'obfuscation ayant un ASR nul, l'audit peut être déclaré concluant pour l'ensemble",
+        "Il faut retenir uniquement l'ASR le plus bas (0 %) comme indicateur global de la robustesse du système testé",
+        "L'ASR global ≈ 13 % cache les disparités : injection indirecte (20 %) et extraction (30 %) dominent ; reporter aussi les refus",
+        "Rejouer chaque cas 5 fois gonfle artificiellement tous les ASR : il faudrait ne jouer chaque cas qu'une seule fois"
+      ],
+      "answer": 2,
+      "explanation": "ASR par famille : 6 %, 0 %, 20 %, 30 % ; global 24/180 ≈ 13 % (vérifié NumPy). La moyenne masque que l'injection indirecte et l'extraction sont les points faibles. Un bon rapport donne l'ASR par famille AVEC intervalle de confiance (d'où les 5 répétitions) ET le taux de refus excessif : un système qui refuse tout est « sûr » mais inutile.",
+      "source": {
+        "title": "Anthropic — Many-shot jailbreaking",
+        "url": "https://www.anthropic.com/research/many-shot-jailbreaking"
+      }
+    },
+    {
+      "id": "N4-E77",
+      "lessonId": "L148",
+      "competence": "C4.6",
+      "type": "trouve_erreur",
+      "q": "Un garde côté code limite `payer_facture` aux montants ≤ 2 000 € vers un IBAN français et exige une approbation humaine pour les actions irréversibles. Un collègue affirme qu'un paiement de 3 500 € vers un IBAN français déclenchera l'approbation humaine. A-t-il raison ?",
+      "options": [
+        "Oui : toute action irréversible passe systématiquement par l'approbation humaine, quel que soit son montant",
+        "Oui, mais seulement dans le cas où l'IBAN de destination n'est pas déjà présent dans la liste blanche interne",
+        "Non : le validateur (montant entre 0 et 2 000 €) refuse la demande avant l'approbation et journalise « paramètres invalides »",
+        "Non : le garde laisse toujours passer les paiements vers un IBAN français, sans jamais contrôler le montant"
+      ],
+      "answer": 2,
+      "explanation": "Le garde vérifie d'abord le validateur : 3 500 € sort de [0 ; 2 000], la demande est REFUSÉE et journalisée (« paramètres invalides ») avant l'étape d'approbation — l'humain n'est sollicité que pour les demandes conformes et irréversibles. Mettre la règle dans le code plutôt que dans le prompt résiste à une injection : « le prompt oriente, le code contraint ».",
+      "source": {
+        "title": "OWASP — Agentic AI: Threats and Mitigations",
+        "url": "https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/"
+      }
+    },
+    {
+      "id": "N4-E78",
+      "lessonId": "L149",
+      "competence": "C4.6",
+      "type": "mise_en_situation",
+      "q": "Après l'omnibus (règlement (UE) 2026/1744, en vigueur le 27 juillet 2026), une banque française déploie un outil de scoring de crédit des particuliers. À quelle date s'appliquent les obligations « haut risque » de l'annexe III, et comme quoi la banque agit-elle ?",
+      "options": [
+        "Au 2 août 2026, et sans obligation particulière pour la banque, qui se contente d'utiliser l'outil fourni",
+        "Au 2 février 2025, date des pratiques interdites, la banque devant alors retirer immédiatement l'outil du marché",
+        "Au 2 décembre 2027 (annexe III reportée) : déployeur (art. 26), notice, contrôle humain, journaux ≥ 6 mois et FRIA (art. 27)",
+        "Au 2 août 2028, échéance de l'annexe I (produits réglementés), et sans analyse d'impact à produire par ailleurs"
+      ],
+      "answer": 2,
+      "explanation": "L'omnibus 2026/1744 reporte l'annexe III (dont le crédit) au 2 décembre 2027. Le déployeur (art. 26) suit la notice, confie le contrôle humain à des personnes compétentes, surveille, conserve les journaux ≥ 6 mois et informe les personnes ; l'évaluation de solvabilité impose en plus une FRIA (art. 27). Le report décale l'examen, pas l'obligation.",
+      "source": {
+        "title": "EUR-Lex — Règlement (UE) 2024/1689 (AI Act)",
+        "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+      }
+    },
+    {
+      "id": "N4-E79",
+      "lessonId": "L149",
+      "competence": "C4.6",
+      "type": "mise_en_situation",
+      "q": "Un fournisseur publie un modèle GPAI dense de 400 Md de paramètres entraîné sur 15 000 Md de tokens. En estimant C ≈ 6ND, est-il présumé « à risque systémique » (seuil 10²⁵ FLOP), et qu'implique ce statut ?",
+      "options": [
+        "Non : seul le nombre de paramètres compte pour ce seuil, et 400 milliards restent en dessous de la limite",
+        "Oui : C ≈ 3,6 × 10²⁵ FLOP > 10²⁵ ; il doit être évalué par tests adversariaux et atténuer les risques systémiques (art. 55)",
+        "Oui, mais le seul effet concret de ce statut est l'obligation de publier un résumé du contenu d'entraînement",
+        "Non : le seuil de risque systémique de l'AI Act ne s'applique qu'aux modèles d'IA de type multimodal"
+      ],
+      "answer": 1,
+      "explanation": "C ≈ 6ND = 6 × 4×10¹¹ × 1,5×10¹³ = 3,6×10²⁵ FLOP > 10²⁵ (art. 51) : présumé à risque systémique (vérifié NumPy). Au-delà des obligations GPAI de base (art. 53), l'art. 55 impose une évaluation avec tests adversariaux, l'atténuation des risques systémiques, le signalement des incidents graves et une cybersécurité adéquate.",
+      "source": {
+        "title": "EUR-Lex — Règlement (UE) 2024/1689 (AI Act)",
+        "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+      }
+    },
+    {
+      "id": "N4-E80",
+      "lessonId": "L150",
+      "competence": "C4.6",
+      "type": "mise_en_situation",
+      "q": "À la soutenance du projet final, un candidat affirme « mon système est totalement sûr, aucune attaque ne passe » mais n'a testé qu'une famille d'attaque ; un autre dit « nous n'avons pas testé l'injection indirecte, voici pourquoi et notre plan ». Qu'attend le jury ?",
+      "options": [
+        "Le second : le jury attend un système dont on connaît les limites, preuves à l'appui ; « non testé, voici le plan » vaut mieux",
+        "Le premier : une affirmation de sécurité totale est l'argument le plus convaincant qu'on puisse présenter en soutenance",
+        "Les deux à égalité : la couverture des familles d'attaque n'entre pas dans la grille d'évaluation du projet final",
+        "Ni l'un ni l'autre : seul un taux de succès d'attaque strictement nul sur toutes les familles valide le projet final"
+      ],
+      "answer": 0,
+      "explanation": "Le jury n'attend pas un système parfait mais un système dont le candidat CONNAÎT les limites, preuves à l'appui. « Nous n'avons pas testé X, voici pourquoi et le plan » vaut mieux qu'une affirmation de sécurité totale, qui contredit le principe du red teaming : aucun modèle n'est « impossible à contourner ». La grille valorise la couverture des menaces et l'honnêteté.",
+      "source": {
+        "title": "Stanford CS25 — Transformers United V6",
+        "url": "https://web.stanford.edu/class/cs25/index.html"
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+# Next Formation IA servie sous https://formation.nikaholding.world/ia
+#
+# Le site principal (Next Formation) occupe déjà ce domaine : ajouter seulement le bloc `handle /ia*` DANS le bloc
+# existant `formation.nikaholding.world { … }`. Caddy évalue `handle` avant le `reverse_proxy` général : tout ce qui
+# commence par /ia part vers Next Formation IA, le reste vers Next Formation. Ne pas utiliser `handle_path` :
+# l'application attend le préfixe /ia (basePath).
+#
+# - Caddy dans le même réseau Docker que docker-compose.yml : reverse_proxy app:3000
+# - Conteneur en réseau hôte (deploy/nikaholding.sh)    : reverse_proxy 127.0.0.1:3061
+
+formation.nikaholding.world {
+	encode zstd gzip
+
+	handle /ia* {
+		reverse_proxy app:3000 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	# … configuration existante de Next Formation (reverse_proxy 127.0.0.1:3060, etc.) …
+}

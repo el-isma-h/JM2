@@ -1,0 +1,43 @@
+# docker-compose.yml — Compta-Chat (lab L105)
+#   cp .env.example .env            (DEMO_TOKEN obligatoire ; APP_DIR=solution pour tester le corrigé)
+#   docker compose up -d --build    → http://127.0.0.1:3000 (app seule, en local)
+#   docker compose --profile https up -d --build   → + Caddy en HTTPS (DOMAINE dans .env ; localhost par défaut)
+# Version déployée : IMAGE_TAG (SHA du commit en CI) → renvoyée par /api/health ; retour arrière :
+#   IMAGE_TAG=<sha_precedent> docker compose up -d --no-build app
+services:
+  app:
+    build:
+      context: .
+      target: runner
+      args:
+        APP_DIR: ${APP_DIR:-starter}
+    image: compta-chat-app:${IMAGE_TAG:-local}
+    restart: unless-stopped
+    env_file: .env                     # hors dépôt, droits 600 ; en production : .env.production
+    environment:
+      APP_VERSION: ${IMAGE_TAG:-local}
+    ports:
+      - "127.0.0.1:3000:3000"          # local uniquement ; derrière Caddy, retirez cette ligne
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  caddy:
+    image: caddy:2
+    profiles: ["https"]
+    restart: unless-stopped
+    ports: ["80:80", "443:443", "443:443/udp"]
+    environment:
+      DOMAINE: ${DOMAINE:-localhost}
+    volumes:
+      - ./Caddyfile.exemple:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data               # certificats : à conserver, sinon limites Let's Encrypt
+      - caddy_config:/config
+    depends_on:
+      app: { condition: service_healthy }
+
+volumes:
+  caddy_data: {}
+  caddy_config: {}

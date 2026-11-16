@@ -1,0 +1,5 @@
+# Mode simulé (tests hors ligne)
+pandas>=2.2
+pytest>=8
+# Mode réel : décommentez (SDK v2, version d'API 2026-10-21)
+# anthropic>=2.0

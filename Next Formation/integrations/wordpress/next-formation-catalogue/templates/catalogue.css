@@ -1,0 +1,12 @@
+/* Next Formation : catalogue. Styles volontairement sobres : le thème garde la main sur les polices et couleurs. */
+.nfc-catalogue { --nfc-line: rgba(0, 0, 0, 0.14); --nfc-muted: rgba(0, 0, 0, 0.6); }
+.nfc-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+.nfc-item { border: 1px solid var(--nfc-line); padding: 1rem 1.1rem; margin: 0; }
+.nfc-meta { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--nfc-muted); margin: 0 0 0.4rem; }
+.nfc-title { margin: 0 0 0.6rem; font-size: 1.1rem; line-height: 1.3; }
+.nfc-facts { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; margin: 0 0 0.6rem; font-size: 0.9rem; }
+.nfc-facts dt { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--nfc-muted); }
+.nfc-facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+.nfc-objectives, .nfc-next { font-size: 0.9rem; margin: 0 0 0.6rem; }
+.nfc-links { display: flex; flex-wrap: wrap; gap: 1rem; margin: 0.4rem 0 0; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.nfc-footer, .nfc-empty, .nfc-error { font-size: 0.85rem; color: var(--nfc-muted); }

@@ -1,0 +1,23 @@
+# Caddyfile.exemple — HTTPS automatique devant Compta-Chat (lab L105, jalon 4).
+# DOMAINE vient de l'environnement (docker-compose.yml) : avec un vrai sous-domaine dont le DNS pointe
+# vers le serveur, Caddy obtient et renouvelle seul un certificat Let's Encrypt ; avec « localhost »,
+# il utilise sa propre autorité locale (avertissement du navigateur, normal en test).
+{$DOMAINE:localhost} {
+	# Compression : jamais sur le flux de chat. Une compression appliquée en bloc casse le streaming.
+	@pas_flux not path /api/chat
+	encode @pas_flux zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	reverse_proxy app:3000 {
+		flush_interval -1                     # envoie chaque fragment immédiatement : indispensable au streaming
+		transport http {
+			response_header_timeout 90s       # cohérent avec maxDuration et le timeout du fournisseur
+		}
+	}
+}

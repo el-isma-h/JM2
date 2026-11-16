@@ -1,0 +1,47 @@
+# Corrections de code — Niveau 5 (défauts du texte d'origine)
+
+Date : 5 novembre 2026. Sources : `_test-lecteur-N5.md` (§ 4, « Texte d'origine à corriger, laissé intact », et § 5) et `_harmonisation-N5.md`.
+Règle suivie : corrections **minimales**. Aucun contenu pédagogique supprimé, aucun bloc `quiz` ou `mission` touché, aucun autre fichier modifié.
+Sauvegarde avant intervention : `/tmp/claude-0/-home-claude/59782ef9-62d8-5ea8-85d5-1ab80e890349/scratchpad/n5-fix/backup/N5-data-engineering/`.
+
+## 1. Fichiers modifiés (8)
+
+| Leçon | Défaut | Correction |
+|---|---|---|
+| L161 | Phrase cassée dans l'encadré « 🔗 Documentation officielle » (« … vous trouverez aussi) la clause `QUALIFY` … sont décrites … ») | La parenthèse est fermée après « page vérifiée lors de nos recherches » ; nouvelle phrase : « Depuis le sommaire de cette documentation, vous trouverez aussi la clause `QUALIFY`, `read_csv` et les transactions, décrites dans la même documentation (…) ». |
+| L168 | Quand le producteur s'arrête, plus aucun événement ne fait avancer le watermark : les fenêtres des 10 dernières minutes ne se ferment jamais (et avec `NB=500`, `sortie/` reste vide). Le total de l'exercice (étape 4) ne peut donc pas tomber juste. | 1) « Lancez le producteur de L167 » devient « … (avec `NB=20000`, voir l'encadré ci-dessus) ». 2) Ajout d'un paragraphe et d'un script `streaming/l168_cloture.py` : il envoie un **événement de clôture** documenté (agence `CLOTURE`, montant 0, daté de maintenant + 20 min), qui pousse le watermark au-delà de toutes les fenêtres réelles. La fenêtre de cet événement ne se ferme jamais : il n'apparaît pas dans `sortie/`. Le revers (watermark en avance, nouveau checkpoint pour une autre expérience) est indiqué. |
+| L170 | Le test unitaire vise `mart_ca_client` et `stg_commandes`, absents du projet ; le commentaire du YAML (`models/staging/_sources.yml`) écrase les sources `erp` et `sav` de L163 | Les deux modèles de démonstration sont **créés dans la leçon qui les introduit** (§ 2.2) : `models/staging/stg_commandes.sql` (colonnes `id, client_id, montant_ttc, statut, cree_le, maj_le` de `qualite.commandes`) et `models/marts/mart_ca_client.sql` (CA TTC par client, hors `annulee`). Le commentaire du YAML devient `models/staging/_sources_qualite.yml`. L'encadré « Pré-requis » est mis à jour. Une phrase explique le `SKIP` des deux modèles sous `dbt build` (source en échec) et comment lancer le test unitaire seul. |
+| L171 | La CI lance `generer_breval.py` à la racine du dépôt, alors que L165 place le projet dans `breval/` | `defaults: { run: { working-directory: breval } }` ajouté au job, commentaire « à la racine du dépôt Git (le projet est dans breval/, comme en L165) » ; la phrase d'introduction, qui disait « ajoutez … », dit maintenant que ce bloc suppose la structure de L165. |
+| L173 | Le YAML Elementary (`models/silver/_commandes.yml`) vise `stg_commandes`, qui n'existait pas | Chemin corrigé en `models/staging/_elementary.yml`. Le modèle visé existe désormais (L170), avec `maj_le` et `montant_ttc` : le YAML est donc valable tel quel. L'encadré renvoie à L170 et garde l'adaptation à `stg_erp__commandes`. |
+| L174 | `effacement.py` échoue avant L178 ; il vise en plus une collection `tickets_chunks` que L178 ne crée pas (L178 crée `chunks_bge_m3_v1` derrière l'alias `chunks`) | L'import de `qdrant_client` est déplacé dans l'étape 2, protégée. Si l'alias ou la collection `chunks` existe, la suppression est faite ; sinon le script affiche « Index vectoriel absent (L178 pas encore faite) : étape 2 sautée. ». Si le module manque ou si Qdrant n'est pas démarré, il affiche « … injoignable (…) : étape 2 à refaire après L178. ». Les étapes DuckDB s'exécutent dans tous les cas. Les encadrés « Pré-requis », « Ce que vous devez voir » et « Si ça ne marche pas » sont alignés (renvoi explicite « si vous n'avez pas encore fait L178 »). |
+| L175 | `filtrer()` écrit en mode ajout : relancer le script double silencieusement `silver_filtre.jsonl` et `rejets.jsonl` | Le mode `"a"` est **gardé**, parce qu'il est nécessaire : documents et tickets sont écrits dans le même fichier par deux appels successifs, et un mode `"w"` effacerait les documents au second appel. On applique l'option « vider avant » : un bloc `if __name__ == "__main__":` supprime les deux fichiers (`Path.unlink(missing_ok=True)`), puis appelle `filtrer()` sur les documents et sur les tickets. Un commentaire explique le mode ajout. L'encadré « Pré-requis », qui demandait d'ajouter ces lignes à la main, décrit maintenant ce bloc. L'encadré « Si ça ne marche pas » est ajusté. |
+| L178 | Première exécution : `corpus/embeddings/*.parquet` n'existe pas (« No files found ») | Le bloc SQL d'origine est gardé. Un lanceur `a_calculer.py` est ajouté : `Path("corpus/embeddings").mkdir(parents=True, exist_ok=True)`, puis la même anti-jointure. Tant que le dossier ne contient aucun Parquet, elle tourne contre une liste vide (un `mkdir` seul ne suffit pas, car DuckDB refuse aussi un motif qui ne trouve rien dans un dossier vide). L'encadré « Si ça ne marche pas » renvoie vers ce lanceur, et l'amorce manuelle reste disponible. |
+
+## 2. Vérifications exécutées
+
+Environnement : venv Python 3.13 dans `/tmp/claude-0/-home-claude/59782ef9-62d8-5ea8-85d5-1ab80e890349/scratchpad/n5-fix/venv`. Bibliothèques : DuckDB 2.0.0, Polars 2.1.0, pyarrow 26.0.1, pandas 3.1.1, plus dbt-core 1.12.6 avec dbt-duckdb, PySpark 4.3.0 et qdrant-client pour les contrôles ciblés. Jeu Bréval produit par `generer_breval.py` (L152) à l'échelle 0,05, plus l'échelle 1 pour le contrôle dbt ; puis `vers_bronze.py` et `creer_tables_qualite.py`. Les scripts sont extraits automatiquement des leçons corrigées.
+
+| Correction | Test | Résultat |
+|---|---|---|
+| L168 | Le job de L168 est reproduit à l'identique (watermark 10 min, fenêtres 5 min, `append`, `foreachBatch`) avec une source fichiers à la place de Kafka : 500 événements, puis l'événement de clôture | Avant la clôture : **0** ligne émise. Après : **3** lignes (ANC, NAN, STN), **500** commandes, aucune ligne `CLOTURE` |
+| L170 | Vrai `dbt build` sur un projet `dbt_breval` minimal (`dbt_project.yml`, `profiles.yml` et macro de L163, YAML, test singulier, test unitaire et modèles de L170) | Échelle 1 : `FAIL 240` unique, `FAIL 1` relationships, `FAIL 1` accepted_values, `FAIL 11` test singulier, `WARN 1` ville, puis `Done. PASS=2 WARN=1 ERROR=4 SKIP=3`. C'est conforme au « Ce que vous devez voir » de la leçon. `dbt run --select stg_commandes mart_ca_client` donne OK ×2, et le test unitaire seul passe (`PASS`) |
+| L171 | Étape `run` du workflow exécutée depuis une copie « racine de dépôt » avec `breval/`, dans le `working-directory` lu dans le YAML, sur un venv neuf qui ne contient que duckdb | Code retour 0, `[(6014, 6002)]` |
+| L174 | `effacement.py` lancé 1) sans qdrant-client, 2) avec qdrant-client mais sans serveur, 3) sur un Qdrant en mémoire sans collection, 4) sur un Qdrant en mémoire avec `chunks_bge_m3_v1` et l'alias `chunks` (4 points, dont 2 du client 2) | 1) et 2) : message « injoignable », DuckDB traité (client 2 `ANONYMISÉ`, 0 ticket). 3) : « Index vectoriel absent ». 4) : 4 → 2 points, 0 restant pour le client 2 (suppression faite par l'alias) |
+| L175 | `extraire_docs.py` (sans Docling : seule la branche Markdown est exercée), `extraire_tickets.py`, puis `python filtres.py` deux fois de suite ; `import filtres` | 586 lignes après chaque exécution (empreinte identique), au lieu de 586 puis 1 172 ; l'import ne lance rien |
+| L178 | `a_calculer.py` : 1) dossier absent, 2) dossier vide, 3) après écriture d'embeddings simulés (`modele_v = 'bge-m3@2026-11'`). Le SQL d'origine sert de témoin | Le SQL d'origine échoue (« No files found »). `a_calculer.py` : 586/586, puis 586/586 (dossier créé), puis **0**/586 |
+| L161 | Relecture de la phrase | Grammaticalement correcte, lien inchangé |
+| Validateur | `node scripts/validate.mjs \| tail -3` | « Leçons rédigées : 184/184 · mots : 582 553 · questions : 770 · URLs distinctes : 794 » puis « ✅ Aucune erreur bloquante. » |
+
+**Non exécuté** : Kafka et le vrai producteur `confluent_kafka` (la logique Spark est vérifiée avec une source fichiers), un serveur Qdrant réel (mode mémoire de qdrant-client, où l'alias est résolu ; sur un serveur, le script teste d'abord la liste des alias puis `collection_exists`), Elementary (paquet dbt hub, pas de réseau) et Docling.
+
+## 3. Points de vigilance (non modifiés)
+
+- L172 emploie encore `tickets_chunks` comme **nom de dataset OpenLineage** (lignes 161, 179, 205 et mission). C'est un nom logique de lignage, pas un appel à Qdrant ; il n'a pas été changé (hors liste, et un bloc mission est concerné).
+- Les chiffres « Ce que vous devez voir » de L175 (rejets `trop_court`, etc.) valent pour l'échelle 1 ; à l'échelle 0,05, aucun document n'est rejeté.
+- Avec `dbt build`, le test unitaire de L170 est sauté (`SKIP`) tant que la source piégée échoue : c'est voulu et c'est maintenant écrit dans la leçon.
+
+## 4. Propositions optionnelles (non appliquées)
+
+- Proposition optionnelle : aligner le dataset OpenLineage de L172 sur l'alias de L178 (`qdrant://localhost:6333` / `chunks`).
+- Proposition optionnelle : dans L167, ajouter une variable `CLOTURE=1` au producteur pour qu'il envoie lui-même l'événement de clôture à la fin.
+- Proposition optionnelle : régénérer `export/elearning-modules.json` (`scripts/build.mjs`) pour que l'application reprenne ces corrections.

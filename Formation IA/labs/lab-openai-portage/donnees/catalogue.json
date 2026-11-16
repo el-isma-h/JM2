@@ -1,0 +1,14 @@
+{
+  "_avertissement": "Catalogue FICTIF de la Menuiserie Dupont (Nantes) pour le lab L083. Prix HT inventés pour l'exercice.",
+  "articles": {
+    "PORTE-CHENE-204x73": { "libelle": "Porte intérieure chêne 204x73", "prix_ht": 340.0, "delai_jours": 10, "ouvrage": "porte" },
+    "PORTE-CHENE-204x83": { "libelle": "Porte intérieure chêne 204x83", "prix_ht": 365.0, "delai_jours": 10, "ouvrage": "porte" },
+    "PORTE-SAPIN-204x73": { "libelle": "Porte intérieure sapin 204x73", "prix_ht": 190.0, "delai_jours": 5, "ouvrage": "porte" },
+    "POIGNEE-INOX": { "libelle": "Poignée inox", "prix_ht": 42.0, "delai_jours": 2, "ouvrage": null },
+    "FENETRE-PVC-125x100": { "libelle": "Fenêtre PVC double vitrage 125x100", "prix_ht": 410.0, "delai_jours": 21, "ouvrage": "fenetre" },
+    "FENETRE-BOIS-125x100": { "libelle": "Fenêtre bois double vitrage 125x100", "prix_ht": 590.0, "delai_jours": 28, "ouvrage": "fenetre" },
+    "PLACARD-COULISSANT-180": { "libelle": "Placard coulissant 180 cm", "prix_ht": 690.0, "delai_jours": 15, "ouvrage": "placard" },
+    "SEUIL-ALU": { "libelle": "Seuil de porte aluminium", "prix_ht": 28.0, "delai_jours": 2, "ouvrage": null }
+  },
+  "tarif_pose_ht": { "porte": 180.0, "fenetre": 260.0, "placard": 320.0 }
+}

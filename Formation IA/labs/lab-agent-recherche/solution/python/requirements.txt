@@ -1,0 +1,6 @@
+# Mode simulé (tests hors ligne)
+pydantic>=2.8
+pytest>=8
+# Mode réel (L100, section 3.1) : décommentez
+# anthropic>=2.3
+# openai>=2

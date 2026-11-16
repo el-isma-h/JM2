@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/*
+ * HPT Dashboard : charte HPT GIE, noir et blanc uniquement.
+ * Noir #080808, anthracite #202020, gris clair #EAEAEA, blanc cassé #F7F7F5, blanc #FFFFFF.
+ * Aucune couleur vive : les états se lisent par le libellé, l'icône, la graisse et l'inversion.
+ * Les six couleurs Next n'apparaissent que sur ce qui concerne les Next.
+ */
+@theme {
+  --color-noir: #080808;
+  --color-anthracite: #202020;
+  --color-gris: #eaeaea;
+  --color-casse: #f7f7f5;
+  --color-blanc: #ffffff;
+
+  --color-fond: #080808;
+  --color-fond-2: #0e0e0e;
+  --color-surface: #141414;
+  --color-surface-2: #202020;
+  --color-filet: #262626;
+  --color-filet-fort: #3a3a3a;
+  --color-texte: #f7f7f5;
+  --color-texte-2: #c9c9c5; /* 12:1 sur noir */
+  --color-texte-3: #9a9a96; /* 7:1 sur noir */
+
+  /* Accent = blanc ; « encre » = noir posé sur le blanc. */
+  --color-signal: #ffffff;
+  --color-signal-fond: rgb(255 255 255 / 0.08);
+  --color-signal-encre: #080808;
+  /* Critique : blanc plein (pastilles inversées), jamais de rouge. */
+  --color-danger: #ffffff;
+  --color-danger-fond: rgb(255 255 255 / 0.12);
+  --color-vigilance: #eaeaea;
+  --color-vigilance-fond: rgb(255 255 255 / 0.06);
+
+  /* Couleurs Next (identiques au site HPT GIE), réservées aux éléments Next. */
+  --color-next-optimisation: #bfe4ff;
+  --color-next-ads: #3fe792;
+  --color-next-rh: #e0707f;
+  --color-next-formation: #b9a3ea;
+  --color-next-capital: #f0c7b3;
+  --color-next-app: #ffd166;
+  --color-next-logiciel: #5fd3c4;
+  --color-next-informatique: #ff8a5b;
+
+  --font-display: "Outfit Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --ease-sortie: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --z-collant: 20;
+    --z-tiroir: 40;
+    --z-modale: 50;
+    --z-toast: 60;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-fond);
+    color: var(--color-texte);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-blanc);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  ::selection {
+    background: rgb(255 255 255 / 0.25);
+  }
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .chiffres {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  /* Trame de points très discrète derrière les écrans d'accès. */
+  .trame {
+    background-image: radial-gradient(rgb(255 255 255 / 0.09) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

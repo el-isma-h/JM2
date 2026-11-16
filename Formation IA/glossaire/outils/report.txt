@@ -1,0 +1,589 @@
+intelligence-artificielle                def=N1 calc=N1 ['L001'] {'L001': 7}
+ia-generative                            def=N1 calc=N1 ['L001', 'L031', 'L106', 'L149'] {'L001': 36, 'L031': 5, 'L106': 9, 'L149': 10}
+ia-symbolique                            def=N1 calc=N1 ['L001'] {'L001': 20}
+systeme-expert                           def=N1 calc=N1 ['L001'] {'L001': 6}
+test-de-turing                           def=N1 calc=N1 ['L001'] {'L001': 0}
+agi                                      def=N1 calc=N1 ['L004', 'L138'] {'L004': 0, 'L138': 6}
+ia-etroite                               def=N1 calc=N1 [] {}
+hiver-de-l-ia                            def=N1 calc=N1 ['L001'] {'L001': 0}
+modele                                   def=N1 calc=N1 ['L002', 'L024'] {'L002': 0, 'L024': 7}
+algorithme                               def=N1 calc=N1 ['L001', 'L118', 'L146'] {'L001': 8, 'L118': 13, 'L146': 5}
+entrainement                             def=N1 calc=N1 ['L001', 'L002', 'L007', 'L123', 'L132'] {'L001': 12, 'L002': 40, 'L007': 40, 'L123': 32, 'L132': 40}
+inference                                def=N1 calc=N1 ['L002', 'L086', 'L141', 'L160'] {'L002': 40, 'L086': 12, 'L141': 30, 'L160': 13}
+vision-par-ordinateur                    def=N1 calc=N1 ['L003'] {'L003': 12}
+tal-nlp                                  def=N1 calc=N1 ['L003', 'L177'] {'L003': 8, 'L177': 8}
+systeme-de-recommandation                def=N1 calc=N1 ['L003', 'L023', 'L056', 'L110'] {'L003': 40, 'L023': 5, 'L056': 5, 'L110': 6}
+ia-predictive                            def=N1 calc=N1 ['L003', 'L006', 'L120', 'L121'] {'L003': 32, 'L006': 20, 'L120': 18, 'L121': 7}
+reconnaissance-vocale                    def=N2 calc=N1 ['L014', 'L022', 'L061', 'L080'] {'L014': 20, 'L022': 10, 'L061': 40, 'L080': 18}
+synthese-vocale                          def=N2 calc=N1 ['L014', 'L061', 'L080'] {'L014': 24, 'L061': 24, 'L080': 11}
+clonage-de-voix                          def=N2 calc=N1 ['L031'] {'L031': 5}
+modele-de-diffusion                      def=N2 calc=N1 ['L014', 'L058', 'L059', 'L122'] {'L014': 16, 'L058': 9, 'L059': 40, 'L122': 9}
+text-to-image                            def=N1 calc=N2 ['L059'] {'L059': 30}
+text-to-video                            def=N2 calc=N1 ['L014', 'L039', 'L060'] {'L014': 13, 'L039': 5, 'L060': 36}
+multimodal                               def=N1 calc=N1 ['L003', 'L087', 'L106', 'L134'] {'L003': 24, 'L087': 16, 'L106': 11, 'L134': 25}
+chatbot                                  def=N1 calc=N1 ['L026', 'L029', 'L040', 'L109'] {'L026': 8, 'L029': 10, 'L040': 9, 'L109': 6}
+ocr                                      def=N2 calc=N1 ['L003', 'L012', 'L049', 'L086', 'L090'] {'L003': 8, 'L012': 11, 'L049': 14, 'L086': 16, 'L090': 20}
+modele-de-fondation                      def=N1 calc=N1 ['L001'] {'L001': 8}
+comfyui                                  def=N2 calc=N2 ['L059'] {'L059': 36}
+perplexity                               def=N1 calc=N1 ['L013', 'L085', 'L088', 'L100'] {'L013': 32, 'L085': 32, 'L088': 6, 'L100': 20}
+recherche-augmentee                      def=N1 calc=N1 ['L008', 'L010', 'L013', 'L100'] {'L008': 6, 'L010': 18, 'L013': 29, 'L100': 7}
+grounding                                def=N3 calc=N3 ['L087'] {'L087': 18}
+chatgpt                                  def=N1 calc=N1 ['L001', 'L007', 'L010', 'L022', 'L055'] {'L001': 11, 'L007': 21, 'L010': 40, 'L022': 25, 'L055': 22}
+claude                                   def=N1 calc=N1 ['L001', 'L011', 'L050', 'L051', 'L074'] {'L001': 12, 'L011': 40, 'L050': 36, 'L051': 36, 'L074': 40}
+gemini                                   def=N1 calc=N1 ['L008', 'L009', 'L012', 'L087', 'L139'] {'L008': 11, 'L009': 40, 'L012': 40, 'L087': 40, 'L139': 32}
+mistral-ai                               def=N1 calc=N1 ['L005', 'L009', 'L045', 'L086', 'L139'] {'L005': 12, 'L009': 40, 'L045': 36, 'L086': 40, 'L139': 36}
+le-chat                                  def=N1 calc=N1 ['L012', 'L034', 'L057'] {'L012': 29, 'L034': 5, 'L057': 7}
+grok                                     def=N1 calc=N1 ['L009', 'L012', 'L014', 'L084'] {'L009': 35, 'L012': 40, 'L014': 16, 'L084': 40}
+copilot-microsoft                        def=N1 calc=N1 ['L012', 'L022', 'L051', 'L145'] {'L012': 40, 'L022': 28, 'L051': 36, 'L145': 6}
+notebooklm                               def=N2 calc=N2 ['L048'] {'L048': 40}
+machine-learning                         def=N1 calc=N1 ['L001', 'L115', 'L116', 'L120'] {'L001': 36, 'L115': 5, 'L116': 5, 'L120': 8}
+apprentissage-supervise                  def=N1 calc=N1 ['L002', 'L007', 'L117', 'L118'] {'L002': 20, 'L007': 14, 'L117': 5, 'L118': 29}
+apprentissage-non-supervise              def=N1 calc=N1 ['L002', 'L117', 'L118'] {'L002': 10, 'L117': 5, 'L118': 28}
+apprentissage-par-renforcement           def=N1 calc=N1 ['L007', 'L133'] {'L007': 8, 'L133': 28}
+apprentissage-auto-supervise             def=N4 calc=N4 [] {}
+donnees-d-entrainement                   def=N1 calc=N1 ['L001', 'L061', 'L174'] {'L001': 5, 'L061': 5, 'L174': 5}
+etiquette                                def=N4 calc=N1 ['L002', 'L082', 'L118', 'L179'] {'L002': 12, 'L082': 14, 'L118': 20, 'L179': 15}
+caracteristique                          def=N4 calc=N3 ['L104', 'L124', 'L146', 'L179'] {'L104': 7, 'L124': 8, 'L146': 20, 'L179': 40}
+feature-engineering                      def=N4 calc=N4 [] {}
+classification                           def=N1 calc=N1 ['L002', 'L038', 'L108', 'L115', 'L127'] {'L002': 8, 'L038': 20, 'L108': 20, 'L115': 18, 'L127': 24}
+regression                               def=N4 calc=N1 ['L002', 'L115', 'L120', 'L138', 'L140'] {'L002': 8, 'L115': 40, 'L120': 15, 'L138': 14, 'L140': 13}
+regression-lineaire                      def=N4 calc=N4 ['L115'] {'L115': 33}
+regression-logistique                    def=N4 calc=N4 ['L115', 'L120'] {'L115': 20, 'L120': 9}
+surapprentissage                         def=N4 calc=N1 ['L002'] {'L002': 16}
+sous-apprentissage                       def=N4 calc=N4 [] {}
+biais-variance                           def=N4 calc=N4 ['L116'] {'L116': 23}
+regularisation                           def=N4 calc=N4 ['L114', 'L115', 'L116', 'L126'] {'L114': 6, 'L115': 7, 'L116': 32, 'L126': 23}
+validation-croisee                       def=N4 calc=N4 ['L116', 'L117', 'L119', 'L120'] {'L116': 40, 'L117': 5, 'L119': 11, 'L120': 12}
+jeu-de-test                              def=N4 calc=N1 ['L002', 'L082', 'L093', 'L116'] {'L002': 9, 'L082': 12, 'L093': 22, 'L116': 12}
+data-leakage                             def=N4 calc=N3 ['L099', 'L119', 'L147', 'L179'] {'L099': 5, 'L119': 12, 'L147': 6, 'L179': 7}
+arbre-de-decision                        def=N4 calc=N1 ['L003', 'L116', 'L117', 'L135'] {'L003': 7, 'L116': 5, 'L117': 13, 'L135': 7}
+foret-aleatoire                          def=N4 calc=N4 ['L117'] {'L117': 40}
+gradient-boosting                        def=N4 calc=N4 ['L117'] {'L117': 36}
+clustering                               def=N4 calc=N4 ['L118', 'L156', 'L157'] {'L118': 16, 'L156': 10, 'L157': 19}
+k-means                                  def=N4 calc=N4 ['L118'] {'L118': 40}
+pca                                      def=N4 calc=N4 ['L111', 'L118'] {'L111': 8, 'L118': 40}
+reduction-de-dimension                   def=N4 calc=N4 ['L118'] {'L118': 5}
+matrice-de-confusion                     def=N4 calc=N4 ['L115', 'L120', 'L127'] {'L115': 12, 'L120': 7, 'L127': 16}
+precision-et-rappel                      def=N4 calc=N3 ['L092', 'L093', 'L115', 'L126', 'L177'] {'L092': 13, 'L093': 20, 'L115': 20, 'L126': 23, 'L177': 28}
+f1-score                                 def=N4 calc=N4 ['L115', 'L127'] {'L115': 12, 'L127': 16}
+exactitude                               def=N4 calc=N2 ['L049', 'L076', 'L115', 'L127'] {'L049': 13, 'L076': 12, 'L115': 16, 'L127': 20}
+roc-auc                                  def=N4 calc=N4 ['L115', 'L119', 'L120'] {'L115': 8, 'L119': 6, 'L120': 6}
+hyperparametre                           def=N4 calc=N4 ['L119', 'L126', 'L131', 'L136'] {'L119': 15, 'L126': 5, 'L131': 6, 'L136': 11}
+fonction-de-cout                         def=N4 calc=N1 ['L002', 'L114'] {'L002': 7, 'L114': 0}
+entropie-croisee                         def=N4 calc=N4 ['L113', 'L121'] {'L113': 28, 'L121': 24}
+descente-de-gradient                     def=N4 calc=N1 ['L002', 'L114', 'L115'] {'L002': 12, 'L114': 25, 'L115': 8}
+gradient                                 def=N4 calc=N1 ['L002', 'L112', 'L114', 'L115', 'L117'] {'L002': 12, 'L112': 40, 'L114': 40, 'L115': 20, 'L117': 36}
+derivee                                  def=N4 calc=N4 ['L112', 'L122', 'L170'] {'L112': 40, 'L122': 20, 'L170': 6}
+vecteur                                  def=N4 calc=N1 ['L006', 'L035', 'L111', 'L112'] {'L006': 13, 'L035': 16, 'L111': 40, 'L112': 16}
+matrice                                  def=N4 calc=N4 ['L111', 'L127', 'L128', 'L180'] {'L111': 40, 'L127': 16, 'L128': 12, 'L180': 14}
+produit-scalaire                         def=N4 calc=N4 ['L111', 'L128'] {'L111': 24, 'L128': 6}
+probabilite                              def=N4 calc=N1 ['L006', 'L113', 'L115', 'L133'] {'L006': 15, 'L113': 36, 'L115': 13, 'L133': 9}
+distribution-de-probabilite              def=N4 calc=N4 ['L113'] {'L113': 5}
+normalisation-des-donnees                def=N4 calc=N2 ['L038', 'L115', 'L121', 'L175'] {'L038': 20, 'L115': 21, 'L121': 18, 'L175': 30}
+encodage-one-hot                         def=N4 calc=N4 ['L128'] {'L128': 6}
+scikit-learn                             def=N4 calc=N4 ['L115', 'L116', 'L117', 'L119'] {'L115': 12, 'L116': 12, 'L117': 12, 'L119': 28}
+kaggle                                   def=N4 calc=N5 ['L153'] {'L153': 6}
+deep-learning                            def=N1 calc=N1 ['L001', 'L117', 'L121'] {'L001': 36, 'L117': 5, 'L121': 14}
+reseau-de-neurones                       def=N1 calc=N1 ['L001', 'L112', 'L121', 'L122'] {'L001': 14, 'L112': 7, 'L121': 5, 'L122': 6}
+neurone-artificiel                       def=N4 calc=N1 ['L001'] {'L001': 6}
+perceptron                               def=N4 calc=N1 ['L001', 'L121'] {'L001': 5, 'L121': 36}
+mlp                                      def=N4 calc=N4 ['L121', 'L123', 'L124', 'L129'] {'L121': 32, 'L123': 9, 'L124': 20, 'L129': 16}
+couche-cachee                            def=N4 calc=N4 ['L121'] {'L121': 12}
+fonction-d-activation                    def=N4 calc=N4 ['L121'] {'L121': 8}
+relu                                     def=N4 calc=N4 ['L112', 'L121', 'L122', 'L126'] {'L112': 12, 'L121': 16, 'L122': 12, 'L126': 12}
+sigmoide                                 def=N4 calc=N4 ['L112', 'L115', 'L121', 'L122'] {'L112': 12, 'L115': 19, 'L121': 6, 'L122': 5}
+softmax                                  def=N4 calc=N4 ['L111', 'L113', 'L121', 'L128'] {'L111': 12, 'L113': 20, 'L121': 24, 'L128': 12}
+retropropagation                         def=N4 calc=N1 ['L002', 'L112', 'L122', 'L125'] {'L002': 10, 'L112': 24, 'L122': 32, 'L125': 8}
+epoque                                   def=N4 calc=N4 ['L121', 'L124', 'L126', 'L127'] {'L121': 10, 'L124': 6, 'L126': 12, 'L127': 11}
+batch                                    def=N4 calc=N4 ['L114', 'L123', 'L126', 'L143'] {'L114': 24, 'L123': 20, 'L126': 24, 'L143': 17}
+taux-d-apprentissage                     def=N4 calc=N4 ['L114', 'L117', 'L126', 'L131'] {'L114': 20, 'L117': 5, 'L126': 16, 'L131': 6}
+optimiseur                               def=N4 calc=N4 ['L114', 'L126', 'L131', 'L136'] {'L114': 24, 'L126': 40, 'L131': 12, 'L136': 14}
+dropout                                  def=N4 calc=N4 ['L123', 'L126', 'L131'] {'L123': 6, 'L126': 12, 'L131': 6}
+batch-normalization                      def=N4 calc=N4 ['L126', 'L129', 'L131'] {'L126': 20, 'L129': 18, 'L131': 12}
+cnn                                      def=N4 calc=N1 ['L003', 'L123', 'L124'] {'L003': 6, 'L123': 6, 'L124': 32}
+convolution                              def=N4 calc=N4 ['L124'] {'L124': 20}
+pooling                                  def=N4 calc=N4 ['L124'] {'L124': 8}
+rnn                                      def=N4 calc=N4 ['L125'] {'L125': 36}
+lstm                                     def=N4 calc=N4 ['L125'] {'L125': 36}
+vanishing-gradient                       def=N4 calc=N4 [] {}
+tenseur                                  def=N4 calc=N4 ['L112', 'L122', 'L123', 'L141'] {'L112': 8, 'L122': 16, 'L123': 32, 'L141': 8}
+pytorch                                  def=N4 calc=N4 ['L112', 'L122', 'L123', 'L124'] {'L112': 16, 'L122': 20, 'L123': 36, 'L124': 18}
+autograd                                 def=N4 calc=N4 ['L112', 'L122', 'L123'] {'L112': 19, 'L122': 13, 'L123': 26}
+micrograd                                def=N4 calc=N4 ['L112', 'L122'] {'L112': 9, 'L122': 28}
+transfer-learning                        def=N4 calc=N4 ['L124'] {'L124': 6}
+gan                                      def=N4 calc=N4 [] {}
+autoencodeur                             def=N4 calc=N4 ['L146'] {'L146': 20}
+llm                                      def=N1 calc=N1 ['L001', 'L005', 'L041', 'L046', 'L106'] {'L001': 16, 'L005': 32, 'L041': 31, 'L046': 34, 'L106': 40}
+token                                    def=N1 calc=N1 ['L002', 'L005', 'L067', 'L132', 'L143'] {'L002': 20, 'L005': 40, 'L067': 40, 'L132': 28, 'L143': 24}
+tokenizer                                def=N1 calc=N1 ['L005', 'L067', 'L130', 'L131', 'L136'] {'L005': 7, 'L067': 12, 'L130': 40, 'L131': 11, 'L136': 9}
+bpe                                      def=N4 calc=N4 ['L130', 'L131'] {'L130': 36, 'L131': 9}
+parametre                                def=N1 calc=N1 ['L002', 'L005', 'L042', 'L068', 'L114'] {'L002': 20, 'L005': 40, 'L042': 40, 'L068': 29, 'L114': 28}
+poids                                    def=N1 calc=N1 ['L005', 'L040', 'L121', 'L141'] {'L005': 34, 'L040': 20, 'L121': 20, 'L141': 24}
+transformer                              def=N1 calc=N1 ['L001', 'L006', 'L125', 'L129', 'L134'] {'L001': 8, 'L006': 32, 'L125': 15, 'L129': 31, 'L134': 16}
+attention                                def=N1 calc=N1 ['L006', 'L111', 'L125', 'L128'] {'L006': 40, 'L111': 20, 'L125': 20, 'L128': 40}
+self-attention                           def=N4 calc=N4 ['L128'] {'L128': 0}
+multi-head-attention                     def=N4 calc=N4 ['L128'] {'L128': 21}
+encodage-positionnel                     def=N4 calc=N4 [] {}
+rope                                     def=N4 calc=N4 ['L129', 'L134'] {'L129': 24, 'L134': 7}
+prediction-du-token-suivant              def=N1 calc=N1 ['L002', 'L006', 'L113'] {'L002': 8, 'L006': 36, 'L113': 12}
+logits                                   def=N4 calc=N4 ['L113', 'L123', 'L131', 'L133'] {'L113': 20, 'L123': 13, 'L131': 16, 'L133': 13}
+fenetre-de-contexte                      def=N1 calc=N1 ['L002', 'L004', 'L008', 'L050'] {'L002': 6, 'L004': 6, 'L008': 35, 'L050': 9}
+contexte-long                            def=N4 calc=N2 ['L050', 'L087', 'L134'] {'L050': 7, 'L087': 5, 'L134': 25}
+temperature                              def=N1 calc=N1 ['L008', 'L068', 'L113', 'L131'] {'L008': 40, 'L068': 17, 'L113': 24, 'L131': 20}
+top-p                                    def=N3 calc=N1 ['L008', 'L068', 'L113', 'L131'] {'L008': 7, 'L068': 7, 'L113': 20, 'L131': 20}
+top-k                                    def=N3 calc=N3 ['L068', 'L113', 'L131', 'L134'] {'L068': 7, 'L113': 14, 'L131': 20, 'L134': 8}
+echantillonnage                          def=N3 calc=N3 ['L075', 'L113', 'L131', 'L144'] {'L075': 10, 'L113': 17, 'L131': 12, 'L144': 6}
+hallucination                            def=N1 calc=N1 ['L002', 'L008', 'L055', 'L076'] {'L002': 8, 'L008': 33, 'L055': 6, 'L076': 7}
+knowledge-cutoff                         def=N1 calc=N1 ['L005'] {'L005': 0}
+pre-entrainement                         def=N1 calc=N1 ['L002', 'L007', 'L124', 'L132'] {'L002': 11, 'L007': 34, 'L124': 11, 'L132': 23}
+modele-de-base                           def=N4 calc=N1 ['L007', 'L043', 'L133', 'L136'] {'L007': 17, 'L043': 10, 'L133': 9, 'L136': 18}
+post-entrainement                        def=N1 calc=N1 ['L007', 'L133', 'L135'] {'L007': 7, 'L133': 24, 'L135': 6}
+fine-tuning                              def=N1 calc=N1 ['L007', 'L082', 'L135', 'L139'] {'L007': 32, 'L082': 32, 'L135': 40, 'L139': 28}
+sft                                      def=N4 calc=N1 ['L007', 'L133', 'L137', 'L139'] {'L007': 19, 'L133': 36, 'L137': 16, 'L139': 15}
+rlhf                                     def=N1 calc=N1 ['L002', 'L007', 'L133', 'L137', 'L146'] {'L002': 10, 'L007': 36, 'L133': 32, 'L137': 13, 'L146': 15}
+modele-de-recompense                     def=N4 calc=N4 ['L133', 'L146'] {'L133': 20, 'L146': 11}
+dpo                                      def=N4 calc=N3 ['L082', 'L133', 'L137', 'L139'] {'L082': 8, 'L133': 40, 'L137': 20, 'L139': 11}
+rlaif                                    def=N4 calc=N1 ['L007', 'L133', 'L146', 'L150'] {'L007': 5, 'L133': 27, 'L146': 17, 'L150': 6}
+reinforcement-fine-tuning                def=N4 calc=N3 ['L082', 'L133', 'L139'] {'L082': 8, 'L133': 28, 'L139': 16}
+modele-de-raisonnement                   def=N1 calc=N1 ['L007', 'L009', 'L133'] {'L007': 7, 'L009': 0, 'L133': 25}
+lois-d-echelle                           def=N4 calc=N4 ['L132', 'L150'] {'L132': 36, 'L150': 18}
+moe                                      def=N4 calc=N1 ['L005', 'L042', 'L045', 'L134'] {'L005': 14, 'L042': 20, 'L045': 24, 'L134': 40}
+modele-a-poids-ouverts                   def=N1 calc=N1 ['L009', 'L045', 'L086', 'L140'] {'L009': 24, 'L045': 23, 'L086': 32, 'L140': 20}
+modele-proprietaire                      def=N1 calc=N1 ['L005', 'L009'] {'L005': 5, 'L009': 6}
+licence-open-source                      def=N2 calc=N1 ['L005', 'L009', 'L045', 'L137', 'L175'] {'L005': 9, 'L009': 24, 'L045': 24, 'L137': 24, 'L175': 17}
+slm                                      def=N2 calc=N1 ['L009', 'L135', 'L141', 'L145'] {'L009': 8, 'L135': 5, 'L141': 6, 'L145': 6}
+distillation                             def=N4 calc=N4 ['L133', 'L135', 'L137'] {'L133': 7, 'L135': 6, 'L137': 40}
+donnees-synthetiques                     def=N4 calc=N4 ['L126', 'L137', 'L179'] {'L126': 7, 'L137': 32, 'L179': 30}
+lora                                     def=N4 calc=N4 ['L111', 'L135', 'L136', 'L138'] {'L111': 12, 'L135': 8, 'L136': 32, 'L138': 6}
+qlora                                    def=N4 calc=N4 ['L135', 'L136', 'L140'] {'L135': 11, 'L136': 32, 'L140': 6}
+peft                                     def=N4 calc=N4 ['L136', 'L137'] {'L136': 28, 'L137': 6}
+alignement                               def=N1 calc=N1 ['L007', 'L137', 'L146', 'L150'] {'L007': 20, 'L137': 11, 'L146': 40, 'L150': 8}
+interpretabilite                         def=N4 calc=N4 ['L146'] {'L146': 40}
+sycophantie                              def=N2 calc=N2 [] {}
+benchmark                                def=N2 calc=N2 ['L045', 'L138', 'L147', 'L160'] {'L045': 6, 'L138': 32, 'L147': 6, 'L160': 6}
+mmlu                                     def=N4 calc=N4 ['L138'] {'L138': 31}
+gpqa                                     def=N4 calc=N4 ['L138'] {'L138': 30}
+swe-bench                                def=N4 calc=N3 ['L078', 'L138'] {'L078': 5, 'L138': 32}
+humaneval                                def=N4 calc=N4 ['L138'] {'L138': 5}
+humanity-s-last-exam                     def=N4 calc=N4 ['L138'] {'L138': 6}
+lmarena                                  def=N2 calc=N1 ['L009', 'L045', 'L138'] {'L009': 12, 'L045': 10, 'L138': 8}
+perplexite                               def=N4 calc=N4 ['L113', 'L118', 'L141'] {'L113': 22, 'L118': 9, 'L141': 20}
+gpt                                      def=N1 calc=N1 ['L009', 'L050', 'L051', 'L131'] {'L009': 36, 'L050': 36, 'L051': 36, 'L131': 32}
+nanogpt                                  def=N4 calc=N4 ['L131'] {'L131': 34}
+llama                                    def=N2 calc=N1 ['L009', 'L045', 'L108', 'L141'] {'L009': 36, 'L045': 32, 'L108': 28, 'L141': 40}
+qwen                                     def=N2 calc=N1 ['L009', 'L045', 'L141'] {'L009': 24, 'L045': 24, 'L141': 9}
+deepseek                                 def=N2 calc=N1 ['L009', 'L045', 'L133', 'L137'] {'L009': 39, 'L045': 29, 'L133': 10, 'L137': 20}
+gemma                                    def=N2 calc=N1 ['L009', 'L045', 'L139', 'L145'] {'L009': 14, 'L045': 36, 'L139': 12, 'L145': 11}
+gpt-oss                                  def=N2 calc=N1 ['L009', 'L042', 'L043', 'L045'] {'L009': 18, 'L042': 12, 'L043': 5, 'L045': 36}
+prompt                                   def=N1 calc=N1 ['L002', 'L015', 'L017', 'L018', 'L019'] {'L002': 13, 'L015': 40, 'L017': 40, 'L018': 40, 'L019': 40}
+prompt-engineering                       def=N1 calc=N1 ['L015', 'L016', 'L017', 'L019', 'L069'] {'L015': 6, 'L016': 5, 'L017': 0, 'L019': 6, 'L069': 21}
+system-prompt                            def=N1 calc=N1 ['L007', 'L017', 'L067', 'L069'] {'L007': 20, 'L017': 40, 'L067': 15, 'L069': 36}
+role                                     def=N1 calc=N1 ['L015', 'L069', 'L083', 'L151'] {'L015': 32, 'L069': 20, 'L083': 12, 'L151': 19}
+zero-shot                                def=N1 calc=N1 ['L016'] {'L016': 6}
+few-shot                                 def=N1 calc=N1 ['L016', 'L069', 'L150'] {'L016': 32, 'L069': 5, 'L150': 5}
+chain-of-thought                         def=N1 calc=N1 ['L016', 'L020', 'L048', 'L150'] {'L016': 32, 'L020': 6, 'L048': 10, 'L150': 7}
+decomposition                            def=N1 calc=N1 ['L016', 'L020', 'L111', 'L116'] {'L016': 27, 'L020': 6, 'L111': 11, 'L116': 6}
+balises-xml                              def=N1 calc=N1 ['L016', 'L017', 'L020', 'L069'] {'L016': 7, 'L017': 40, 'L020': 7, 'L069': 20}
+delimiteurs                              def=N1 calc=N1 [] {}
+format-de-sortie                         def=N1 calc=N2 ['L051'] {'L051': 5}
+contraintes                              def=N1 calc=N1 ['L015', 'L020', 'L021', 'L059'] {'L015': 32, 'L020': 12, 'L021': 12, 'L059': 14}
+prefill                                  def=N3 calc=N1 ['L017', 'L042'] {'L017': 12, 'L042': 11}
+meta-prompt                              def=N1 calc=N1 [] {}
+bibliotheque-de-prompts                  def=N1 calc=N1 ['L019'] {'L019': 24}
+prompt-template                          def=N2 calc=N1 ['L007', 'L018'] {'L007': 6, 'L018': 24}
+iteration                                def=N1 calc=N1 ['L019', 'L053', 'L059', 'L091'] {'L019': 25, 'L053': 5, 'L059': 9, 'L091': 5}
+context-engineering                      def=N3 calc=N3 [] {}
+instructions-personnalisees              def=N1 calc=N1 ['L017'] {'L017': 5}
+memoire-de-l-assistant                   def=N1 calc=N1 [] {}
+projet-claude                            def=N1 calc=N1 ['L011', 'L050', 'L051'] {'L011': 5, 'L050': 29, 'L051': 31}
+artefact                                 def=N1 calc=N1 ['L011', 'L022', 'L056', 'L144'] {'L011': 40, 'L022': 7, 'L056': 10, 'L144': 10}
+custom-gpt                               def=N2 calc=N2 ['L050', 'L051'] {'L050': 33, 'L051': 35}
+gems                                     def=N2 calc=N2 ['L050'] {'L050': 36}
+eval                                     def=N2 calc=N1 ['L010', 'L076', 'L082', 'L103', 'L138'] {'L010': 8, 'L076': 32, 'L082': 40, 'L103': 40, 'L138': 32}
+llm-as-a-judge                           def=N3 calc=N3 ['L076', 'L082', 'L100', 'L138'] {'L076': 11, 'L082': 10, 'L100': 6, 'L138': 13}
+verification-des-sorties                 def=N1 calc=N1 ['L004', 'L016', 'L023', 'L112', 'L126'] {'L004': 8, 'L016': 22, 'L023': 36, 'L112': 17, 'L126': 20}
+api                                      def=N1 calc=N1 ['L005', 'L024', 'L062', 'L065', 'L078'] {'L005': 10, 'L024': 40, 'L062': 40, 'L065': 40, 'L078': 40}
+cle-api                                  def=N1 calc=N1 ['L024', 'L031', 'L065', 'L109'] {'L024': 28, 'L031': 23, 'L065': 34, 'L109': 10}
+endpoint                                 def=N3 calc=N1 ['L024', 'L066', 'L067', 'L086'] {'L024': 0, 'L066': 0, 'L067': 5, 'L086': 6}
+requete-http                             def=N1 calc=N1 ['L024', 'L036', 'L066', 'L075'] {'L024': 20, 'L036': 24, 'L066': 40, 'L075': 20}
+code-de-statut-http                      def=N3 calc=N1 ['L024', 'L055', 'L066', 'L102', 'L109'] {'L024': 11, 'L055': 15, 'L066': 20, 'L102': 15, 'L109': 18}
+json                                     def=N1 calc=N1 ['L017', 'L024', 'L039', 'L066', 'L071'] {'L017': 9, 'L024': 40, 'L039': 28, 'L066': 36, 'L071': 36}
+json-schema                              def=N3 calc=N3 ['L070', 'L071', 'L079', 'L083'] {'L070': 16, 'L071': 12, 'L079': 9, 'L083': 9}
+rest                                     def=N3 calc=N3 ['L089', 'L157', 'L169'] {'L089': 6, 'L157': 28, 'L169': 5}
+webhook                                  def=N1 calc=N1 ['L024', 'L032', 'L036', 'L038'] {'L024': 40, 'L032': 11, 'L036': 40, 'L038': 12}
+sdk                                      def=N3 calc=N3 ['L065', 'L074', 'L081', 'L084'] {'L065': 40, 'L074': 36, 'L081': 36, 'L084': 40}
+python                                   def=N3 calc=N2 ['L043', 'L065', 'L068', 'L081', 'L160'] {'L043': 15, 'L065': 40, 'L068': 20, 'L081': 24, 'L160': 32}
+typescript                               def=N3 calc=N3 ['L065', 'L068', 'L078', 'L079'] {'L065': 36, 'L068': 20, 'L078': 17, 'L079': 15}
+variable-d-environnement                 def=N3 calc=N1 ['L024', 'L037', 'L065', 'L109'] {'L024': 14, 'L037': 18, 'L065': 20, 'L109': 15}
+streaming                                def=N3 calc=N2 ['L043', 'L066', 'L068', 'L078', 'L101'] {'L043': 11, 'L066': 40, 'L068': 20, 'L078': 17, 'L101': 32}
+sse                                      def=N3 calc=N3 ['L066', 'L075', 'L101'] {'L066': 22, 'L075': 6, 'L101': 10}
+rate-limit                               def=N3 calc=N3 ['L066', 'L067', 'L102', 'L109'] {'L066': 16, 'L067': 36, 'L102': 16, 'L109': 18}
+quota                                    def=N3 calc=N1 ['L031', 'L068', 'L102', 'L109'] {'L031': 15, 'L068': 5, 'L102': 6, 'L109': 36}
+backoff                                  def=N3 calc=N2 ['L033', 'L065', 'L066', 'L088'] {'L033': 14, 'L065': 6, 'L066': 24, 'L088': 7}
+latence                                  def=N2 calc=N2 ['L041', 'L088', 'L142', 'L169'] {'L041': 26, 'L088': 20, 'L142': 20, 'L169': 20}
+ttft                                     def=N3 calc=N3 ['L066', 'L103', 'L142', 'L143'] {'L066': 9, 'L103': 8, 'L142': 24, 'L143': 8}
+cout-par-million-de-tokens               def=N1 calc=N1 ['L002', 'L005', 'L067', 'L087', 'L139'] {'L002': 8, 'L005': 16, 'L067': 12, 'L087': 16, 'L139': 15}
+prompt-caching                           def=N3 calc=N3 ['L067', 'L073', 'L087', 'L092'] {'L067': 28, 'L073': 36, 'L087': 16, 'L092': 14}
+batch-api                                def=N3 calc=N3 ['L067', 'L073', 'L082', 'L084'] {'L067': 12, 'L073': 30, 'L082': 12, 'L084': 13}
+messages-api                             def=N3 calc=N3 ['L066', 'L068', 'L072', 'L075'] {'L066': 12, 'L068': 36, 'L072': 12, 'L075': 18}
+roles-des-messages                       def=N3 calc=N3 ['L066', 'L068', 'L072', 'L137'] {'L066': 10, 'L068': 10, 'L072': 9, 'L137': 12}
+stateless                                def=N3 calc=N1 ['L027', 'L066', 'L068', 'L099'] {'L027': 5, 'L066': 13, 'L068': 11, 'L099': 7}
+responses-api                            def=N3 calc=N3 ['L078', 'L080', 'L083', 'L084'] {'L078': 40, 'L080': 11, 'L083': 10, 'L084': 9}
+chat-completions                         def=N3 calc=N2 ['L043', 'L078', 'L084', 'L085'] {'L043': 10, 'L078': 36, 'L084': 8, 'L085': 11}
+api-compatible-openai                    def=N2 calc=N2 ['L043', 'L044', 'L046', 'L088'] {'L043': 18, 'L044': 13, 'L046': 36, 'L088': 12}
+conversation-state                       def=N3 calc=N3 ['L078', 'L079'] {'L078': 13, 'L079': 9}
+tool-use                                 def=N3 calc=N3 ['L070', 'L077', 'L083', 'L095'] {'L070': 36, 'L077': 6, 'L083': 9, 'L095': 8}
+function-calling                         def=N3 calc=N3 ['L079'] {'L079': 32}
+sorties-structurees                      def=N3 calc=N1 ['L017', 'L071', 'L077', 'L079'] {'L017': 20, 'L071': 40, 'L077': 24, 'L079': 36}
+stop-reason                              def=N3 calc=N3 ['L065', 'L066', 'L068', 'L071'] {'L065': 10, 'L066': 12, 'L068': 12, 'L071': 12}
+max-tokens                               def=N3 calc=N3 ['L065', 'L068', 'L088', 'L109'] {'L065': 12, 'L068': 12, 'L088': 12, 'L109': 12}
+files-api                                def=N3 calc=N2 ['L055', 'L072', 'L077', 'L087'] {'L055': 10, 'L072': 40, 'L077': 12, 'L087': 12}
+vision-api                               def=N3 calc=N3 ['L072', 'L080', 'L084', 'L090'] {'L072': 32, 'L080': 17, 'L084': 23, 'L090': 9}
+citations                                def=N3 calc=N1 ['L008', 'L072', 'L085', 'L094'] {'L008': 18, 'L072': 40, 'L085': 40, 'L094': 24}
+extended-thinking                        def=N3 calc=N3 ['L069', 'L073'] {'L069': 5, 'L073': 40}
+effort                                   def=N3 calc=N1 ['L008', 'L073', 'L085'] {'L008': 5, 'L073': 28, 'L085': 16}
+compaction                               def=N3 calc=N3 ['L073', 'L095', 'L109'] {'L073': 12, 'L095': 17, 'L109': 5}
+realtime-api                             def=N3 calc=N2 ['L061', 'L080'] {'L061': 9, 'L080': 32}
+routeur-de-llm                           def=N3 calc=N3 ['L088', 'L097'] {'L088': 40, 'L097': 5}
+multi-fournisseur                        def=N3 calc=N3 ['L085', 'L088'] {'L085': 6, 'L088': 25}
+repli                                    def=N3 calc=N2 ['L039', 'L046', 'L088'] {'L039': 14, 'L046': 7, 'L088': 36}
+vercel-ai-sdk                            def=N3 calc=N3 ['L084', 'L088', 'L097', 'L101'] {'L084': 6, 'L088': 24, 'L097': 6, 'L101': 32}
+next-js                                  def=N3 calc=N3 ['L101', 'L105'] {'L101': 29, 'L105': 9}
+docker                                   def=N2 calc=N1 ['L025', 'L037', 'L105', 'L151'] {'L025': 20, 'L037': 40, 'L105': 24, 'L151': 28}
+docker-compose                           def=N2 calc=N1 ['L025', 'L037', 'L046', 'L094', 'L181'] {'L025': 12, 'L037': 24, 'L046': 20, 'L094': 15, 'L181': 16}
+git                                      def=N3 calc=N2 ['L040', 'L104', 'L109', 'L144', 'L165'] {'L040': 9, 'L104': 20, 'L109': 24, 'L144': 16, 'L165': 17}
+ci-cd                                    def=N3 calc=N3 ['L104', 'L144'] {'L104': 32, 'L144': 7}
+test-de-prompts                          def=N3 calc=N3 ['L103', 'L104', 'L144'] {'L103': 5, 'L104': 17, 'L144': 5}
+observabilite                            def=N3 calc=N3 ['L088', 'L103', 'L173', 'L184'] {'L088': 7, 'L103': 25, 'L173': 36, 'L184': 20}
+trace                                    def=N3 calc=N2 ['L064', 'L081', 'L088', 'L103'] {'L064': 13, 'L081': 19, 'L088': 15, 'L103': 24}
+langfuse                                 def=N3 calc=N3 ['L088', 'L091', 'L103', 'L105'] {'L088': 10, 'L091': 8, 'L103': 40, 'L105': 12}
+promptfoo                                def=N3 calc=N3 ['L088', 'L103', 'L107', 'L110', 'L147'] {'L088': 13, 'L103': 32, 'L107': 18, 'L110': 16, 'L147': 17}
+deepeval                                 def=N3 calc=N2 ['L049', 'L082', 'L093', 'L103'] {'L049': 7, 'L082': 5, 'L093': 20, 'L103': 32}
+claude-code                              def=N1 calc=N1 ['L011', 'L053', 'L074', 'L075'] {'L011': 40, 'L053': 36, 'L074': 40, 'L075': 20}
+agent-de-code                            def=N2 calc=N1 ['L026', 'L027', 'L053', 'L087'] {'L026': 7, 'L027': 16, 'L053': 20, 'L087': 8}
+vibe-coding                              def=N2 calc=N2 ['L053'] {'L053': 11}
+app-builder                              def=N2 calc=N2 ['L053'] {'L053': 40}
+curl                                     def=N3 calc=N2 ['L043', 'L181'] {'L043': 7, 'L181': 5}
+backend-frontend                         def=N3 calc=N3 ['L101', 'L102', 'L159'] {'L101': 5, 'L102': 17, 'L159': 6}
+file-d-attente                           def=N3 calc=N3 ['L067', 'L102', 'L143'] {'L067': 7, 'L102': 40, 'L143': 16}
+versioning                               def=N3 calc=N4 ['L144'] {'L144': 17}
+agent-ia                                 def=N1 calc=N1 ['L026', 'L034', 'L038', 'L052'] {'L026': 35, 'L034': 36, 'L038': 20, 'L052': 16}
+ia-agentique                             def=N1 calc=N3 ['L095', 'L106', 'L110', 'L148'] {'L095': 26, 'L106': 24, 'L110': 24, 'L148': 36}
+boucle-agentique                         def=N3 calc=N3 ['L070', 'L078', 'L095'] {'L070': 6, 'L078': 5, 'L095': 18}
+outil                                    def=N2 calc=N1 ['L001', 'L034', 'L052', 'L070', 'L095'] {'L001': 10, 'L034': 40, 'L052': 40, 'L070': 40, 'L095': 40}
+mcp                                      def=N1 calc=N1 ['L027', 'L040', 'L075', 'L099'] {'L027': 40, 'L040': 24, 'L075': 40, 'L099': 40}
+serveur-mcp                              def=N1 calc=N1 ['L027', 'L034', 'L075', 'L099'] {'L027': 24, 'L034': 15, 'L075': 24, 'L099': 23}
+client-mcp                               def=N3 calc=N1 ['L027', 'L034', 'L052', 'L075'] {'L027': 8, 'L034': 16, 'L052': 9, 'L075': 14}
+ressource-mcp                            def=N3 calc=N3 ['L075'] {'L075': 7}
+transport-mcp                            def=N3 calc=N1 ['L020', 'L027', 'L075', 'L099'] {'L020': 8, 'L027': 16, 'L075': 28, 'L099': 13}
+a2a                                      def=N3 calc=N1 ['L026', 'L027', 'L099'] {'L026': 6, 'L027': 14, 'L099': 40}
+memoire-d-agent                          def=N2 calc=N2 ['L034'] {'L034': 16}
+planification                            def=N3 calc=N2 ['L033', 'L095', 'L100'] {'L033': 5, 'L095': 28, 'L100': 14}
+react                                    def=N3 calc=N3 ['L095', 'L096', 'L101', 'L150'] {'L095': 17, 'L096': 10, 'L101': 7, 'L150': 7}
+multi-agents                             def=N2 calc=N3 ['L098'] {'L098': 27}
+orchestrateur                            def=N3 calc=N3 ['L077', 'L098', 'L164', 'L184'] {'L077': 15, 'L098': 28, 'L164': 20, 'L184': 28}
+sous-agent                               def=N3 calc=N3 ['L074', 'L076', 'L098'] {'L074': 24, 'L076': 13, 'L098': 12}
+handoff                                  def=N3 calc=N3 ['L081', 'L097', 'L098'] {'L081': 28, 'L097': 20, 'L098': 11}
+human-in-the-loop                        def=N2 calc=N1 ['L026', 'L052', 'L058', 'L096'] {'L026': 15, 'L052': 15, 'L058': 9, 'L096': 22}
+agent-skills                             def=N3 calc=N1 ['L011', 'L051', 'L076', 'L099'] {'L011': 25, 'L051': 20, 'L076': 40, 'L099': 20}
+claude-md                                def=N3 calc=N2 ['L053', 'L074'] {'L053': 10, 'L074': 14}
+hooks                                    def=N3 calc=N3 ['L074', 'L097', 'L148'] {'L074': 28, 'L097': 24, 'L148': 5}
+permissions                              def=N3 calc=N1 ['L012', 'L053', 'L074', 'L097'] {'L012': 10, 'L053': 13, 'L074': 24, 'L097': 11}
+claude-agent-sdk                         def=N3 calc=N3 ['L074', 'L076', 'L097', 'L100'] {'L074': 36, 'L076': 10, 'L097': 32, 'L100': 8}
+openai-agents-sdk                        def=N3 calc=N3 ['L081', 'L097', 'L099'] {'L081': 32, 'L097': 32, 'L099': 8}
+langgraph                                def=N3 calc=N3 ['L091', 'L096', 'L099'] {'L091': 14, 'L096': 36, 'L099': 5}
+crewai                                   def=N3 calc=N3 ['L098'] {'L098': 36}
+autogen                                  def=N3 calc=N3 ['L098'] {'L098': 40}
+pydantic-ai                              def=N3 calc=N3 ['L071', 'L079', 'L097', 'L099'] {'L071': 16, 'L079': 13, 'L097': 36, 'L099': 17}
+smolagents                               def=N3 calc=N3 ['L097'] {'L097': 8}
+computer-use                             def=N2 calc=N2 ['L054'] {'L054': 36}
+navigateur-ia                            def=N2 calc=N2 ['L054'] {'L054': 33}
+managed-agents                           def=N3 calc=N1 ['L026', 'L027', 'L074', 'L100'] {'L026': 14, 'L027': 5, 'L074': 17, 'L100': 6}
+copilot-studio                           def=N2 calc=N2 ['L051'] {'L051': 36}
+agent-builder                            def=N2 calc=N1 ['L026', 'L052'] {'L026': 14, 'L052': 20}
+rag                                      def=N2 calc=N2 ['L035', 'L048', 'L049', 'L093'] {'L035': 31, 'L048': 32, 'L049': 32, 'L093': 31}
+embedding                                def=N2 calc=N2 ['L035', 'L047', 'L080', 'L089'] {'L035': 40, 'L047': 40, 'L080': 36, 'L089': 36}
+recherche-semantique                     def=N2 calc=N2 ['L047', 'L080'] {'L047': 35, 'L080': 5}
+similarite-cosinus                       def=N2 calc=N2 ['L047', 'L080', 'L089', 'L111'] {'L047': 24, 'L080': 19, 'L089': 20, 'L111': 24}
+base-vectorielle                         def=N2 calc=N2 ['L034', 'L035', 'L047', 'L089', 'L178'] {'L034': 12, 'L035': 40, 'L047': 20, 'L089': 30, 'L178': 23}
+index-vectoriel                          def=N3 calc=N3 ['L089', 'L172', 'L174', 'L178'] {'L089': 20, 'L172': 7, 'L174': 9, 'L178': 18}
+chunking                                 def=N2 calc=N2 ['L035', 'L049', 'L090', 'L178', 'L182'] {'L035': 24, 'L049': 40, 'L090': 40, 'L178': 36, 'L182': 40}
+chevauchement                            def=N2 calc=N2 ['L035', 'L049', 'L090'] {'L035': 14, 'L049': 9, 'L090': 16}
+metadonnees                              def=N2 calc=N2 ['L035', 'L049', 'L090', 'L091', 'L157'] {'L035': 15, 'L049': 18, 'L090': 27, 'L091': 16, 'L157': 24}
+ingestion                                def=N3 calc=N2 ['L035', 'L090', 'L162', 'L181'] {'L035': 20, 'L090': 32, 'L162': 32, 'L181': 28}
+parsing                                  def=N3 calc=N2 ['L034', 'L038', 'L090', 'L182'] {'L034': 11, 'L038': 9, 'L090': 27, 'L182': 17}
+recherche-lexicale                       def=N3 calc=N2 ['L047', 'L092'] {'L047': 19, 'L092': 24}
+recherche-hybride                        def=N3 calc=N2 ['L047', 'L049', 'L092'] {'L047': 7, 'L049': 6, 'L092': 30}
+reranking                                def=N3 calc=N2 ['L048', 'L092', 'L093', 'L094'] {'L048': 7, 'L092': 32, 'L093': 5, 'L094': 12}
+top-k-recuperation                       def=N2 calc=N2 [] {}
+multi-query                              def=N3 calc=N3 ['L092'] {'L092': 31}
+graphrag                                 def=N3 calc=N3 [] {}
+base-de-connaissances                    def=N2 calc=N2 ['L040', 'L048'] {'L040': 8, 'L048': 12}
+pgvector                                 def=N3 calc=N2 ['L035', 'L047', 'L089', 'L178'] {'L035': 20, 'L047': 14, 'L089': 40, 'L178': 19}
+chroma                                   def=N3 calc=N2 ['L047', 'L089', 'L110'] {'L047': 11, 'L089': 40, 'L110': 9}
+qdrant                                   def=N3 calc=N2 ['L035', 'L047', 'L089', 'L178'] {'L035': 24, 'L047': 14, 'L089': 40, 'L178': 20}
+langchain                                def=N3 calc=N2 ['L038', 'L040', 'L091', 'L096'] {'L038': 8, 'L040': 9, 'L091': 36, 'L096': 12}
+llamaindex                               def=N3 calc=N2 ['L040', 'L091'] {'L040': 5, 'L091': 36}
+ragas                                    def=N3 calc=N2 ['L049', 'L082', 'L093'] {'L049': 9, 'L082': 5, 'L093': 32}
+fidelite                                 def=N3 calc=N2 ['L049', 'L093'] {'L049': 15, 'L093': 24}
+pertinence-du-contexte                   def=N3 calc=N3 ['L093'] {'L093': 15}
+dify                                     def=N2 calc=N2 ['L040', 'L048', 'L049'] {'L040': 24, 'L048': 40, 'L049': 5}
+flowise                                  def=N2 calc=N2 ['L040', 'L048'] {'L040': 24, 'L048': 40}
+llm-local                                def=N2 calc=N1 ['L009', 'L041', 'L059', 'L061', 'L172'] {'L009': 10, 'L041': 11, 'L059': 23, 'L061': 12, 'L172': 13}
+ollama                                   def=N2 calc=N2 ['L035', 'L043', 'L044', 'L046', 'L108'] {'L035': 18, 'L043': 40, 'L044': 24, 'L046': 28, 'L108': 20}
+lm-studio                                def=N2 calc=N2 ['L044', 'L046'] {'L044': 40, 'L046': 7}
+jan                                      def=N2 calc=N2 ['L044'] {'L044': 40}
+open-webui                               def=N2 calc=N2 ['L043', 'L044', 'L046', 'L062'] {'L043': 7, 'L044': 40, 'L046': 18, 'L062': 5}
+llama-cpp                                def=N2 calc=N2 ['L042', 'L044', 'L140', 'L141'] {'L042': 8, 'L044': 16, 'L140': 10, 'L141': 36}
+gguf                                     def=N2 calc=N2 ['L042', 'L043', 'L140', 'L141'] {'L042': 17, 'L043': 8, 'L140': 16, 'L141': 36}
+quantization                             def=N2 calc=N2 ['L042', 'L136', 'L141', 'L178'] {'L042': 16, 'L136': 16, 'L141': 31, 'L178': 9}
+precision-numerique                      def=N4 calc=N2 ['L042', 'L136', 'L141', 'L145'] {'L042': 20, 'L136': 20, 'L141': 28, 'L145': 19}
+vram                                     def=N2 calc=N2 ['L042', 'L059', 'L136', 'L141'] {'L042': 31, 'L059': 13, 'L136': 18, 'L141': 5}
+ram-unifiee                              def=N2 calc=N2 ['L042'] {'L042': 16}
+gpu                                      def=N2 calc=N2 ['L041', 'L062', 'L126', 'L132', 'L143'] {'L041': 16, 'L062': 19, 'L126': 36, 'L132': 20, 'L143': 32}
+cpu                                      def=N2 calc=N2 ['L042', 'L123', 'L131', 'L145'] {'L042': 30, 'L123': 18, 'L131': 19, 'L145': 15}
+npu                                      def=N4 calc=N4 ['L145'] {'L145': 40}
+cuda                                     def=N3 calc=N4 ['L123', 'L126', 'L136', 'L145'] {'L123': 10, 'L126': 5, 'L136': 6, 'L145': 5}
+apple-silicon-mlx                        def=N2 calc=N2 ['L042', 'L044', 'L123', 'L145'] {'L042': 20, 'L044': 16, 'L123': 8, 'L145': 20}
+dgx-spark                                def=N2 calc=N2 ['L042', 'L062', 'L143'] {'L042': 36, 'L062': 8, 'L143': 31}
+tokens-par-seconde                       def=N2 calc=N2 ['L041', 'L042', 'L143', 'L145'] {'L041': 11, 'L042': 16, 'L143': 9, 'L145': 11}
+debit                                    def=N4 calc=N3 ['L067', 'L141', 'L142', 'L145'] {'L067': 11, 'L141': 12, 'L142': 24, 'L145': 10}
+kv-cache                                 def=N4 calc=N2 ['L042', 'L134', 'L141', 'L142'] {'L042': 11, 'L134': 28, 'L141': 12, 'L142': 40}
+batching                                 def=N4 calc=N2 ['L036', 'L142'] {'L036': 11, 'L142': 39}
+pagedattention                           def=N4 calc=N4 ['L142'] {'L142': 10}
+speculative-decoding                     def=N4 calc=N4 ['L134', 'L142'] {'L134': 6, 'L142': 36}
+serveur-d-inference                      def=N4 calc=N4 ['L141'] {'L141': 40}
+vllm                                     def=N4 calc=N2 ['L044', 'L141', 'L142', 'L143', 'L144'] {'L044': 12, 'L141': 40, 'L142': 16, 'L143': 20, 'L144': 13}
+offloading                               def=N2 calc=N2 [] {}
+unsloth                                  def=N4 calc=N2 ['L044', 'L136', 'L140'] {'L044': 6, 'L136': 32, 'L140': 16}
+hugging-face                             def=N2 calc=N1 ['L007', 'L045', 'L059', 'L130', 'L136'] {'L007': 9, 'L045': 12, 'L059': 12, 'L130': 24, 'L136': 27}
+fiche-de-modele                          def=N2 calc=N2 ['L044', 'L045', 'L059', 'L120'] {'L044': 7, 'L045': 6, 'L059': 6, 'L120': 6}
+gpu-cloud                                def=N3 calc=N2 ['L041', 'L042', 'L062', 'L143'] {'L041': 11, 'L042': 12, 'L062': 7, 'L143': 28}
+on-premise                               def=N2 calc=N4 ['L143'] {'L143': 25}
+edge-ai                                  def=N4 calc=N4 ['L145'] {'L145': 35}
+mlops                                    def=N4 calc=N4 ['L144'] {'L144': 27}
+derive                                   def=N4 calc=N2 ['L055', 'L144', 'L152', 'L153'] {'L055': 5, 'L144': 40, 'L152': 8, 'L153': 5}
+monitoring                               def=N4 calc=N2 ['L033', 'L144', 'L146'] {'L033': 6, 'L144': 22, 'L146': 8}
+registre-de-modeles                      def=N4 calc=N3 ['L088', 'L144'] {'L088': 5, 'L144': 24}
+automatisation                           def=N1 calc=N1 ['L024', 'L040', 'L054', 'L058'] {'L024': 12, 'L040': 15, 'L054': 12, 'L058': 20}
+workflow                                 def=N1 calc=N1 ['L025', 'L033', 'L035', 'L095'] {'L025': 40, 'L033': 40, 'L035': 23, 'L095': 21}
+n8n                                      def=N1 calc=N1 ['L024', 'L025', 'L032', 'L037', 'L048'] {'L024': 12, 'L025': 40, 'L032': 40, 'L037': 36, 'L048': 36}
+make                                     def=N2 calc=N2 ['L039', 'L040'] {'L039': 32, 'L040': 24}
+zapier                                   def=N2 calc=N2 ['L040'] {'L040': 40}
+zap                                      def=N2 calc=N2 ['L040'] {'L040': 24}
+scenario-make                            def=N2 calc=N2 ['L039'] {'L039': 40}
+module-make                              def=N2 calc=N2 ['L039', 'L040'] {'L039': 40, 'L040': 12}
+credits-operations                       def=N2 calc=N2 ['L039', 'L040'] {'L039': 24, 'L040': 11}
+noeud                                    def=N1 calc=N1 ['L025', 'L032', 'L034', 'L096'] {'L025': 24, 'L032': 40, 'L034': 40, 'L096': 28}
+declencheur                              def=N1 calc=N1 ['L024', 'L025', 'L033', 'L036', 'L039'] {'L024': 11, 'L025': 24, 'L033': 24, 'L036': 24, 'L039': 28}
+cron                                     def=N2 calc=N1 ['L025', 'L039', 'L058', 'L095'] {'L025': 18, 'L039': 15, 'L058': 14, 'L095': 27}
+expression-n8n                           def=N2 calc=N1 ['L025', 'L032', 'L033', 'L036'] {'L025': 20, 'L032': 36, 'L033': 16, 'L036': 12}
+item-n8n                                 def=N2 calc=N1 ['L025', 'L032', 'L033', 'L038'] {'L025': 13, 'L032': 28, 'L033': 16, 'L038': 12}
+sous-workflow                            def=N2 calc=N1 ['L025', 'L033', 'L038', 'L052'] {'L025': 11, 'L033': 40, 'L038': 6, 'L052': 15}
+gestion-des-erreurs                      def=N2 calc=N2 ['L033', 'L039', 'L046', 'L058'] {'L033': 24, 'L039': 5, 'L046': 5, 'L058': 16}
+noeud-ai-agent                           def=N2 calc=N1 ['L026', 'L034', 'L038', 'L046', 'L052'] {'L026': 11, 'L034': 36, 'L038': 20, 'L046': 13, 'L052': 16}
+cluster-nodes                            def=N2 calc=N1 ['L025', 'L034', 'L046', 'L048'] {'L025': 15, 'L034': 20, 'L046': 16, 'L048': 16}
+chat-trigger                             def=N2 calc=N2 ['L034', 'L046', 'L048'] {'L034': 5, 'L046': 5, 'L048': 8}
+http-request                             def=N2 calc=N2 ['L033', 'L034', 'L036', 'L052'] {'L033': 7, 'L034': 7, 'L036': 18, 'L052': 7}
+credentials                              def=N2 calc=N1 ['L025', 'L033', 'L037', 'L178'] {'L025': 16, 'L033': 20, 'L037': 24, 'L178': 17}
+integration                              def=N2 calc=N1 ['L011', 'L036', 'L051', 'L167'] {'L011': 17, 'L036': 18, 'L051': 16, 'L167': 14}
+ipaas                                    def=N2 calc=N2 [] {}
+rpa                                      def=N2 calc=N2 [] {}
+no-code                                  def=N1 calc=N1 ['L026', 'L035', 'L048', 'L054'] {'L026': 5, 'L035': 18, 'L048': 18, 'L054': 6}
+template                                 def=N2 calc=N2 ['L033', 'L137'] {'L033': 9, 'L137': 6}
+data-tables                              def=N2 calc=N2 ['L032', 'L036', 'L046', 'L052'] {'L032': 12, 'L036': 9, 'L046': 5, 'L052': 5}
+execution                                def=N2 calc=N1 ['L025', 'L033', 'L037', 'L039'] {'L025': 15, 'L033': 12, 'L037': 8, 'L039': 16}
+auto-hebergement                         def=N2 calc=N2 ['L035', 'L037', 'L040', 'L086', 'L103'] {'L035': 8, 'L037': 29, 'L040': 19, 'L086': 14, 'L103': 14}
+queue-mode                               def=N2 calc=N2 ['L034', 'L035', 'L037', 'L102'] {'L034': 7, 'L035': 5, 'L037': 6, 'L102': 12}
+reporting-automatise                     def=N2 calc=N2 ['L058'] {'L058': 28}
+donnee                                   def=N1 calc=N1 ['L001', 'L002', 'L028', 'L132', 'L180'] {'L001': 17, 'L002': 40, 'L028': 36, 'L132': 40, 'L180': 40}
+donnees-structurees                      def=N1 calc=N1 ['L017', 'L071', 'L077', 'L087'] {'L017': 17, 'L071': 40, 'L077': 23, 'L087': 12}
+jeu-de-donnees                           def=N2 calc=N4 ['L120', 'L123', 'L137', 'L155'] {'L120': 16, 'L123': 16, 'L137': 19, 'L155': 13}
+csv                                      def=N2 calc=N1 ['L022', 'L049', 'L055', 'L152'] {'L022': 7, 'L049': 6, 'L055': 19, 'L152': 36}
+sql                                      def=N2 calc=N2 ['L057', 'L110', 'L153', 'L168'] {'L057': 36, 'L110': 12, 'L153': 25, 'L168': 17}
+text-to-sql                              def=N2 calc=N2 ['L057'] {'L057': 24}
+base-de-donnees-relationnelle            def=N2 calc=N1 ['L028', 'L037', 'L157', 'L169', 'L179'] {'L028': 9, 'L037': 24, 'L157': 36, 'L169': 36, 'L179': 24}
+nosql                                    def=N3 calc=N2 ['L035'] {'L035': 5}
+schema                                   def=N3 calc=N1 ['L017', 'L071', 'L079', 'L167', 'L171'] {'L017': 9, 'L071': 24, 'L079': 24, 'L167': 40, 'L171': 36}
+big-data                                 def=N2 calc=N5 ['L151', 'L156'] {'L151': 0, 'L156': 5}
+trois-v                                  def=N2 calc=N2 [] {}
+data-warehouse                           def=N2 calc=N5 ['L153', 'L157', 'L158'] {'L153': 6, 'L157': 8, 'L158': 36}
+data-lake                                def=N3 calc=N3 [] {}
+lakehouse                                def=N3 calc=N5 ['L156', 'L157', 'L169', 'L172'] {'L156': 28, 'L157': 6, 'L169': 9, 'L172': 5}
+format-de-table-ouvert                   def=N3 calc=N5 ['L157', 'L169', 'L172', 'L174'] {'L157': 40, 'L169': 40, 'L172': 8, 'L174': 6}
+parquet                                  def=N3 calc=N5 ['L152', 'L155', 'L156', 'L175'] {'L152': 36, 'L155': 28, 'L156': 16, 'L175': 18}
+stockage-en-colonnes                     def=N3 calc=N5 ['L152'] {'L152': 8}
+etl                                      def=N2 calc=N5 ['L161', 'L174', 'L177'] {'L161': 38, 'L174': 7, 'L177': 5}
+elt                                      def=N3 calc=N5 ['L161'] {'L161': 36}
+pipeline-de-donnees                      def=N2 calc=N3 ['L090', 'L091', 'L165', 'L174'] {'L090': 26, 'L091': 20, 'L165': 30, 'L174': 25}
+orchestration                            def=N3 calc=N5 ['L164', 'L180', 'L183', 'L184'] {'L164': 40, 'L180': 15, 'L183': 15, 'L184': 20}
+dag                                      def=N3 calc=N5 ['L164'] {'L164': 35}
+dbt                                      def=N3 calc=N5 ['L163', 'L165', 'L170', 'L173'] {'L163': 40, 'L165': 32, 'L170': 32, 'L173': 32}
+apache-spark                             def=N3 calc=N5 ['L156', 'L159', 'L160', 'L168', 'L178'] {'L156': 9, 'L159': 40, 'L160': 32, 'L168': 40, 'L178': 32}
+apache-kafka                             def=N3 calc=N5 ['L162', 'L167', 'L168', 'L169', 'L181'] {'L162': 8, 'L167': 40, 'L168': 40, 'L169': 36, 'L181': 20}
+streaming-de-donnees                     def=N3 calc=N5 ['L166', 'L168', 'L179'] {'L166': 9, 'L168': 40, 'L179': 6}
+traitement-par-lots                      def=N2 calc=N2 ['L058', 'L160', 'L178', 'L183'] {'L058': 7, 'L160': 18, 'L178': 30, 'L183': 11}
+cdc                                      def=N3 calc=N5 ['L162', 'L169', 'L180', 'L181'] {'L162': 40, 'L169': 36, 'L180': 15, 'L181': 36}
+data-contract                            def=N3 calc=N3 ['L100', 'L171', 'L180'] {'L100': 5, 'L171': 40, 'L180': 26}
+qualite-des-donnees                      def=N2 calc=N5 ['L170'] {'L170': 17}
+nettoyage-des-donnees                    def=N2 calc=N2 ['L032', 'L137', 'L155'] {'L032': 5, 'L137': 11, 'L155': 26}
+valeurs-manquantes                       def=N2 calc=N4 ['L120', 'L152', 'L163', 'L166'] {'L120': 7, 'L152': 12, 'L163': 5, 'L166': 7}
+valeur-aberrante                         def=N2 calc=N4 ['L141'] {'L141': 15}
+detection-d-anomalies                    def=N2 calc=N4 ['L118', 'L173'] {'L118': 6, 'L173': 13}
+gouvernance-des-donnees                  def=N3 calc=N5 ['L174'] {'L174': 7}
+catalogue-de-donnees                     def=N3 calc=N5 ['L172'] {'L172': 5}
+lignage-des-donnees                      def=N3 calc=N5 ['L163', 'L172', 'L173', 'L184'] {'L163': 40, 'L172': 40, 'L173': 10, 'L184': 20}
+data-mesh                                def=N3 calc=N3 [] {}
+hadoop                                   def=N3 calc=N5 ['L156'] {'L156': 34}
+partitionnement                          def=N3 calc=N5 ['L153', 'L156', 'L157', 'L159', 'L167'] {'L153': 12, 'L156': 22, 'L157': 20, 'L159': 40, 'L167': 40}
+bi                                       def=N2 calc=N5 ['L158'] {'L158': 14}
+tableau-de-bord                          def=N2 calc=N1 ['L010', 'L038', 'L144', 'L158'] {'L010': 7, 'L038': 5, 'L144': 6, 'L158': 6}
+kpi                                      def=N2 calc=N2 ['L058', 'L137'] {'L058': 12, 'L137': 5}
+visualisation-de-donnees                 def=N2 calc=N2 ['L044', 'L056'] {'L044': 20, 'L056': 40}
+pandas                                   def=N3 calc=N5 ['L159', 'L160', 'L170', 'L178'] {'L159': 18, 'L160': 16, 'L170': 13, 'L178': 13}
+notebook                                 def=N3 calc=N1 ['L012', 'L089', 'L136'] {'L012': 5, 'L089': 7, 'L136': 12}
+open-data                                def=N2 calc=N5 ['L171', 'L180'] {'L171': 29, 'L180': 6}
+metiers-de-la-data                       def=N2 calc=N5 ['L151', 'L158'] {'L151': 40, 'L158': 5}
+prompt-injection                         def=N1 calc=N1 ['L017', 'L027', 'L031', 'L107', 'L147'] {'L017': 8, 'L027': 14, 'L031': 24, 'L107': 40, 'L147': 16}
+prompt-injection-indirecte               def=N3 calc=N3 ['L095', 'L100', 'L107', 'L147'] {'L095': 5, 'L100': 5, 'L107': 10, 'L147': 8}
+jailbreak                                def=N3 calc=N3 ['L076', 'L106', 'L107', 'L147'] {'L076': 6, 'L106': 8, 'L107': 13, 'L147': 24}
+red-teaming                              def=N3 calc=N4 ['L147', 'L150'] {'L147': 32, 'L150': 11}
+guardrails                               def=N3 calc=N1 ['L026', 'L081', 'L097', 'L108'] {'L026': 18, 'L081': 28, 'L097': 24, 'L108': 40}
+moderation                               def=N3 calc=N3 ['L082', 'L108'] {'L082': 12, 'L108': 36}
+owasp-top-10-llm                         def=N3 calc=N1 ['L031', 'L106', 'L110', 'L148'] {'L031': 20, 'L106': 40, 'L110': 20, 'L148': 32}
+owasp-agentic                            def=N4 calc=N1 ['L031', 'L054', 'L106', 'L148'] {'L031': 6, 'L054': 6, 'L106': 10, 'L148': 30}
+mitre-atlas                              def=N4 calc=N3 ['L106', 'L110', 'L147', 'L148'] {'L106': 24, 'L110': 14, 'L147': 16, 'L148': 32}
+fuite-de-donnees                         def=N1 calc=N3 ['L076', 'L110', 'L119', 'L147'] {'L076': 8, 'L110': 6, 'L119': 17, 'L147': 25}
+exfiltration                             def=N3 calc=N4 ['L148'] {'L148': 5}
+data-poisoning                           def=N4 calc=N3 ['L099', 'L106', 'L110', 'L148'] {'L099': 8, 'L106': 13, 'L110': 5, 'L148': 15}
+tool-poisoning                           def=N3 calc=N3 ['L099', 'L148'] {'L099': 7, 'L148': 5}
+excessive-agency                         def=N3 calc=N1 ['L031', 'L095', 'L148'] {'L031': 5, 'L095': 6, 'L148': 5}
+improper-output-handling                 def=N3 calc=N3 [] {}
+denial-of-wallet                         def=N3 calc=N1 ['L031', 'L099'] {'L031': 9, 'L099': 6}
+supply-chain                             def=N3 calc=N4 ['L148'] {'L148': 7}
+shadow-ai                                def=N1 calc=N1 ['L031'] {'L031': 40}
+phishing-ia                              def=N1 calc=N1 ['L031'] {'L031': 25}
+gestion-des-secrets                      def=N3 calc=N1 ['L028', 'L031', 'L065', 'L109', 'L154'] {'L028': 11, 'L031': 16, 'L065': 32, 'L109': 32, 'L154': 36}
+moindre-privilege                        def=N3 calc=N3 ['L075', 'L109', 'L148', 'L174'] {'L075': 5, 'L109': 5, 'L148': 7, 'L174': 5}
+sandbox                                  def=N3 calc=N2 ['L054', 'L055', 'L065', 'L074', 'L110'] {'L054': 5, 'L055': 5, 'L065': 5, 'L074': 5, 'L110': 7}
+oauth                                    def=N3 calc=N2 ['L036', 'L075', 'L099', 'L148'] {'L036': 5, 'L075': 13, 'L099': 5, 'L148': 8}
+mfa                                      def=N1 calc=N1 [] {}
+detection-de-donnees-personnelles        def=N3 calc=N1 ['L028', 'L108', 'L177', 'L182'] {'L028': 27, 'L108': 36, 'L177': 32, 'L182': 36}
+audit-de-securite                        def=N3 calc=N3 ['L110'] {'L110': 24}
+journalisation                           def=N3 calc=N3 ['L088', 'L113', 'L121', 'L122'] {'L088': 9, 'L113': 24, 'L121': 11, 'L122': 10}
+attaque-adversariale                     def=N4 calc=N4 ['L147', 'L149'] {'L147': 12, 'L149': 6}
+robustesse                               def=N4 calc=N2 ['L038', 'L127', 'L147', 'L149'] {'L038': 5, 'L127': 5, 'L147': 23, 'L149': 6}
+rgpd                                     def=N1 calc=N1 ['L028', 'L040', 'L063', 'L174'] {'L028': 28, 'L040': 16, 'L063': 36, 'L174': 28}
+donnee-personnelle                       def=N1 calc=N1 ['L028', 'L108', 'L177', 'L180'] {'L028': 36, 'L108': 32, 'L177': 21, 'L180': 23}
+donnee-sensible                          def=N1 calc=N1 ['L028', 'L046', 'L145'] {'L028': 14, 'L046': 8, 'L145': 8}
+cnil                                     def=N1 calc=N1 ['L004', 'L028', 'L063', 'L108'] {'L004': 9, 'L028': 32, 'L063': 12, 'L108': 12}
+aipd                                     def=N2 calc=N1 ['L028', 'L063', 'L108', 'L149'] {'L028': 13, 'L063': 20, 'L108': 7, 'L149': 14}
+delegue-protection-donnees               def=N1 calc=N1 ['L007', 'L028', 'L146', 'L172'] {'L007': 12, 'L028': 7, 'L146': 16, 'L172': 7}
+base-legale                              def=N2 calc=N1 ['L028', 'L063', 'L174', 'L180'] {'L028': 13, 'L063': 8, 'L174': 9, 'L180': 15}
+interet-legitime                         def=N2 calc=N1 ['L028', 'L063'] {'L028': 12, 'L063': 10}
+consentement                             def=N1 calc=N1 ['L030', 'L061'] {'L030': 15, 'L061': 23}
+minimisation                             def=N1 calc=N1 ['L028', 'L108', 'L113', 'L137'] {'L028': 10, 'L108': 11, 'L113': 9, 'L137': 7}
+finalite                                 def=N2 calc=N1 ['L028', 'L108', 'L174', 'L180'] {'L028': 15, 'L108': 5, 'L174': 9, 'L180': 8}
+duree-de-conservation                    def=N2 calc=N1 ['L028', 'L063', 'L108', 'L180'] {'L028': 10, 'L063': 8, 'L108': 5, 'L180': 5}
+droits-des-personnes                     def=N2 calc=N1 ['L028', 'L108', 'L174'] {'L028': 7, 'L108': 5, 'L174': 5}
+decision-automatisee                     def=N2 calc=N2 [] {}
+sous-traitant                            def=N2 calc=N1 ['L028', 'L040', 'L063', 'L099'] {'L028': 5, 'L040': 7, 'L063': 19, 'L099': 5}
+transfert-hors-ue                        def=N2 calc=N2 ['L063'] {'L063': 7}
+anonymisation                            def=N2 calc=N1 ['L028', 'L108', 'L174', 'L177'] {'L028': 15, 'L108': 12, 'L174': 11, 'L177': 31}
+pseudonymisation                         def=N2 calc=N1 ['L028', 'L108', 'L174', 'L182'] {'L028': 23, 'L108': 20, 'L174': 16, 'L182': 19}
+ai-act                                   def=N1 calc=N1 ['L004', 'L029', 'L063', 'L149', 'L174'] {'L004': 20, 'L029': 40, 'L063': 36, 'L149': 36, 'L174': 32}
+systeme-a-haut-risque                    def=N2 calc=N1 ['L029', 'L063', 'L064', 'L149'] {'L029': 20, 'L063': 16, 'L064': 7, 'L149': 40}
+pratiques-interdites                     def=N1 calc=N1 ['L029', 'L128', 'L149'] {'L029': 13, 'L128': 5, 'L149': 9}
+obligation-de-transparence               def=N1 calc=N1 ['L014', 'L029', 'L061', 'L063'] {'L014': 14, 'L029': 20, 'L061': 19, 'L063': 20}
+alphabetisation-ia                       def=N1 calc=N1 ['L004', 'L029', 'L063', 'L064'] {'L004': 20, 'L029': 40, 'L063': 20, 'L064': 15}
+fournisseur-et-deployeur                 def=N2 calc=N1 ['L004', 'L029', 'L063', 'L149'] {'L004': 16, 'L029': 24, 'L063': 20, 'L149': 17}
+gpai                                     def=N2 calc=N2 ['L063', 'L149'] {'L063': 8, 'L149': 27}
+supervision-humaine                      def=N2 calc=N2 ['L063', 'L149'] {'L063': 7, 'L149': 8}
+droit-d-auteur                           def=N1 calc=N1 ['L014', 'L029', 'L030', 'L059'] {'L014': 8, 'L029': 7, 'L030': 40, 'L059': 15}
+exception-tdm                            def=N2 calc=N1 ['L030'] {'L030': 13}
+propriete-des-sorties                    def=N2 calc=N1 ['L030', 'L031', 'L059', 'L137'] {'L030': 8, 'L031': 5, 'L059': 6, 'L137': 10}
+deepfake                                 def=N1 calc=N1 ['L014', 'L029', 'L030', 'L060'] {'L014': 14, 'L029': 9, 'L030': 36, 'L060': 8}
+loi-sren                                 def=N1 calc=N1 ['L014', 'L030', 'L063'] {'L014': 6, 'L030': 12, 'L063': 6}
+omnibus-numerique                        def=N2 calc=N1 ['L004', 'L029', 'L063', 'L149'] {'L004': 6, 'L029': 12, 'L063': 5, 'L149': 8}
+biais-algorithmique                      def=N1 calc=N1 ['L030', 'L114', 'L116', 'L174'] {'L030': 40, 'L114': 22, 'L116': 40, 'L174': 14}
+discrimination                           def=N1 calc=N1 ['L030'] {'L030': 24}
+explicabilite                            def=N2 calc=N1 ['L003'] {'L003': 0}
+transparence                             def=N1 calc=N1 ['L014', 'L029', 'L060', 'L061', 'L063'] {'L014': 10, 'L029': 15, 'L060': 12, 'L061': 16, 'L063': 16}
+ia-responsable                           def=N1 calc=N1 ['L030', 'L147'] {'L030': 0, 'L147': 6}
+politique-ia-interne                     def=N2 calc=N2 ['L063', 'L149'] {'L063': 30, 'L149': 9}
+impact-environnemental                   def=N1 calc=N4 ['L145'] {'L145': 5}
+watermarking                             def=N2 calc=N1 ['L029', 'L059', 'L149'] {'L029': 0, 'L059': 5, 'L149': 6}
+souverainete-numerique                   def=N2 calc=N1 ['L012', 'L041', 'L086', 'L139'] {'L012': 7, 'L041': 31, 'L086': 8, 'L139': 8}
+secnumcloud                              def=N2 calc=N4 ['L147'] {'L147': 5}
+cloud-act                                def=N2 calc=N2 [] {}
+nist-ai-rmf                              def=N4 calc=N2 ['L063', 'L106', 'L110', 'L149'] {'L063': 8, 'L106': 24, 'L110': 13, 'L149': 40}
+iso-42001                                def=N4 calc=N2 ['L063', 'L149'] {'L063': 6, 'L149': 40}
+tracabilite                              def=N2 calc=N2 ['L050', 'L094', 'L100', 'L106'] {'L050': 5, 'L094': 6, 'L100': 8, 'L106': 5}
+cpf                                      def=N1 calc=N1 ['L023'] {'L023': 11}
+mon-compte-formation                     def=N1 calc=N1 [] {}
+reste-a-charge                           def=N1 calc=N1 ['L023'] {'L023': 8}
+france-competences                       def=N1 calc=N1 [] {}
+rncp                                     def=N2 calc=N5 ['L151'] {'L151': 0}
+rs                                       def=N1 calc=N1 [] {}
+certification-professionnelle            def=N2 calc=N2 [] {}
+bloc-de-competences                      def=N2 calc=N2 [] {}
+referentiel-de-competences               def=N2 calc=N2 [] {}
+referentiel-d-evaluation                 def=N2 calc=N2 [] {}
+jury-de-certification                    def=N2 calc=N2 [] {}
+qualiopi                                 def=N1 calc=N1 [] {}
+rnq                                      def=N2 calc=N2 [] {}
+indicateur-qualiopi                      def=N2 calc=N2 [] {}
+organisme-de-formation                   def=N1 calc=N1 [] {}
+foad                                     def=N1 calc=N1 [] {}
+distanciel                               def=N1 calc=N1 [] {}
+assiduite-foad                           def=N2 calc=N2 [] {}
+certificat-de-realisation                def=N2 calc=N2 [] {}
+opco                                     def=N1 calc=N1 [] {}
+plan-de-developpement-des-competences    def=N2 calc=N2 ['L063', 'L064'] {'L063': 7, 'L064': 7}
+objectif-pedagogique                     def=N2 calc=N2 [] {}
+taxonomie-de-bloom                       def=N2 calc=N2 [] {}
+positionnement                           def=N2 calc=N2 [] {}
+prerequis                                def=N1 calc=N1 [] {}
+evaluation-a-chaud-et-a-froid            def=N2 calc=N2 [] {}
+open-badge                               def=N2 calc=N1 ['L011'] {'L011': 10}
+certifications-editeurs                  def=N2 calc=N1 ['L003', 'L012', 'L105'] {'L003': 7, 'L012': 17, 'L105': 5}
+certif-info                              def=N2 calc=N2 [] {}
+vae                                      def=N2 calc=N2 [] {}
+elements-of-ai                           def=N1 calc=N1 [] {}
+france-travail                           def=N1 calc=N1 [] {}
+jsonl                                    def=N3 calc=N3 ['L082', 'L140', 'L152', 'L175', 'L176'] {'L082': 11, 'L140': 12, 'L152': 40, 'L175': 24, 'L176': 13}
+avro-orc-arrow                           def=N5 calc=N5 ['L152', 'L167', 'L175'] {'L152': 36, 'L167': 40, 'L175': 5}
+duckdb                                   def=N5 calc=N5 ['L152', 'L155', 'L158', 'L160', 'L169'] {'L152': 16, 'L155': 32, 'L158': 32, 'L160': 40, 'L169': 35}
+polars                                   def=N5 calc=N5 ['L152', 'L155', 'L160', 'L179'] {'L152': 11, 'L155': 32, 'L160': 40, 'L179': 7}
+cte-et-fenetres                          def=N5 calc=N5 ['L153'] {'L153': 40}
+schema-en-etoile                         def=N5 calc=N5 ['L154', 'L159', 'L170'] {'L154': 28, 'L159': 6, 'L170': 31}
+scd                                      def=N5 calc=N5 ['L154', 'L155', 'L163'] {'L154': 36, 'L155': 8, 'L163': 6}
+data-vault                               def=N5 calc=N5 ['L154', 'L179'] {'L154': 40, 'L179': 5}
+architecture-medaillon                   def=N5 calc=N5 ['L152', 'L154', 'L161', 'L181', 'L182'] {'L152': 28, 'L154': 40, 'L161': 40, 'L181': 32, 'L182': 32}
+stockage-objet                           def=N5 calc=N5 ['L156', 'L179', 'L180', 'L181'] {'L156': 36, 'L179': 20, 'L180': 12, 'L181': 32}
+mapreduce                                def=N5 calc=N5 ['L156'] {'L156': 33}
+shuffle                                  def=N5 calc=N5 ['L156', 'L159'] {'L156': 13, 'L159': 40}
+dask-ray                                 def=N5 calc=N5 ['L160', 'L178'] {'L160': 40, 'L178': 36}
+outils-d-ingestion                       def=N5 calc=N5 ['L162', 'L163', 'L164', 'L165'] {'L162': 40, 'L163': 6, 'L164': 6, 'L165': 24}
+chargement-incremental                   def=N5 calc=N5 ['L153', 'L162', 'L163', 'L183'] {'L153': 27, 'L162': 36, 'L163': 30, 'L183': 31}
+idempotence                              def=N5 calc=N2 ['L033', 'L102', 'L161', 'L165', 'L183'] {'L033': 8, 'L102': 16, 'L161': 40, 'L165': 14, 'L183': 16}
+backfill                                 def=N5 calc=N5 ['L164'] {'L164': 36}
+snapshot-dbt                             def=N5 calc=N5 ['L157', 'L163', 'L174'] {'L157': 12, 'L163': 40, 'L174': 7}
+kafka-topic                              def=N5 calc=N5 ['L167', 'L168', 'L169', 'L181'] {'L167': 40, 'L168': 10, 'L169': 15, 'L181': 16}
+schema-registry                          def=N5 calc=N5 ['L167'] {'L167': 34}
+apache-flink                             def=N5 calc=N5 ['L166', 'L168'] {'L166': 5, 'L168': 40}
+watermark                                def=N5 calc=N5 ['L166', 'L168', 'L169'] {'L166': 40, 'L168': 32, 'L169': 5}
+exactly-once                             def=N5 calc=N5 ['L166', 'L168'] {'L166': 26, 'L168': 24}
+tests-de-qualite-des-donnees             def=N5 calc=N5 ['L170', 'L182', 'L184'] {'L170': 40, 'L182': 28, 'L184': 9}
+odcs                                     def=N5 calc=N5 ['L171', 'L172', 'L180', 'L182'] {'L171': 36, 'L172': 8, 'L180': 24, 'L182': 9}
+openlineage                              def=N5 calc=N5 ['L157', 'L171', 'L172', 'L184'] {'L157': 23, 'L171': 7, 'L172': 40, 'L184': 11}
+observabilite-des-donnees                def=N5 calc=N5 ['L155', 'L173', 'L184'] {'L155': 8, 'L173': 40, 'L184': 16}
+sla                                      def=N5 calc=N4 ['L143', 'L171', 'L180', 'L184'] {'L143': 13, 'L171': 14, 'L180': 40, 'L184': 10}
+time-travel                              def=N5 calc=N5 ['L157'] {'L157': 25}
+deduplication                            def=N5 calc=N3 ['L090', 'L175', 'L176', 'L182'] {'L090': 14, 'L175': 16, 'L176': 40, 'L182': 36}
+decontamination                          def=N5 calc=N4 ['L138', 'L176', 'L179'] {'L138': 7, 'L176': 29, 'L179': 6}
+presidio                                 def=N5 calc=N3 ['L108', 'L177', 'L182'] {'L108': 23, 'L177': 36, 'L182': 16}
+extraction-de-texte                      def=N5 calc=N5 ['L175', 'L178', 'L182'] {'L175': 40, 'L178': 5, 'L182': 13}
+feature-store                            def=N5 calc=N5 ['L179'] {'L179': 40}
+versioning-de-donnees                    def=N5 calc=N4 ['L144', 'L179'] {'L144': 16, 'L179': 40}
+prefill-decode                           def=N4 calc=N4 ['L130', 'L141', 'L142', 'L145'] {'L130': 12, 'L141': 24, 'L142': 20, 'L145': 9}

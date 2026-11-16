@@ -1,0 +1,45 @@
+# Next Formation : application + PostgreSQL 16. Renseigner un fichier .env (voir .env.example) avant `docker compose up -d`.
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: nextformation
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nextformation}
+      POSTGRES_DB: nextformation
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nextformation -d nextformation"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://nextformation:${POSTGRES_PASSWORD:-nextformation}@db:5432/nextformation
+      STORAGE_DIR: /app/storage
+    ports:
+      - "3000:3000"
+    volumes:
+      - storage:/app/storage
+
+  # Déclencheur des tâches de fond : appelle /api/cron chaque minute avec CRON_SECRET.
+  cron:
+    image: curlimages/curl:8.10.1
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    env_file: .env
+    entrypoint: ["sh", "-c", "while true; do curl -fsS -X POST -H \"x-cron-secret: $$CRON_SECRET\" http://app:3000/api/cron > /dev/null || true; sleep 60; done"]
+
+volumes:
+  pgdata:
+  storage:

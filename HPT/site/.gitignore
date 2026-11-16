@@ -1,0 +1,23 @@
+node_modules
+.next
+out
+build
+coverage
+test-results
+playwright-report
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+*.pem
+npm-debug.log*
+.env
+.env.*
+!.env.example
+apps/dashboard/stockage/
+infra/ecosysteme/env/
+apps/dashboard/.demo-faite
+apps/dashboard/ocr/
+# Modèles Whisper téléchargés
+apps/dashboard/modeles/
+# Sauvegardes chiffrées
+sauvegardes/

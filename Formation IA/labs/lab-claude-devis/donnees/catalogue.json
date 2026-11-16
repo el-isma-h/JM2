@@ -1,0 +1,29 @@
+{
+  "_avertissement": "Catalogue FICTIF de « Karim Électricité » (Toulouse) pour le lab L077. Prix HT 2026 inventés pour l'exercice. Source de vérité des prix : ce fichier, jamais le modèle.",
+  "prestations": [
+    { "code": "MO-H", "libelle": "Main-d'œuvre horaire électricien", "unite": "h", "prix_ht": 55.0, "page": 2 },
+    { "code": "DEPLACEMENT", "libelle": "Frais de déplacement Toulouse et agglomération", "unite": "forfait", "prix_ht": 35.0, "page": 2 },
+    { "code": "PRISE-SUPP", "libelle": "Création d'une prise de courant 16 A supplémentaire", "unite": "u", "prix_ht": 95.0, "page": 3 },
+    { "code": "PRISE-DEPL", "libelle": "Déplacement d'une prise de courant existante", "unite": "u", "prix_ht": 70.0, "page": 3 },
+    { "code": "PRISE-USB", "libelle": "Remplacement par une prise de courant avec chargeur USB", "unite": "u", "prix_ht": 120.0, "page": 3 },
+    { "code": "PRISE-EXT", "libelle": "Création d'une prise de courant extérieure étanche", "unite": "u", "prix_ht": 140.0, "page": 3 },
+    { "code": "INTER-DEPL", "libelle": "Déplacement d'un interrupteur existant", "unite": "u", "prix_ht": 75.0, "page": 4 },
+    { "code": "INTER-VV", "libelle": "Création d'un interrupteur va-et-vient", "unite": "u", "prix_ht": 145.0, "page": 4 },
+    { "code": "PT-LUM", "libelle": "Création d'un point lumineux (plafonnier ou applique)", "unite": "u", "prix_ht": 110.0, "page": 5 },
+    { "code": "SPOT-LED", "libelle": "Pose d'un spot LED encastré", "unite": "u", "prix_ht": 55.0, "page": 5 },
+    { "code": "CABLE-M", "libelle": "Tirage de câble sous gaine", "unite": "m", "prix_ht": 12.5, "page": 6 },
+    { "code": "GOULOTTE-M", "libelle": "Pose de goulotte apparente", "unite": "m", "prix_ht": 18.0, "page": 6 },
+    { "code": "TAB-DIAG", "libelle": "Diagnostic du tableau électrique", "unite": "forfait", "prix_ht": 90.0, "page": 8 },
+    { "code": "TAB-REMPL", "libelle": "Remplacement du tableau électrique (2 rangées, fourniture comprise)", "unite": "forfait", "prix_ht": 1150.0, "page": 8 },
+    { "code": "DIFF-30MA", "libelle": "Pose d'un interrupteur différentiel 30 mA", "unite": "u", "prix_ht": 165.0, "page": 9 },
+    { "code": "DISJ", "libelle": "Ajout d'un disjoncteur divisionnaire", "unite": "u", "prix_ht": 45.0, "page": 9 },
+    { "code": "TERRE", "libelle": "Vérification et mise à la terre de l'installation", "unite": "forfait", "prix_ht": 240.0, "page": 10 },
+    { "code": "VMC-SF", "libelle": "Pose d'une VMC simple flux (fourniture comprise)", "unite": "forfait", "prix_ht": 690.0, "page": 12 },
+    { "code": "RADIATEUR", "libelle": "Pose d'un radiateur électrique fourni par le client", "unite": "u", "prix_ht": 130.0, "page": 13 },
+    { "code": "SECHE-SERV", "libelle": "Pose d'un sèche-serviettes électrique", "unite": "u", "prix_ht": 160.0, "page": 13 },
+    { "code": "INTERPHONE", "libelle": "Pose d'un interphone audio", "unite": "forfait", "prix_ht": 280.0, "page": 14 },
+    { "code": "DETECT-FUMEE", "libelle": "Pose d'un détecteur de fumée", "unite": "u", "prix_ht": 45.0, "page": 14 },
+    { "code": "BORNE-IRVE", "libelle": "Installation d'une borne de recharge 7 kW pour véhicule électrique", "unite": "forfait", "prix_ht": 1490.0, "page": 15 },
+    { "code": "CONSUEL", "libelle": "Accompagnement pour l'attestation Consuel", "unite": "forfait", "prix_ht": 180.0, "page": 16 }
+  ]
+}

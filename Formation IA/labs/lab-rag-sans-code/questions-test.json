@@ -1,0 +1,125 @@
+[
+  {
+    "id": "Q01",
+    "question": "Quelle vis et quelle cheville pour fixer un dormant sur du béton cellulaire ?",
+    "type": "chiffre",
+    "reponse_attendue": "Une cheville à expansion spéciale béton cellulaire (réf. CBC-10) avec une vis Ø 6 mm d'au moins 80 mm, perçage sans percussion au foret de 8 mm ; jamais de cheville nylon universelle.",
+    "elements_obligatoires": [
+      "béton cellulaire",
+      "6 mm",
+      "80 mm",
+      "sans percussion"
+    ],
+    "source_attendue": "fiche-technique-fixations.md",
+    "comportement_attendu": "répondre et citer la source",
+    "remarque": "Question de la leçon (section 0)."
+  },
+  {
+    "id": "Q02",
+    "question": "Quel délai de rétractation pour un particulier qui signe un devis à son domicile ?",
+    "type": "chiffre",
+    "reponse_attendue": "14 jours à compter de la signature (contrat conclu hors établissement) ; aucune fabrication ni acompte avant la fin du délai sauf demande expresse.",
+    "elements_obligatoires": [
+      "14 jours"
+    ],
+    "source_attendue": "cgv-2026.md",
+    "comportement_attendu": "répondre et citer la source",
+    "remarque": "Question de la leçon (sections 0 et 1.3)."
+  },
+  {
+    "id": "Q03",
+    "question": "Quel acompte demande-t-on à la signature du devis ?",
+    "type": "chiffre",
+    "reponse_attendue": "30 % du montant TTC, le solde étant payable à la réception des travaux.",
+    "elements_obligatoires": [
+      "30 %"
+    ],
+    "source_attendue": "cgv-2026.md",
+    "comportement_attendu": "répondre et citer la source",
+    "remarque": ""
+  },
+  {
+    "id": "Q04",
+    "question": "Combien coûte la pose d'une fenêtre en rénovation ?",
+    "type": "chiffre",
+    "reponse_attendue": "180 € HT par fenêtre (dormant conservé) ; 290 € HT en dépose totale.",
+    "elements_obligatoires": [
+      "180"
+    ],
+    "source_attendue": "grille-tarifaire-2026.md",
+    "comportement_attendu": "répondre et citer la source",
+    "remarque": "Une réponse qui donne 290 € sans préciser « dépose totale » confond deux lignes."
+  },
+  {
+    "id": "Q05",
+    "question": "Quel taux de TVA pour remplacer des fenêtres dans une maison de 15 ans, sans critère de performance thermique ?",
+    "type": "factuelle",
+    "reponse_attendue": "10 % (travaux d'amélioration dans un logement de plus de 2 ans) ; 5,5 % seulement si les menuiseries respectent les critères de performance thermique.",
+    "elements_obligatoires": [
+      "10 %"
+    ],
+    "source_attendue": "grille-tarifaire-2026.md",
+    "comportement_attendu": "répondre et citer la source",
+    "remarque": "Piège : la réponse « 5,5 % » ignore la condition."
+  },
+  {
+    "id": "Q06",
+    "question": "Quel espacement maximum entre deux vis de fixation du dormant ?",
+    "type": "chiffre",
+    "reponse_attendue": "50 cm au maximum, et à 15 cm des angles.",
+    "elements_obligatoires": [
+      "50 cm",
+      "15 cm"
+    ],
+    "source_attendue": "procedure-pose-fenetre-renovation.md",
+    "comportement_attendu": "répondre et citer la source",
+    "remarque": ""
+  },
+  {
+    "id": "Q07",
+    "question": "Un apprenti peut-il porter des gants pour utiliser la scie à format ?",
+    "type": "factuelle",
+    "reponse_attendue": "Non : le port de gants est interdit à proximité d'une lame en rotation ; de plus, un apprenti n'utilise la scie à format qu'en présence de son tuteur.",
+    "elements_obligatoires": [
+      "interdit",
+      "tuteur"
+    ],
+    "source_attendue": "consignes-securite-atelier.md",
+    "comportement_attendu": "répondre et citer la source",
+    "remarque": "Réponse répartie sur deux paragraphes du même document."
+  },
+  {
+    "id": "Q08",
+    "question": "Combien facture-t-on de déplacement pour un chantier situé à 50 km de l'atelier ?",
+    "type": "calcul",
+    "reponse_attendue": "Gratuit jusqu'à 30 km, puis 0,60 € HT par km au-delà : (50 − 30) × 0,60 = 12 € HT.",
+    "elements_obligatoires": [
+      "30 km",
+      "0,60",
+      "12"
+    ],
+    "source_attendue": "grille-tarifaire-2026.md",
+    "comportement_attendu": "répondre et citer la source",
+    "remarque": "Le calcul doit être explicite et vérifiable ; une valeur sans détail est à considérer comme non sourcée."
+  },
+  {
+    "id": "Q09",
+    "question": "Quel est le prix d'une véranda de 20 m² ?",
+    "type": "hors_base",
+    "reponse_attendue": "Je ne sais pas : la grille tarifaire précise que les vérandas ne font pas partie de l'offre ; proposer de contacter la commerciale.",
+    "elements_obligatoires": [],
+    "source_attendue": "grille-tarifaire-2026.md (mention « ne font pas partie de notre offre »)",
+    "comportement_attendu": "refuser ou dire « je ne sais pas »",
+    "remarque": "Hors base plausible : le piège le plus dangereux, un prix inventé."
+  },
+  {
+    "id": "Q10",
+    "question": "Quel temps fera-t-il demain à Angoulême ?",
+    "type": "hors_base",
+    "reponse_attendue": "Refus poli : la question ne porte pas sur les documents de l'entreprise.",
+    "elements_obligatoires": [],
+    "source_attendue": "(aucune)",
+    "comportement_attendu": "refuser ou dire « je ne sais pas »",
+    "remarque": "Question hors sujet de la leçon (section 1.3)."
+  }
+]

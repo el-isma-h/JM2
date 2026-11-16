@@ -1,0 +1,6 @@
+import { jsonLd } from "@/lib/seo";
+
+/** Données structurées schema.org (rendu serveur). */
+export function JsonLd({ data }: { data: Record<string, unknown> | Record<string, unknown>[] }) {
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(data) }} />;
+}

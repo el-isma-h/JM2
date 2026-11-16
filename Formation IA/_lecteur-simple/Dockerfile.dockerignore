@@ -1,0 +1,19 @@
+# Exclusions du contexte de build (= dossier parent formation-ia/). Chemins relatifs à ce dossier parent.
+**/node_modules
+**/.DS_Store
+app/.next
+app/dist
+app/.dev-db
+app/.env
+app/.env.*
+!app/.env.example
+app/coverage
+app/*.tsbuildinfo
+_*
+export
+referentiel
+scripts
+*.md
+!niveaux/**/*.md
+!ressources/**/*.md
+app/_captures

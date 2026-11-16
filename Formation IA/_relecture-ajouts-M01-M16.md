@@ -1,0 +1,396 @@
+# Relecture des ajouts pédagogiques — M01 à M16 (L001-L067)
+
+> Relecture indépendante du 5 novembre 2026. Périmètre : uniquement les blocs ajoutés (🧭 En clair, 💡 Autrement dit, ```quiz, ```mission, Mermaid). Source prioritaire : `_recherche/07-mise-a-jour-nov-2026.md`. Aucun texte d'origine, aucun `quiz.json` ni examen modifié.
+
+## Synthèse
+
+| Catégorie | Contrôlés | Corrigés |
+|---|---|---|
+| Quiz (bonne réponse unique, `answer`, explication) | 201 | 4 quiz corrigés sur le fond |
+| Quiz (bonne réponse devinable par la longueur) | 201 | 45 quiz rééquilibrés (101 remplacements d'options + 1 explication) |
+| Missions (URL, réponse datée, question faisable) | 135 | 135 URL toutes présentes dans `_recherche/` ou `bibliotheque-liens.md` ; 0 supprimée ; 6 réponses/questions corrigées |
+| En clair (67) / Autrement dit (86) | 153 | 2 corrigés |
+| Mermaid (rendu `mmdc`) | 23 | 0 erreur de syntaxe, aucun changement |
+
+Fichiers modifiés (35) : L001-L008, L010-L013, L015-L020, L029, L034, L039, L041, L043, L045, L048-L054, L063-L066.
+
+`node scripts/validate.mjs` : ✅ Aucune erreur bloquante (seul avertissement préexistant : quiz manquant de l'examen N5, hors périmètre).
+
+## Quiz — fond (réponse, option ou explication inexacte au regard de 07 ou de la leçon) (7 remplacements)
+
+- **L004** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L004-mythes-realites-et-chiffres-cles-de-l-ia-en-2026.md` — *P6 (omnibus 2026/1744) : l'art. 4 ne fixe plus de « niveau suffisant » individuel.*
+  - Avant : Il doit prendre des mesures proportionnées pour que son personnel maîtrise l'outil — sans obligation de diplôme ni d'examen.
+  - Après : Il doit prendre des mesures proportionnées qui favorisent la maîtrise de l'outil par son personnel — sans obligation de diplôme ni d'examen. Depuis l'omnibus (règlement (UE) 2026/1744, en vigueur le 27 juillet 2026), l'article 4 n'impose plus de « niveau suffisant » à chaque individu, mais l'obligation d'agir demeure.
+- **L029** — `niveaux/N1-fondamentaux/M07-ethique-droit-et-securite-de-l-ia/L029-ai-act-categories-de-risque-calendrier-obligation-d-alphabet.md` — *La leçon (l. 153) dit « documentation recommandée » : la trace par salarié n'est pas une exigence légale.*
+  - Avant : "Probablement insuffisant : formation adaptée et tracée requise"
+  - Après : "Probablement insuffisant : formation adaptée, tracée de préférence"
+- **L029** — `niveaux/N1-fondamentaux/M07-ethique-droit-et-securite-de-l-ia/L029-ai-act-categories-de-risque-calendrier-obligation-d-alphabet.md` — *La leçon (l. 153) dit « documentation recommandée » : la trace par salarié n'est pas une exigence légale.*
+  - Avant : Aucune certification n'est imposée, mais il faut une formation adaptée et une trace par salarié.
+  - Après : Aucune certification n'est imposée, mais il faut des mesures de formation adaptées ; une trace par salarié est recommandée, c'est votre meilleure preuve.
+- **L034** — `niveaux/N2-praticien/M08-n8n-avance-automatiser-avec-l-ia/L034-les-n-uds-ia-ai-agent-modeles-memoire-outils.md` — *P2 : Haiku 5.5 renvoie 400 sur `temperature` ; avec l'API 2026-10-21, tous les modèles Claude. La bonne réponse enseignait un réglage refusé.*
+  - Avant : "Text Classifier + Claude Haiku 5.5, température basse"
+  - Après : "Text Classifier + Claude Haiku 5.5, sans mémoire ni outils"
+- **L034** — `niveaux/N2-praticien/M08-n8n-avance-automatiser-avec-l-ia/L034-les-n-uds-ia-ai-agent-modeles-memoire-outils.md` — *P2 : Haiku 5.5 renvoie 400 sur `temperature` ; avec l'API 2026-10-21, tous les modèles Claude. La bonne réponse enseignait un réglage refusé.*
+  - Avant : "Basic LLM Chain + Claude Opus 5.5, température réglée à 1"
+  - Après : "Basic LLM Chain + Claude Opus 5.5, avec 4 000 tokens de sortie"
+- **L034** — `niveaux/N2-praticien/M08-n8n-avance-automatiser-avec-l-ia/L034-les-n-uds-ia-ai-agent-modeles-memoire-outils.md` — *P2 : Haiku 5.5 renvoie 400 sur `temperature` ; avec l'API 2026-10-21, tous les modèles Claude. La bonne réponse enseignait un réglage refusé.*
+  - Avant : Haiku 5.5 est le modèle par défaut des workflows ; une température basse rend la classification stable.
+  - Après : Haiku 5.5 est le modèle par défaut des workflows. Laissez la température vide : Haiku 5.5 la refuse (erreur 400), comme tous les modèles Claude avec la version d'API 2026-10-21 ; la stabilité vient de catégories bien définies.
+- **L066** — `niveaux/N3-developpeur/M16-fondations-de-developpement-pour-l-ia/L066-http-json-streaming-anatomie-d-un-appel-a-un-llm.md` — *§2 de 07 : bêta « message threads » (2/11/2026) qui garde le fil côté serveur.*
+  - Avant : L'API ne garde aucun souvenir entre deux appels (stateless) : chaque requête doit contenir tout l'historique utile.
+  - Après : Par défaut, l'API ne garde aucun souvenir entre deux appels (stateless) : chaque requête doit contenir tout l'historique utile. Seule la bêta « message threads » (2 nov. 2026, en-tête dédié) conserve un fil côté serveur, qui expire 5 minutes après la dernière requête.
+
+## Missions — réponse incomplète ou dépassée (07 prioritaire) (7 remplacements)
+
+- **L004** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L004-mythes-realites-et-chiffres-cles-de-l-ia-en-2026.md` — *P6 : l'article 4 a été reformulé par l'omnibus ; la question présupposait l'ancienne formule.*
+  - Avant : quels acteurs doivent garantir un niveau suffisant de maîtrise de l'IA de leur personnel ?
+  - Après : quels acteurs vise-t-il dans sa version initiale de 2024 ?
+- **L004** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L004-mythes-realites-et-chiffres-cles-de-l-ia-en-2026.md` — *P6 : l'article 4 a été reformulé par l'omnibus ; la question présupposait l'ancienne formule.*
+  - Avant : (texte du 13 juin 2024, article applicable depuis le 2 février 2025).
+  - Après : (texte du 13 juin 2024, article applicable depuis le 2 février 2025). Attention : l'omnibus (règlement (UE) 2026/1744, en vigueur le 27 juillet 2026) a reformulé l'article 4 — mesures qui favorisent la maîtrise de l'IA, sans niveau individuel imposé ; consultez la version consolidée.
+- **L008** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L008-fenetre-de-contexte-temperature-hallucinations-les-limites-a.md` — *Source 01 / bibliothèque : 600 pages max, 100 si contexte < 1 M.*
+  - Avant : 600 pages maximum et 128 Mo par requête (nov. 2026)
+  - Après : 600 pages maximum (100 pour les modèles dont le contexte est inférieur à 1 M de tokens) et 128 Mo par requête (nov. 2026)
+- **L017** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L017-les-guides-officiels-anthropic-et-openai-balises-system-prom.md` — *P2 : version d'API 2026-10-21 = 400 sur tous les modèles.*
+  - Avant : temperature (ainsi que top_p et top_k) non pris en charge à partir de Claude 4.7 (documentation consultée en nov. 2026).
+  - Après : temperature (ainsi que top_p et top_k) non pris en charge à partir de Claude 4.7 (documentation consultée en nov. 2026). Et depuis la version d'API 2026-10-21 (envoyée par défaut par les SDK v2), ces trois paramètres renvoient une erreur 400 sur tous les modèles, même à leur valeur par défaut.
+- **L029** — `niveaux/N1-fondamentaux/M07-ethique-droit-et-securite-de-l-ia/L029-ai-act-categories-de-risque-calendrier-obligation-d-alphabet.md` — *P6 (omnibus).*
+  - Avant : pour leur personnel et les autres personnes s'occupant du fonctionnement et de l'utilisation de ces systèmes pour leur compte (texte applicable depuis le 2 février 2025).
+  - Après : pour leur personnel et les autres personnes s'occupant du fonctionnement et de l'utilisation de ces systèmes pour leur compte (texte applicable depuis le 2 février 2025). Depuis l'omnibus (règlement (UE) 2026/1744, en vigueur le 27 juillet 2026), l'article 4 parle de mesures qui favorisent cette maîtrise, sans niveau individuel imposé : vérifiez la version consolidée.
+- **L063** — `niveaux/N2-praticien/M15-gouvernance-et-deploiement-de-l-ia-en-entreprise/L063-politique-ia-interne-conformite-ai-act-et-rgpd.md` — *P6 (omnibus).*
+  - Avant : pour leur compte (applicable depuis le 2 février 2025).
+  - Après : pour leur compte (applicable depuis le 2 février 2025). Depuis l'omnibus (règlement (UE) 2026/1744, en vigueur le 27 juillet 2026), la formulation « niveau suffisant » est remplacée par des mesures qui favorisent la maîtrise de l'IA, sans niveau individuel imposé : vérifiez la version consolidée.
+- **L065** — `niveaux/N3-developpeur/M16-fondations-de-developpement-pour-l-ia/L065-python-et-typescript-pour-l-ia-environnement-sdk-cles-api-se.md` — *C5 de 07 : les SDK v2 envoient `Authorization: Bearer`.*
+  - Avant : x-api-key (la clé), anthropic-version (par exemple 2026-10-21) et content-type: application/json (nov. 2026).
+  - Après : x-api-key (la clé), anthropic-version (par exemple 2026-10-21) et content-type: application/json (nov. 2026), en HTTP brut. Les SDK v2 (21 oct. 2026) envoient, eux, la clé dans Authorization: Bearer.
+
+## « En clair » / « Autrement dit » — simplification devenue inexacte (2 remplacements)
+
+- **L034** — `niveaux/N2-praticien/M08-n8n-avance-automatiser-avec-l-ia/L034-les-n-uds-ia-ai-agent-modeles-memoire-outils.md` — *P2 : les Claude récents refusent `temperature`.*
+  - Avant : proche de 0, il répond toujours à peu près pareil (idéal pour classer ou extraire) ;
+  - Après : proche de 0, il répond toujours à peu près pareil (idéal pour classer ou extraire, sur les modèles qui acceptent encore ce réglage : les Claude récents le refusent) ;
+- **L064** — `niveaux/N2-praticien/M15-gouvernance-et-deploiement-de-l-ia-en-entreprise/L064-conduite-du-changement-et-montee-en-competence-des-equipes.md` — *P6 + leçon : l'AI Act n'impose ni « niveau suffisant » (omnibus) ni preuve formelle ; la trace est recommandée.*
+  - Avant : L'AI Act impose d'ailleurs que le personnel soit suffisamment formé, et que l'on puisse le prouver.
+  - Après : L'AI Act (article 4) demande d'ailleurs des mesures de formation adaptées aux postes, et garder une trace permet de le prouver.
+
+## Quiz — bonne réponse devinable par sa longueur (options rééquilibrées, sens inchangé) (101 remplacements)
+
+- **L002** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L002-comment-une-machine-apprend-donnees-entrainement-inference.md`
+  - Avant : "La date de connaissance"
+  - Après : "La date de connaissance (cutoff)"
+- **L002** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L002-comment-une-machine-apprend-donnees-entrainement-inference.md`
+  - Avant : "L'inférence"
+  - Après : "L'inférence (l'utilisation du modèle)"
+- **L002** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L002-comment-une-machine-apprend-donnees-entrainement-inference.md`
+  - Avant : "La rétropropagation"
+  - Après : "La rétropropagation (backpropagation)"
+- **L003** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L003-les-grandes-familles-d-ia-vision-langage-recommandation-pred.md`
+  - Avant : "La vision par ordinateur (lecture de documents, OCR)"
+  - Après : "La vision par ordinateur (OCR)"
+- **L003** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L003-les-grandes-familles-d-ia-vision-langage-recommandation-pred.md`
+  - Avant : "La recommandation"
+  - Après : "La recommandation (suggestions personnalisées)"
+- **L003** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L003-les-grandes-familles-d-ia-vision-langage-recommandation-pred.md`
+  - Avant : "La robotique"
+  - Après : "La robotique (automates physiques de tri)"
+- **L004** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L004-mythes-realites-et-chiffres-cles-de-l-ia-en-2026.md`
+  - Avant : "Il a tort : un modèle reproduit les erreurs et les stéréotypes de ses données, sa réponse est une proposition à vérifier"
+  - Après : "Il a tort : il reproduit les biais de ses données, on vérifie"
+- **L004** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L004-mythes-realites-et-chiffres-cles-de-l-ia-en-2026.md`
+  - Avant : "Il a raison : une machine n'a pas d'opinion"
+  - Après : "Il a raison : une machine qui calcule n'a pas d'opinion propre"
+- **L004** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L004-mythes-realites-et-chiffres-cles-de-l-ia-en-2026.md`
+  - Avant : "Parce que les chiffres de l'IA vieillissent très vite et doivent pouvoir être vérifiés et actualisés"
+  - Après : "Parce qu'ils vieillissent vite et doivent rester vérifiables"
+- **L004** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L004-mythes-realites-et-chiffres-cles-de-l-ia-en-2026.md`
+  - Avant : "Pour faire plus sérieux dans une présentation"
+  - Après : "Pour faire plus sérieux face à un public de dirigeants"
+- **L004** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L004-mythes-realites-et-chiffres-cles-de-l-ia-en-2026.md`
+  - Avant : "Parce que la loi l'impose pour toute formation"
+  - Après : "Parce que la loi l'impose pour toute formation professionnelle"
+- **L005** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L005-qu-est-ce-qu-un-llm-tokens-parametres-poids.md`
+  - Avant : "Parce que les mots français, avec leurs accents et leurs terminaisons, sont découpés en davantage de tokens"
+  - Après : "Parce que le français est découpé en davantage de tokens"
+- **L005** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L005-qu-est-ce-qu-un-llm-tokens-parametres-poids.md`
+  - Avant : "119 milliards de paramètres au total, dont 6 milliards travaillent pour chaque token"
+  - Après : "119 milliards de paramètres, dont 6 milliards actifs par token"
+- **L006** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L006-le-transformer-sans-mathematiques-attention-et-prediction-du.md`
+  - Avant : "Ils lisaient mot après mot et « oubliaient » le début des longues phrases"
+  - Après : "Ils lisaient mot à mot et « oubliaient » le début des phrases"
+- **L006** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L006-le-transformer-sans-mathematiques-attention-et-prediction-du.md`
+  - Avant : "Ils ne fonctionnaient qu'en anglais"
+  - Après : "Ils ne fonctionnaient qu'en anglais, jamais en français"
+- **L006** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L006-le-transformer-sans-mathematiques-attention-et-prediction-du.md`
+  - Avant : "Ils étaient incapables de compter les mots"
+  - Après : "Ils étaient incapables de compter les mots d'une phrase"
+- **L006** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L006-le-transformer-sans-mathematiques-attention-et-prediction-du.md`
+  - Avant : "Parce que votre affirmation fait partie du texte qu'il prolonge, et qu'il ne revient pas en arrière"
+  - Après : "Parce qu'il prolonge votre texte, prémisse fausse comprise"
+- **L007** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L007-pre-entrainement-fine-tuning-rlhf-pourquoi-chatgpt-repond-co.md`
+  - Avant : "Il n'a appris qu'à continuer un texte, et sur Internet une question de quiz est souvent suivie d'une autre"
+  - Après : "Il ne sait que prolonger un texte, comme une liste de quiz"
+- **L007** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L007-pre-entrainement-fine-tuning-rlhf-pourquoi-chatgpt-repond-co.md`
+  - Avant : "Il est en panne"
+  - Après : "Il est en panne ou mal installé sur le serveur"
+- **L007** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L007-pre-entrainement-fine-tuning-rlhf-pourquoi-chatgpt-repond-co.md`
+  - Avant : "Il ne connaît pas l'Australie"
+  - Après : "Il ne connaît pas encore l'Australie ni sa capitale"
+- **L007** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L007-pre-entrainement-fine-tuning-rlhf-pourquoi-chatgpt-repond-co.md`
+  - Avant : "Ils classent plusieurs réponses du modèle de la meilleure à la moins bonne"
+  - Après : "Ils classent plusieurs réponses, de la meilleure à la pire"
+- **L008** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L008-fenetre-de-contexte-temperature-hallucinations-les-limites-a.md`
+  - Avant : "Vous demandez un résumé de l'essentiel, puis ouvrez une nouvelle conversation en recollant ce résumé et votre consigne"
+  - Après : "Vous faites résumer, puis repartez dans une conversation neuve"
+- **L008** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L008-fenetre-de-contexte-temperature-hallucinations-les-limites-a.md`
+  - Avant : "Vous continuez : il finira par s'en souvenir"
+  - Après : "Vous continuez : il finira bien par se souvenir de la consigne"
+- **L008** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L008-fenetre-de-contexte-temperature-hallucinations-les-limites-a.md`
+  - Avant : "Vous changez d'ordinateur"
+  - Après : "Vous changez d'ordinateur ou de navigateur"
+- **L008** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L008-fenetre-de-contexte-temperature-hallucinations-les-limites-a.md`
+  - Avant : "« Réponds uniquement à partir du contrat joint, cite le passage exact, et dis-le si l'information n'y figure pas. »"
+  - Après : "« Réponds d'après le contrat joint, cite le passage, et dis-le si l'info manque. »"
+- **L008** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L008-fenetre-de-contexte-temperature-hallucinations-les-limites-a.md`
+  - Avant : "« Réponds le plus vite possible. »"
+  - Après : "« Réponds le plus vite possible, en une seule phrase courte et claire. »"
+- **L008** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L008-fenetre-de-contexte-temperature-hallucinations-les-limites-a.md`
+  - Avant : "« Sois créatif et original. »"
+  - Après : "« Sois créatif et original, et reformule le contrat avec tes propres mots. »"
+- **L008** — `niveaux/N1-fondamentaux/M02-les-grands-modeles-de-langage-llm-expliques/L008-fenetre-de-contexte-temperature-hallucinations-les-limites-a.md`
+  - Avant : "« Fais une réponse très longue et détaillée. »"
+  - Après : "« Fais une réponse très longue et détaillée, avec tous les cas possibles. »"
+- **L010** — `niveaux/N1-fondamentaux/M03-les-outils-ia-du-quotidien/L010-chatgpt-prise-en-main-complete.md`
+  - Avant : "ChatGPT est l'application que vous utilisez ; GPT-6 est la famille de modèles qui la fait fonctionner"
+  - Après : "ChatGPT est l'application ; GPT-6, les modèles qui la font tourner"
+- **L010** — `niveaux/N1-fondamentaux/M03-les-outils-ia-du-quotidien/L010-chatgpt-prise-en-main-complete.md`
+  - Avant : "Il répondra avec assurance à partir de ses connaissances d'entraînement, peut-être périmées"
+  - Après : "Il répondra avec assurance, mais peut-être avec un taux périmé"
+- **L012** — `niveaux/N1-fondamentaux/M03-les-outils-ia-du-quotidien/L012-gemini-copilot-grok-le-chat-forces-et-usages.md`
+  - Avant : "Parce qu'il peut être installé sur ses propres serveurs, sans qu'aucune donnée ne sorte"
+  - Après : "Parce qu'il peut tourner sur ses serveurs, sans faire sortir de données"
+- **L012** — `niveaux/N1-fondamentaux/M03-les-outils-ia-du-quotidien/L012-gemini-copilot-grok-le-chat-forces-et-usages.md`
+  - Avant : "Parce qu'il ne fait jamais d'erreur"
+  - Après : "Parce qu'il ne fait jamais d'erreur sur les textes officiels"
+- **L013** — `niveaux/N1-fondamentaux/M03-les-outils-ia-du-quotidien/L013-perplexity-et-la-recherche-augmentee-par-l-ia.md`
+  - Avant : "Elle est vérifiable : il faut ouvrir les sources pour confirmer ce qu'elles disent"
+  - Après : "Elle est vérifiable : à vous d'ouvrir les sources"
+- **L013** — `niveaux/N1-fondamentaux/M03-les-outils-ia-du-quotidien/L013-perplexity-et-la-recherche-augmentee-par-l-ia.md`
+  - Avant : "Elle est forcément exacte"
+  - Après : "Elle est forcément exacte, puisqu'elle est sourcée"
+- **L013** — `niveaux/N1-fondamentaux/M03-les-outils-ia-du-quotidien/L013-perplexity-et-la-recherche-augmentee-par-l-ia.md`
+  - Avant : "« Quel est le délai légal de rétractation pour un achat en ligne en France ? Réponds uniquement d'après service-public.fr et legifrance.gouv.fr. »"
+  - Après : "« Délai de rétractation d'un achat en ligne en France ? Sources : service-public.fr, legifrance.gouv.fr. »"
+- **L013** — `niveaux/N1-fondamentaux/M03-les-outils-ia-du-quotidien/L013-perplexity-et-la-recherche-augmentee-par-l-ia.md`
+  - Avant : "« Délai rétractation ? »"
+  - Après : "« Délai rétractation ? Réponds vite, pas besoin de détails ni de sources. »"
+- **L013** — `niveaux/N1-fondamentaux/M03-les-outils-ia-du-quotidien/L013-perplexity-et-la-recherche-augmentee-par-l-ia.md`
+  - Avant : "« Donne-moi l'avis des internautes sur la rétractation. »"
+  - Après : "« Donne-moi l'avis des internautes et des forums sur le délai de rétractation en ligne. »"
+- **L013** — `niveaux/N1-fondamentaux/M03-les-outils-ia-du-quotidien/L013-perplexity-et-la-recherche-augmentee-par-l-ia.md`
+  - Avant : "« Réponds sans chercher sur Internet. »"
+  - Après : "« Quel est le délai de rétractation en ligne ? Réponds sans chercher sur Internet. »"
+- **L015** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L015-anatomie-d-un-bon-prompt-role-contexte-tache-format-contrain.md`
+  - Avant : "Faute de contexte, le modèle produit la réponse la plus « moyenne », valable pour n'importe qui"
+  - Après : "Faute de contexte, il produit la réponse la plus « moyenne »"
+- **L015** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L015-anatomie-d-un-bon-prompt-role-contexte-tache-format-contrain.md`
+  - Avant : "Il fallait écrire la demande en anglais"
+  - Après : "Il fallait écrire la demande en anglais, langue native du modèle"
+- **L015** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L015-anatomie-d-un-bon-prompt-role-contexte-tache-format-contrain.md`
+  - Avant : "Les contraintes (ton, interdits comme les pénalités ou les poursuites)"
+  - Après : "Les contraintes (ton, interdits)"
+- **L015** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L015-anatomie-d-un-bon-prompt-role-contexte-tache-format-contrain.md`
+  - Avant : "Le rôle"
+  - Après : "Le rôle (qui parle)"
+- **L015** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L015-anatomie-d-un-bon-prompt-role-contexte-tache-format-contrain.md`
+  - Avant : "La tâche"
+  - Après : "La tâche (que faire)"
+- **L015** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L015-anatomie-d-un-bon-prompt-role-contexte-tache-format-contrain.md`
+  - Avant : "Le format"
+  - Après : "Le format (SMS, longueur)"
+- **L016** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L016-techniques-exemples-few-shot-raisonnement-pas-a-pas-decompos.md`
+  - Avant : "À faire critiquer la production par le modèle lui-même, avec un autre point de vue, avant de la corriger"
+  - Après : "À faire critiquer le texte par le modèle avant de le corriger"
+- **L016** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L016-techniques-exemples-few-shot-raisonnement-pas-a-pas-decompos.md`
+  - Avant : "À allonger le texte"
+  - Après : "À allonger le texte pour atteindre le nombre de pages"
+- **L016** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L016-techniques-exemples-few-shot-raisonnement-pas-a-pas-decompos.md`
+  - Avant : "À traduire le texte en anglais"
+  - Après : "À traduire le texte en anglais pour un acheteur étranger"
+- **L016** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L016-techniques-exemples-few-shot-raisonnement-pas-a-pas-decompos.md`
+  - Avant : "À vérifier l'orthographe uniquement"
+  - Après : "À vérifier uniquement l'orthographe et la ponctuation"
+- **L017** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L017-les-guides-officiels-anthropic-et-openai-balises-system-prom.md`
+  - Avant : "Encadrer vos consignes et l'e-mail dans des balises distinctes, par exemple <instructions> et <email_client>, et préciser qu'aucune remise n'est possible"
+  - Après : "Séparer consigne et e-mail par des balises, et exclure toute remise"
+- **L017** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L017-les-guides-officiels-anthropic-et-openai-balises-system-prom.md`
+  - Avant : "Écrire le prompt en majuscules"
+  - Après : "Écrire tout le prompt en majuscules pour qu'il soit mieux obéi"
+- **L017** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L017-les-guides-officiels-anthropic-et-openai-balises-system-prom.md`
+  - Avant : "Supprimer la ponctuation de l'e-mail"
+  - Après : "Supprimer la ponctuation et les formules de politesse de l'e-mail"
+- **L017** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L017-les-guides-officiels-anthropic-et-openai-balises-system-prom.md`
+  - Avant : "Demander la même chose trois fois"
+  - Après : "Répéter la même demande trois fois dans le même message"
+- **L017** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L017-les-guides-officiels-anthropic-et-openai-balises-system-prom.md`
+  - Avant : Les balises séparent clairement la consigne (votre ordre) du contenu (le texte du client).
+  - Après : Les balises (par exemple <instructions> et <email_client>) séparent clairement la consigne (votre ordre) du contenu (le texte du client), et la consigne précise qu'aucune remise n'est possible.
+- **L017** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L017-les-guides-officiels-anthropic-et-openai-balises-system-prom.md`
+  - Avant : "« Si tu ne sais pas, invente quelque chose de plausible. »"
+  - Après : "« Si tu ne sais pas, invente… »"
+- **L018** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L018-prompts-metiers-rediger-resumer-analyser-traduire-tabuler.md`
+  - Avant : "« Cible : télétravailleurs qui ont mal au dos et hésitent entre neuf bas de gamme et reconditionné haut de gamme. »"
+  - Après : "« Cible : télétravailleurs au dos fragile, qui hésitent avec du neuf. »"
+- **L018** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L018-prompts-metiers-rediger-resumer-analyser-traduire-tabuler.md`
+  - Avant : "« Fais un texte élégant et vendeur. »"
+  - Après : "« Fais un texte élégant, chaleureux et vraiment vendeur. »"
+- **L018** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L018-prompts-metiers-rediger-resumer-analyser-traduire-tabuler.md`
+  - Avant : "« Utilise beaucoup de superlatifs. »"
+  - Après : "« Utilise beaucoup de superlatifs et d'adjectifs forts. »"
+- **L018** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L018-prompts-metiers-rediger-resumer-analyser-traduire-tabuler.md`
+  - Avant : "« Écris au moins 500 mots. »"
+  - Après : "« Écris au moins 500 mots, en trois paragraphes. »"
+- **L018** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L018-prompts-metiers-rediger-resumer-analyser-traduire-tabuler.md`
+  - Avant : "« Utilisez uniquement le contenu fourni ; si une information manque, écrivez “non précisé”. »"
+  - Après : "« Contenu fourni uniquement ; sinon, écrivez “non précisé”. »"
+- **L018** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L018-prompts-metiers-rediger-resumer-analyser-traduire-tabuler.md`
+  - Avant : "« Fais un résumé très court. »"
+  - Après : "« Fais un résumé très court, en trois lignes maximum. »"
+- **L019** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L019-iterer-et-evaluer-bibliotheque-de-prompts-personnelle.md`
+  - Avant : "Identifier le critère qui échoue, modifier une seule chose qui le concerne, puis relancer tous les cas de test"
+  - Après : "Changer une seule chose liée au critère raté, puis tout retester"
+- **L019** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L019-iterer-et-evaluer-bibliotheque-de-prompts-personnelle.md`
+  - Avant : "Pour vérifier que le prompt répond « non précisé » au lieu d'inventer une valeur"
+  - Après : "Pour vérifier qu'il écrit « non précisé » au lieu d'inventer"
+- **L019** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L019-iterer-et-evaluer-bibliotheque-de-prompts-personnelle.md`
+  - Avant : "Pour ralentir le modèle"
+  - Après : "Pour ralentir le modèle et mieux mesurer sa vitesse"
+- **L019** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L019-iterer-et-evaluer-bibliotheque-de-prompts-personnelle.md`
+  - Avant : "Pour faire baisser le coût en tokens"
+  - Après : "Pour faire baisser le coût en tokens de la série de tests"
+- **L020** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L020-atelier-guide-10-prompts-a-construire-et-corriger.md`
+  - Avant : "Pour qu'elle collecte vos vraies informations (documents, logiciel, délais) au lieu d'inventer une procédure générique"
+  - Après : "Pour partir de vos vraies informations plutôt que d'en inventer"
+- **L020** — `niveaux/N1-fondamentaux/M04-prompt-engineering-parler-aux-modeles/L020-atelier-guide-10-prompts-a-construire-et-corriger.md`
+  - Avant : "Pour obtenir un texte plus long"
+  - Après : "Pour obtenir un texte plus long et plus détaillé à la fin"
+- **L039** — `niveaux/N2-praticien/M09-make-zapier-et-choix-d-un-outil-d-automatisation/L039-make-scenarios-avec-modules-ia.md`
+  - Avant : "Ignore"
+  - Après : "Ignore (on ignore l'erreur)"
+- **L039** — `niveaux/N2-praticien/M09-make-zapier-et-choix-d-un-outil-d-automatisation/L039-make-scenarios-avec-modules-ia.md`
+  - Avant : "Commit"
+  - Après : "Commit (on arrête et valide)"
+- **L039** — `niveaux/N2-praticien/M09-make-zapier-et-choix-d-un-outil-d-automatisation/L039-make-scenarios-avec-modules-ia.md`
+  - Avant : "Rollback"
+  - Après : "Rollback (on arrête et annule)"
+- **L039** — `niveaux/N2-praticien/M09-make-zapier-et-choix-d-un-outil-d-automatisation/L039-make-scenarios-avec-modules-ia.md`
+  - Avant : "Break avec reprise automatique"
+  - Après : "Break (reprise automatique)"
+- **L041** — `niveaux/N2-praticien/M10-llm-locaux-faire-tourner-l-ia-sur-sa-machine/L041-pourquoi-un-llm-local-confidentialite-cout-latence-souverain.md`
+  - Avant : "Son fichier de poids est publié et peut être exécuté sur votre propre matériel"
+  - Après : "Ses poids sont publiés et exécutables sur votre matériel"
+- **L043** — `niveaux/N2-praticien/M10-llm-locaux-faire-tourner-l-ia-sur-sa-machine/L043-ollama-installer-telecharger-un-modele-dialoguer-api-locale.md`
+  - Avant : "Seulement les variables d'environnement (adresse de base et vraie clé API), plus le nom du modèle"
+  - Après : "L'adresse de base, la clé API et le nom du modèle"
+- **L045** — `niveaux/N2-praticien/M10-llm-locaux-faire-tourner-l-ia-sur-sa-machine/L045-choisir-le-meilleur-modele-ouvert-llama-qwen-mistral-gemma-d.md`
+  - Avant : "Rien de définitif : les scores auto-déclarés dépendent des conditions de test ; il faut un test maison"
+  - Après : "Rien de définitif : il faut un test maison sur vos tâches"
+- **L045** — `niveaux/N2-praticien/M10-llm-locaux-faire-tourner-l-ia-sur-sa-machine/L045-choisir-le-meilleur-modele-ouvert-llama-qwen-mistral-gemma-d.md`
+  - Avant : "Le second a triché"
+  - Après : "Le second a forcément triché sur le benchmark"
+- **L045** — `niveaux/N2-praticien/M10-llm-locaux-faire-tourner-l-ia-sur-sa-machine/L045-choisir-le-meilleur-modele-ouvert-llama-qwen-mistral-gemma-d.md`
+  - Avant : "Les scores de code ne servent à rien"
+  - Après : "Les scores de code ne servent strictement à rien"
+- **L048** — `niveaux/N2-praticien/M11-rag-et-bases-de-connaissances/L048-construire-un-rag-sans-code-n8n-dify-flowise-notebooklm.md`
+  - Avant : "Les documents étaient stockés dans un Simple Vector Store, qui vit en mémoire"
+  - Après : "Le Simple Vector Store, gardé en mémoire, a été vidé"
+- **L048** — `niveaux/N2-praticien/M11-rag-et-bases-de-connaissances/L048-construire-un-rag-sans-code-n8n-dify-flowise-notebooklm.md`
+  - Avant : "Le Chat Trigger a été désactivé"
+  - Après : "Le Chat Trigger a été désactivé par la mise à jour"
+- **L048** — `niveaux/N2-praticien/M11-rag-et-bases-de-connaissances/L048-construire-un-rag-sans-code-n8n-dify-flowise-notebooklm.md`
+  - Avant : "La recherche devient incohérente ou échoue, car les vecteurs ne sont pas dans le même espace"
+  - Après : "La recherche déraille : vecteurs d'espaces différents"
+- **L049** — `niveaux/N2-praticien/M11-rag-et-bases-de-connaissances/L049-decoupage-chunking-qualite-et-evaluation-d-un-rag.md`
+  - Avant : "L'extraction : un PDF scanné ne contient pas de texte lisible sans OCR"
+  - Après : "L'extraction : sans OCR, un scan n'a pas de texte"
+- **L049** — `niveaux/N2-praticien/M11-rag-et-bases-de-connaissances/L049-decoupage-chunking-qualite-et-evaluation-d-un-rag.md`
+  - Avant : "La mémoire de conversation"
+  - Après : "La mémoire de conversation, saturée par l'historique"
+- **L050** — `niveaux/N2-praticien/M11-rag-et-bases-de-connaissances/L050-projets-claude-gpt-personnalises-gems-la-connaissance-embarq.md`
+  - Avant : "Il les lit intégralement à chaque question, car elles tiennent dans la fenêtre de contexte"
+  - Après : "Il les lit en entier : elles tiennent dans le contexte"
+- **L050** — `niveaux/N2-praticien/M11-rag-et-bases-de-connaissances/L050-projets-claude-gpt-personnalises-gems-la-connaissance-embarq.md`
+  - Avant : "Il n'en lit que le titre"
+  - Après : "Il n'en lit que les titres et la première page"
+- **L050** — `niveaux/N2-praticien/M11-rag-et-bases-de-connaissances/L050-projets-claude-gpt-personnalises-gems-la-connaissance-embarq.md`
+  - Avant : "Désactiver la navigation web et écrire « uniquement à partir des documents », avec citation obligatoire"
+  - Après : "Couper la navigation web et exiger des citations des documents"
+- **L050** — `niveaux/N2-praticien/M11-rag-et-bases-de-connaissances/L050-projets-claude-gpt-personnalises-gems-la-connaissance-embarq.md`
+  - Avant : "Ajouter d'autres fichiers de tarifs"
+  - Après : "Ajouter d'autres fichiers de tarifs, y compris des concurrents"
+- **L050** — `niveaux/N2-praticien/M11-rag-et-bases-de-connaissances/L050-projets-claude-gpt-personnalises-gems-la-connaissance-embarq.md`
+  - Avant : "Passer à un modèle plus puissant"
+  - Après : "Passer à un modèle plus puissant et plus récent"
+- **L050** — `niveaux/N2-praticien/M11-rag-et-bases-de-connaissances/L050-projets-claude-gpt-personnalises-gems-la-connaissance-embarq.md`
+  - Avant : "Renommer le GPT"
+  - Après : "Renommer le GPT et changer son image de profil"
+- **L051** — `niveaux/N2-praticien/M12-assistants-et-agents-sans-code/L051-custom-gpt-projets-claude-copilot-studio.md`
+  - Avant : "À permettre à l'assistant d'agir : chercher sur le web, lire un agenda, appeler une API"
+  - Après : "À agir : chercher sur le web, lire un agenda, appeler une API"
+- **L051** — `niveaux/N2-praticien/M12-assistants-et-agents-sans-code/L051-custom-gpt-projets-claude-copilot-studio.md`
+  - Avant : "À stocker les documents de référence"
+  - Après : "À stocker les documents de référence de l'équipe"
+- **L052** — `niveaux/N2-praticien/M12-assistants-et-agents-sans-code/L052-agents-multi-outils-dans-n8n.md`
+  - Avant : "La description de l'outil : dire précisément ce qu'il fait, quand l'utiliser et quand ne pas l'utiliser"
+  - Après : "La description de l'outil, trop vague"
+- **L053** — `niveaux/N2-praticien/M12-assistants-et-agents-sans-code/L053-claude-code-lovable-bolt-v0-creer-une-application-sans-coder.md`
+  - Avant : "À vérifier objectivement que les calculs de l'application sont justes"
+  - Après : "À vérifier que les calculs sont justes"
+- **L053** — `niveaux/N2-praticien/M12-assistants-et-agents-sans-code/L053-claude-code-lovable-bolt-v0-creer-une-application-sans-coder.md`
+  - Avant : "À décorer le document"
+  - Après : "À décorer et aérer le document"
+- **L053** — `niveaux/N2-praticien/M12-assistants-et-agents-sans-code/L053-claude-code-lovable-bolt-v0-creer-une-application-sans-coder.md`
+  - Avant : "Je refuse : une clé dans une page web est lisible par tout visiteur ; je choisis un lien mailto: ou un traitement côté serveur"
+  - Après : "Je refuse : la clé serait lisible ; mailto: ou serveur"
+- **L053** — `niveaux/N2-praticien/M12-assistants-et-agents-sans-code/L053-claude-code-lovable-bolt-v0-creer-une-application-sans-coder.md`
+  - Avant : "J'accepte, c'est plus rapide"
+  - Après : "J'accepte, c'est plus rapide et le site est privé"
+- **L054** — `niveaux/N2-praticien/M12-assistants-et-agents-sans-code/L054-computer-use-et-navigateurs-ia.md`
+  - Avant : "Une hallucination du modèle"
+  - Après : "Une hallucination du modèle de vision"
+- **L054** — `niveaux/N2-praticien/M12-assistants-et-agents-sans-code/L054-computer-use-et-navigateurs-ia.md`
+  - Avant : "Une simple erreur d'affichage"
+  - Après : "Une simple erreur d'affichage de la page"
+- **L054** — `niveaux/N2-praticien/M12-assistants-et-agents-sans-code/L054-computer-use-et-navigateurs-ia.md`
+  - Avant : "Une consommation excessive de tokens"
+  - Après : "Une consommation excessive de tokens (LLM06)"
+- **L001** — `niveaux/N1-fondamentaux/M01-comprendre-l-intelligence-artificielle/L001-histoire-et-definitions-ia-machine-learning-deep-learning-ia.md`
+  - Avant : "Parce qu'il produit la suite de mots la plus probable, sans vérifier qu'elle est vraie"
+  - Après : "Parce qu'il produit la suite la plus probable, sans la vérifier"
+- **L011** — `niveaux/N1-fondamentaux/M03-les-outils-ia-du-quotidien/L011-claude-conversations-projets-artefacts-et-premiers-pas-avec-.md`
+  - Avant : "Un artefact"
+  - Après : "Un artefact partagé avec l'équipe"
+- **L011** — `niveaux/N1-fondamentaux/M03-les-outils-ia-du-quotidien/L011-claude-conversations-projets-artefacts-et-premiers-pas-avec-.md`
+  - Avant : "Un projet avec des instructions permanentes et la grille en document de référence"
+  - Après : "Un projet : instructions permanentes + grille en référence"
+- **L045** — `niveaux/N2-praticien/M10-llm-locaux-faire-tourner-l-ia-sur-sa-machine/L045-choisir-le-meilleur-modele-ouvert-llama-qwen-mistral-gemma-d.md`
+  - Avant : "Un modèle dense de 70B"
+  - Après : "Un modèle dense de 70B, réputé plus précis"
+- **L052** — `niveaux/N2-praticien/M12-assistants-et-agents-sans-code/L052-agents-multi-outils-dans-n8n.md`
+  - Avant : "Penser → agir (appeler un outil) → observer le résultat → recommencer ou conclure"
+  - Après : "Penser → agir (outil) → observer → recommencer ou conclure"
+
+## Points vérifiés sans correction
+
+- **Mermaid** : 23 blocs extraits et rendus avec `mmdc` (L002, L013, L021, L029, L033, L036, L038-L043, L046, L049, L051, L052 ×2, L053, L056, L060, L063, L065, L066) : tous valides.
+- **URL des missions** : 135/135 trouvées dans `_recherche/*.md`, `ressources/bibliotheque-liens.md` ou la leçon (aucun remplacement, aucune suppression).
+- **Chiffres recoupés avec les sources** (exemples) : prix Claude (Haiku 5.5 0,10/0,50, > 100 k 0,50/2,50 ; Sonnet 5.5 2/10, cache 0,10 ; Fable 5.1 10/50), GPT-6.1 Sol 2/10, GPT-6 Luna 0,10/0,01/0,50, Gemini Argon 2/10 → 4/20 au 1/12/2026, Gemini 3.8 Flash 1 048 576 / 65 536, grok-4.7 500 k, Perplexity Search 5 $/1 000 (Fast 1 $), fin de Sonar le 27/09/2026, Managed Agents 0,08 $/h, code execution 1 550 h puis 0,05 $/h, Files API 500 Mo / 1 To, paliers de débit, cours Academy (durées, leçons), n8n Academy (55 %/70 %), certification n8n repoussée fin T4, CNIL 18 fiches, Mistral Small 4 (16/03/2026, Apache 2.0, 119B/6B), Scaleway L40S 1,40 €, llama.cpp M4 Max 83,1 tok/s / 546 Go/s, calculs des quiz L042, L055, L057, L058, L067.
+- **Décompte Make (P11)** : le quiz L039 « 96 opérations à vide » est conforme (1 opération par passage du déclencheur).
+
+## Doutes non tranchés (non modifiés)
+
+- **L040, « Autrement dit » sur Zapier Paths** : il reprend fidèlement la leçon d'origine (« un bundle ne suit que le premier chemin dont la règle est vraie »). Or, à ma connaissance, la doc Zapier indique que **tous** les chemins dont les règles sont vraies s'exécutent. Ce point n'est pas couvert par `_recherche/` et je n'avais pas d'accès web : à vérifier sur help.zapier.com avant de corriger la leçon **et** l'encadré.
+- **L016, mission « 3 à 5 exemples »** : le chiffre n'apparaît ni dans la leçon ni dans `_recherche/`. Il correspond à mon souvenir de la page *Prompting best practices*, mais il n'est pas sourcé ici.
+- **L026 / L052, missions Agent Builder n8n** : les canaux Telegram et Linear ne sont pas cités dans les sources (la leçon dit « Slack ou Teams »). La page est citée dans les sources et c'est une préversion.
+- **L031, « Autrement dit » OWASP** : « classées par gravité » est une approximation (le classement OWASP traduit un risque perçu, pas une gravité stricte). Je l'ai jugée acceptable.
+- **L004, quiz « 362 incidents »** (explication) : chiffre conforme à la leçon, mais la source primaire est marquée ❓ dans 07 (N4 #5).
+- **Texte d'origine hors périmètre** : L004 l. 132, L029 l. 145 et L063 l. 87 citent encore le « niveau suffisant » de l'article 4 (correction C17 de 07 pas encore appliquée). L034 l. 104 recommande encore une température de 0 à 0,3. Les ajouts sont maintenant alignés sur 07, mais le texte d'origine ne l'est pas.

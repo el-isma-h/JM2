@@ -1,0 +1,90 @@
+{
+  "name": "Lab L058 — Alerte reporting",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Alerte reporting\nDésignez ce workflow comme *Error workflow* dans les réglages du workflow principal.\nTest : désactivez la credential Google Sheets et lancez le test manuel.",
+        "height": 200,
+        "width": 420
+      },
+      "id": "17a99ddd-a2bf-593b-8b48-d56bfc779f8f",
+      "name": "Note — alerte",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        -260
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "5cd6d8ce-c539-5918-8539-1e6fd4256a4a",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "#ops"
+        },
+        "text": "=:rotating_light: Reporting en échec : {{ $json.workflow.name }}\nNœud : {{ $json.execution.lastNodeExecuted }} — {{ $json.execution.error.message }}\n{{ $json.execution.url }}",
+        "otherOptions": {}
+      },
+      "id": "91ce922f-6f2c-5b92-9d7e-7c263913f7c0",
+      "name": "Slack — #ops",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        160,
+        60
+      ],
+      "credentials": {
+        "slackApi": {
+          "name": "Slack — reporting"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Slack — #ops",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Paris",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "active": false,
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": [
+    {
+      "name": "lab-L058"
+    },
+    {
+      "name": "erreurs"
+    }
+  ]
+}

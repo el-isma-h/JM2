@@ -1,0 +1,185 @@
+{
+  "moduleId": "M01",
+  "title": "Quiz — Comprendre l'intelligence artificielle",
+  "passScore": 70,
+  "questions": [
+    {
+      "id": "M01-Q01",
+      "lessonId": "L001",
+      "type": "qcm",
+      "q": "Comment s'emboîtent les notions d'intelligence artificielle (IA), de machine learning (ML), de deep learning (DL) et d'IA générative ?",
+      "options": [
+        "IA ⊃ ML ⊃ DL ⊃ IA générative",
+        "IA générative ⊃ DL ⊃ ML ⊃ IA",
+        "ML ⊃ IA ⊃ DL ⊃ IA générative",
+        "Ce sont quatre synonymes désignant la même chose"
+      ],
+      "answer": 0,
+      "explanation": "L'IA est le grand parapluie (y compris les systèmes à règles sans apprentissage) ; le machine learning en est le sous-ensemble qui apprend des données ; le deep learning est la famille du ML fondée sur les réseaux de neurones profonds ; l'IA générative est la partie du deep learning qui produit du contenu nouveau.",
+      "source": {
+        "title": "MIT 6.S191 — Introduction to Deep Learning",
+        "url": "https://introtodeeplearning.com/"
+      }
+    },
+    {
+      "id": "M01-Q02",
+      "lessonId": "L001",
+      "type": "trouve_erreur",
+      "q": "Parmi ces affirmations historiques, laquelle est FAUSSE ?",
+      "options": [
+        "Le terme « intelligence artificielle » a été officialisé lors de l'atelier de Dartmouth en 1956",
+        "Deep Blue a battu Kasparov en 1997 grâce à un réseau de neurones profond",
+        "L'architecture Transformer, base des LLM actuels, a été publiée en 2017 par des chercheurs de Google",
+        "ChatGPT a été lancé au grand public par OpenAI le 30 novembre 2022"
+      ],
+      "answer": 1,
+      "explanation": "Deep Blue (IBM, 1997) relevait de l'IA symbolique et de la force de calcul (exploration d'arbres de coups et règles d'évaluation écrites par des experts), pas du deep learning. Les trois autres dates sont exactes.",
+      "source": {
+        "title": "MIT OCW 6.034 — Artificial Intelligence (Patrick Winston)",
+        "url": "https://ocw.mit.edu/courses/6-034-artificial-intelligence-fall-2010/pages/syllabus/"
+      }
+    },
+    {
+      "id": "M01-Q03",
+      "lessonId": "L001",
+      "type": "mise_en_situation",
+      "q": "Le logiciel de paie d'un cabinet d'expertise comptable applique automatiquement les règles du Code du travail et de la convention collective pour calculer les bulletins. Un collaborateur affirme : « c'est de l'IA générative ». Quelle est la bonne qualification ?",
+      "options": [
+        "Apprentissage non supervisé, car personne n'a étiqueté les bulletins",
+        "Deep learning, car les calculs sont trop complexes pour être écrits sous forme de règles",
+        "IA symbolique : un moteur de règles écrites par des humains, sans apprentissage",
+        "IA générative, puisque le logiciel génère chaque mois de nouveaux bulletins de paie"
+      ],
+      "answer": 2,
+      "explanation": "Un moteur de règles applique des règles explicites rédigées par des experts : c'est l'approche symbolique. Il n'apprend pas de données et ne produit pas de contenu inédit ; parler d'IA générative serait une confusion de famille qui fausserait l'analyse des risques et des coûts.",
+      "source": {
+        "title": "Microsoft — AI for Beginners (partie Symbolic AI)",
+        "url": "https://github.com/microsoft/ai-for-beginners"
+      }
+    },
+    {
+      "id": "M01-Q04",
+      "lessonId": "L002",
+      "type": "vrai_faux",
+      "q": "Vrai ou faux : pendant que vous discutez avec un assistant IA, ses paramètres sont mis à jour en temps réel grâce à vos messages.",
+      "options": [
+        "Vrai",
+        "Faux"
+      ],
+      "answer": 1,
+      "explanation": "Faux. L'inférence utilise un modèle dont les paramètres sont figés depuis la fin de l'entraînement. L'impression de mémoire vient de la fenêtre de contexte (le modèle relit la conversation) ou de fonctions de mémoire externes ; vos échanges ne peuvent servir qu'à un éventuel entraînement futur.",
+      "source": {
+        "title": "Claude Platform — Context windows",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/context-windows"
+      }
+    },
+    {
+      "id": "M01-Q05",
+      "lessonId": "L002",
+      "type": "mise_en_situation",
+      "q": "Une enseigne de jardinerie dispose de l'historique de ses ventes hebdomadaires sur cinq ans (avec météo et promotions) et veut prévoir les ventes de la semaine prochaine. De quel type d'apprentissage s'agit-il ?",
+      "options": [
+        "Apprentissage par renforcement (la machine est récompensée à chaque bonne vente)",
+        "Apprentissage supervisé — classification (la réponse est une catégorie)",
+        "Apprentissage non supervisé (on cherche des groupes de clients)",
+        "Apprentissage supervisé — régression (la réponse est un nombre)"
+      ],
+      "answer": 3,
+      "explanation": "Les exemples passés contiennent la bonne réponse (les ventes réelles) : c'est du supervisé. La sortie attendue est un nombre (quantité vendue) : c'est une régression, pas une classification.",
+      "source": {
+        "title": "Google — Machine Learning Crash Course",
+        "url": "https://developers.google.com/machine-learning/crash-course"
+      }
+    },
+    {
+      "id": "M01-Q06",
+      "lessonId": "L002",
+      "type": "qcm",
+      "q": "Pourquoi un grand modèle de langage peut-il affirmer avec assurance une information fausse (« hallucination ») ?",
+      "options": [
+        "Parce qu'il consulte en temps réel une base de données interne qui contient des erreurs",
+        "Parce qu'il est entraîné à produire le token suivant le plus plausible, pas le vrai",
+        "Parce que ses paramètres se dérèglent progressivement au fil des conversations",
+        "Parce qu'il n'a pas assez de paramètres pour tout mémoriser"
+      ],
+      "answer": 1,
+      "explanation": "Le pré-entraînement optimise la plausibilité statistique du texte généré. Une référence inventée peut donc « sonner juste » sans exister. L'alignement (SFT, RLHF) réduit le phénomène sans le supprimer, d'où la nécessité de vérifier et de fournir les documents de référence dans le contexte.",
+      "source": {
+        "title": "Hugging Face — LLM Course, chapitre 1",
+        "url": "https://huggingface.co/learn/llm-course/chapter1/1"
+      }
+    },
+    {
+      "id": "M01-Q07",
+      "lessonId": "L003",
+      "type": "mise_en_situation",
+      "q": "Un organisme de crédit veut un modèle qui estime la probabilité qu'un dossier de prêt soit remboursé, à partir de tableaux de données clients, et doit pouvoir expliquer chaque décision. Quelle option est la plus adaptée ?",
+      "options": [
+        "Un modèle tabulaire classique (régression logistique, arbres de décision), explicable",
+        "Un modèle de vision par ordinateur entraîné sur les scans des dossiers papier archivés",
+        "Un grand modèle de langage généraliste interrogé en langage naturel sur chaque dossier",
+        "Un système de recommandation par filtrage collaboratif"
+      ],
+      "answer": 0,
+      "explanation": "Données tabulaires + sortie numérique + exigence d'explicabilité : c'est la famille « prédiction » avec des méthodes classiques, souvent plus performantes et plus explicables qu'un réseau de neurones sur ce type de données. Le scoring de crédit est en outre un usage à haut risque au sens de l'AI Act, ce qui renforce le besoin d'explicabilité.",
+      "source": {
+        "title": "Microsoft Learn — Guide d'étude AI-900",
+        "url": "https://learn.microsoft.com/certifications/resources/study-guides/AI-900"
+      }
+    },
+    {
+      "id": "M01-Q08",
+      "lessonId": "L003",
+      "type": "qcm",
+      "q": "Qu'est-ce qu'un modèle « multimodal » ?",
+      "options": [
+        "Un modèle entraîné dans plusieurs pays",
+        "Un modèle qui combine plusieurs modes d'apprentissage (supervisé, non supervisé, renforcement)",
+        "Un modèle disponible à la fois en ligne et hors ligne",
+        "Un modèle qui accepte et/ou produit plusieurs types de contenus (texte, image, audio…)"
+      ],
+      "answer": 3,
+      "explanation": "La modalité désigne le type de donnée. Un modèle multimodal, comme les assistants Claude, ChatGPT ou Gemini de 2026, lit une image ou un PDF et répond en texte : il brouille à l'usage la frontière entre les familles vision et langage.",
+      "source": {
+        "title": "Claude Platform — Choosing a model",
+        "url": "https://platform.claude.com/docs/en/about-claude/models/choosing-a-model"
+      }
+    },
+    {
+      "id": "M01-Q09",
+      "lessonId": "L004",
+      "type": "qcm",
+      "q": "Que prévoit l'article 4 du règlement (UE) 2024/1689 (AI Act), applicable depuis le 2 février 2025 ?",
+      "options": [
+        "L'interdiction d'utiliser des assistants génératifs dans les PME de moins de 50 salariés",
+        "Une amende forfaitaire de 35 millions d'euros par salarié non formé à l'IA",
+        "Une certification obligatoire, renouvelée tous les trois ans, pour tout utilisateur d'IA en entreprise",
+        "Une obligation de maîtrise suffisante de l'IA par le personnel des fournisseurs et déployeurs"
+      ],
+      "answer": 3,
+      "explanation": "L'article 4 impose une obligation de « maîtrise de l'IA » (AI literacy) à assurer par des mesures proportionnées au contexte et aux systèmes utilisés, sans imposer d'examen ni de format. Elle concerne tout employeur qui déploie un système d'IA, y compris un simple assistant génératif ; la surveillance de marché s'applique depuis le 2 août 2026.",
+      "source": {
+        "title": "Règlement (UE) 2024/1689 — AI Act (EUR-Lex)",
+        "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+      }
+    },
+    {
+      "id": "M01-Q10",
+      "lessonId": "L004",
+      "type": "trouve_erreur",
+      "q": "D'après l'AI Index 2026 de Stanford et les plans publics français, laquelle de ces affirmations est FAUSSE ?",
+      "options": [
+        "L'IA générative a atteint 53 % d'adoption en trois ans, plus vite qu'Internet ou le PC",
+        "En 2025, seulement 8 % des TPE et 13 % des PME françaises utilisaient une IA clé en main",
+        "L'investissement privé dans l'IA en 2025 a été plus élevé en Europe qu'aux États-Unis",
+        "362 incidents liés à l'IA ont été signalés en 2025, un record"
+      ],
+      "answer": 2,
+      "explanation": "L'AI Index 2026 chiffre l'investissement privé 2025 à 285,88 milliards de dollars aux États-Unis contre 20,92 en Europe et 12,41 en Chine. Les trois autres chiffres sont exacts (AI Index 2026 ; plan « Osez l'IA », juillet 2025).",
+      "source": {
+        "title": "Stanford HAI — AI Index Report 2026",
+        "url": "https://hai.stanford.edu/ai-index/2026-ai-index-report"
+      }
+    }
+  ]
+}

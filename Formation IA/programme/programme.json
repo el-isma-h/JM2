@@ -1,0 +1,1382 @@
+{
+  "$schema": "./programme.schema.json",
+  "code": "NF-IA-150",
+  "title": "Formation IA complète — Next Formation",
+  "subtitle": "De zéro à expert : 4 niveaux, 150 heures, 30 modules, 150 leçons + spécialisation Data engineering & Big Data (30 h)",
+  "version": "1.0.0",
+  "versionDate": "2026-11-01",
+  "language": "fr",
+  "organisme": "Next Formation (Next by HPT GIE)",
+  "totalHours": 150,
+  "modality": "distanciel",
+  "cpfEligible": false,
+  "cpfNote": "Certification à enregistrer au Répertoire Spécifique (France Compétences) pour devenir éligible CPF — dossier préparé dans referentiel/.",
+  "passScore": 70,
+  "quizPerModule": 10,
+  "examPerLevel": 40,
+  "levels": [
+    {
+      "id": "N1",
+      "code": "NF-IA-N1",
+      "title": "Niveau 1 — Fondamentaux de l'IA",
+      "hours": 25,
+      "audience": "Tout public : salariés, dirigeants, indépendants, demandeurs d'emploi, sans prérequis technique.",
+      "prerequisites": "Savoir utiliser un ordinateur et un navigateur web. Aucune compétence en programmation.",
+      "certificate": "Certificat Next Formation IA — Niveau 1 « Utilisateur IA certifié »",
+      "alignedWith": [
+        "Anthropic Academy (cours fondamentaux Claude)",
+        "n8n Level 1",
+        "Google AI Essentials",
+        "Microsoft AI-900 (domaines IA générative)",
+        "Elements of AI",
+        "AI Act art. 4 — alphabétisation IA"
+      ],
+      "modules": [
+        {
+          "id": "M01",
+          "title": "Comprendre l'intelligence artificielle",
+          "hours": 3.08,
+          "lessons": [
+            {
+              "id": "L001",
+              "title": "Histoire et définitions : IA, machine learning, deep learning, IA générative",
+              "minutes": 45
+            },
+            {
+              "id": "L002",
+              "title": "Comment une machine apprend : données, entraînement, inférence",
+              "minutes": 45
+            },
+            {
+              "id": "L003",
+              "title": "Les grandes familles d'IA : vision, langage, recommandation, prédiction",
+              "minutes": 40
+            },
+            {
+              "id": "L004",
+              "title": "Mythes, réalités et chiffres clés de l'IA en 2026",
+              "minutes": 40
+            }
+          ],
+          "minutes": 185,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M02",
+          "title": "Les grands modèles de langage (LLM) expliqués",
+          "hours": 3.92,
+          "lessons": [
+            {
+              "id": "L005",
+              "title": "Qu'est-ce qu'un LLM ? Tokens, paramètres, poids",
+              "minutes": 45
+            },
+            {
+              "id": "L006",
+              "title": "Le transformer sans mathématiques : attention et prédiction du mot suivant",
+              "minutes": 45
+            },
+            {
+              "id": "L007",
+              "title": "Pré-entraînement, fine-tuning, RLHF : pourquoi ChatGPT répond comme ça",
+              "minutes": 40
+            },
+            {
+              "id": "L008",
+              "title": "Fenêtre de contexte, température, hallucinations : les limites à connaître",
+              "minutes": 40
+            },
+            {
+              "id": "L009",
+              "title": "Panorama des modèles 2026 : Claude, GPT, Gemini, Grok, Mistral, Llama, DeepSeek, Qwen",
+              "minutes": 50
+            }
+          ],
+          "minutes": 235,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M03",
+          "title": "Les outils IA du quotidien",
+          "hours": 3.67,
+          "lessons": [
+            {
+              "id": "L010",
+              "title": "ChatGPT : prise en main complète",
+              "minutes": 40
+            },
+            {
+              "id": "L011",
+              "title": "Claude : conversations, projets, artefacts et premiers pas avec Claude Code",
+              "minutes": 45
+            },
+            {
+              "id": "L012",
+              "title": "Gemini, Copilot, Grok, Le Chat : forces et usages",
+              "minutes": 40
+            },
+            {
+              "id": "L013",
+              "title": "Perplexity et la recherche augmentée par l'IA",
+              "minutes": 40
+            },
+            {
+              "id": "L014",
+              "title": "Image, vidéo, voix : premier tour des outils génératifs",
+              "minutes": 40
+            }
+          ],
+          "minutes": 220,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M04",
+          "title": "Prompt engineering : parler aux modèles",
+          "hours": 4.83,
+          "lessons": [
+            {
+              "id": "L015",
+              "title": "Anatomie d'un bon prompt : rôle, contexte, tâche, format, contraintes",
+              "minutes": 45
+            },
+            {
+              "id": "L016",
+              "title": "Techniques : exemples (few-shot), raisonnement pas à pas, décomposition",
+              "minutes": 45
+            },
+            {
+              "id": "L017",
+              "title": "Les guides officiels Anthropic et OpenAI : balises, system prompts, clarté",
+              "minutes": 50
+            },
+            {
+              "id": "L018",
+              "title": "Prompts métiers : rédiger, résumer, analyser, traduire, tabuler",
+              "minutes": 45
+            },
+            {
+              "id": "L019",
+              "title": "Itérer et évaluer : bibliothèque de prompts personnelle",
+              "minutes": 40
+            },
+            {
+              "id": "L020",
+              "title": "Atelier guidé : 10 prompts à construire et corriger",
+              "minutes": 50
+            }
+          ],
+          "minutes": 290,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M05",
+          "title": "L'IA au travail",
+          "hours": 2.42,
+          "lessons": [
+            {
+              "id": "L021",
+              "title": "Cas d'usage par métier : RH, vente, marketing, finance, support, juridique",
+              "minutes": 45
+            },
+            {
+              "id": "L022",
+              "title": "Productivité : documents, e-mails, réunions, tableurs, présentations",
+              "minutes": 45
+            },
+            {
+              "id": "L023",
+              "title": "Vérifier, sourcer, corriger : la relecture critique des sorties IA",
+              "minutes": 40
+            }
+          ],
+          "minutes": 145,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M06",
+          "title": "Introduction à l'automatisation et aux agents",
+          "hours": 3.08,
+          "lessons": [
+            {
+              "id": "L024",
+              "title": "API, webhook, JSON : les trois mots à comprendre",
+              "minutes": 40
+            },
+            {
+              "id": "L025",
+              "title": "n8n : découverte et premier workflow (aligné n8n Level 1)",
+              "minutes": 50
+            },
+            {
+              "id": "L026",
+              "title": "Qu'est-ce qu'un agent IA ?",
+              "minutes": 40
+            },
+            {
+              "id": "L027",
+              "title": "MCP (Model Context Protocol) expliqué simplement",
+              "minutes": 40
+            }
+          ],
+          "minutes": 185,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M07",
+          "title": "Éthique, droit et sécurité de l'IA",
+          "hours": 3.0,
+          "lessons": [
+            {
+              "id": "L028",
+              "title": "RGPD et données personnelles dans les prompts (CNIL)",
+              "minutes": 40
+            },
+            {
+              "id": "L029",
+              "title": "AI Act : catégories de risque, calendrier, obligation d'alphabétisation IA",
+              "minutes": 45
+            },
+            {
+              "id": "L030",
+              "title": "Droit d'auteur, deepfakes, biais et discriminations",
+              "minutes": 40
+            },
+            {
+              "id": "L031",
+              "title": "Sécurité au quotidien : clés, phishing IA, shadow AI",
+              "minutes": 40
+            }
+          ],
+          "minutes": 180,
+          "quizMinutes": 15
+        }
+      ],
+      "examMinutes": 60
+    },
+    {
+      "id": "N2",
+      "code": "NF-IA-N2",
+      "title": "Niveau 2 — Praticien IA et automatisation",
+      "hours": 35,
+      "audience": "Professionnels voulant automatiser, déployer des assistants et faire tourner des modèles en local, sans être développeurs.",
+      "prerequisites": "Niveau 1 ou connaissances équivalentes.",
+      "certificate": "Certificat Next Formation IA — Niveau 2 « Praticien IA & automatisation »",
+      "alignedWith": [
+        "n8n Level 2",
+        "Make Academy",
+        "Anthropic Academy (Claude pour les équipes, Claude Code)",
+        "Microsoft AI-900",
+        "AWS Certified AI Practitioner (domaines fondamentaux)"
+      ],
+      "modules": [
+        {
+          "id": "M08",
+          "title": "n8n avancé : automatiser avec l'IA",
+          "hours": 6.75,
+          "lessons": [
+            {
+              "id": "L032",
+              "title": "Nœuds, expressions et structure des données (n8n Level 1 approfondi)",
+              "minutes": 55
+            },
+            {
+              "id": "L033",
+              "title": "n8n Level 2 : traitement d'erreurs, sous-workflows, bonnes pratiques",
+              "minutes": 55
+            },
+            {
+              "id": "L034",
+              "title": "Les nœuds IA : AI Agent, modèles, mémoire, outils",
+              "minutes": 55
+            },
+            {
+              "id": "L035",
+              "title": "RAG sans code : vector store et embeddings dans n8n",
+              "minutes": 55
+            },
+            {
+              "id": "L036",
+              "title": "Intégrations : Gmail, Slack, Google Sheets, CRM, webhooks",
+              "minutes": 55
+            },
+            {
+              "id": "L037",
+              "title": "Auto-héberger n8n (Docker) et sécuriser",
+              "minutes": 50
+            },
+            {
+              "id": "L038",
+              "title": "Projet : assistant de support client automatisé",
+              "minutes": 65
+            }
+          ],
+          "minutes": 405,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M09",
+          "title": "Make, Zapier et choix d'un outil d'automatisation",
+          "hours": 2.25,
+          "lessons": [
+            {
+              "id": "L039",
+              "title": "Make : scénarios avec modules IA",
+              "minutes": 60
+            },
+            {
+              "id": "L040",
+              "title": "Zapier, comparatif et grille de choix",
+              "minutes": 60
+            }
+          ],
+          "minutes": 135,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M10",
+          "title": "LLM locaux : faire tourner l'IA sur sa machine",
+          "hours": 6.08,
+          "lessons": [
+            {
+              "id": "L041",
+              "title": "Pourquoi un LLM local : confidentialité, coût, latence, souveraineté",
+              "minutes": 45
+            },
+            {
+              "id": "L042",
+              "title": "Matériel : paramètres, RAM / VRAM, stockage, vitesse — Mac, PC NVIDIA, CPU, DGX Spark",
+              "minutes": 70
+            },
+            {
+              "id": "L043",
+              "title": "Ollama : installer, télécharger un modèle, dialoguer, API locale",
+              "minutes": 60
+            },
+            {
+              "id": "L044",
+              "title": "LM Studio, Jan, Open WebUI : interfaces graphiques",
+              "minutes": 55
+            },
+            {
+              "id": "L045",
+              "title": "Choisir le meilleur modèle ouvert : Llama, Qwen, Mistral, Gemma, DeepSeek, gpt-oss",
+              "minutes": 60
+            },
+            {
+              "id": "L046",
+              "title": "Brancher un LLM local sur n8n et vos applications (API compatible OpenAI)",
+              "minutes": 60
+            }
+          ],
+          "minutes": 365,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M11",
+          "title": "RAG et bases de connaissances",
+          "hours": 4.17,
+          "lessons": [
+            {
+              "id": "L047",
+              "title": "Embeddings et recherche sémantique",
+              "minutes": 55
+            },
+            {
+              "id": "L048",
+              "title": "Construire un RAG sans code : n8n, Dify, Flowise, NotebookLM",
+              "minutes": 65
+            },
+            {
+              "id": "L049",
+              "title": "Découpage (chunking), qualité et évaluation d'un RAG",
+              "minutes": 60
+            },
+            {
+              "id": "L050",
+              "title": "Projets Claude, GPT personnalisés, Gems : la connaissance embarquée",
+              "minutes": 55
+            }
+          ],
+          "minutes": 250,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M12",
+          "title": "Assistants et agents sans code",
+          "hours": 4.17,
+          "lessons": [
+            {
+              "id": "L051",
+              "title": "Custom GPT, Projets Claude, Copilot Studio",
+              "minutes": 60
+            },
+            {
+              "id": "L052",
+              "title": "Agents multi-outils dans n8n",
+              "minutes": 60
+            },
+            {
+              "id": "L053",
+              "title": "Claude Code, Lovable, Bolt, v0 : créer une application sans coder",
+              "minutes": 65
+            },
+            {
+              "id": "L054",
+              "title": "Computer use et navigateurs IA",
+              "minutes": 50
+            }
+          ],
+          "minutes": 250,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M13",
+          "title": "Données et analyse avec l'IA",
+          "hours": 4.25,
+          "lessons": [
+            {
+              "id": "L055",
+              "title": "Analyser un fichier CSV / Excel avec ChatGPT et Claude",
+              "minutes": 60
+            },
+            {
+              "id": "L056",
+              "title": "Visualisations et rapports générés",
+              "minutes": 60
+            },
+            {
+              "id": "L057",
+              "title": "SQL en langage naturel",
+              "minutes": 60
+            },
+            {
+              "id": "L058",
+              "title": "Automatiser un reporting hebdomadaire",
+              "minutes": 60
+            }
+          ],
+          "minutes": 255,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M14",
+          "title": "IA multimédia : image, vidéo, voix",
+          "hours": 3.25,
+          "lessons": [
+            {
+              "id": "L059",
+              "title": "Image : gpt-image, Midjourney, Flux et Stable Diffusion en local (ComfyUI)",
+              "minutes": 60
+            },
+            {
+              "id": "L060",
+              "title": "Vidéo : Sora, Veo, Runway, Kling",
+              "minutes": 60
+            },
+            {
+              "id": "L061",
+              "title": "Voix et audio : ElevenLabs, Whisper, Suno",
+              "minutes": 60
+            }
+          ],
+          "minutes": 195,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M15",
+          "title": "Gouvernance et déploiement de l'IA en entreprise",
+          "hours": 3.08,
+          "lessons": [
+            {
+              "id": "L062",
+              "title": "SaaS, API ou local : coûts, risques, grille de décision",
+              "minutes": 60
+            },
+            {
+              "id": "L063",
+              "title": "Politique IA interne, conformité AI Act et RGPD",
+              "minutes": 60
+            },
+            {
+              "id": "L064",
+              "title": "Conduite du changement et montée en compétence des équipes",
+              "minutes": 50
+            }
+          ],
+          "minutes": 185,
+          "quizMinutes": 15
+        }
+      ],
+      "examMinutes": 60
+    },
+    {
+      "id": "N3",
+      "code": "NF-IA-N3",
+      "title": "Niveau 3 — Développeur IA",
+      "hours": 45,
+      "audience": "Développeurs, intégrateurs, data analysts, étudiants en informatique.",
+      "prerequisites": "Bases de programmation (Python ou JavaScript/TypeScript), notions HTTP/JSON. Niveau 2 recommandé.",
+      "certificate": "Certificat Next Formation IA — Niveau 3 « Développeur IA »",
+      "alignedWith": [
+        "Anthropic Academy — API & Claude Code",
+        "Anthropic certification développeur (si existante)",
+        "OpenAI Academy / OpenAI API",
+        "xAI Grok API",
+        "Perplexity Sonar API",
+        "Hugging Face Agents Course",
+        "DeepLearning.AI short courses (MCP, Agents)",
+        "OWASP Top 10 LLM"
+      ],
+      "modules": [
+        {
+          "id": "M16",
+          "title": "Fondations de développement pour l'IA",
+          "hours": 3.5,
+          "lessons": [
+            {
+              "id": "L065",
+              "title": "Python et TypeScript pour l'IA : environnement, SDK, clés API, secrets",
+              "minutes": 65
+            },
+            {
+              "id": "L066",
+              "title": "HTTP, JSON, streaming : anatomie d'un appel à un LLM",
+              "minutes": 65
+            },
+            {
+              "id": "L067",
+              "title": "Tokens, coûts, rate limits, caching : maîtriser la facture",
+              "minutes": 65
+            }
+          ],
+          "minutes": 210,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M17",
+          "title": "API Anthropic : construire avec Claude",
+          "hours": 8.58,
+          "lessons": [
+            {
+              "id": "L068",
+              "title": "Messages API : requêtes, rôles, paramètres, modèles",
+              "minutes": 50
+            },
+            {
+              "id": "L069",
+              "title": "System prompts et prompt engineering avancé (guide officiel Anthropic)",
+              "minutes": 50
+            },
+            {
+              "id": "L070",
+              "title": "Tool use : donner des outils à Claude",
+              "minutes": 50
+            },
+            {
+              "id": "L071",
+              "title": "Sorties structurées et JSON fiable",
+              "minutes": 45
+            },
+            {
+              "id": "L072",
+              "title": "Vision, PDF, Files API et citations",
+              "minutes": 45
+            },
+            {
+              "id": "L073",
+              "title": "Prompt caching, Batch API, extended thinking",
+              "minutes": 50
+            },
+            {
+              "id": "L074",
+              "title": "Claude Code et Claude Agent SDK en pratique",
+              "minutes": 50
+            },
+            {
+              "id": "L075",
+              "title": "MCP : construire un serveur et un client",
+              "minutes": 50
+            },
+            {
+              "id": "L076",
+              "title": "Skills, bonnes pratiques et évaluation des prompts",
+              "minutes": 45
+            },
+            {
+              "id": "L077",
+              "title": "Projet : assistant métier avec Claude",
+              "minutes": 65
+            }
+          ],
+          "minutes": 515,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M18",
+          "title": "API OpenAI",
+          "hours": 5.75,
+          "lessons": [
+            {
+              "id": "L078",
+              "title": "Responses API et Chat Completions",
+              "minutes": 50
+            },
+            {
+              "id": "L079",
+              "title": "Function calling et structured outputs",
+              "minutes": 50
+            },
+            {
+              "id": "L080",
+              "title": "Embeddings, images, audio et Realtime",
+              "minutes": 55
+            },
+            {
+              "id": "L081",
+              "title": "OpenAI Agents SDK",
+              "minutes": 55
+            },
+            {
+              "id": "L082",
+              "title": "Fine-tuning et Evals via l'API",
+              "minutes": 55
+            },
+            {
+              "id": "L083",
+              "title": "Projet : le même assistant, porté sur OpenAI",
+              "minutes": 65
+            }
+          ],
+          "minutes": 345,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M19",
+          "title": "xAI Grok, Perplexity, Mistral, Gemini et multi-fournisseur",
+          "hours": 4.83,
+          "lessons": [
+            {
+              "id": "L084",
+              "title": "xAI Grok API : compatibilité SDK, live search, vision",
+              "minutes": 50
+            },
+            {
+              "id": "L085",
+              "title": "Perplexity Sonar API : recherche avec citations",
+              "minutes": 50
+            },
+            {
+              "id": "L086",
+              "title": "Mistral AI : La Plateforme, Codestral, modèles ouverts",
+              "minutes": 50
+            },
+            {
+              "id": "L087",
+              "title": "Google Gemini API",
+              "minutes": 50
+            },
+            {
+              "id": "L088",
+              "title": "Architecture multi-fournisseur : abstraction, routeurs (OpenRouter, LiteLLM), repli",
+              "minutes": 75
+            }
+          ],
+          "minutes": 290,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M20",
+          "title": "RAG en code",
+          "hours": 5.75,
+          "lessons": [
+            {
+              "id": "L089",
+              "title": "Embeddings et bases vectorielles : pgvector, Chroma, Qdrant",
+              "minutes": 55
+            },
+            {
+              "id": "L090",
+              "title": "Pipeline d'ingestion : parsing, chunking, métadonnées",
+              "minutes": 55
+            },
+            {
+              "id": "L091",
+              "title": "LangChain et LlamaIndex",
+              "minutes": 55
+            },
+            {
+              "id": "L092",
+              "title": "Recherche hybride, reranking, requêtes multiples",
+              "minutes": 50
+            },
+            {
+              "id": "L093",
+              "title": "Évaluer un RAG : Ragas, jeux de test, métriques",
+              "minutes": 50
+            },
+            {
+              "id": "L094",
+              "title": "Projet : RAG documentaire d'entreprise",
+              "minutes": 65
+            }
+          ],
+          "minutes": 345,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M21",
+          "title": "Agents en code",
+          "hours": 5.75,
+          "lessons": [
+            {
+              "id": "L095",
+              "title": "La boucle agentique : outils, mémoire, planification",
+              "minutes": 55
+            },
+            {
+              "id": "L096",
+              "title": "LangGraph : agents à états",
+              "minutes": 55
+            },
+            {
+              "id": "L097",
+              "title": "OpenAI Agents SDK, Claude Agent SDK, Pydantic AI",
+              "minutes": 55
+            },
+            {
+              "id": "L098",
+              "title": "Multi-agents : CrewAI, AutoGen / AG2",
+              "minutes": 50
+            },
+            {
+              "id": "L099",
+              "title": "Agents, MCP et A2A : interopérabilité",
+              "minutes": 50
+            },
+            {
+              "id": "L100",
+              "title": "Projet : agent de recherche et de rédaction autonome",
+              "minutes": 65
+            }
+          ],
+          "minutes": 345,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M22",
+          "title": "Applications IA : interface, déploiement, observabilité",
+          "hours": 4.83,
+          "lessons": [
+            {
+              "id": "L101",
+              "title": "Next.js et Vercel AI SDK : chat en streaming",
+              "minutes": 60
+            },
+            {
+              "id": "L102",
+              "title": "Backend : files d'attente, limites, coûts, cache",
+              "minutes": 50
+            },
+            {
+              "id": "L103",
+              "title": "Observabilité : Langfuse, LangSmith ; évaluations : promptfoo, DeepEval",
+              "minutes": 55
+            },
+            {
+              "id": "L104",
+              "title": "CI/CD et tests de prompts",
+              "minutes": 45
+            },
+            {
+              "id": "L105",
+              "title": "Projet : application IA complète déployée",
+              "minutes": 65
+            }
+          ],
+          "minutes": 290,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M23",
+          "title": "Sécurité des applications LLM",
+          "hours": 5.0,
+          "lessons": [
+            {
+              "id": "L106",
+              "title": "OWASP Top 10 pour les applications LLM",
+              "minutes": 55
+            },
+            {
+              "id": "L107",
+              "title": "Prompt injection directe et indirecte : attaques et défenses",
+              "minutes": 55
+            },
+            {
+              "id": "L108",
+              "title": "Guardrails, modération, données personnelles",
+              "minutes": 55
+            },
+            {
+              "id": "L109",
+              "title": "Secrets, quotas, abus et coûts",
+              "minutes": 50
+            },
+            {
+              "id": "L110",
+              "title": "Audit de sécurité d'une application IA (atelier)",
+              "minutes": 70
+            }
+          ],
+          "minutes": 300,
+          "quizMinutes": 15
+        }
+      ],
+      "examMinutes": 60
+    },
+    {
+      "id": "N4",
+      "code": "NF-IA-N4",
+      "title": "Niveau 4 — Expert IA : du machine learning aux modèles de frontière",
+      "hours": 45,
+      "audience": "Développeurs confirmés, ingénieurs, data scientists, étudiants d'écoles d'ingénieurs et de 42.",
+      "prerequisites": "Niveau 3 ou expérience en développement IA ; bases de mathématiques niveau bac + 1 remises à niveau dans le module 24.",
+      "certificate": "Certificat Next Formation IA — Niveau 4 « Expert IA »",
+      "alignedWith": [
+        "MIT 6.S191 Introduction to Deep Learning",
+        "MIT 6.390 Introduction to Machine Learning",
+        "Stanford CS229, CS224N, CS324, CS336",
+        "École 42 — projets IA (ft_linear_regression, DSLR, multilayer-perceptron)",
+        "Karpathy Zero to Hero",
+        "Hugging Face LLM Course",
+        "NIST AI RMF, ISO/IEC 42001, OWASP Agentic"
+      ],
+      "modules": [
+        {
+          "id": "M24",
+          "title": "Mathématiques pour l'IA",
+          "hours": 5.25,
+          "lessons": [
+            {
+              "id": "L111",
+              "title": "Algèbre linéaire : vecteurs, matrices, produits (inspiré MIT 18.06)",
+              "minutes": 80
+            },
+            {
+              "id": "L112",
+              "title": "Dérivées et gradients",
+              "minutes": 70
+            },
+            {
+              "id": "L113",
+              "title": "Probabilités et statistiques utiles",
+              "minutes": 70
+            },
+            {
+              "id": "L114",
+              "title": "Optimisation : descente de gradient",
+              "minutes": 80
+            }
+          ],
+          "minutes": 315,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M25",
+          "title": "Machine learning (inspiré Stanford CS229 et MIT 6.390)",
+          "hours": 6.58,
+          "lessons": [
+            {
+              "id": "L115",
+              "title": "Régression linéaire et logistique (projets 42 ft_linear_regression, DSLR)",
+              "minutes": 65
+            },
+            {
+              "id": "L116",
+              "title": "Biais-variance, régularisation, validation croisée",
+              "minutes": 60
+            },
+            {
+              "id": "L117",
+              "title": "Arbres, forêts aléatoires, gradient boosting",
+              "minutes": 60
+            },
+            {
+              "id": "L118",
+              "title": "Apprentissage non supervisé : k-means, PCA",
+              "minutes": 60
+            },
+            {
+              "id": "L119",
+              "title": "scikit-learn en pratique",
+              "minutes": 65
+            },
+            {
+              "id": "L120",
+              "title": "Projet ML : prédiction sur données réelles",
+              "minutes": 70
+            }
+          ],
+          "minutes": 395,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M26",
+          "title": "Deep learning (inspiré MIT 6.S191)",
+          "hours": 7.58,
+          "lessons": [
+            {
+              "id": "L121",
+              "title": "Perceptron et réseaux multicouches (projet 42 multilayer-perceptron)",
+              "minutes": 65
+            },
+            {
+              "id": "L122",
+              "title": "Rétropropagation à la main (micrograd, Karpathy)",
+              "minutes": 65
+            },
+            {
+              "id": "L123",
+              "title": "PyTorch : tenseurs, autograd, boucle d'entraînement",
+              "minutes": 65
+            },
+            {
+              "id": "L124",
+              "title": "Réseaux convolutifs et vision",
+              "minutes": 60
+            },
+            {
+              "id": "L125",
+              "title": "Séquences : RNN, LSTM et leurs limites",
+              "minutes": 60
+            },
+            {
+              "id": "L126",
+              "title": "Entraîner efficacement : optimiseurs, régularisation, GPU",
+              "minutes": 60
+            },
+            {
+              "id": "L127",
+              "title": "Projet DL : classifieur d'images",
+              "minutes": 65
+            }
+          ],
+          "minutes": 455,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M27",
+          "title": "Transformers et LLM from scratch (inspiré CS224N, CS336, CS25)",
+          "hours": 7.42,
+          "lessons": [
+            {
+              "id": "L128",
+              "title": "Le mécanisme d'attention",
+              "minutes": 60
+            },
+            {
+              "id": "L129",
+              "title": "Architecture transformer complète",
+              "minutes": 60
+            },
+            {
+              "id": "L130",
+              "title": "Tokenization : BPE et tokenizers",
+              "minutes": 60
+            },
+            {
+              "id": "L131",
+              "title": "Un GPT from scratch (nanoGPT)",
+              "minutes": 70
+            },
+            {
+              "id": "L132",
+              "title": "Lois d'échelle, données et pré-entraînement",
+              "minutes": 60
+            },
+            {
+              "id": "L133",
+              "title": "Post-entraînement : SFT, RLHF, DPO, modèles de raisonnement",
+              "minutes": 60
+            },
+            {
+              "id": "L134",
+              "title": "Architectures 2026 : MoE, contexte long, multimodal",
+              "minutes": 60
+            }
+          ],
+          "minutes": 445,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M28",
+          "title": "Fine-tuning et adaptation de modèles",
+          "hours": 6.5,
+          "lessons": [
+            {
+              "id": "L135",
+              "title": "Quand fine-tuner (et quand ne pas le faire)",
+              "minutes": 55
+            },
+            {
+              "id": "L136",
+              "title": "LoRA / QLoRA avec Hugging Face PEFT, TRL et Unsloth",
+              "minutes": 70
+            },
+            {
+              "id": "L137",
+              "title": "Jeux de données, données synthétiques, distillation",
+              "minutes": 60
+            },
+            {
+              "id": "L138",
+              "title": "Évaluer : benchmarks (MMLU, GPQA, SWE-bench…) et evals maison",
+              "minutes": 60
+            },
+            {
+              "id": "L139",
+              "title": "Fine-tuning via API : OpenAI, Mistral, Gemini",
+              "minutes": 60
+            },
+            {
+              "id": "L140",
+              "title": "Projet : spécialiser un modèle ouvert sur un domaine",
+              "minutes": 70
+            }
+          ],
+          "minutes": 390,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M29",
+          "title": "Inférence, déploiement et MLOps",
+          "hours": 5.33,
+          "lessons": [
+            {
+              "id": "L141",
+              "title": "Quantization, GGUF et serveurs d'inférence : vLLM, llama.cpp, TGI",
+              "minutes": 65
+            },
+            {
+              "id": "L142",
+              "title": "KV cache, batching, speculative decoding",
+              "minutes": 60
+            },
+            {
+              "id": "L143",
+              "title": "Servir en production : GPU cloud, on-premise, DGX Spark, coûts",
+              "minutes": 60
+            },
+            {
+              "id": "L144",
+              "title": "MLOps : versioning, monitoring, dérive",
+              "minutes": 60
+            },
+            {
+              "id": "L145",
+              "title": "Edge et NPU : l'IA embarquée",
+              "minutes": 60
+            }
+          ],
+          "minutes": 320,
+          "quizMinutes": 15
+        },
+        {
+          "id": "M30",
+          "title": "Sécurité avancée, alignement et frontière de la recherche",
+          "hours": 5.33,
+          "lessons": [
+            {
+              "id": "L146",
+              "title": "Alignement et interprétabilité (recherche Anthropic, OpenAI, DeepMind)",
+              "minutes": 60
+            },
+            {
+              "id": "L147",
+              "title": "Red teaming, jailbreaks, robustesse",
+              "minutes": 60
+            },
+            {
+              "id": "L148",
+              "title": "Sécurité des systèmes agentiques : OWASP Agentic, MITRE ATLAS",
+              "minutes": 60
+            },
+            {
+              "id": "L149",
+              "title": "Gouvernance avancée : NIST AI RMF, ISO/IEC 42001, AI Act haut risque",
+              "minutes": 60
+            },
+            {
+              "id": "L150",
+              "title": "Veille scientifique, articles fondateurs et projet final",
+              "minutes": 65
+            }
+          ],
+          "minutes": 320,
+          "quizMinutes": 15
+        }
+      ],
+      "examMinutes": 60
+    },
+    {
+      "id": "N5",
+      "code": "NF-IA-N5",
+      "title": "Niveau 5 — Data engineering & Big Data pour l'IA",
+      "hours": 30,
+      "track": "specialisation",
+      "audience": "Développeurs, data analysts et ingénieurs IA ayant validé le niveau 3 ; profils niveau 4 souhaitant industrialiser les données.",
+      "prerequisites": "Niveau 3 (Python, API, RAG en code) ; SQL de base ; Docker de base (rappel en M31).",
+      "certificate": "Certificat Next Formation IA — Niveau 5 « Data engineer IA »",
+      "alignedWith": [
+        "Google Professional Data Engineer",
+        "AWS Certified Data Engineer – Associate (DEA-C01)",
+        "Microsoft Fabric Data Engineer (DP-700)",
+        "Databricks Certified Data Engineer Associate",
+        "Snowflake SnowPro Core",
+        "dbt Analytics Engineering",
+        "Confluent CCDAK",
+        "DataTalksClub Data Engineering Zoomcamp",
+        "Stanford CS246 / MMDS",
+        "CMU 15-445",
+        "Berkeley CS186",
+        "MIT 6.5830"
+      ],
+      "examMinutes": 60,
+      "modules": [
+        {
+          "id": "M31",
+          "title": "Données, formats et SQL analytique moderne",
+          "lessons": [
+            {
+              "id": "L151",
+              "title": "Le cycle de vie du data engineering et le rôle du data engineer IA (Reis & Housley, fiche APEC, ROME M1811)",
+              "minutes": 40
+            },
+            {
+              "id": "L152",
+              "title": "Types de données et formats de fichiers : CSV, JSON/JSONL, Parquet, Avro, ORC, Arrow — mesurer taille et vitesse",
+              "minutes": 55
+            },
+            {
+              "id": "L153",
+              "title": "SQL analytique moderne avec DuckDB : CTE, fenêtres, QUALIFY, MERGE, JSON et lecture d'un plan d'exécution",
+              "minutes": 55
+            },
+            {
+              "id": "L154",
+              "title": "Modéliser pour l'analytique : 3NF, étoile et SCD type 2, Data Vault 2.0, architecture médaillon",
+              "minutes": 55
+            },
+            {
+              "id": "L155",
+              "title": "Atelier : profiler, nettoyer et modéliser un jeu de données réel en Parquet avec DuckDB et Polars",
+              "minutes": 45
+            }
+          ],
+          "quizMinutes": 15,
+          "minutes": 265,
+          "hours": 4.42
+        },
+        {
+          "id": "M32",
+          "title": "Stockage, lakehouse et calcul distribué",
+          "lessons": [
+            {
+              "id": "L156",
+              "title": "De Hadoop au lakehouse : HDFS et MapReduce (historique), stockage objet S3/GCS/MinIO, coûts et cycle de vie",
+              "minutes": 40
+            },
+            {
+              "id": "L157",
+              "title": "Formats de table ouverts : Delta Lake, Apache Iceberg, Apache Hudi, time travel et catalogues REST (Unity Catalog, Polaris)",
+              "minutes": 55
+            },
+            {
+              "id": "L158",
+              "title": "Entrepôts et lakehouses cloud : Snowflake, BigQuery, Databricks, Redshift, Fabric, ClickHouse, MotherDuck — choisir et chiffrer",
+              "minutes": 50
+            },
+            {
+              "id": "L159",
+              "title": "Apache Spark et PySpark 4 : DataFrames, partitions, shuffle, jointures broadcast, AQE, Spark Connect",
+              "minutes": 60
+            },
+            {
+              "id": "L160",
+              "title": "Passer à l'échelle en Python : Polars lazy, DuckDB, Dask et Ray — quand ne pas utiliser Spark",
+              "minutes": 50
+            }
+          ],
+          "quizMinutes": 15,
+          "minutes": 270,
+          "hours": 4.5
+        },
+        {
+          "id": "M33",
+          "title": "Pipelines batch : ingestion, ELT avec dbt et orchestration",
+          "lessons": [
+            {
+              "id": "L161",
+              "title": "ETL ou ELT : architectures, couches bronze/silver/gold, idempotence et rejouabilité",
+              "minutes": 35
+            },
+            {
+              "id": "L162",
+              "title": "Ingestion incrémentale : Airbyte, Fivetran, dlt et capture de changements (CDC) avec Debezium",
+              "minutes": 50
+            },
+            {
+              "id": "L163",
+              "title": "dbt Core : sources, ref, matérialisations, modèles incrémentaux, snapshots, tests, documentation et lignage",
+              "minutes": 60
+            },
+            {
+              "id": "L164",
+              "title": "Orchestrer : Airflow 3 (DAG, assets, Task SDK), Dagster (assets), Prefect — reprise, backfill, alertes",
+              "minutes": 55
+            },
+            {
+              "id": "L165",
+              "title": "Atelier : pipeline dlt → DuckDB → dbt orchestré, avec CI « slim » sur les modèles modifiés",
+              "minutes": 50
+            }
+          ],
+          "quizMinutes": 15,
+          "minutes": 265,
+          "hours": 4.42
+        },
+        {
+          "id": "M34",
+          "title": "Streaming et données temps réel",
+          "lessons": [
+            {
+              "id": "L166",
+              "title": "Penser en flux : événements, temps d'événement et de traitement, fenêtres, retard, garanties de livraison",
+              "minutes": 45
+            },
+            {
+              "id": "L167",
+              "title": "Apache Kafka 4 en mode KRaft : topics, partitions, consumer groups (KIP-848), Avro et Schema Registry, Kafka Connect",
+              "minutes": 55
+            },
+            {
+              "id": "L168",
+              "title": "Traiter les flux : Apache Flink, Spark Structured Streaming, Kafka Streams — état, watermarks, exactly-once",
+              "minutes": 50
+            },
+            {
+              "id": "L169",
+              "title": "Atelier : CDC Postgres → Debezium → Kafka → table Iceberg/Delta interrogée par DuckDB",
+              "minutes": 50
+            }
+          ],
+          "quizMinutes": 15,
+          "minutes": 215,
+          "hours": 3.58
+        },
+        {
+          "id": "M35",
+          "title": "Qualité, gouvernance et observabilité des données",
+          "lessons": [
+            {
+              "id": "L170",
+              "title": "Qualité des données : dimensions, tests dbt, Great Expectations (GX Core) et Soda Core (SodaCL)",
+              "minutes": 50
+            },
+            {
+              "id": "L171",
+              "title": "Contrats de données avec l'Open Data Contract Standard v3.1 et gestion de l'évolution de schéma",
+              "minutes": 40
+            },
+            {
+              "id": "L172",
+              "title": "Gouvernance, catalogues et lignage : Unity Catalog, OpenMetadata, DataHub, OpenLineage",
+              "minutes": 50
+            },
+            {
+              "id": "L173",
+              "title": "Observabilité data : les 5 piliers, Elementary sur dbt, plateformes commerciales, gestion d'incident",
+              "minutes": 40
+            },
+            {
+              "id": "L174",
+              "title": "Sécurité et conformité dans le pipeline : RGPD, contrôle d'accès, chiffrement, AI Act art. 10",
+              "minutes": 40
+            }
+          ],
+          "quizMinutes": 15,
+          "minutes": 235,
+          "hours": 3.92
+        },
+        {
+          "id": "M36",
+          "title": "Préparer les données pour l'IA : LLM, ML et RAG",
+          "lessons": [
+            {
+              "id": "L175",
+              "title": "Construire un corpus texte : extraction (Docling, Trafilatura), normalisation, langue, filtres qualité (méthode FineWeb)",
+              "minutes": 50
+            },
+            {
+              "id": "L176",
+              "title": "Dédupliquer à l'échelle : hachage exact, MinHash/LSH (MMDS ch. 3), déduplication sémantique, décontamination",
+              "minutes": 50
+            },
+            {
+              "id": "L177",
+              "title": "Détecter et anonymiser les données personnelles avec Presidio (reconnaisseurs français : NIR, IBAN, téléphone)",
+              "minutes": 40
+            },
+            {
+              "id": "L178",
+              "title": "Chunking, embeddings par lots (Ray Data, Spark) et bases vectorielles à l'échelle : index, filtres, multi-tenance, coûts",
+              "minutes": 55
+            },
+            {
+              "id": "L179",
+              "title": "Features, versions et données synthétiques : Feast (point-in-time), DVC, lakeFS, SDV et génération par LLM",
+              "minutes": 45
+            }
+          ],
+          "quizMinutes": 15,
+          "minutes": 255,
+          "hours": 4.25
+        },
+        {
+          "id": "M37",
+          "title": "Projet final : pipeline de données de bout en bout pour un RAG d'entreprise",
+          "lessons": [
+            {
+              "id": "L180",
+              "title": "Cadrer le projet : sources, volumétrie, fraîcheur, droits d'accès, SLA, contrat de données et architecture cible",
+              "minutes": 40
+            },
+            {
+              "id": "L181",
+              "title": "Ingestion : documents (stockage objet) et base métier en CDC vers la couche bronze",
+              "minutes": 45
+            },
+            {
+              "id": "L182",
+              "title": "Transformation et qualité : parsing, PII, déduplication, chunking en silver ; tests et contrats",
+              "minutes": 45
+            },
+            {
+              "id": "L183",
+              "title": "Indexation vectorielle incrémentale (upserts, suppressions, ré-embedding) et évaluation de la récupération",
+              "minutes": 45
+            },
+            {
+              "id": "L184",
+              "title": "Industrialiser : orchestration, observabilité, coût par document, documentation et soutenance",
+              "minutes": 45
+            }
+          ],
+          "quizMinutes": 15,
+          "minutes": 235,
+          "hours": 3.92
+        }
+      ]
+    }
+  ],
+  "specialisationHours": 30
+}

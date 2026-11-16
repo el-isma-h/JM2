@@ -1,0 +1,114 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/archivo";
+@import "@fontsource-variable/jetbrains-mono";
+@import "@fontsource-variable/cormorant-garamond";
+@import "@fontsource-variable/cormorant-garamond/wght-italic.css";
+
+/*
+  Code couleurs NEXT Capital
+  encre   #0A0B0D  fond sombre principal
+  encre-2 #121418  fond sombre secondaire
+  os      #F3F0E8  fond clair principal
+  os-2    #EAE6DC  fond clair secondaire
+  graphite #5C5B61 texte secondaire
+  pierre  #8E8B83  texte tertiaire / étiquettes
+  signal  #19E07A  accent principal (token, actions)
+  Thèses : IA cyan #00D1FF · Quantique violet #7A3BFF · Agroalimentaire vert #3FD66B · Sport orange #FF5A1F
+  Manifeste : lime #D8FF3D
+*/
+@theme {
+  --color-encre: #0a0b0d;
+  --color-encre-2: #121418;
+  --color-os: #f3f0e8;
+  --color-os-2: #eae6dc;
+  --color-graphite: #5c5b61;
+  --color-pierre: #8e8b83;
+  --color-signal: #19e07a;
+  --color-signal-2: #0fb862;
+  --color-ia: #00d1ff;
+  --color-quantique: #7a3bff;
+  --color-agro: #3fd66b;
+  --color-sport: #ff5a1f;
+  --color-lime: #d8ff3d;
+  --color-rouge: #e5484d;
+  --color-ambre: #f5b700;
+  /* alias conservés pour les écrans internes */
+  --color-nuit: #0a0b0d;
+  --color-ivoire: #f3f0e8;
+  --color-acier: #8e8b83;
+  --color-vert: #0fb862;
+  --color-or: #19e07a;
+  --font-display: "Archivo Variable", "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter Variable", "Inter", "Noto Sans", "Noto Sans Arabic", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: "Cormorant Garamond Variable", "Cormorant Garamond", Georgia, serif;
+}
+
+@utility conteneur { @apply mx-auto w-full max-w-[1400px] px-5 sm:px-10; }
+
+@utility bouton { @apply inline-flex items-center justify-center gap-2 border px-5 py-3 font-sans text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-40; }
+@utility bouton-primaire { @apply bouton border-encre bg-encre text-os hover:bg-signal hover:border-signal hover:text-encre; }
+@utility bouton-or { @apply bouton border-signal bg-signal text-encre hover:bg-os hover:border-os; }
+@utility bouton-clair { @apply bouton border-os bg-os text-encre hover:bg-signal hover:border-signal; }
+@utility bouton-contour { @apply bouton border-encre/30 text-encre hover:border-encre hover:bg-encre hover:text-os; }
+
+@utility carte { @apply border border-encre/12 bg-os; }
+@utility carte-sombre { @apply border border-os/12 bg-encre-2; }
+
+@utility champ { @apply w-full border border-encre/20 bg-transparent px-4 py-3 font-sans text-sm text-encre outline-none transition placeholder:text-pierre/70 focus:border-encre; }
+@utility champ-label { @apply mb-2 block font-mono text-[10px] uppercase tracking-[0.2em] text-pierre; }
+@utility champ-aide { @apply mt-1.5 text-xs text-pierre; }
+
+@utility pastille { @apply inline-flex items-center border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em]; }
+@utility pastille-vert { @apply pastille border-signal-2/40 text-signal-2; }
+@utility pastille-or { @apply pastille border-ambre/50 text-[#9a7300]; }
+@utility pastille-rouge { @apply pastille border-rouge/50 text-rouge; }
+@utility pastille-gris { @apply pastille border-encre/15 text-graphite; }
+@utility pastille-azur { @apply pastille border-ia/50 text-[#007fa0]; }
+
+@utility lien-nav { @apply font-mono text-[10px] uppercase tracking-[0.2em] text-graphite transition hover:text-encre; }
+@utility ligne-or { @apply h-px w-10 bg-signal; }
+@utility etiquette { @apply inline-flex items-center gap-3 font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-pierre; }
+@utility tableau { @apply w-full font-sans text-sm; }
+@utility mono { font-family: var(--font-mono); }
+
+html { scroll-behavior: smooth; }
+body { @apply bg-os text-encre font-sans antialiased; }
+
+h1, h2, h3, .titre { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.04em; line-height: 0.92; }
+.font-serif { font-family: var(--font-serif); }
+.font-display { font-family: var(--font-display); }
+.titre-geant { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.05em; line-height: 0.85; text-transform: uppercase; }
+
+.etiquette::before { content: ""; display: inline-block; height: 1px; width: 1.25rem; background: currentColor; opacity: .6; }
+.sombre .etiquette { color: rgba(243, 240, 232, 0.5); }
+.sombre .bouton-contour { border-color: rgba(243, 240, 232, 0.3); color: var(--color-os); }
+.sombre .bouton-contour:hover { background: var(--color-os); color: var(--color-encre); border-color: var(--color-os); }
+.sombre .bouton-primaire { background: var(--color-os); color: var(--color-encre); border-color: var(--color-os); }
+.sombre .bouton-primaire:hover { background: var(--color-signal); border-color: var(--color-signal); }
+.sombre .lien-nav { color: rgba(243, 240, 232, 0.55); }
+.sombre .lien-nav:hover { color: var(--color-os); }
+.sombre .champ { color: var(--color-os); border-color: rgba(243,240,232,.2); }
+.sombre .champ:focus { border-color: var(--color-os); }
+.sombre .champ-label { color: rgba(243,240,232,.5); }
+
+/* règle fine : séparateur horizontal 1px */
+.regle { height: 1px; background: currentColor; opacity: .14; }
+
+/* filigrane numéroté */
+.filigrane { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.06em; line-height: .8; color: transparent; -webkit-text-stroke: 1px currentColor; opacity: .18; user-select: none; pointer-events: none; }
+
+.tableau th { border-bottom: 1px solid rgba(10,11,13,.14); padding: .625rem .75rem; text-align: left; font-family: var(--font-mono); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .18em; color: var(--color-pierre); }
+.tableau td { border-bottom: 1px solid rgba(10,11,13,.08); padding: .75rem; vertical-align: top; }
+.tableau td.mono, .tableau .mono { font-family: var(--font-mono); font-size: 12px; }
+[dir="rtl"] .tableau th { text-align: right; }
+
+/* bandes obliques de l'intro et du filet de marque */
+.bande { transform: skewX(-14deg); transform-origin: top; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+::selection { background: var(--color-signal); color: var(--color-encre); }

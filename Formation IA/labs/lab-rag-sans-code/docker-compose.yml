@@ -1,0 +1,32 @@
+# docker-compose.yml — Lab L048 : n8n + Ollama, tout en local, sans clé API.
+#   cp .env.example .env   (puis générez N8N_ENCRYPTION_KEY : openssl rand -hex 32)
+#   docker compose up -d
+#   docker compose exec ollama ollama pull nomic-embed-text
+#   docker compose exec ollama ollama pull gemma4:e4b
+# n8n : http://localhost:5678 (même port que lab-n8n-support : n'en lancez qu'un à la fois)
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:${N8N_VERSION:-latest}   # épinglez une version vérifiée (n8n 3.0 : changements incompatibles)
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5678:5678"
+    environment:
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:?définissez N8N_ENCRYPTION_KEY dans .env}
+      GENERIC_TIMEZONE: Europe/Paris
+      TZ: Europe/Paris
+      N8N_RESTRICT_FILE_ACCESS_TO: /home/node/lab-files
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./documents:/home/node/lab-files/lacombe:ro
+
+  ollama:
+    image: ollama/ollama:${OLLAMA_VERSION:-latest}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:11434:11434"   # aussi utilisé par Dify (http://host.docker.internal:11434)
+    volumes:
+      - ollama_models:/root/.ollama
+
+volumes:
+  n8n_data: {}
+  ollama_models: {}

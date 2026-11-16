@@ -1,0 +1,326 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/archivo";
+@import "@fontsource-variable/jetbrains-mono";
+@import "@fontsource-variable/cormorant-garamond";
+@import "@fontsource-variable/cormorant-garamond/wght-italic.css";
+@import "katex/dist/katex.min.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Next Formation IA : identité Next Formation reprise à l'identique (tokens, typographies, angles droits).
+  Next Formation : identité reprise de NEXT Capital (même maison : Next RH bordeaux, Next Optimisation bleu pastel, Next Ads vert).
+  encre #0A0B0D · encre-2 #121418 · os #F3F0E8 · os-2 #EAE6DC · graphite #5C5B61 · pierre #8E8B83
+  Signal : violet profond #4B2A7F (texte et filets, contraste 10:1 sur os) ; pastel #C9B8F0 pour les aplats et pastilles.
+  Un seul accent, pas de dégradé « IA », pas de #000 / #fff purs.
+  Angles droits, bordures 1 px, titres Archivo fins en capitales espacées, étiquettes JetBrains Mono,
+  corps Inter, citations Cormorant Garamond italique.
+*/
+:root {
+  --bg: #f3f0e8;
+  --bg-elev: #f7f5ef;
+  --bg-sunken: #eae6dc;
+  --bg-muted: #e2ddd1;
+  --ink: #0a0b0d;
+  --ink-2: #5c5b61;
+  --ink-3: #8e8b83;
+  --line: rgba(10, 11, 13, 0.12);
+  --line-strong: rgba(10, 11, 13, 0.24);
+  --accent: #4b2a7f;
+  --accent-ink: #f3f0e8;
+  --accent-soft: rgba(75, 42, 127, 0.08);
+  --accent-strong: #36195f;
+  --accent-bright: #c9b8f0;
+  --warn: #f5b700;
+  --warn-soft: rgba(245, 183, 0, 0.14);
+  --warn-ink: #7a5a00;
+  --danger: #c8322d;
+  --danger-soft: rgba(229, 72, 77, 0.1);
+  --danger-ink: #9c231f;
+  --ok: #0fb862;
+  --ok-soft: rgba(15, 184, 98, 0.1);
+  --ok-ink: #0a7a42;
+  --info-soft: rgba(0, 127, 160, 0.09);
+  --info-ink: #00627c;
+  --focus: #4b2a7f;
+  --radius: 0px;
+  --radius-sm: 0px;
+  --shadow-1: none;
+  --shadow-2: 0 24px 60px -24px rgba(10, 11, 13, 0.35);
+}
+
+.dark {
+  --bg: #0a0b0d;
+  --bg-elev: #121418;
+  --bg-sunken: #0e1013;
+  --bg-muted: #1a1d22;
+  --ink: #f3f0e8;
+  --ink-2: rgba(243, 240, 232, 0.66);
+  --ink-3: rgba(243, 240, 232, 0.45);
+  --line: rgba(243, 240, 232, 0.12);
+  --line-strong: rgba(243, 240, 232, 0.26);
+  --accent: #b9a3ea;
+  --accent-ink: #0a0b0d;
+  --accent-soft: rgba(185, 163, 234, 0.16);
+  --accent-strong: #d4c4f5;
+  --accent-bright: #c9b8f0;
+  --warn: #f5b700;
+  --warn-soft: rgba(245, 183, 0, 0.16);
+  --warn-ink: #f0c23a;
+  --danger: #e5484d;
+  --danger-soft: rgba(229, 72, 77, 0.16);
+  --danger-ink: #f08a8d;
+  --ok: #19e07a;
+  --ok-soft: rgba(25, 224, 122, 0.14);
+  --ok-ink: #5eeaa3;
+  --info-soft: rgba(0, 209, 255, 0.12);
+  --info-ink: #6fdcff;
+  --focus: #b9a3ea;
+  --shadow-2: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elev: var(--bg-elev);
+  --color-bg-sunken: var(--bg-sunken);
+  --color-bg-muted: var(--bg-muted);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-bright: var(--accent-bright);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-warn-ink: var(--warn-ink);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-danger-ink: var(--danger-ink);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-ok-ink: var(--ok-ink);
+  --color-info-soft: var(--info-soft);
+  --color-info-ink: var(--info-ink);
+  --color-focus: var(--focus);
+  --color-encre: #0a0b0d;
+  --color-os: #f3f0e8;
+  --font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
+  --font-display: "Archivo Variable", "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: "Cormorant Garamond Variable", "Cormorant Garamond", Georgia, serif;
+  --radius-md: var(--radius);
+  --radius-sm: var(--radius-sm);
+  --shadow-1: var(--shadow-1);
+  --shadow-2: var(--shadow-2);
+  --ease-marque: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+html {
+  color-scheme: light;
+  background: var(--bg);
+}
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Titres : Archivo fin, capitales espacées (signature NEXT Capital). */
+h1, h2, h3, .titre {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+h2, h3 { letter-spacing: 0.05em; }
+.titre-geant {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.font-display { font-family: var(--font-display); }
+.font-serif { font-family: var(--font-serif); }
+p { text-wrap: pretty; }
+
+/* Étiquette mono : filet + capitales espacées. */
+.etiquette {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--ink-3);
+}
+.etiquette::before { content: ""; display: inline-block; height: 1px; width: 1.25rem; background: currentColor; opacity: 0.6; }
+
+.mono, .num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.regle { height: 1px; background: currentColor; opacity: 0.14; }
+.ligne-signal { height: 1px; width: 2.5rem; background: var(--accent); }
+
+*:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Tableaux de données : en-têtes mono capitales, filets fins. */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.data-table th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.data-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+.data-table tbody tr:hover td {
+  background: var(--bg-sunken);
+}
+.data-table td.num, .data-table th.num {
+  text-align: right;
+}
+
+/* Documents imprimables (bulletins, contrats) */
+.print-doc {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: #0a0b0d;
+}
+
+/* --- Site vitrine --- */
+/* Utilitaires du site public (même grammaire que Next Ads / Next Optimisation) : conteneur, sections encre, filigranes, bandes obliques. */
+.conteneur { margin-inline: auto; width: 100%; max-width: 1400px; padding-inline: 1rem; }
+@media (min-width: 640px) { .conteneur { padding-inline: 2.5rem; } }
+.sombre .etiquette { color: rgba(243, 240, 232, 0.55); }
+.lien-nav { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--ink-2); transition: color 0.5s var(--ease-marque); }
+.lien-nav:hover { color: var(--ink); }
+.sombre .lien-nav { color: rgba(243, 240, 232, 0.55); }
+.sombre .lien-nav:hover { color: #f3f0e8; }
+.bande { transform: skewX(-14deg); transform-origin: top; }
+.filigrane { font-family: var(--font-display); font-weight: 300; letter-spacing: -0.02em; line-height: 0.8; color: transparent; -webkit-text-stroke: 1px currentColor; opacity: 0.14; user-select: none; pointer-events: none; }
+.scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: var(--line-strong); }
+.tableau-vitrine th, .tableau-vitrine td { vertical-align: top; }
+.tableau-vitrine th { font-family: var(--font-mono); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.2em; color: var(--ink-3); text-align: left; padding: 1rem 1.25rem 1rem 0; border-bottom: 1px solid var(--line-strong); }
+.tableau-vitrine td { padding: 1rem 1.25rem 1rem 0; border-bottom: 1px solid var(--line); }
+/* Faux écran produit : rendu HTML/CSS sobre, sans image externe. */
+.ecran { border: 1px solid var(--line-strong); background: var(--bg-elev); font-size: 11.5px; line-height: 1.4; color: var(--ink); }
+.ecran-barre { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; border-bottom: 1px solid var(--line); padding: 0.5rem 0.75rem; font-family: var(--font-mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ink-3); }
+.ecran-ligne { display: grid; align-items: center; gap: 0.75rem; border-bottom: 1px solid var(--line); padding: 0.5rem 0.75rem; }
+.ecran-ligne:last-child { border-bottom: 0; }
+
+
+/* =====================================================================
+   Next Formation IA — ajouts propres à l'application e-learning
+   (mêmes tokens ; aucune nouvelle couleur hors palette)
+   ===================================================================== */
+
+/* Coque applicative */
+.app-main { min-height: 100dvh; }
+.safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 4.5rem); }
+@media (min-width: 1024px) { .safe-bottom { padding-bottom: 0; } }
+
+/* Barre de progression fine (signal) */
+.barre-progression { height: 4px; background: var(--bg-muted); overflow: hidden; }
+.barre-progression > span { display: block; height: 100%; background: var(--accent); }
+
+/* Lecteur de leçon : typographie de lecture (titres Archivo capitales comme le reste de la marque). */
+.prose-nf { font-size: 15.5px; line-height: 1.72; color: var(--ink); max-width: 72ch; }
+.prose-nf > * + * { margin-top: 1.05em; }
+.prose-nf h1 { font-size: 30px; margin-bottom: 0.6em; }
+.prose-nf h2 { font-size: 21px; margin-top: 2.4em; padding-top: 1.1em; border-top: 1px solid var(--line); scroll-margin-top: 88px; }
+.prose-nf h3 { font-size: 16px; margin-top: 1.8em; letter-spacing: 0.06em; scroll-margin-top: 88px; }
+.prose-nf h4 { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--ink-2); margin-top: 1.6em; }
+.prose-nf a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.prose-nf a:hover { text-decoration-thickness: 2px; }
+.prose-nf strong { font-weight: 600; }
+.prose-nf ul, .prose-nf ol { padding-left: 1.4em; }
+.prose-nf ul { list-style: square; }
+.prose-nf ol { list-style: decimal; }
+.prose-nf li + li { margin-top: 0.35em; }
+.prose-nf li::marker { color: var(--accent); }
+.prose-nf hr { border: 0; height: 1px; background: var(--line); margin: 2.4em 0; }
+.prose-nf img { max-width: 100%; border: 1px solid var(--line); }
+.prose-nf :not(pre) > code { font-family: var(--font-mono); font-size: 0.86em; background: var(--bg-sunken); border: 1px solid var(--line); padding: 0.05em 0.35em; }
+.prose-nf pre { font-family: var(--font-mono); font-size: 12.5px; line-height: 1.6; background: var(--bg-sunken); border: 1px solid var(--line); padding: 1rem 1.1rem; overflow-x: auto; }
+.prose-nf table { width: 100%; border-collapse: collapse; font-size: 13.5px; display: block; overflow-x: auto; }
+.prose-nf th { text-align: left; font-family: var(--font-mono); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.16em; color: var(--ink-3); border-bottom: 1px solid var(--line-strong); padding: 8px 12px 8px 0; }
+.prose-nf td { border-bottom: 1px solid var(--line); padding: 8px 12px 8px 0; vertical-align: top; }
+.prose-nf blockquote { border-left: 2px solid var(--line-strong); padding: 0.7rem 1rem; background: var(--bg-elev); color: var(--ink); }
+.prose-nf blockquote > * + * { margin-top: 0.5em; }
+/* Encadrés 💡 / ⚠️ / 🔗 (détectés par le composant Markdown → data-callout) */
+.prose-nf blockquote[data-callout="tip"] { border-left-color: var(--accent); background: var(--accent-soft); }
+.prose-nf blockquote[data-callout="warn"] { border-left-color: var(--warn); background: var(--warn-soft); }
+.prose-nf blockquote[data-callout="link"] { border-left-color: var(--info-ink); background: var(--info-soft); }
+.prose-nf blockquote[data-callout="meta"] { border: 0; background: transparent; padding: 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--ink-3); }
+.prose-nf details { border: 1px solid var(--line); background: var(--bg-elev); padding: 0.6rem 1rem; }
+.prose-nf details[open] { padding-bottom: 1rem; }
+.prose-nf summary { cursor: pointer; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ink-2); }
+.prose-nf summary:hover { color: var(--ink); }
+.prose-nf details[open] > summary { margin-bottom: 0.8rem; }
+.prose-nf .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.4rem 0; }
+.prose-nf .mermaid-figure { border: 1px solid var(--line); background: var(--bg-elev); padding: 1rem; overflow-x: auto; }
+.prose-nf .mermaid-figure svg { margin-inline: auto; max-width: 100%; height: auto; }
+
+/* Coloration syntaxique (highlight.js) dans la palette de marque */
+.hljs-comment, .hljs-quote { color: var(--ink-3); font-style: italic; }
+.hljs-keyword, .hljs-selector-tag, .hljs-built_in, .hljs-type { color: var(--accent); }
+.hljs-string, .hljs-attr, .hljs-symbol, .hljs-bullet, .hljs-addition { color: var(--ok-ink); }
+.hljs-number, .hljs-literal, .hljs-variable, .hljs-template-variable { color: var(--warn-ink); }
+.hljs-title, .hljs-section, .hljs-name, .hljs-function .hljs-title { color: var(--info-ink); }
+.hljs-deletion, .hljs-meta { color: var(--danger-ink); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 600; }

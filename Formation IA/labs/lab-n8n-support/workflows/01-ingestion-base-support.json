@@ -1,0 +1,205 @@
+{
+  "name": "Lab L038 — Ingestion base_support (Qdrant)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Ingestion des fiches de support (workflow A de L035)\nLit `base-connaissances/*.md` (monté dans le conteneur sur `/home/node/lab-files/support`), découpe 1 000 / 150,\nvectorise avec **Ollama nomic-embed-text** (768 dimensions, sans clé) et insère dans la collection Qdrant `support_fiches`.\nCredentials : *Qdrant local* (URL `http://qdrant:6333`, clé vide) et *Ollama local* (URL `http://ollama:11434`).\nAvant le premier lancement : `docker compose exec ollama ollama pull nomic-embed-text`.\nRelancer l'ingestion **ajoute** des doublons : videz la collection d'abord (tableau de bord Qdrant, port 6333).",
+        "height": 320,
+        "width": 640
+      },
+      "id": "a0621fb4-ff4b-554f-8497-58afefb55b5d",
+      "name": "Note — ingestion",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        -420
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "d7aaec17-619d-5b42-bf07-d3a0ecde1eaa",
+      "name": "Lancer l'ingestion",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -380,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "fileSelector": "/home/node/lab-files/support/*.md",
+        "options": {}
+      },
+      "id": "a8812d06-89e1-53fc-9c83-b5acafb5f77a",
+      "name": "Lire les fiches",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "mode": "id",
+          "value": "support_fiches"
+        },
+        "options": {}
+      },
+      "id": "35606d32-2c55-5dbc-868b-1e613e3a601d",
+      "name": "Qdrant — insérer",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.1,
+      "position": [
+        100,
+        60
+      ],
+      "credentials": {
+        "qdrantApi": {
+          "name": "Qdrant local"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "titre",
+                "value": "={{ $binary.data.fileName }}"
+              },
+              {
+                "name": "source",
+                "value": "base-connaissances"
+              },
+              {
+                "name": "date_maj",
+                "value": "={{ $now.toISODate() }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "ecfbb1f7-d9f2-587b-929c-56913aa215c9",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        120,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "chunkSize": 1000,
+        "chunkOverlap": 150,
+        "options": {}
+      },
+      "id": "6f1d8a09-325f-594c-ab05-d5ddefdee73e",
+      "name": "Découpage 1000 / 150",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        140,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text"
+      },
+      "id": "a1beb7f3-2680-56de-9a2d-5dd4122decf0",
+      "name": "Embeddings Ollama",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        360,
+        280
+      ],
+      "credentials": {
+        "ollamaApi": {
+          "name": "Ollama local"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Lancer l'ingestion": {
+      "main": [
+        [
+          {
+            "node": "Lire les fiches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lire les fiches": {
+      "main": [
+        [
+          {
+            "node": "Qdrant — insérer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant — insérer",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Découpage 1000 / 150": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant — insérer",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Paris",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "active": false,
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": [
+    {
+      "name": "lab-L038"
+    }
+  ]
+}

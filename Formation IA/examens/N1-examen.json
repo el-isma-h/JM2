@@ -1,0 +1,1616 @@
+{
+  "levelId": "N1",
+  "title": "Examen de certification — Niveau 1 Fondamentaux de l'IA",
+  "passScore": 70,
+  "timeLimitMinutes": 60,
+  "bankSize": 80,
+  "drawPerAttempt": 40,
+  "competences": {
+    "C1.1": [
+      "N1-E01",
+      "N1-E02",
+      "N1-E03",
+      "N1-E04",
+      "N1-E07",
+      "N1-E08",
+      "N1-E09",
+      "N1-E10",
+      "N1-E11",
+      "N1-E41",
+      "N1-E42",
+      "N1-E44",
+      "N1-E45",
+      "N1-E46",
+      "N1-E47",
+      "N1-E48",
+      "N1-E49",
+      "N1-E50"
+    ],
+    "C1.2": [
+      "N1-E05",
+      "N1-E12",
+      "N1-E13",
+      "N1-E14",
+      "N1-E15",
+      "N1-E16",
+      "N1-E17",
+      "N1-E27",
+      "N1-E43",
+      "N1-E51",
+      "N1-E52",
+      "N1-E53",
+      "N1-E54",
+      "N1-E56",
+      "N1-E57",
+      "N1-E64"
+    ],
+    "C1.3": [
+      "N1-E18",
+      "N1-E19",
+      "N1-E20",
+      "N1-E21",
+      "N1-E22",
+      "N1-E26",
+      "N1-E58",
+      "N1-E59",
+      "N1-E60",
+      "N1-E61",
+      "N1-E62",
+      "N1-E63"
+    ],
+    "C1.4": [
+      "N1-E23",
+      "N1-E24",
+      "N1-E25",
+      "N1-E28",
+      "N1-E29",
+      "N1-E55",
+      "N1-E65",
+      "N1-E66",
+      "N1-E67",
+      "N1-E68",
+      "N1-E69"
+    ],
+    "C1.5": [
+      "N1-E30",
+      "N1-E31",
+      "N1-E32",
+      "N1-E33",
+      "N1-E34",
+      "N1-E70",
+      "N1-E71",
+      "N1-E72",
+      "N1-E73",
+      "N1-E74"
+    ],
+    "C1.6": [
+      "N1-E06",
+      "N1-E35",
+      "N1-E36",
+      "N1-E37",
+      "N1-E38",
+      "N1-E39",
+      "N1-E40",
+      "N1-E75",
+      "N1-E76",
+      "N1-E77",
+      "N1-E78",
+      "N1-E79",
+      "N1-E80"
+    ]
+  },
+  "questions": [
+    {
+      "id": "N1-E01",
+      "lessonId": "L001",
+      "competence": "C1.1",
+      "type": "qcm",
+      "q": "Le deep learning existait dans les laboratoires dès les années 1980 (rétropropagation, 1986). Pourquoi n'a-t-il « tout emporté » qu'à partir de 2012 ?",
+      "options": [
+        "Parce que le Transformer a été inventé en 2012 et a rendu les réseaux de neurones enfin utilisables",
+        "Parce que les chercheurs ont abandonné l'apprentissage supervisé au profit de l'apprentissage par renforcement, moins gourmand en données étiquetées coûteuses",
+        "Parce que trois ingrédients se sont enfin réunis : données massives (Internet), puissance de calcul (GPU) et algorithmes affinés depuis les années 1980",
+        "Parce que les premiers systèmes experts médicaux ont enfin été commercialisés à grande échelle"
+      ],
+      "answer": 2,
+      "explanation": "La leçon situe le basculement avec AlexNet (2012), qui a écrasé la compétition ImageNet grâce à un réseau profond entraîné sur des cartes graphiques. L'algorithme de rétropropagation existait depuis 1986 ; ce qui manquait était la conjonction données + calcul + algorithmes. Le Transformer date de 2017 et les systèmes experts relèvent de l'IA symbolique, sans apprentissage.",
+      "source": {
+        "title": "MIT 6.S191 — Introduction to Deep Learning",
+        "url": "https://introtodeeplearning.com/"
+      }
+    },
+    {
+      "id": "N1-E02",
+      "lessonId": "L001",
+      "competence": "C1.1",
+      "type": "mise_en_situation",
+      "q": "Dans une PME de négoce, trois outils cohabitent : (1) le logiciel de comptabilité applique les règles fiscales codées par l'éditeur ; (2) l'outil de relance classe les factures « à risque » en apprenant sur l'historique des retards de paiement ; (3) un assistant rédige le brouillon de la relance. Un consultant présente les trois comme « de l'IA générative ». Quelle qualification est exacte ?",
+      "options": [
+        "Les trois relèvent du deep learning : seule la taille du modèle diffère, du petit classifieur au grand LLM génératif",
+        "(1) et (2) ne sont pas de l'IA car ils n'apprennent pas de nouvelles données en continu ; seul (3) est une IA au sens strict du terme",
+        "(1) IA générative, (2) IA symbolique à base de règles, (3) machine learning classique sur données tabulaires",
+        "(1) IA symbolique à base de règles, (2) machine learning classique, (3) deep learning génératif : seul (3) est de l'IA générative"
+      ],
+      "answer": 3,
+      "explanation": "La leçon distingue trois approches qui cohabitent dans une PME typique : symbolique (règles écrites par des humains, comme un moteur de règles fiscales), statistique ou ML classique (régularités apprises dans des tableaux, comme le scoring de factures à risque) et connexionniste ou deep learning génératif (le LLM qui rédige). Une IA symbolique reste une IA même sans apprentissage : le GPS en est l'exemple.",
+      "source": {
+        "title": "Microsoft — AI for Beginners",
+        "url": "https://github.com/microsoft/ai-for-beginners"
+      }
+    },
+    {
+      "id": "N1-E03",
+      "lessonId": "L002",
+      "competence": "C1.1",
+      "type": "mise_en_situation",
+      "q": "Un prestataire propose à un distributeur de fournitures de bureau (400 e-mails par jour) d'« entraîner un modèle de langage maison » pendant six mois pour rédiger les brouillons de réponse aux clients. Quelle analyse est la plus juste au regard du cycle données → entraînement → inférence ?",
+      "options": [
+        "C'est indispensable : un LLM ne peut rédiger des réponses pertinentes que s'il a été entraîné sur les e-mails de l'entreprise",
+        "C'est pertinent si l'entreprise dispose d'au moins 20 % d'e-mails de test, car un modèle entraîné est toujours plus fiable qu'un modèle simplement guidé par le prompt",
+        "C'est une erreur de méthode : l'inférence n'apprend rien, donc un modèle entraîné ne saura pas répondre aux nouveaux e-mails",
+        "C'est disproportionné : un LLM existant avec un bon prompt et le contexte client suffit ; l'entraînement est réservé aux besoins très spécifiques"
+      ],
+      "answer": 3,
+      "explanation": "La leçon distingue l'entraînement (coûteux, rare, réservé aux besoins très spécifiques) de l'inférence (quelques millièmes d'euro par requête). Pour un brouillon de réponse, un modèle de fondation existant suffit : on injecte l'historique du client et la politique commerciale dans le prompt. C'est tout l'intérêt des modèles de fondation, adaptés à mille usages sans ré-entraînement.",
+      "source": {
+        "title": "Google — Machine Learning Crash Course",
+        "url": "https://developers.google.com/machine-learning/crash-course"
+      }
+    },
+    {
+      "id": "N1-E04",
+      "lessonId": "L002",
+      "competence": "C1.1",
+      "type": "qcm",
+      "q": "Un cabinet comptable a entraîné un modèle de classement de pièces (facture, note de frais, relevé) : 99 % de bonnes réponses sur les 3 000 documents utilisés pour l'entraînement, mais seulement 71 % sur les pièces reçues le mois suivant. Quel est le diagnostic le plus probable et la parade méthodologique ?",
+      "options": [
+        "Sur-apprentissage (overfitting) : le modèle a « appris par cœur » ; il fallait mesurer la performance sur un jeu de test jamais montré au modèle",
+        "Hallucination : le modèle génère des catégories inventées ; il faut lui fournir les documents de référence dans la fenêtre de contexte à chaque requête",
+        "Date de connaissance dépassée : le modèle ignore les pièces postérieures à son entraînement ; il faut activer la recherche web",
+        "Sous-apprentissage : 3 000 exemples sont insuffisants ; il faut passer à un modèle de 27 milliards de paramètres"
+      ],
+      "answer": 0,
+      "explanation": "L'écart entre performance sur les exemples d'entraînement et performance sur des cas nouveaux est la signature du sur-apprentissage, défaut numéro un des projets ML en entreprise selon la leçon. La parade est de cacher une partie des exemples (souvent 20 %) pour tester le modèle sur des cas jamais vus. Hallucination et date de connaissance concernent les LLM génératifs, pas un classifieur tabulaire.",
+      "source": {
+        "title": "Google — Machine Learning Crash Course",
+        "url": "https://developers.google.com/machine-learning/crash-course"
+      }
+    },
+    {
+      "id": "N1-E05",
+      "lessonId": "L003",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "Une usine agroalimentaire veut détecter les défauts sur 100 000 pièces par jour qui défilent sur un convoyeur, en temps réel, sans que les images ne quittent le site. Un stagiaire propose d'envoyer chaque photo à un assistant multimodal généraliste (Claude, Gemini, ChatGPT). Quelle recommandation est la plus pertinente ?",
+      "options": [
+        "Préférer un modèle de vision spécialisé (détection d'objets) déployé localement, plus pertinent et moins cher pour un flux massif, temps réel et confidentiel",
+        "Accepter : les modèles multimodaux de 2026 lisent les images aussi bien qu'un modèle de vision spécialisé, sont plus simples à utiliser et leur API suit le temps réel",
+        "Refuser : les assistants généralistes ne savent pas traiter des images, il faut un modèle de langage spécialisé",
+        "Utiliser un modèle de prédiction tabulaire (arbres de décision), plus explicable que la vision par ordinateur"
+      ],
+      "answer": 0,
+      "explanation": "La leçon fixe trois réflexes : le multimodal généraliste suffit pour une tâche ponctuelle (lire une facture, décrire une photo) ; pour un flux industriel (100 000 images par jour, temps réel, confidentialité), un modèle de vision spécialisé reste plus pertinent et moins cher. Les critères qui justifient le choix sont ici le volume, la latence et la confidentialité. Un modèle tabulaire ne traite pas des pixels.",
+      "source": {
+        "title": "Microsoft Learn — Guide d'étude AI-900",
+        "url": "https://learn.microsoft.com/certifications/resources/study-guides/AI-900"
+      }
+    },
+    {
+      "id": "N1-E06",
+      "lessonId": "L004",
+      "competence": "C1.6",
+      "type": "trouve_erreur",
+      "q": "À propos de l'article 4 du règlement (UE) 2024/1689 (maîtrise de l'IA), laquelle de ces affirmations est FAUSSE ?",
+      "options": [
+        "Un cabinet comptable qui utilise un assistant génératif pour ses courriers est un « déployeur » et donc tenu par l'article 4",
+        "Les mesures doivent être proportionnées au contexte, au niveau technique des personnes et aux risques des systèmes utilisés",
+        "L'article 4 prévoit une amende dédiée pouvant atteindre 15 millions d'euros pour tout employeur n'ayant pas formé son personnel",
+        "D'après les clarifications de la Commission européenne, un simple manuel ou un message automatique à la connexion est jugé « probablement insuffisant »"
+      ],
+      "answer": 2,
+      "explanation": "L'article 4 n'a pas d'amende propre. Ce qui le rend contraignant, c'est la surveillance de marché et le régime général de sanctions applicables depuis le 2 août 2026, ainsi que son rôle de standard de diligence en cas de dommage. Les plafonds de 35 M€ / 7 % et 15 M€ / 3 % concernent respectivement les pratiques interdites et les autres manquements du règlement, pas spécifiquement l'article 4.",
+      "source": {
+        "title": "CMS Law — La Commission clarifie l'obligation d'AI literacy (art. 4)",
+        "url": "https://cms.law/en/int/legal-updates/european-commission-clarifies-literacy-requirements-under-the-ai-act"
+      }
+    },
+    {
+      "id": "N1-E07",
+      "lessonId": "L005",
+      "competence": "C1.1",
+      "type": "mise_en_situation",
+      "q": "Une PME dispose d'une carte graphique de 24 Go. Son prestataire hésite entre un modèle dense de 27 milliards de paramètres et un modèle à mélange d'experts noté « 26B-A4B ». Un collègue affirme : « avec le MoE, seuls 4 milliards de paramètres sont actifs, donc il ne faut de la mémoire que pour 4B ». Que lui répondre ?",
+      "options": [
+        "Il a raison : la mémoire nécessaire d'un MoE se calcule sur les paramètres actifs, les experts inactifs restant sur disque ; c'est précisément son avantage",
+        "Il confond : la mémoire se dimensionne sur le total (26B), tous les experts devant être hébergés ; la vitesse et le coût par token dépendent des 4B actifs",
+        "Il a tort : un MoE consomme deux fois plus de mémoire qu'un modèle dense de même taille, à cause du routeur qui duplique les experts",
+        "La question ne se pose pas : un modèle à poids ouverts ne peut pas tourner sur une carte de 24 Go"
+      ],
+      "answer": 1,
+      "explanation": "La leçon est explicite : pour un MoE, la mémoire nécessaire dépend du total de paramètres (il faut « héberger tout le cabinet de consultants »), tandis que la vitesse et le coût dépendent des paramètres actifs (« seuls 4 consultants travaillent »). Un 26B-A4B et un 27B dense ont donc des besoins mémoire comparables, mais le MoE génère plus vite.",
+      "source": {
+        "title": "Mistral AI — Mistral Small 4",
+        "url": "https://mistral.ai/news/mistral-small-4/"
+      }
+    },
+    {
+      "id": "N1-E08",
+      "lessonId": "L005",
+      "competence": "C1.1",
+      "type": "vrai_faux",
+      "q": "Vrai ou faux : les fiches officielles des modèles fermés (Claude, GPT-6, Gemini 4, Grok 4.7) publient leur nombre de paramètres, ce qui permet de comparer leur taille à celle des modèles ouverts.",
+      "options": [
+        "Vrai",
+        "Faux"
+      ],
+      "answer": 1,
+      "explanation": "Les éditeurs de modèles fermés ne publient pas le nombre de paramètres ; ils communiquent uniquement sur les capacités (fenêtre de contexte, prix, date de connaissance). Les chiffres qui circulent (« 1 700 milliards pour GPT-4 ») sont des rumeurs jamais confirmées. Quand une fiche ne donne pas la taille, c'est volontaire : seule la lecture des capacités et un test sur vos propres cas permettent de comparer.",
+      "source": {
+        "title": "Anthropic — Context windows",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/context-windows"
+      }
+    },
+    {
+      "id": "N1-E09",
+      "lessonId": "L006",
+      "competence": "C1.1",
+      "type": "qcm",
+      "q": "Vous demandez à un assistant d'écrire une phrase de 15 mots puis de compter ses mots : le décompte est faux. Demander d'abord d'écrire les 15 mots numérotés, puis la phrase, corrige le problème. Quel mécanisme du transformer explique cette différence ?",
+      "options": [
+        "Le mécanisme d'attention ne fonctionne que sur les 10 premiers tokens d'une phrase",
+        "La température par défaut est trop élevée, ce qui rend le comptage aléatoire ; numéroter les mots abaisse implicitement la température d'échantillonnage du modèle",
+        "Les embeddings de nombres sont moins précis que ceux des mots ; écrire les numéros en chiffres contourne cette limitation du tokenizer",
+        "La génération est autorégressive : le modèle produit token par token sans voir la phrase comme un tout ; numéroter d'abord inscrit le plan dans le contexte"
+      ],
+      "answer": 3,
+      "explanation": "Le modèle génère un token à la fois et réinjecte chaque token produit en entrée pour prédire le suivant ; il ne revient jamais en arrière et n'a pas de vue d'ensemble de la phrase qu'il vient d'écrire. Faire écrire les mots numérotés d'abord place la planification dans le contexte, que le modèle relit à chaque étape. La température ne touche pas la justesse et l'attention porte sur toute la fenêtre.",
+      "source": {
+        "title": "3Blue1Brown — Neural Networks",
+        "url": "https://www.3blue1brown.com/topics/neural-networks"
+      }
+    },
+    {
+      "id": "N1-E10",
+      "lessonId": "L007",
+      "competence": "C1.1",
+      "type": "qcm",
+      "q": "Un assistant IA termine systématiquement ses e-mails RH par « n'hésitez pas si vous avez d'autres questions » et ajoute des conseils non demandés, même quand la consigne impose 80 mots. D'où vient le plus probablement ce comportement, et quel levier est à la portée d'un utilisateur ?",
+      "options": [
+        "Il vient de l'alignement (RLHF/DPO), qui a récompensé les réponses chaleureuses et complètes ; le levier accessible est un prompt système ou une consigne explicite",
+        "Il vient du pré-entraînement : ces formules étaient fréquentes sur Internet ; seul un nouveau pré-entraînement sur un corpus filtré peut les retirer durablement du modèle",
+        "Il vient du tokenizer, qui découpe mal les formules de politesse françaises ; il faut écrire le prompt en anglais",
+        "Il vient de la fenêtre de contexte saturée ; il faut ouvrir une nouvelle conversation à chaque e-mail"
+      ],
+      "answer": 0,
+      "explanation": "Le tableau de synthèse de la leçon attribue les ajouts non demandés et les formules de fin à l'alignement : les annotateurs ont préféré ces réponses, le modèle a intériorisé ce goût. Un utilisateur ne peut pas ré-entraîner le modèle, mais il peut agir sur ce que le modèle reçoit : un prompt système de projet du type « e-mails RH sobres, sans conseils non sollicités, 80 mots maximum ».",
+      "source": {
+        "title": "Anthropic — System prompts des applications Claude",
+        "url": "https://platform.claude.com/docs/en/release-notes/system-prompts/overview"
+      }
+    },
+    {
+      "id": "N1-E11",
+      "lessonId": "L008",
+      "competence": "C1.1",
+      "type": "trouve_erreur",
+      "q": "À propos de la température d'un modèle de langage, laquelle de ces affirmations est FAUSSE ?",
+      "options": [
+        "La température règle l'audace du tirage au sort du token suivant : proche de 0, le modèle choisit presque toujours le plus probable",
+        "Dans les interfaces grand public (claude.ai, ChatGPT, Gemini), l'utilisateur n'a pas accès à ce réglage et influence la variété par la consigne",
+        "À température 0, la réponse est garantie identique à chaque exécution et factuellement exacte",
+        "Les modèles Claude à partir de la version 4.7 n'acceptent plus le paramètre temperature dans l'API : la requête est rejetée"
+      ],
+      "answer": 2,
+      "explanation": "La température n'agit que sur la variabilité, jamais sur la justesse : à 0, le modèle sert sa réponse la plus probable, qui peut être fausse avec la même assurance. De plus, les calculs sur carte graphique introduisent de minuscules variations, donc même la stricte reproductibilité n'est pas garantie. Les trois autres affirmations correspondent à la leçon et à la documentation Anthropic (nov. 2026).",
+      "source": {
+        "title": "Anthropic — Using the Messages API",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/working-with-messages"
+      }
+    },
+    {
+      "id": "N1-E12",
+      "lessonId": "L009",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "Une start-up française (chiffre d'affaires en croissance rapide) veut intégrer un modèle à poids ouverts dans un produit commercial vendu à ses clients, sans passer par un juriste dans l'immédiat. Son développeur dit : « c'est sur Hugging Face, donc on peut l'utiliser ». Parmi ces modèles (nov. 2026), lequel présente le moins de risque juridique pour cet usage ?",
+      "options": [
+        "Qwen3.8-27B (Alibaba), sous licence Apache 2.0",
+        "Muse Spark Open (Meta), sous « Muse Model License »",
+        "Kimi K3 (Moonshot), sous « Kimi K3 License »",
+        "Qwen3.8-Max (Alibaba), sous licence spécifique"
+      ],
+      "answer": 0,
+      "explanation": "La leçon oppose les licences reconnues par l'OSI (Apache 2.0, MIT) qui autorisent tout usage commercial sans condition, aux licences « communautaires » (Llama, Muse, Kimi K3, Qwen3.8-Max, GLM) qui ajoutent des seuils de chiffre d'affaires (20 M$ pour Muse et Kimi K3), des mentions obligatoires ou des usages interdits, et qu'il faut faire relire par un juriste avant un produit commercial. « Être sur Hugging Face » ne dit rien de la licence : il faut la lire sur la fiche.",
+      "source": {
+        "title": "Hugging Face — Open-source LLMs to run locally (mai 2026)",
+        "url": "https://huggingface.co/blog/daya-shankar/open-source-llm-models-to-run-locally"
+      }
+    },
+    {
+      "id": "N1-E13",
+      "lessonId": "L010",
+      "competence": "C1.2",
+      "type": "trouve_erreur",
+      "q": "À propos de ChatGPT et de l'écosystème OpenAI au 1er novembre 2026, laquelle de ces affirmations est FAUSSE ?",
+      "options": [
+        "« ChatGPT » désigne l'application (fichiers, voix, projets, recherche) et « GPT-6 » la famille de modèles qui la fait fonctionner",
+        "Le badge « AI Foundations » d'OpenAI Academy est une « OpenAI Certification » officielle, au même titre que les examens sur invitation",
+        "Sur un compte individuel, les conversations peuvent par défaut servir à améliorer les modèles, sauf désactivation dans les contrôles des données",
+        "Une conversation temporaire n'est pas conservée dans l'historique et n'alimente pas la mémoire"
+      ],
+      "answer": 1,
+      "explanation": "OpenAI précise que les badges d'OpenAI Academy (dont AI Foundations, 70 minutes, 20 questions, 80 % requis) ne sont pas des « OpenAI Certifications », programme formel encore sur invitation. Les trois autres affirmations correspondent à la leçon : distinction application/moteur, réglage « Améliorer le modèle pour tous » à désactiver pour les données sensibles, et mode temporaire pour les tests.",
+      "source": {
+        "title": "OpenAI Academy — catalogue des cours",
+        "url": "https://academy.openai.com/pages/courses"
+      }
+    },
+    {
+      "id": "N1-E14",
+      "lessonId": "L011",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "Chaque semaine, une juriste colle le même règlement intérieur de 80 pages et la même convention collective dans une nouvelle conversation Claude, puis pose une dizaine de questions successives. Elle se plaint de lenteur et de quotas vite épuisés. Quelle organisation du travail est la plus adaptée ?",
+      "options": [
+        "Passer au modèle Haiku 5.5, plus rapide et moins consommateur de quota, en gardant la même méthode de travail",
+        "Ouvrir une conversation par question pour éviter que le contexte se « contamine », en recollant à chaque fois les deux documents",
+        "Utiliser Claude Code dans le terminal, conçu pour les documents longs",
+        "Créer un projet avec les deux documents en référence et une instruction permanente, dont chaque conversation hérite"
+      ],
+      "answer": 3,
+      "explanation": "La leçon signale le piège : coller un long document puis enchaîner des questions fonctionne, mais chaque question relit tout le document, ce qui est lent et consomme les quotas. Pour un travail répété sur les mêmes fichiers, un projet regroupe instructions permanentes et documents de référence hérités par toutes ses conversations. Haiku ne résout pas la relecture, et Claude Code sert à produire du code et des automatisations.",
+      "source": {
+        "title": "Claude Academy — Claude 101",
+        "url": "https://academy.claude.com/courses/claude-101"
+      }
+    },
+    {
+      "id": "N1-E15",
+      "lessonId": "L012",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "Une mairie de 3 000 habitants (documents administratifs sensibles, budget très serré, pas de suite bureautique cloud dominante) cherche un assistant IA principal. Elle dispose d'un prestataire informatique local. Quelle recommandation est la mieux justifiée par deux critères ?",
+      "options": [
+        "Grok : ses sources en temps réel sur X et son faible coût d'abonnement en font le meilleur choix pour une collectivité",
+        "Microsoft 365 Copilot : il respecte les permissions des documents, ce qui est le critère décisif quelles que soient les licences déjà détenues par la mairie",
+        "Le Chat de Mistral AI ou un modèle Mistral à poids ouverts hébergé par le prestataire : souveraineté et coût maîtrisé, avec moins de connecteurs",
+        "Gemini : l'intégration à Google Drive et la génération d'images couvrent tous les besoins d'une mairie"
+      ],
+      "answer": 2,
+      "explanation": "La grille de choix de la leçon part de trois questions : où sont les documents, les données peuvent-elles sortir, faut-il du temps réel. Pour une organisation sensible à la localisation des données et au budget, sans écosystème Microsoft ou Google dominant, l'offre française à poids ouverts (hébergeable en interne via un prestataire) répond aux critères souveraineté et coût. Copilot M365 suppose des licences entreprise ; Grok est peu adapté aux données confidentielles sans contrat dédié.",
+      "source": {
+        "title": "Mistral AI — Models overview",
+        "url": "https://docs.mistral.ai/getting-started/models/"
+      }
+    },
+    {
+      "id": "N1-E16",
+      "lessonId": "L013",
+      "competence": "C1.2",
+      "type": "qcm",
+      "q": "Vous devez trouver rapidement, pour un rendez-vous demain, l'actualité récente d'une entreprise cliente, avec des sources à transmettre à votre direction, puis rédiger un argumentaire de 10 pages. Quelle combinaison d'outils reflète le mieux leurs forces respectives (nov. 2026) ?",
+      "options": [
+        "Un assistant sans recherche web pour l'actualité, en s'appuyant sur ses connaissances générales, puis Perplexity pour la rédaction longue",
+        "Perplexity (ou une recherche sourcée) pour l'actualité, en ouvrant les sources ; puis Claude ou ChatGPT pour rédiger le document long à partir des faits validés",
+        "Perplexity pour l'ensemble : son mode recherche approfondie rédige aussi bien les documents longs que les autres assistants, avec les sources citées en bas de page",
+        "Grok pour l'actualité et la rédaction, car son accès à X garantit la fraîcheur des informations"
+      ],
+      "answer": 1,
+      "explanation": "La leçon positionne Perplexity comme la référence pour une question factuelle rapide à sourcer (la citation est au cœur de l'interface), et le juge moins adapté à la rédaction longue et stylée, où Claude ou ChatGPT sont préférables. Un chatbot sans accès au web répond de mémoire, souvent périmée. Les sources de Grok issues de X ne sont pas toujours vérifiées.",
+      "source": {
+        "title": "Perplexity — Search API overview",
+        "url": "https://docs.perplexity.ai/docs/search/overview.md"
+      }
+    },
+    {
+      "id": "N1-E17",
+      "lessonId": "L014",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "Une marque doit produire 300 visuels de mise en scène pour des produits qui ne sont pas encore lancés (strictement confidentiels), tous dans sa charte graphique. Le service marketing propose d'utiliser la génération d'images incluse dans son abonnement ChatGPT. Quelle alternative répond le mieux aux deux critères confidentialité et volume ?",
+      "options": [
+        "Un modèle de diffusion ouvert (FLUX.1 Schnell ou Stable Diffusion 3.5) exécuté en local : aucune image ne sort et le coût marginal est nul",
+        "Midjourney via Discord, dont le volume d'images illimité convient aux séries",
+        "Grok Imagine, le moins cher à l'image en API, donc le plus adapté à un volume de 300 visuels de produits confidentiels",
+        "Rester sur ChatGPT mais demander « sans texte » et « sans personne identifiable » dans chaque prompt pour sécuriser les visuels des produits non lancés"
+      ],
+      "answer": 0,
+      "explanation": "Le guide de choix de la leçon est explicite : « données sensibles (produits non lancés) → FLUX / SD 3.5 en local (rien ne sort) » et « des centaines de visuels charte, en lot → API ou FLUX local ». Les outils fermés envoient vos données chez l'éditeur ; le prix par image ne règle pas la confidentialité. Les consignes « sans texte » concernent la qualité du visuel, pas la protection des données.",
+      "source": {
+        "title": "Hugging Face — Diffusion Course",
+        "url": "https://huggingface.co/learn/diffusion-course"
+      }
+    },
+    {
+      "id": "N1-E18",
+      "lessonId": "L015",
+      "competence": "C1.3",
+      "type": "mise_en_situation",
+      "q": "Un commercial soumet : « Tu es un expert. Rédige une annonce LinkedIn pour notre nouveau service de nettoyage de panneaux solaires, 150 mots, ton dynamique. » Le résultat est générique et interchangeable avec celui d'un concurrent. Quel diagnostic selon la grille R-C-T-F-C ?",
+      "options": [
+        "Il manque le format : sans nombre de paragraphes, le modèle ne peut pas structurer le texte",
+        "Il manque la tâche : « rédige une annonce » est trop vague, il fallait écrire « génère un post »",
+        "Il manque le contexte (cible, bénéfice, zone) et les contraintes (prix, mentions, interdits) ; le rôle « expert » est creux",
+        "Rien ne manque : le résultat générique vient du modèle choisi, il faut passer à un modèle haut de gamme doté d'un meilleur style rédactionnel"
+      ],
+      "answer": 2,
+      "explanation": "La tâche (rédiger une annonce) et le format (150 mots, ton dynamique) sont présents. Ce qui manque, et qui explique la banalité du résultat, c'est le contexte (pour qui, quel bénéfice, où) et les contraintes. Un prompt vague produit la réponse statistiquement la plus banale, quel que soit le modèle. Le rôle « expert » est l'exemple de rôle faible donné par la leçon : il doit décrire une expertise précise.",
+      "source": {
+        "title": "Anthropic — Prompting best practices",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+      }
+    },
+    {
+      "id": "N1-E19",
+      "lessonId": "L015",
+      "competence": "C1.3",
+      "type": "vrai_faux",
+      "q": "Vrai ou faux : pour analyser un contrat de 40 pages, les recommandations d'Anthropic sur les longs contextes conseillent de placer la question en tête du prompt et le document à la fin, afin que le modèle sache quoi chercher avant de lire.",
+      "options": [
+        "Vrai",
+        "Faux"
+      ],
+      "answer": 1,
+      "explanation": "C'est l'inverse : le guide Anthropic recommande de placer les données (le long document) en haut du prompt et la question à la fin. Les tests internes de l'éditeur montrent une amélioration sensible de la qualité des réponses sur les longs contextes avec cette disposition. Pour une demande courte, l'ordre R-C-T-F-C reste naturel.",
+      "source": {
+        "title": "Anthropic — Prompting best practices",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+      }
+    },
+    {
+      "id": "N1-E20",
+      "lessonId": "L016",
+      "competence": "C1.3",
+      "type": "qcm",
+      "q": "Un collègue ajoute « réfléchis étape par étape » à la fin de chaque prompt, y compris pour « donne-moi le code postal de Lyon 3e », et se plaint de réponses longues. Que lui dire au sujet des modèles de 2026 ?",
+      "options": [
+        "Les modèles actuels raisonnent de façon adaptative : la formule n'est plus indispensable, et pour une tâche simple mieux vaut demander une réponse directe",
+        "La formule reste obligatoire : sans elle, aucun modèle ne raisonne correctement",
+        "La formule est désormais interdite par les guides Anthropic et OpenAI car elle dégrade toujours les résultats et double la consommation de tokens facturés",
+        "Il faut la remplacer par « réponds vite », qui accélère le raisonnement interne du modèle sans dégrader la qualité de la réponse"
+      ],
+      "answer": 0,
+      "explanation": "La leçon raconte l'anecdote de 2022 puis ce qui a changé : les modèles de 2026 (thinking adaptatif chez Claude 5, modèles de raisonnement chez OpenAI, xAI, Google) décident eux-mêmes combien réfléchir. La technique reste utile pour rendre le raisonnement visible et vérifiable ou imposer une méthode précise ; le guide Anthropic contient aussi une section sur l'excès de réflexion, invitant à préciser « réponse directe, sans préambule » pour les tâches simples.",
+      "source": {
+        "title": "Anthropic — Thinking (adaptive thinking)",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/thinking"
+      }
+    },
+    {
+      "id": "N1-E21",
+      "lessonId": "L017",
+      "competence": "C1.3",
+      "type": "trouve_erreur",
+      "q": "À propos des guides officiels Anthropic et OpenAI (nov. 2026), laquelle de ces affirmations est FAUSSE ?",
+      "options": [
+        "Les balises XML servent à séparer sans ambiguïté instructions, données et exemples, et fonctionnent aussi dans les interfaces grand public",
+        "Le vocabulaire diffère (system prompt chez Anthropic, developer message ou instructions chez OpenAI) mais les principes sont les mêmes : clarté, contexte, structure, exemples, contrôle du format",
+        "Le « prefill » (commencer soi-même la réponse du modèle) est la méthode moderne recommandée par Anthropic pour forcer un format de sortie strict",
+        "Les deux guides recommandent de décrire le comportement voulu plutôt que le comportement interdit"
+      ],
+      "answer": 2,
+      "explanation": "Le prefill est une technique obsolète chez Anthropic : la documentation « Using the Messages API » indique qu'il n'est plus pris en charge à partir des modèles Claude 4.6, et le guide comporte une section de migration. La méthode moderne pour un format strict est la sortie structurée (output_config.format chez Anthropic, text.format avec strict: true chez OpenAI) ou, dans l'interface, une description colonne par colonne avec un exemple de ligne.",
+      "source": {
+        "title": "Anthropic — Using the Messages API (system prompts)",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/working-with-messages"
+      }
+    },
+    {
+      "id": "N1-E22",
+      "lessonId": "L018",
+      "competence": "C1.3",
+      "type": "mise_en_situation",
+      "q": "Une menuiserie fait traduire un e-mail vers l'anglais pour un acheteur irlandais qu'elle tutoie depuis trois ans. Le résultat commence par « Dear Sir or Madam » et traduit « devis » tantôt par « quotation », tantôt par « estimate ». Quels composants du gabarit « Traduire » manquaient ?",
+      "options": [
+        "Le registre (relation informelle, prénom), un glossaire maison (devis → quote) et la variante d'anglais",
+        "Le rôle « traducteur assermenté », indispensable pour tout échange commercial avec un client étranger anglophone",
+        "Une température plus basse, qui aurait stabilisé le vocabulaire",
+        "Un exemple few-shot d'e-mail en allemand, pour montrer le ton attendu et la terminologie maison"
+      ],
+      "answer": 0,
+      "explanation": "La leçon souligne que le vrai sujet de la traduction en 2026 n'est plus la langue mais le registre et la terminologie : il faut préciser la variante (britannique), le registre (informel-professionnel, « Hi Sean ») et fournir un glossaire conservé dans la bibliothèque pour garantir la cohérence sur la durée. Le glossaire est précisément la clé contre les termes qui varient d'une exécution à l'autre.",
+      "source": {
+        "title": "Anthropic — Multilingual support",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/multilingual-support"
+      }
+    },
+    {
+      "id": "N1-E23",
+      "lessonId": "L019",
+      "competence": "C1.4",
+      "type": "mise_en_situation",
+      "q": "Votre prompt de classification de tickets réussit 4 cas de test sur 5 ; le cas raté est un message ambigu entre « livraison » et « produit ». Un collègue conclut : « 80 %, c'est bon, on le met en production pour les 300 tickets hebdomadaires ». Quelle est la démarche la plus rigoureuse ?",
+      "options": [
+        "Accepter : 80 % est le seuil habituel de validation d'un prompt de classification en production",
+        "Réécrire entièrement le prompt et changer de modèle pour gagner en robustesse, puis valider la nouvelle version en la testant sur le seul cas raté",
+        "Retirer le cas ambigu du jeu de tests puisqu'il est atypique, puis déployer en surveillant le taux d'erreur sur les premières semaines d'usage",
+        "Refuser : un échec sur cinq n'est pas fiable pour une tâche répétitive ; poser une hypothèse, appliquer une seule correction, relancer tous les tests"
+      ],
+      "answer": 3,
+      "explanation": "La leçon met en garde contre l'évaluation sur la dernière réponse ou sur un seul cas : les modèles ont une part de variabilité, et un prompt qui réussit 4 fois sur 5 n'est pas fiable pour une tâche répétitive. La méthode est une correction = une hypothèse, puis relancer l'ensemble des tests pour savoir ce qui a marché. Les cas difficiles sont justement les plus instructifs : on ne les retire pas, on les traite.",
+      "source": {
+        "title": "Anthropic — Define success criteria and build evals",
+        "url": "https://platform.claude.com/docs/en/test-and-evaluate/develop-tests"
+      }
+    },
+    {
+      "id": "N1-E24",
+      "lessonId": "L020",
+      "competence": "C1.4",
+      "type": "mise_en_situation",
+      "q": "Un acheteur colle un devis de 14 lignes et demande « Ce devis est-il correct ? ». L'assistant répond : « Oui, le devis semble cohérent. » Pourquoi cette réponse est-elle inexploitable, et quelle correction du prompt la rend vérifiable ?",
+      "options": [
+        "Le modèle a halluciné : il faut activer la recherche web pour qu'il consulte les prix du marché et compare chaque ligne aux tarifs publics des fournisseurs concurrents",
+        "La question fermée n'impose aucune méthode : exiger des étapes visibles (recalcul par ligne, HT, TVA, remise) et une conclusion CONFORME / ÉCART chiffrée",
+        "Le devis dépasse la fenêtre de contexte ; il faut le découper en deux prompts",
+        "Il manque un rôle : « tu es expert-comptable » aurait garanti un contrôle exact des calculs et des taux de TVA appliqués"
+      ],
+      "answer": 1,
+      "explanation": "L'atelier 7 de la leçon illustre le raisonnement pas à pas imposé : rendre le chemin de vérification visible et contrôlable, avec une conclusion binaire actionnable et la contrainte « si une donnée manque, dis-le ; ne suppose aucun prix ». Un rôle ne crée pas de compétence et ne rend pas un « oui » vérifiable ; 14 lignes ne saturent aucune fenêtre de contexte.",
+      "source": {
+        "title": "Anthropic — Prompting best practices",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+      }
+    },
+    {
+      "id": "N1-E25",
+      "lessonId": "L021",
+      "competence": "C1.4",
+      "type": "mise_en_situation",
+      "q": "Un gérant de PME veut confier à un assistant IA la rédaction de l'argumentaire annuel pour sa banque à partir du prévisionnel financier, « pour l'envoyer directement ce soir ». Il n'a pas le temps de relire les chiffres. Au regard des trois questions de délégation du cadre 4D, que conclure ?",
+      "options": [
+        "Déléguer entièrement : la tâche passe par du texte et des chiffres et elle est chronophage, donc elle se prête parfaitement à une délégation complète à l'IA",
+        "Déléguer car la tâche est chronophage, à condition d'utiliser un modèle haut de gamme réputé fiable sur les chiffres",
+        "Ne pas déléguer en l'état, ou seulement une ébauche : tâche annuelle, et il ne peut pas vérifier le résultat plus vite qu'il ne l'aurait produit",
+        "Déléguer à condition de demander au modèle « es-tu sûr de tes chiffres ? » avant l'envoi"
+      ],
+      "answer": 2,
+      "explanation": "Les trois questions de la leçon : est-ce répétitif ou chronophage, passe-t-elle par du texte ou des chiffres, puis-je vérifier plus vite que produire. Un « non » à la troisième interdit la délégation complète. La leçon classe d'ailleurs « préparer un argumentaire pour la banque à partir du prévisionnel » en vérification forte (validation experte obligatoire). Demander « es-tu sûr ? » n'est pas une vérification (leçon L023).",
+      "source": {
+        "title": "Claude Academy — AI Fluency: Framework and foundations (4D)",
+        "url": "https://academy.claude.com/courses/ai-fluency-framework-foundations"
+      }
+    },
+    {
+      "id": "N1-E26",
+      "lessonId": "L021",
+      "competence": "C1.3",
+      "type": "trouve_erreur",
+      "q": "Parmi ces contraintes tirées de prompts métiers, laquelle est une MAUVAISE pratique ?",
+      "options": [
+        "Proposition commerciale : « reprends EXACTEMENT les prix de la grille fournie, sans en inventer ; liste à la fin les points à confirmer avec le client »",
+        "Support client : « applique STRICTEMENT la politique de retour fournie ; si le cas n'y est pas prévu, écris [À FAIRE VALIDER PAR UN RESPONSABLE] »",
+        "Compte rendu : « n'attribue une action à quelqu'un que si c'est explicite dans la transcription ; sinon écris “responsable à définir” »",
+        "Proposition commerciale : « si un prix manque dans ma grille, complète avec les tarifs habituels du secteur pour que le document soit complet »"
+      ],
+      "answer": 3,
+      "explanation": "Demander au modèle de combler un prix manquant avec des « tarifs habituels » est une invitation à l'hallucination sur un élément qui engage l'entreprise (vérification forte dans la leçon). Les trois autres contraintes sont les consignes anti-invention recommandées : prix repris tels quels, règle non prévue signalée plutôt qu'inventée (affaire Air Canada), attribution d'action uniquement si explicite.",
+      "source": {
+        "title": "Claude Academy — Claude 101 (Claude in action — use-cases by role)",
+        "url": "https://academy.claude.com/courses/claude-101"
+      }
+    },
+    {
+      "id": "N1-E27",
+      "lessonId": "L022",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "Une assistante de direction doit produire une note de synthèse à partir de notes éparses réparties dans quatre fichiers, un fil d'e-mails et une transcription de réunion. Son entreprise dispose de Microsoft 365 Copilot et d'une offre Claude Team. Par quel outil commencer, et pourquoi ?",
+      "options": [
+        "Copilot dans Word, car l'assistant intégré est toujours à privilégier dès qu'il existe une licence",
+        "Copilot dans Outlook, car la tâche contient des e-mails et Outlook accède aux autres fichiers",
+        "Le Copilot grand public (copilot.microsoft.com), gratuit et donc plus économique que la licence entreprise",
+        "Un assistant généraliste (projet Claude), car la tâche combine plusieurs sources et un format inhabituel"
+      ],
+      "answer": 3,
+      "explanation": "La règle simple de la leçon : si le document est déjà ouvert dans Word, Excel, Gmail ou Teams, commencer par l'assistant intégré ; si l'on part de notes éparses ou de plusieurs fichiers, prendre un assistant généraliste (projets, instructions persistantes, formats riches). Le Copilot grand public n'offre pas les garanties du tenant d'entreprise et n'est pas adapté aux documents internes.",
+      "source": {
+        "title": "Claude Academy — Introduction to Claude Cowork",
+        "url": "https://academy.claude.com/courses/introduction-to-claude-cowork"
+      }
+    },
+    {
+      "id": "N1-E28",
+      "lessonId": "L022",
+      "competence": "C1.4",
+      "type": "qcm",
+      "q": "Un contrôleur de gestion colle 300 lignes de ventes dans un assistant IA sans outil d'analyse de données et demande « quel est le total de la colonne CA ? ». Le modèle répond un chiffre précis. Pourquoi faut-il se méfier et que demander à la place ?",
+      "options": [
+        "Un LLM prédit des chiffres sans les additionner (sauf s'il exécute du code) ; exiger un calcul exécuté ou la formule Excel, puis contrôler un sous-total",
+        "Le modèle n'a pas accès aux lignes au-delà de la centième à cause de la fenêtre de contexte ; il faut découper le fichier en trois blocs de 100 lignes chacun",
+        "Le total est fiable si le modèle est haut de gamme ; seuls les petits modèles se trompent en arithmétique",
+        "Le modèle a arrondi les montants intermédiaires ; il suffit de demander « avec deux décimales » pour obtenir le total exact"
+      ],
+      "answer": 0,
+      "explanation": "La leçon met en garde : un LLM prédit des chiffres, il ne les additionne pas, sauf s'il exécute du code (analyse de données). La parade est de préférer toujours un résultat calculé à un résultat « estimé », de demander la formule Excel pour garder la traçabilité, et de vérifier un sous-total manuellement. 300 lignes tiennent largement dans une fenêtre de contexte de 2026.",
+      "source": {
+        "title": "Claude Platform — Prompting best practices (document creation, format control)",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+      }
+    },
+    {
+      "id": "N1-E29",
+      "lessonId": "L023",
+      "competence": "C1.4",
+      "type": "mise_en_situation",
+      "q": "Une note interne générée par IA cite « Dupont (2024), étude INSEE sur le télétravail des cadres » : l'auteur existe et publie sur le sujet, mais vous ne trouvez pas ce titre. Dans la même conversation, à votre « es-tu sûr ? », le modèle confirme avec assurance. Que faire ?",
+      "options": [
+        "Conserver la référence : l'auteur est réel, publie sur le sujet et le modèle a confirmé sa réponse à la relance",
+        "Traiter la référence comme suspecte, chercher la publication sur le site de l'INSEE ; à défaut, supprimer ou marquer « [à vérifier] » et tracer la correction",
+        "Demander au même assistant de fournir l'URL de l'étude et considérer la référence valide si le lien a l'air officiel (domaine insee.fr, rubrique publications)",
+        "Remplacer la citation par une estimation de votre cru, sans source, pour ne pas bloquer la diffusion"
+      ],
+      "answer": 1,
+      "explanation": "Le mélange vrai/faux (vrai auteur, faux titre) est, selon la leçon, le signal d'alerte le plus difficile à repérer. « Es-tu sûr ? » n'est pas une vérification mais un second tirage au sort ; une URL donnée par l'IA doit être ouverte (une erreur 404 vaut référence inventée). La règle finale : une information absente vaut mieux qu'une information fausse ; on supprime ou l'on marque « [à vérifier] », et l'on garde une trace.",
+      "source": {
+        "title": "INSEE",
+        "url": "https://www.insee.fr/"
+      }
+    },
+    {
+      "id": "N1-E30",
+      "lessonId": "L024",
+      "competence": "C1.5",
+      "type": "qcm",
+      "q": "Dans n8n, le nœud HTTP Request qui appelle l'API d'Anthropic échoue avec le code de réponse 401. Quelle est la cause la plus probable et la réaction adaptée ?",
+      "options": [
+        "Trop de demandes envoyées en peu de temps : attendre et réessayer plus tard, en ajoutant un délai entre les appels successifs du workflow",
+        "Panne du serveur côté fournisseur : attendre le rétablissement du service",
+        "Clé API absente ou invalide dans l'en-tête : vérifier l'identifiant (credential) dans le coffre de n8n, le recréer si besoin",
+        "Le corps JSON contient une virgule décimale : corriger le format du nombre dans le champ max_tokens"
+      ],
+      "answer": 2,
+      "explanation": "La leçon donne les codes à connaître : 200 = OK, 401 = clé invalide, 429 = trop de demandes, 500 = panne côté serveur. Un 401 renvoie donc vers l'en-tête d'authentification (x-api-key) et l'identifiant stocké dans le coffre de n8n. Un JSON mal formé produirait plutôt une erreur de requête (4xx autre) ; le polling excessif donne un 429.",
+      "source": {
+        "title": "Claude Platform — API overview",
+        "url": "https://platform.claude.com/docs/en/api/overview"
+      }
+    },
+    {
+      "id": "N1-E31",
+      "lessonId": "L024",
+      "competence": "C1.5",
+      "type": "vrai_faux",
+      "q": "Vrai ou faux : dans un document JSON, écrire \"payee\": \"false\" (avec guillemets) ou \"payee\": false (sans guillemets) revient au même, car les logiciels convertissent automatiquement.",
+      "options": [
+        "Vrai",
+        "Faux"
+      ],
+      "answer": 1,
+      "explanation": "Avec des guillemets, \"false\" est un texte de cinq caractères ; sans guillemets, false est la valeur booléenne spéciale (vrai/faux). Un logiciel ou un nœud n8n qui teste « la facture est-elle payée ? » peut considérer le texte \"false\" comme une valeur non vide, donc vraie, et prendre la mauvaise branche. La leçon rappelle les règles : textes et clés entre guillemets doubles, nombres sans guillemets et avec point décimal, true/false/null sans guillemets.",
+      "source": {
+        "title": "JSON — présentation officielle (version française)",
+        "url": "https://www.json.org/json-fr.html"
+      }
+    },
+    {
+      "id": "N1-E32",
+      "lessonId": "L025",
+      "competence": "C1.5",
+      "type": "mise_en_situation",
+      "q": "Votre workflow n8n « Schedule Trigger → Edit Fields → Basic LLM Chain → Gmail » s'exécute avec quatre coches vertes, mais l'e-mail reçu est vide. Le panneau Output du nœud IA montre bien un champ « text » contenant le résumé. Quelle est la cause la plus probable ?",
+      "options": [
+        "Le modèle Haiku 5.5 est trop petit pour produire un résumé : passer à Opus 5.5",
+        "Le déclencheur planifié n'a pas encore atteint lundi 8 h, donc aucune donnée n'a circulé jusqu'au nœud Gmail en fin de chaîne",
+        "La clé API Anthropic a été exportée avec le workflow et révoquée automatiquement",
+        "Le champ Message du nœud Gmail référence une mauvaise clé (ex. {{ $json.texte }}) au lieu de {{ $json.text }}"
+      ],
+      "answer": 3,
+      "explanation": "Les pistes de correction de la leçon traitent exactement ce cas : « l'e-mail arrive vide : le nœud IA a produit text, mais vous avez écrit {{ $json.texte }} ou {{ $json.output }} ». Les coches vertes indiquent que chaque nœud a bien tourné ; le problème est de mapping d'expression. Un déclencheur planifié peut être exécuté à la main pendant la construction, et n8n n'exporte jamais les identifiants.",
+      "source": {
+        "title": "n8n Docs — Build your first workflow",
+        "url": "https://docs.n8n.io/build-your-first-workflow.md"
+      }
+    },
+    {
+      "id": "N1-E33",
+      "lessonId": "L026",
+      "competence": "C1.5",
+      "type": "mise_en_situation",
+      "q": "Un prestataire propose à un cabinet d'architectes « un agent IA autonome » pour convertir chaque PDF reçu par e-mail en texte, l'archiver dans le bon dossier et envoyer un SMS de rappel la veille de chaque rendez-vous. Que répondre, en appliquant la règle « commencez par le plus simple » ?",
+      "options": [
+        "Accepter : toute automatisation impliquant un modèle de langage est par définition un agent",
+        "Refuser l'agent : ces étapes fixes, connues à l'avance, relèvent d'un workflow (n8n, Make), plus fiable, moins cher et traçable",
+        "Accepter, à condition de brancher l'agent sur tous les serveurs MCP disponibles pour qu'il ne manque d'aucun outil (OCR, archivage, SMS)",
+        "Refuser toute automatisation : un chatbot suffit, le cabinet collera chaque PDF à la main"
+      ],
+      "answer": 1,
+      "explanation": "La leçon oppose la recette (workflow : étapes fixées à l'avance) au cuisinier (agent : le modèle choisit ses outils et boucle). Le défi de la leçon classe précisément « convertir chaque PDF et l'archiver » et « envoyer un SMS de rappel la veille » comme des workflows. Un agent s'impose seulement quand les étapes ne peuvent pas être connues à l'avance ; il est plus coûteux et peut tourner en rond.",
+      "source": {
+        "title": "Claude Cookbook — Basic workflows (patterns d'agents)",
+        "url": "https://platform.claude.com/cookbook/patterns-agents-basic-workflows"
+      }
+    },
+    {
+      "id": "N1-E34",
+      "lessonId": "L027",
+      "competence": "C1.5",
+      "type": "trouve_erreur",
+      "q": "À propos du protocole MCP et de son écosystème (nov. 2026), laquelle de ces affirmations est FAUSSE ?",
+      "options": [
+        "Un serveur MCP peut exposer trois types d'éléments : des outils (actions), des ressources (données à lire) et des prompts (consignes prêtes à l'emploi)",
+        "Publié par Anthropic en novembre 2024 comme standard ouvert, MCP est aujourd'hui géré de façon neutre au sein de la Linux Foundation",
+        "MCP et A2A résolvent le même problème et sont des protocoles concurrents : une organisation doit choisir l'un ou l'autre",
+        "Un serveur MCP peut tourner sur votre machine (transport stdio) ou à distance (transport Streamable HTTP)"
+      ],
+      "answer": 2,
+      "explanation": "MCP et A2A sont complémentaires, pas concurrents : MCP relie un agent à ses outils et à ses données (la prise universelle), A2A relie un agent à un autre agent, y compris d'une autre organisation (la langue commune entre collègues de deux entreprises). Les deux sont hébergés à la Linux Foundation. Les trois autres affirmations correspondent à la leçon.",
+      "source": {
+        "title": "Linux Foundation — A2A protocol surpasses 150 organizations (9 avril 2026)",
+        "url": "https://www.linuxfoundation.org/press/a2a-protocol-surpasses-150-organizations-lands-in-major-cloud-platforms-and-sees-enterprise-production-use-in-first-year"
+      }
+    },
+    {
+      "id": "N1-E35",
+      "lessonId": "L028",
+      "competence": "C1.6",
+      "type": "mise_en_situation",
+      "q": "Le service RH d'une PME de 40 salariés veut faire résumer par l'assistant IA de l'entreprise (offre Team contractualisée, pas d'entraînement sur les données) les 40 comptes rendus d'entretiens annuels, qui contiennent noms, postes, demandes professionnelles et parfois des mentions d'arrêts maladie ou de RQTH. Quelle démarche est conforme ?",
+      "options": [
+        "Envoyer les comptes rendus tels quels : l'offre Team contractualisée, sans entraînement sur les données, couvre tous les usages, y compris la santé",
+        "Ne rien envoyer : le RGPD interdit tout traitement de données de salariés par une IA",
+        "Pseudonymiser les salariés (S1, S2…) avec une table de correspondance gardée en RH et retirer les données de santé et de handicap avant l'envoi",
+        "Anonymiser en remplaçant les noms par « femme, 52 ans, cheffe d'atelier », ce qui rend les données non personnelles au sens du RGPD"
+      ],
+      "answer": 2,
+      "explanation": "Un contrat de sous-traitance ne dispense pas des principes de finalité et de minimisation : les données de santé (arrêt maladie, RQTH) sont des données sensibles, en principe interdites de traitement et inutiles pour résumer des demandes professionnelles. L'exemple de la leçon est exactement celui-ci (salarié désigné S1, informations médicales retirées). « Femme, 52 ans, cheffe d'atelier » n'est pas anonyme : l'identification indirecte compte. Le RGPD n'interdit pas l'IA, il demande de réfléchir avant d'envoyer.",
+      "source": {
+        "title": "CNIL — Les fiches pratiques IA",
+        "url": "https://cnil.fr/fr/les-fiches-pratiques-ia"
+      }
+    },
+    {
+      "id": "N1-E36",
+      "lessonId": "L028",
+      "competence": "C1.6",
+      "type": "trouve_erreur",
+      "q": "À propos du RGPD appliqué à l'usage quotidien des assistants IA, laquelle de ces affirmations est FAUSSE ?",
+      "options": [
+        "Le responsable de traitement est le salarié qui rédige et envoie le prompt, puisque c'est lui qui décide du contenu transmis",
+        "Pour une entreprise privée, l'intérêt légitime est la base légale la plus courante selon la CNIL, sous trois conditions (intérêt réel, nécessité, équilibre avec les droits des personnes)",
+        "Une adresse e-mail professionnelle du type prenom.nom@entreprise.fr est une donnée personnelle",
+        "Une violation de données personnelles doit être notifiée à la CNIL dans un délai court (72 heures selon le RGPD), selon la procédure interne"
+      ],
+      "answer": 0,
+      "explanation": "Le responsable de traitement est celui qui décide des finalités et des moyens : en pratique l'employeur, pas le collaborateur, qui agit sous son autorité et doit respecter la charte. C'est pourquoi un salarié qui colle des données dans un outil non validé engage la responsabilité de son entreprise. Les trois autres affirmations reprennent le vocabulaire minimum de la leçon.",
+      "source": {
+        "title": "CNIL — Développement des systèmes d'IA : les recommandations de la CNIL pour respecter le RGPD",
+        "url": "https://www.cnil.fr/fr/developpement-des-systemes-dia-les-recommandations-de-la-cnil-pour-respecter-le-rgpd"
+      }
+    },
+    {
+      "id": "N1-E37",
+      "lessonId": "L029",
+      "competence": "C1.6",
+      "type": "mise_en_situation",
+      "q": "Une entreprise de transport étudie deux projets : (A) une caméra en cabine qui détecte la somnolence du chauffeur et déclenche une alerte sonore ; (B) un outil qui analyse les expressions du visage des chauffeurs en réunion pour mesurer leur « motivation ». Comment l'AI Act les classe-t-il ?",
+      "options": [
+        "(A) et (B) sont tous deux à risque minimal : il s'agit de simples caméras",
+        "(A) est une pratique interdite (surveillance biométrique des salariés, art. 5) ; (B) est à haut risque (annexe III, emploi) et devra faire l'objet d'une AIPD",
+        "(A) et (B) sont tous deux à haut risque (annexe III, emploi et gestion des travailleurs) avec obligations reportées au 2 décembre 2027",
+        "(A) relève probablement du haut risque de l'annexe I (composant de sécurité) ; (B) est une pratique interdite depuis le 2 février 2025 (émotions au travail, art. 5)"
+      ],
+      "answer": 3,
+      "explanation": "Le corrigé de la leçon traite ces deux cas. La reconnaissance des émotions sur le lieu de travail figure parmi les pratiques interdites de l'article 5 (hors exceptions médicales ou de sécurité), applicables depuis le 2 février 2025 : le projet (B) doit être abandonné. Le détecteur de somnolence (A) relève probablement d'un composant de sécurité (annexe I, échéance reportée à 2028 selon la source citée), dont la conformité est portée par le fournisseur ; les chauffeurs doivent être informés.",
+      "source": {
+        "title": "EUR-Lex — Règlement (UE) 2024/1689 (AI Act)",
+        "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+      }
+    },
+    {
+      "id": "N1-E38",
+      "lessonId": "L029",
+      "competence": "C1.6",
+      "type": "qcm",
+      "q": "Le règlement « omnibus numérique IA » de juillet 2026 a modifié le calendrier de l'AI Act. Quelle affirmation décrit correctement ce qui a bougé et ce qui n'a pas bougé (état au 1er novembre 2026) ?",
+      "options": [
+        "L'obligation de maîtrise de l'IA (art. 4) a été reportée au 2 décembre 2027 ; la transparence (art. 50) reste au 2 août 2026",
+        "La transparence (art. 50) a été reportée à 2028 ; les pratiques interdites (art. 5) s'appliquent depuis le 2 août 2026",
+        "Toutes les échéances ont été uniformément reportées d'un an, y compris les sanctions du chapitre XII et les pratiques interdites",
+        "Le haut risque de l'annexe III (RH, crédit, éducation…) est reporté au 2 décembre 2027 ; le volet droit d'auteur de l'article 53 n'a pas bougé"
+      ],
+      "answer": 3,
+      "explanation": "Le tableau de la leçon montre le report du haut risque de l'annexe III (du 2 août 2026 au 2 décembre 2027) et de l'annexe I (au 2 août 2028) (règlement (UE) 2026/1744, publié au JOUE le 24 juillet 2026). En revanche, l'article 4 (2 février 2025), la transparence de l'article 50 et les sanctions (2 août 2026) ne bougent pas, et la leçon souligne que le volet droit d'auteur de l'article 53 n'a pas été décalé par l'omnibus.",
+      "source": {
+        "title": "donneespersonnelles.fr — Omnibus numérique IA : calendrier AI Act mis à jour",
+        "url": "https://donneespersonnelles.fr/omnibus-numerique-ia"
+      }
+    },
+    {
+      "id": "N1-E39",
+      "lessonId": "L030",
+      "competence": "C1.6",
+      "type": "mise_en_situation",
+      "q": "Une PME monte une formation à l'IA qu'elle vendra à ses clients. Le formateur veut y intégrer (1) des vidéos et exercices de MIT OpenCourseWare (licence CC BY-NC-SA) et (2) les chapitres du dépôt microsoft/generative-ai-for-beginners (licence MIT), avec attribution dans les deux cas. Qu'en est-il ?",
+      "options": [
+        "(1) est interdit dans une formation payante malgré l'attribution (clause NC) ; (2) est autorisé, même modifié ou traduit, en conservant la notice de copyright",
+        "Les deux sont autorisés : l'attribution suffit pour toute licence Creative Commons ou open source, y compris en contexte commercial",
+        "Les deux sont interdits : aucun contenu tiers ne peut figurer dans une formation vendue",
+        "(1) est autorisé car MIT OCW est gratuit d'accès et l'attribution est faite ; (2) est interdit car la licence MIT ne couvre que le code informatique"
+      ],
+      "answer": 0,
+      "explanation": "Le tableau des licences de la leçon est explicite : CC BY-NC(-SA) autorise l'usage non commercial (formation interne gratuite, étude personnelle) mais pas l'intégration dans une formation vendue, MIT précisant qu'« une entreprise de formation ne peut pas proposer des cours payants basés sur ces contenus ». MIT / Apache 2.0 permettent de réutiliser, modifier, vendre, traduire, sans supprimer la notice. « Gratuit d'accès » ne veut pas dire « libre de droits ».",
+      "source": {
+        "title": "Creative Commons — Licence CC BY-NC-SA 4.0 (résumé en français)",
+        "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr"
+      }
+    },
+    {
+      "id": "N1-E40",
+      "lessonId": "L031",
+      "competence": "C1.6",
+      "type": "mise_en_situation",
+      "q": "Un questionnaire anonyme révèle que six salariés d'une PME de 22 personnes utilisent des comptes ChatGPT personnels gratuits pour traduire des contrats et résumer des devis, et qu'un apprenti a installé une extension « Résumé IA gratuit ». La direction veut « interdire toute IA, point final ». Quelle réponse est la plus pertinente ?",
+      "options": [
+        "Approuver l'interdiction totale : c'est la seule mesure qui supprime le risque de fuite de données, à condition de bloquer les assistants sur le pare-feu",
+        "Sanctionner les six salariés pour l'exemple, afin de dissuader le reste de l'équipe",
+        "Expliquer qu'interdire rend le shadow AI invisible, puis mesurer → offrir → encadrer : offre pro contractualisée, charte et formation, liste blanche d'extensions",
+        "Ne rien faire : les salariés ne traitent pas de données personnelles dans des devis et des contrats, et l'extension relève de l'usage personnel"
+      ],
+      "answer": 2,
+      "explanation": "La leçon décrit le shadow AI comme un symptôme (un besoin non couvert) et non une malveillance : « interdire l'IA ne supprime pas le shadow AI, il le rend invisible ». Les trois mesures proportionnées pour une PME sont l'outil officiel (qui supprime la raison principale), la charte plus la formation (qui répond à l'article 4 et crée le réflexe de signalement sans sanction de bonne foi) et la liste blanche d'extensions (risque de chaîne d'approvisionnement, LLM04). Contrats et devis contiennent des secrets d'affaires et souvent des données personnelles.",
+      "source": {
+        "title": "OWASP GenAI Security Project",
+        "url": "https://genai.owasp.org/"
+      }
+    },
+    {
+      "id": "N1-E41",
+      "lessonId": "L001",
+      "competence": "C1.1",
+      "type": "mise_en_situation",
+      "q": "Après la démonstration spectaculaire d'un agent IA sur un salon, le dirigeant d'une PME de services veut annoncer à ses clients que « tout le service client sera automatisé d'ici six mois ». Quel enseignement de l'histoire de l'IA, vu en formation, est le plus utile pour lui répondre ?",
+      "options": [
+        "Les hivers de l'IA sont nés de promesses excessives : une démonstration n'est pas un déploiement industriel, il faut d'abord mesurer sur des cas réels",
+        "Le test de Turing ayant été formulé dès 1950, les agents de 2026 sont par définition capables de remplacer un conseiller au téléphone",
+        "Depuis AlexNet en 2012, chaque démonstration de laboratoire est devenue un produit industriel en moins d'un an : l'annonce est donc raisonnable",
+        "Herbert Simon avait prédit en 1965 que les machines feraient tout travail humain d'ici vingt ans, et sa prédiction s'est réalisée vers 1985"
+      ],
+      "answer": 0,
+      "explanation": "La leçon rappelle que l'IA a connu deux hivers (1974-1980 puis 1987-1993), déclenchés par des promesses non tenues, à l'image de la prédiction de Herbert Simon en 1965, fausse de plusieurs décennies. Le réflexe à garder : une démonstration spectaculaire n'est pas un déploiement industriel. Avant toute annonce, on mesure le résultat sur des cas réels du service client.",
+      "source": {
+        "title": "MIT 6.S191 — Introduction to Deep Learning (2026)",
+        "url": "https://introtodeeplearning.com/"
+      }
+    },
+    {
+      "id": "N1-E42",
+      "lessonId": "L002",
+      "competence": "C1.1",
+      "type": "mise_en_situation",
+      "q": "Un cabinet d'expertise comptable a entraîné un modèle qui classe les notes de frais. Tous les exemples, correctement étiquetés, proviennent du service commercial. Le modèle fonctionne bien sur les notes des commerciaux mais se trompe souvent sur celles des techniciens de chantier (péages, petit matériel, repas sur site). Quel défaut des données est en cause, et quelle correction s'impose ?",
+      "options": [
+        "Un défaut d'exactitude des étiquettes : faire réétiqueter toutes les notes du service commercial par un second comptable avant de réentraîner",
+        "Un défaut de licéité : les notes des techniciens contiennent des données personnelles que le modèle refuse de classer par prudence",
+        "Un défaut de représentativité : ajouter des notes de techniciens aux exemples et évaluer le modèle sur un jeu de test couvrant tous les services",
+        "Une date de connaissance dépassée : activer la recherche web pour que le modèle découvre lui-même les nouvelles catégories de dépenses"
+      ],
+      "answer": 2,
+      "explanation": "La leçon cite trois qualités des données qui comptent plus que la quantité : représentativité, exactitude des étiquettes et licéité. Elle prend précisément l'exemple de notes de frais venues du seul service commercial, sur lesquelles le modèle se trompera pour les techniciens. Les étiquettes sont justes ici, et la date de connaissance concerne les LLM, pas un classifieur maison.",
+      "source": {
+        "title": "Google — Machine Learning Crash Course",
+        "url": "https://developers.google.com/machine-learning/crash-course"
+      }
+    },
+    {
+      "id": "N1-E43",
+      "lessonId": "L003",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "Une boutique en ligne de matériel de randonnée utilise un module de recommandation fondé uniquement sur le filtrage collaboratif. Elle lance une nouvelle gamme de sacs à dos : pendant des semaines, ces sacs ne sont presque jamais proposés aux visiteurs. Quelle explication et quelle piste sont les plus justes ?",
+      "options": [
+        "Le module souffre d'hallucinations et invente les préférences des visiteurs : il faut le remplacer par un LLM généraliste qui rédigera lui-même les suggestions",
+        "Le filtrage collaboratif ne s'appuie que sur les achats passés : un produit neuf sans historique n'est pas proposé ; une recommandation basée sur le contenu comble ce manque",
+        "Le filtrage collaboratif analyse les photos des produits : il faut fournir des images de meilleure qualité pour que la nouvelle gamme soit enfin reconnue",
+        "Les produits récents sont exclus par l'AI Act, qui interdit de recommander un article tant qu'il ne dispose pas d'au moins six mois d'historique de ventes"
+      ],
+      "answer": 1,
+      "explanation": "La leçon définit le filtrage collaboratif comme une technique qui ne regarde pas le contenu des produits, seulement les comportements : un article que personne n'a encore acheté n'entre dans aucun rapprochement. La recommandation basée sur le contenu décrit les produits (catégorie, prix, mots-clés, embeddings) et propose ce qui ressemble aux goûts du client, même sans historique. Les deux techniques se combinent couramment.",
+      "source": {
+        "title": "Microsoft Learn — Guide d'étude AI-900 (domaines : vision, NLP, IA générative)",
+        "url": "https://learn.microsoft.com/certifications/resources/study-guides/AI-900"
+      }
+    },
+    {
+      "id": "N1-E44",
+      "lessonId": "L004",
+      "competence": "C1.1",
+      "type": "mise_en_situation",
+      "q": "Un directeur administratif et financier propose de remplacer les abonnements d'IA de l'équipe par un modèle à poids ouverts installé sur un serveur interne : « comme ça, l'IA devient gratuite ». Quelle réponse est la plus juste ?",
+      "options": [
+        "Il a tort : les modèles à poids ouverts sont tous sous licence non commerciale, et leur usage en entreprise impose une redevance annuelle à l'éditeur",
+        "Il a raison : un modèle à poids ouverts se télécharge gratuitement, donc son exécution ne coûte rien de plus que le serveur déjà amorti par l'entreprise",
+        "Il a tort : un modèle local doit être réentraîné chaque mois par son éditeur, et ce réentraînement est facturé au million de tokens comme une API",
+        "Le modèle local supprime l'abonnement et garde les données en interne, mais il déplace le coût vers le matériel, l'électricité et la maintenance sans le supprimer"
+      ],
+      "answer": 3,
+      "explanation": "Le mythe 7 de la leçon (« l'IA est gratuite ») est démonté ainsi : l'inférence se paie au token dans le cloud, et les modèles ouverts exécutés en local déplacent le coût vers votre matériel sans le supprimer, consommation électrique comprise. Beaucoup de modèles ouverts sont sous Apache 2.0 ou MIT, donc utilisables commercialement sans redevance. Le choix local reste pertinent pour la confidentialité, mais pas parce qu'il serait gratuit.",
+      "source": {
+        "title": "Stanford HAI — AI Index Report 2026",
+        "url": "https://hai.stanford.edu/ai-index/2026-ai-index-report"
+      }
+    },
+    {
+      "id": "N1-E45",
+      "lessonId": "L004",
+      "competence": "C1.1",
+      "type": "qcm",
+      "q": "Un éditeur vous présente son logiciel : « notre IA détecte 99 % des fraudes et ne se trompe jamais ». Selon la méthode de la leçon pour désamorcer les mythes, quelles questions posez-vous en priorité ?",
+      "options": [
+        "L'outil a-t-il réussi le test de Turing, et a-t-il été présenté lors du Sommet pour l'action sur l'IA de Paris en février 2025 ?",
+        "De quelle famille de système s'agit-il, sur quelles données a-t-il été entraîné, et qui a mesuré ce résultat, et comment ?",
+        "L'éditeur est-il américain, chinois ou européen, et le score Arena de son modèle dépasse-t-il le seuil des 1 500 points ?",
+        "Combien de paramètres compte le modèle, quelle est sa fenêtre de contexte et à quelle température fonctionne-t-il en production ?"
+      ],
+      "answer": 1,
+      "explanation": "La leçon propose trois questions devant toute affirmation sur l'IA : de quelle famille de système parle-t-on, sur quelles données a-t-il été entraîné, qui a mesuré le résultat et comment. Elles désamorcent la plupart des mythes, dont celui de l'IA qui « ne se trompe jamais » : un modèle reproduit les régularités et les erreurs de ses données. Le nombre de paramètres ou un score de classement ne disent rien de la performance sur vos propres fraudes.",
+      "source": {
+        "title": "Stanford HAI — AI Index Report 2026",
+        "url": "https://hai.stanford.edu/ai-index/2026-ai-index-report"
+      }
+    },
+    {
+      "id": "N1-E46",
+      "lessonId": "L005",
+      "competence": "C1.1",
+      "type": "mise_en_situation",
+      "q": "Un bureau d'études veut faire tourner Qwen3.8-27B (27 milliards de paramètres, licence Apache 2.0) sur une carte graphique de 16 Go. En appliquant la règle du pouce de la formation (mémoire en Go ≈ paramètres en milliards × bits ÷ 8 × 1,1), quelle version du modèle peut tenir dans cette mémoire ?",
+      "options": [
+        "La version quantifiée sur 4 bits : environ 14,9 Go, la seule des trois précisions à passer sous les 16 Go",
+        "La version 8 bits : environ 29,7 Go, compressés à la volée par le pilote de la carte graphique",
+        "Aucune : un modèle de 27 milliards de paramètres exige toujours un cluster de cartes graphiques",
+        "La version 16 bits : environ 59,4 Go, la carte déportant automatiquement le surplus sur le disque dur"
+      ],
+      "answer": 0,
+      "explanation": "Le calcul donne 27 × 16 ÷ 8 × 1,1 ≈ 59,4 Go en 16 bits, 27 × 8 ÷ 8 × 1,1 ≈ 29,7 Go en 8 bits et 27 × 4 ÷ 8 × 1,1 ≈ 14,9 Go en 4 bits. Seule la version quantifiée sur 4 bits passe sous 16 Go, avec une marge faible. La leçon réserve les clusters de dizaines de cartes aux géants comme Kimi K3 (2 800 milliards de paramètres).",
+      "source": {
+        "title": "Fiche Hugging Face — Qwen3.8-27B",
+        "url": "https://huggingface.co/Qwen/Qwen3.8-27B"
+      }
+    },
+    {
+      "id": "N1-E47",
+      "lessonId": "L006",
+      "competence": "C1.1",
+      "type": "qcm",
+      "q": "Dans la base documentaire d'une boulangerie industrielle, un salarié cherche « croissant » et le moteur de recherche sémantique lui remonte aussi une fiche intitulée « viennoiseries pur beurre », qui ne contient pas ce mot. Quelle notion vue avec le transformer explique ce résultat ?",
+      "options": [
+        "La génération autorégressive : le modèle complète « croissant » token par token jusqu'à retrouver « viennoiserie »",
+        "La température : un réglage élevé autorise le moteur à proposer des documents au hasard, dont certains tombent juste",
+        "Les embeddings : chaque token devient un vecteur, et l'entraînement place les mots de sens proche dans la même région",
+        "Le tokenizer : il découpe « viennoiseries » en sous-mots, dont l'un est strictement identique au mot « croissant »"
+      ],
+      "answer": 2,
+      "explanation": "À l'étape 2 du transformer, chaque token est converti en une longue liste de nombres (embedding), placée de façon que les mots de sens proche soient voisins : « brioche », « croissant » et « viennoiserie » se retrouvent dans la même région. La leçon précise que ces vecteurs servent aussi à la recherche sémantique et au RAG, qui comparent la position de la question à celle des documents. La température, elle, règle le tirage du token suivant.",
+      "source": {
+        "title": "Hugging Face — LLM Course, chapitre 1",
+        "url": "https://huggingface.co/learn/llm-course/chapter1/1"
+      }
+    },
+    {
+      "id": "N1-E48",
+      "lessonId": "L006",
+      "competence": "C1.1",
+      "type": "vrai_faux",
+      "q": "Vrai ou faux : comme les poids d'un LLM sont figés après l'entraînement, deux demandes strictement identiques envoyées dans la même interface produisent forcément la même réponse, mot pour mot.",
+      "options": [
+        "Vrai",
+        "Faux"
+      ],
+      "answer": 1,
+      "explanation": "Faux. À chaque étape, le modèle produit une probabilité pour chacun des tokens de son vocabulaire, puis un token est tiré au sort selon ces probabilités, pas forcément le plus probable. C'est ce tirage, réglé par la température, qui explique que deux demandes identiques donnent deux réponses différentes, même avec des poids figés.",
+      "source": {
+        "title": "3Blue1Brown — Neural networks (chapitres 5 à 7 : GPT, attention, MLP)",
+        "url": "https://www.3blue1brown.com/topics/neural-networks"
+      }
+    },
+    {
+      "id": "N1-E49",
+      "lessonId": "L007",
+      "competence": "C1.1",
+      "type": "trouve_erreur",
+      "q": "Un formateur associe chaque comportement observé chez un assistant IA à son origine dans la fabrication du modèle. Quelle association est ERRONÉE ?",
+      "options": [
+        "Il répond en listes à puces bien formatées → le fine-tuning supervisé sur des dialogues exemplaires",
+        "Il refuse de rédiger un e-mail d'hameçonnage → l'alignement (RLHF, DPO ou constitution de principes)",
+        "Il « réfléchit » longuement avant un problème de maths → un renforcement sur récompense vérifiable",
+        "Il sait que nous sommes le 1er novembre 2026 → les données du pré-entraînement, qui contenaient le calendrier"
+      ],
+      "answer": 3,
+      "explanation": "La date du jour vient du prompt système, le texte invisible reçu au début de chaque conversation : sans lui, le modèle ne la connaîtrait pas, puisque son pré-entraînement s'arrête à sa date de connaissance (juin 2026 pour les Claude 5.5). Les trois autres associations reprennent le tableau de synthèse de la leçon : format = fine-tuning supervisé, refus = alignement, réflexion longue = renforcement sur récompense vérifiable.",
+      "source": {
+        "title": "Anthropic — System prompts des applications Claude (release notes)",
+        "url": "https://platform.claude.com/docs/en/release-notes/system-prompts/overview"
+      }
+    },
+    {
+      "id": "N1-E50",
+      "lessonId": "L008",
+      "competence": "C1.1",
+      "type": "mise_en_situation",
+      "q": "Une chargée de communication travaille depuis trois heures dans la même conversation sur une campagne : plus de 60 échanges et plusieurs documents joints. L'assistant ne respecte plus les deux consignes données au tout premier message (vouvoiement, 150 mots maximum). Quelle explication et quelle pratique sont les plus pertinentes ?",
+      "options": [
+        "La température augmente avec la longueur de l'échange : il faut écrire « réponds à température 0 » dans le prochain message de la conversation",
+        "La fenêtre se remplit et l'interface résume ou tronque le début de l'échange : repartir d'une nouvelle conversation avec un résumé et les consignes",
+        "L'assistant a appris de ses messages et adapté son style au sien : il faut lui demander d'oublier ce qu'il a appris pendant cette conversation",
+        "Les consignes ne valent que pour les dix premières réponses : il faut les répéter toutes les dix réponses, sans jamais changer de conversation"
+      ],
+      "answer": 1,
+      "explanation": "Quand la fenêtre de contexte est pleine, les interfaces résument ou tronquent le début de la conversation (la « compaction » chez Anthropic) : les consignes initiales peuvent disparaître. La règle d'or de la leçon est « une conversation = une tâche » : résumer, puis repartir propre, en répétant les consignes. Le modèle n'apprend pas pendant l'échange, et la température n'est pas réglable dans les interfaces grand public.",
+      "source": {
+        "title": "Anthropic — Context windows",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/context-windows"
+      }
+    },
+    {
+      "id": "N1-E51",
+      "lessonId": "L009",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "Un service comptable veut extraire trois champs (fournisseur, date, montant TTC) de 20 000 factures déjà converties en texte, soit environ 800 tokens en entrée et 60 tokens en sortie par facture. Tarifs (nov. 2026, $ par million de tokens, entrée / sortie) : Claude Haiku 5.5 = 0,10 / 0,50 ; Claude Fable 5.1 = 10 / 50. Quel calcul et quel choix sont justes ?",
+      "options": [
+        "Haiku ≈ 22 $ contre ≈ 2 200 $ pour Fable : l'écart justifie Haiku, mais le budget dépasse déjà celui d'une saisie manuelle des 20 000 factures",
+        "Haiku ≈ 2,20 $ contre ≈ 220 $ pour Fable : pour une extraction simple, le petit modèle s'impose, après un test sur une vingtaine de factures",
+        "Les deux coûtent environ 60 $ : la sortie, cinq fois plus chère que l'entrée, domine la facture et efface l'écart de prix entre les deux modèles",
+        "Haiku ≈ 1,60 $ contre ≈ 160 $ pour Fable : seuls les tokens d'entrée sont facturés, la sortie étant toujours comprise dans le prix d'entrée"
+      ],
+      "answer": 1,
+      "explanation": "Entrée : 20 000 × 800 = 16 millions de tokens, soit 1,60 $ chez Haiku et 160 $ chez Fable ; sortie : 20 000 × 60 = 1,2 million de tokens, soit 0,60 $ et 60 $. Total ≈ 2,20 $ contre ≈ 220 $, un écart de 1 à 100 conforme à la grille de choix de la leçon, qui oriente tri et extraction vers un petit modèle. Le meilleur test reste le vôtre, sur quelques documents réels, avant de lancer le volume.",
+      "source": {
+        "title": "Anthropic — Pricing",
+        "url": "https://platform.claude.com/docs/en/about-claude/pricing"
+      }
+    },
+    {
+      "id": "N1-E52",
+      "lessonId": "L010",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "Une agente immobilière de Rennes commence chaque conversation ChatGPT par « je suis agente immobilière, vouvoie mes clients, réponds sous forme de tableaux ». Elle suit aussi une vente qui l'oblige à revenir sans cesse sur le même diagnostic technique et le même compromis. Quelles fonctions de ChatGPT répondent le mieux à ces deux besoins ?",
+      "options": [
+        "Les instructions personnalisées pour son profil et ses préférences, et un projet qui regroupe les fichiers et conversations de cette vente",
+        "La génération d'images pour produire ses tableaux, et la mémoire pour conserver le diagnostic et le compromis à la place des fichiers",
+        "Le mode vocal pour dicter son profil chaque matin, et la recherche approfondie pour relire les documents de la vente à chaque question",
+        "Une conversation temporaire par client, pour que ses préférences soient conservées, et Canvas pour stocker durablement les documents"
+      ],
+      "answer": 0,
+      "explanation": "La leçon présente les instructions personnalisées comme le moyen de dire une fois pour toutes qui vous êtes et comment vous voulez les réponses, et les projets comme le moyen de regrouper conversations et fichiers autour d'un sujet. Une conversation temporaire, au contraire, n'est ni conservée dans l'historique ni utilisée pour la mémoire. Le compromis contenant des données personnelles, elle désactivera l'amélioration du modèle sur un compte individuel ou anonymisera les noms.",
+      "source": {
+        "title": "ChatGPT (application web)",
+        "url": "https://chatgpt.com/"
+      }
+    },
+    {
+      "id": "N1-E53",
+      "lessonId": "L011",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "Un office notarial veut faire renommer les 300 PDF d'un dossier de son ordinateur au format AAAA-MM-Client-Acte et obtenir un tableau récapitulatif, en validant les renommages proposés avant leur exécution. Aucun collaborateur ne sait programmer. Quel outil de l'écosystème Claude est conçu pour ce type de tâche ?",
+      "options": [
+        "Une conversation claude.ai avec les 300 PDF joints, Claude renvoyant ensuite les fichiers renommés par e-mail",
+        "Un artefact claude.ai, qui affiche les 300 PDF dans un volet latéral et les renomme directement sur le disque",
+        "Claude Tag, que l'on mentionne dans un canal Slack pour qu'il renomme les fichiers partagés par toute l'équipe",
+        "Claude Cowork, l'application de bureau qui travaille sur un dossier autorisé, propose les actions et attend la validation"
+      ],
+      "answer": 3,
+      "explanation": "La leçon résume l'écosystème : conversation = je discute ; Cowork = je délègue une tâche sur mes fichiers ; Tag = je travaille avec l'équipe dans Slack ; Claude Code = je fais produire du code. Son exemple est très proche : renommer les PDF d'un dossier de factures et produire un tableau, Cowork proposant les renommages et attendant la validation avant d'exécuter. Un artefact est un livrable affiché dans un volet, il n'agit pas sur vos fichiers.",
+      "source": {
+        "title": "Claude Academy — Introduction to Claude Cowork",
+        "url": "https://academy.claude.com/courses/introduction-to-claude-cowork"
+      }
+    },
+    {
+      "id": "N1-E54",
+      "lessonId": "L012",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "La chargée de veille d'une marque de cosmétiques doit suivre, heure par heure, les réactions publiées sur le réseau X au lancement d'un produit concurrent, puis en tirer une note interne. Quel assistant correspond le mieux à ce besoin, et avec quelle précaution ?",
+      "options": [
+        "Grok, branché sur X avec une recherche dans les publications, en vérifiant les sources car beaucoup de publications ne sont pas vérifiées",
+        "Le Chat de Mistral, dont les poids ouverts garantissent l'accès en temps réel à tous les réseaux sociaux, sans précaution particulière",
+        "Microsoft 365 Copilot, car le respect des permissions de l'entreprise lui ouvre l'accès aux publications privées des comptes concurrents",
+        "Claude sans recherche web, car sa date de connaissance de juin 2026 couvre largement le lancement récent du produit concurrent"
+      ],
+      "answer": 0,
+      "explanation": "La leçon présente Grok comme l'assistant branché sur le réseau X, avec une recherche qui combine le web et les publications X, et cite la veille sur l'actualité et les tendances de X parmi ses bons usages. Elle signale aussi ses limites : des sources parfois issues de publications non vérifiées et une modération plus permissive. Un lancement récent est en outre postérieur à la date de connaissance de tout modèle utilisé sans recherche web.",
+      "source": {
+        "title": "xAI — Models",
+        "url": "https://docs.x.ai/developers/models"
+      }
+    },
+    {
+      "id": "N1-E55",
+      "lessonId": "L013",
+      "competence": "C1.4",
+      "type": "mise_en_situation",
+      "q": "Pour un client artisan, vous demandez à Perplexity le seuil actuel de la franchise en base de TVA. La réponse donne un chiffre précis suivi de la note [2], qui renvoie à un blog de conseil daté de 2023. Selon la méthode de vérification en 120 secondes, que faites-vous ?",
+      "options": [
+        "Transmettre le chiffre : la présence d'une note numérotée prouve que Perplexity a lui-même vérifié l'information auprès de l'administration",
+        "Source ancienne et peu autoritaire : vérifier le seuil sur un site officiel à jour (service-public.fr) et croiser avant de le transmettre",
+        "Relancer la question jusqu'à obtenir trois réponses identiques, ce qui équivaut à une contre-vérification par trois sources indépendantes",
+        "Activer la recherche approfondie, dont le rapport multi-sources est fiable par construction et n'a pas besoin d'être relu avant diffusion"
+      ],
+      "answer": 1,
+      "explanation": "La méthode demande de dater la source (une page de 2023 sur un seuil fiscal est probablement périmée), d'évaluer son autorité (site officiel plutôt que blog), d'ouvrir la page et de croiser deux sources indépendantes. Comme le dit la leçon, une réponse sourcée n'est pas une réponse vraie mais une réponse vérifiable : la protection vient de l'ouverture de la source. Le rapport de recherche approfondie se relit comme le travail d'un stagiaire rapide.",
+      "source": {
+        "title": "Perplexity — Search API overview",
+        "url": "https://docs.perplexity.ai/docs/search/overview.md"
+      }
+    },
+    {
+      "id": "N1-E56",
+      "lessonId": "L014",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "Une association professionnelle enregistre environ 120 heures de réunions publiques par an et veut les faire transcrire. Un prestataire lui propose une offre « transcription IA » à 3 000 € par an. Le trésorier veut l'ordre de grandeur du coût direct en API (nov. 2026 : gpt-transcribe 0,0045 $ par minute ; Voxtral Mini Transcribe 3 : 0,0035 $ par minute). Quelle estimation est juste ?",
+      "options": [
+        "Environ 540 $ par an avec gpt-transcribe et 420 $ avec Voxtral, soit à peu près le sixième du prix de l'offre",
+        "Environ 32 $ par an avec gpt-transcribe et 25 $ avec Voxtral : l'offre facture surtout le service, pas la transcription",
+        "Environ 0,54 $ par an : le tarif à la minute ne s'applique qu'au-delà de 60 participants par réunion transcrite",
+        "Environ 3 200 $ par an, la transcription étant facturée au million de tokens : l'offre est donc très compétitive"
+      ],
+      "answer": 1,
+      "explanation": "120 heures = 7 200 minutes ; 7 200 × 0,0045 $ ≈ 32,40 $ avec gpt-transcribe et 7 200 × 0,0035 $ ≈ 25,20 $ avec Voxtral Mini Transcribe 3. La leçon le résume : une réunion d'une heure coûte moins de 30 centimes à transcrire. Un prestataire peut facturer l'intégration, la relecture ou l'hébergement, mais la transcription elle-même pèse peu.",
+      "source": {
+        "title": "OpenAI — Pricing (images, audio, transcription)",
+        "url": "https://developers.openai.com/api/docs/pricing"
+      }
+    },
+    {
+      "id": "N1-E57",
+      "lessonId": "L014",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "Un fleuriste fait générer une affiche pour la fête des mères. L'image est réussie, mais le texte « -20 % sur les bouquets » est déformé et le logo de la boutique est approximatif. Quelle méthode recommandée en formation donne le résultat le plus propre ?",
+      "options": [
+        "Augmenter la résolution demandée : à partir de la 4K, les générateurs de 2026 écrivent le texte sans la moindre erreur",
+        "Regénérer le visuel avec la contrainte « sans texte », puis ajouter le texte et le vrai logo dans un logiciel de mise en page",
+        "Relancer la même demande jusqu'à obtenir un texte lisible, le vrai logo apparaissant dès que l'outil reconnaît la boutique",
+        "Demander le visuel « dans le style de » un illustrateur connu, dont les affiches ont toujours un texte parfaitement lisible"
+      ],
+      "answer": 1,
+      "explanation": "La leçon signale que les mains, le texte dans l'image et les logos restent les points faibles des générateurs. Sa parade : demander « sans texte » et ajouter les mots dans un logiciel de mise en page, ce qui donne un résultat propre et laisse la maîtrise de la typographie. Demander « dans le style de » un artiste vivant est en outre déconseillé pour un usage commercial.",
+      "source": {
+        "title": "OpenAI — Image generation guide",
+        "url": "https://developers.openai.com/api/docs/guides/image-generation"
+      }
+    },
+    {
+      "id": "N1-E58",
+      "lessonId": "L015",
+      "competence": "C1.3",
+      "type": "qcm",
+      "q": "Votre prompt impose « phrases de 12 mots maximum » pour des consignes de tournée destinées aux livreurs, mais le modèle s'en écarte souvent. Quelle reformulation applique le mieux le conseil du guide Anthropic sur le contexte ?",
+      "options": [
+        "« Phrases de 12 mots maximum, car les consignes seront lues sur mobile par des livreurs pressés, entre deux arrêts »",
+        "« Tu es le meilleur rédacteur du monde, spécialiste reconnu des consignes courtes et efficaces pour la logistique »",
+        "« PHRASES DE 12 MOTS MAXIMUM, C'EST IMPÉRATIF », écrit en majuscules et répété mot pour mot à la fin du prompt",
+        "« Ne fais pas de phrases longues, n'utilise aucune subordonnée et n'ajoute surtout aucun détail inutile au texte »"
+      ],
+      "answer": 0,
+      "explanation": "La section « Add context to improve performance » du guide Anthropic recommande d'expliquer la raison d'une consigne : un modèle qui comprend pourquoi vous voulez des phrases courtes (lecture sur mobile par des livreurs pressés) généralise mieux qu'un modèle à qui l'on impose une règle sèche. Un rôle ronflant ne crée pas de compétence, et une suite d'interdits est moins efficace que la description du comportement voulu.",
+      "source": {
+        "title": "Anthropic — Prompting best practices",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+      }
+    },
+    {
+      "id": "N1-E59",
+      "lessonId": "L016",
+      "competence": "C1.3",
+      "type": "mise_en_situation",
+      "q": "Pour trier les messages d'une boutique en trois catégories (URGENT, NORMAL, INFORMATION), un collègue a placé dans son prompt trois exemples, tous classés URGENT, dont l'un comporte une faute de frappe. Les résultats sont déséquilibrés et la faute réapparaît parfois dans les sorties. Quelle correction suit les règles d'or des exemples ?",
+      "options": [
+        "Garder les trois exemples URGENT et ajouter « classe de façon équilibrée » pour que le modèle répartisse lui-même les catégories",
+        "Supprimer tous les exemples et décrire en détail le ton maison, une description étant plus fiable qu'un exemple pour classer",
+        "Passer à dix exemples URGENT corrigés : plus il y a d'exemples identiques, plus la régularité devient claire pour le modèle",
+        "Un exemple soigné par catégorie, plus un cas ambigu commenté qui explique sa catégorie, le tout délimité par des balises <example>"
+      ],
+      "answer": 3,
+      "explanation": "Le guide Anthropic demande des exemples pertinents, variés (cas limites compris) et clairement délimités, et avertit que les modèles récents suivent les exemples de très près, défauts compris : une faute de frappe peut être reproduite. La leçon recommande un exemple de chaque catégorie, dont un cas ambigu commenté, qui apprend au modèle où passe la frontière. Trois exemples identiques n'enseignent qu'une seule catégorie.",
+      "source": {
+        "title": "Anthropic — Prompting best practices",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+      }
+    },
+    {
+      "id": "N1-E60",
+      "lessonId": "L016",
+      "competence": "C1.3",
+      "type": "mise_en_situation",
+      "q": "Un chargé d'affaires a fait rédiger par un assistant la réponse technique à une consultation lancée par un acheteur public, à partir du cahier des charges. Avant sa propre relecture, quelle étape de la chaîne de prompts décrite en formation est la plus rentable ?",
+      "options": [
+        "Régénérer trois fois la réponse complète et conserver la version la plus longue, réputée la plus complète pour l'acheteur",
+        "Ajouter « réfléchis étape par étape » au tout premier prompt et relancer l'ensemble de la rédaction depuis le début",
+        "Demander dans la même conversation « es-tu sûr de ta réponse ? » jusqu'à ce que le modèle confirme sans aucune réserve",
+        "Dans un prompt séparé, faire critiquer la réponse par le modèle dans le rôle de l'acheteur, au regard du cahier des charges"
+      ],
+      "answer": 3,
+      "explanation": "La leçon souligne que faire critiquer par le modèle sa propre production, avec un rôle différent (l'acheteur, le client, l'auditeur), est l'une des techniques les plus rentables : c'est la boucle generator-evaluator, que le cours DeepLearning.AI appelle « vérifier les sorties ». Chaque maillon de la chaîne produit une sortie contrôlable avant la suivante. « Es-tu sûr ? » n'est qu'un second tirage, et la longueur n'est pas un critère de qualité.",
+      "source": {
+        "title": "DeepLearning.AI — ChatGPT Prompt Engineering for Developers",
+        "url": "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/"
+      }
+    },
+    {
+      "id": "N1-E61",
+      "lessonId": "L017",
+      "competence": "C1.3",
+      "type": "mise_en_situation",
+      "q": "Dans un projet Claude du service juridique, une assistante a écrit dans les instructions du projet : « Résume le compte rendu du comité du 3 mars en 10 lignes. » Depuis, chaque nouvelle conversation du projet commence par un résumé de ce même comité. Quelle organisation recommande le guide Anthropic ?",
+      "options": [
+        "Recopier les instructions du projet dans chaque message, car le modèle ne les lit qu'au tout premier échange du projet",
+        "Supprimer les instructions du projet, car un system prompt dégrade toujours la qualité des réponses aux demandes ponctuelles",
+        "Ajouter « sauf indication contraire » à la consigne actuelle, pour que les instructions du projet s'adaptent d'elles-mêmes",
+        "Réserver les instructions du projet au rôle et au cadre permanent, et formuler la tâche du jour dans le message de la conversation"
+      ],
+      "answer": 3,
+      "explanation": "Les instructions d'un projet jouent le rôle de system prompt : elles s'appliquent à chaque conversation ouverte dans le projet. Le guide Anthropic recommande d'y réserver le rôle et le cadre (qui est l'assistant, pour qui il travaille, ce qu'il doit toujours ou jamais faire) et de placer la tâche du moment dans le message utilisateur. Une tâche ponctuelle installée dans le cadre permanent se répète donc à chaque conversation.",
+      "source": {
+        "title": "Anthropic — Using the Messages API (system prompts)",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/working-with-messages"
+      }
+    },
+    {
+      "id": "N1-E62",
+      "lessonId": "L018",
+      "competence": "C1.3",
+      "type": "mise_en_situation",
+      "q": "Une enseigne colle 100 avis clients dans un assistant et demande « Que pensent nos clients ? ». Réponse : « Globalement positifs, avec quelques points d'amélioration. » Quelle consigne corrigée applique le gabarit « Analyser » de la formation ?",
+      "options": [
+        "Classer les avis selon des thèmes définis, ignorer ceux cités par moins de 3 avis, citer un verbatim par thème, lister les avis ambigus",
+        "Donner une note globale de satisfaction sur 10, estimée par le modèle à partir de son impression générale sur les avis",
+        "Traduire d'abord les avis en anglais, langue dans laquelle les modèles analysent mieux les sentiments, puis les résumer",
+        "Résumer les avis en une phrase percutante destinée à la direction, avec un ton positif adapté à la communication interne"
+      ],
+      "answer": 0,
+      "explanation": "La leçon définit l'analyse comme une déduction qui exige une justification observable pour chaque jugement. Le gabarit « Analyser » combine des critères de classement explicites, des seuils (« moins de 3 avis »), une citation textuelle obligatoire par jugement et le traitement des cas ambigus. Une note « estimée » ou un résumé d'une phrase ne peuvent pas être contrôlés.",
+      "source": {
+        "title": "DeepLearning.AI — ChatGPT Prompt Engineering for Developers",
+        "url": "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/"
+      }
+    },
+    {
+      "id": "N1-E63",
+      "lessonId": "L019",
+      "competence": "C1.3",
+      "type": "qcm",
+      "q": "Vous mettez au point un prompt de compte rendu de réunion et votre seul critère de succès est « un bon résumé ». Quel ensemble de critères respecte la recommandation d'Anthropic (critères spécifiques et mesurables) ?",
+      "options": [
+        "Le résumé plaît au directeur et ressemble aux meilleurs comptes rendus rédigés l'an dernier par l'équipe",
+        "Le résumé est produit par le modèle le plus récent du marché, réglé sur la température la plus basse possible",
+        "Toutes les décisions sont listées ; aucune information absente de la transcription n'apparaît ; 200 mots maximum",
+        "Le résumé est clair, professionnel et agréable à lire, avec un style fluide et un ton adapté à la direction"
+      ],
+      "answer": 2,
+      "explanation": "La page « Define success criteria » d'Anthropic demande des critères spécifiques, mesurables, atteignables et pertinents. « Un bon résumé » n'en est pas un ; la leçon le transforme en trois critères vérifiables par oui ou non : décisions listées, aucune information inventée, longueur maximale. Un jugement humain reste valable s'il est défini à l'avance sur une échelle, par exemple une note de 1 à 5.",
+      "source": {
+        "title": "Anthropic — Define success criteria and build evals",
+        "url": "https://platform.claude.com/docs/en/test-and-evaluate/develop-tests"
+      }
+    },
+    {
+      "id": "N1-E64",
+      "lessonId": "L021",
+      "competence": "C1.2",
+      "type": "mise_en_situation",
+      "q": "La gérante d'une PME de 15 personnes veut se lancer avec l'IA dès cette semaine et hésite entre quatre premiers cas d'usage. Lequel correspond au « bon premier cas d'usage » décrit en formation ?",
+      "options": [
+        "Rédiger les réponses aux demandes de rendez-vous reçues chaque jour par e-mail, relues avant chaque envoi",
+        "Automatiser l'ensemble de la facturation, de l'émission des factures jusqu'aux relances des clients impayés",
+        "Faire produire le bilan comptable annuel à partir des relevés bancaires exportés depuis la banque en ligne",
+        "Faire rédiger le courrier de l'avocat dans le litige prud'homal en cours avec un ancien salarié de la PME"
+      ],
+      "answer": 0,
+      "explanation": "La leçon définit un bon premier cas d'usage : fréquent, textuel, vérifiable en moins de temps qu'il n'en faut pour le faire, et à faible enjeu. Elle cite deux erreurs classiques : viser trop gros (automatiser toute la facturation relève d'un projet d'automatisation) et viser trop risqué (courrier d'avocat, bilan comptable), où la première hallucination décourage tout le monde.",
+      "source": {
+        "title": "Claude Academy — AI Fluency for small businesses",
+        "url": "https://academy.claude.com/courses/ai-fluency-for-small-businesses"
+      }
+    },
+    {
+      "id": "N1-E65",
+      "lessonId": "L022",
+      "competence": "C1.4",
+      "type": "mise_en_situation",
+      "q": "Après une réunion de direction transcrite dans Teams, le compte rendu généré par Copilot aligne quinze points au même niveau : le choix de la salle du séminaire figure juste à côté de la décision de fermer une agence. Le manager veut le diffuser tel quel. Que lui conseiller ?",
+      "options": [
+        "Supprimer la transcription et rédiger le compte rendu de mémoire, car une sortie de Copilot ne peut pas être corrigée",
+        "Le régénérer jusqu'à ce que la décision de fermeture apparaisse en premier, puis le diffuser sans autre relecture",
+        "Le diffuser tel quel : un compte rendu généré depuis la transcription est par définition exhaustif et parfaitement objectif",
+        "Relire, corriger les attributions et hiérarchiser : l'outil est fiable pour ne rien oublier, pas pour distinguer l'essentiel"
+      ],
+      "answer": 3,
+      "explanation": "La leçon note qu'un compte rendu IA est excellent pour ne rien oublier et médiocre pour hiérarchiser : il met au même niveau une décision stratégique et le choix de la salle. La procédure Teams prévoit de relire, de corriger les attributions, puis de diffuser ; la valeur ajoutée du manager est la hiérarchie et les nuances. La transcription suppose aussi d'avoir informé les participants.",
+      "source": {
+        "title": "Microsoft Learn — guide d'étude AI-900 (remplacé par AI-901)",
+        "url": "https://learn.microsoft.com/certifications/resources/study-guides/AI-900"
+      }
+    },
+    {
+      "id": "N1-E66",
+      "lessonId": "L023",
+      "competence": "C1.4",
+      "type": "mise_en_situation",
+      "q": "Une assistante juridique a fait rédiger par l'IA une mise en demeure, avec un montant et des références légales, qui partira en recommandé chez un client débiteur. Selon la règle « enjeu × réversibilité » de la formation, quel niveau de vérification s'impose ?",
+      "options": [
+        "Aucune vérification : le courrier sera signé par un humain, qui en porte seul la responsabilité juridique devant le juge",
+        "Une relecture rapide du style : une mise en demeure est un courrier type que les modèles récents maîtrisent parfaitement",
+        "Un contrôle des seuls montants : depuis 2026, les références légales produites par un LLM récent sont devenues fiables",
+        "Enjeu fort et envoi irréversible : les cinq étapes de la méthode, puis la validation d'un expert métier (juriste ou avocat)"
+      ],
+      "answer": 3,
+      "explanation": "La leçon fixe le niveau de vérification en croisant le coût d'une erreur et la possibilité de revenir en arrière. Un courrier juridique envoyé est à enjeu fort et irréversible : il appelle les cinq étapes (classer, repérer les signaux, remonter à la source primaire, contre-vérifier, corriger et tracer) et la validation d'un expert. Les références légales présentent le risque le plus élevé : chacune s'ouvre sur Légifrance.",
+      "source": {
+        "title": "Légifrance",
+        "url": "https://www.legifrance.gouv.fr/"
+      }
+    },
+    {
+      "id": "N1-E67",
+      "lessonId": "L023",
+      "competence": "C1.4",
+      "type": "mise_en_situation",
+      "q": "Vous demandez : « Explique pourquoi la loi impose depuis 2025 un délai de 45 jours pour répondre à une demande de télétravail. » L'assistant, recherche web désactivée, rédige une explication détaillée et argumentée. Vous n'avez jamais vérifié l'existence de ce délai. Quel signal d'alerte devez-vous reconnaître ?",
+      "options": [
+        "Aucun signal : un modèle qui développe une explication argumentée a nécessairement vérifié la règle avant de l'expliquer",
+        "Une fausse prémisse probablement acceptée : le modèle brode sur l'affirmation glissée dans la question au lieu de la contester",
+        "Un dépassement de la fenêtre de contexte : la question est trop longue pour que le modèle puisse y repérer une erreur",
+        "Un problème de température : une valeur trop basse rend le modèle trop sûr de lui sur les sujets juridiques les plus récents"
+      ],
+      "answer": 1,
+      "explanation": "Parmi les signaux d'alerte de la leçon figure la fausse prémisse acceptée : une affirmation non vérifiée glissée dans la question, sur laquelle le modèle brode au lieu de la corriger, par biais de complaisance (L008). La parade consiste à vérifier la règle à la source primaire, ici Légifrance, avant tout usage. Une argumentation fluide ne prouve rien : le modèle produit la suite la plus plausible.",
+      "source": {
+        "title": "Claude Academy — AI capabilities and limitations",
+        "url": "https://academy.claude.com/courses/ai-capabilities-and-limitations"
+      }
+    },
+    {
+      "id": "N1-E68",
+      "lessonId": "L023",
+      "competence": "C1.4",
+      "type": "trouve_erreur",
+      "q": "Une responsable qualité présente à son équipe la méthode de vérification des sorties IA en cinq étapes, avant le lancement d'un assistant de rédaction. Parmi les règles qu'elle énonce, laquelle est FAUSSE ?",
+      "options": [
+        "Une URL fournie par l'IA qui renvoie une erreur 404 est à traiter comme une référence inventée jusqu'à preuve du contraire",
+        "Une information impossible à vérifier se supprime ou se marque « [à vérifier] » : mieux vaut une absence qu'une erreur",
+        "Deux articles de blog qui reprennent la même dépêche d'agence sont deux sources indépendantes, suffisantes pour valider un chiffre",
+        "Les références (article de loi, arrêt, URL, étude) présentent le risque le plus élevé : on ouvre la référence elle-même"
+      ],
+      "answer": 2,
+      "explanation": "La règle des deux sources indépendantes exige deux sources qui ne se citent pas l'une l'autre : deux articles qui reprennent la même dépêche n'en font qu'une. Les trois autres affirmations reprennent la méthode : une URL en erreur 404 est suspecte jusqu'à preuve du contraire, une information invérifiable est supprimée ou signalée, et les références sont classées au risque « très élevé ».",
+      "source": {
+        "title": "Anthropic Partner Academy — Evaluating & Validating Claude's Output",
+        "url": "https://anthropic-partners.skilljar.com/evaluating-validating-claudes-output"
+      }
+    },
+    {
+      "id": "N1-E69",
+      "lessonId": "L023",
+      "competence": "C1.4",
+      "type": "mise_en_situation",
+      "q": "Depuis un mois, l'équipe commerciale corrige à la main, presque chaque semaine, des remises mal calculées dans les propositions rédigées avec l'assistant IA, sans que personne sache si le problème vient du prompt ou de l'outil. Quelle pratique de l'étape « Corriger et tracer » aurait évité cette situation ?",
+      "options": [
+        "Retirer toutes les remises des propositions commerciales, pour que l'assistant n'ait plus aucun calcul à effectuer",
+        "Changer de modèle chaque semaine, jusqu'à trouver celui qui ne commet plus aucune erreur de calcul sur les remises",
+        "Tenir un registre d'erreurs (date, outil, tâche, erreur, correction) pour repérer les récurrences et ajuster le prompt ou l'outil",
+        "Demander à l'assistant, en fin de mois, de lister lui-même les erreurs qu'il a commises dans les propositions de l'équipe"
+      ],
+      "answer": 2,
+      "explanation": "La leçon demande de tenir un registre d'erreurs : un simple tableau (date, outil, tâche, erreur constatée, correction). Au bout d'un mois, on sait précisément où l'outil se trompe et l'on ajuste les prompts (M04) ou le choix de l'outil (M03). Changer de modèle sans mesure brouille les pistes ; pour les calculs, mieux vaut en outre exiger un calcul exécuté plutôt qu'estimé.",
+      "source": {
+        "title": "Claude Academy — AI Fluency: Framework and foundations (Discernment, Diligence)",
+        "url": "https://academy.claude.com/courses/ai-fluency-framework-foundations"
+      }
+    },
+    {
+      "id": "N1-E70",
+      "lessonId": "L024",
+      "competence": "C1.5",
+      "type": "mise_en_situation",
+      "q": "Un cabinet de conseil veut qu'un workflow n8n archive chaque contrat dès qu'il est signé dans son outil de signature électronique. Le prestataire propose d'interroger l'API de l'outil toutes les minutes pour demander s'il y a de nouveaux contrats signés. Quelle alternative est la plus adaptée ?",
+      "options": [
+        "Un export JSON hebdomadaire : le JSON étant la langue commune, il évite toute connexion directe entre les deux logiciels",
+        "Un nœud HTTP Request lancé chaque seconde : plus l'interrogation est fréquente, plus le polling devient économe en ressources",
+        "Un webhook : l'outil de signature prévient lui-même l'adresse créée par le nœud Webhook Trigger dès qu'un contrat est signé",
+        "Un serveur MCP, qui remplace les webhooks et permet à l'outil de signature d'archiver lui-même les contrats déjà signés"
+      ],
+      "answer": 2,
+      "explanation": "Interroger l'API toutes les minutes, c'est le polling : cela fonctionne, mais c'est lent et gaspilleur. Le webhook inverse l'initiative : l'outil émetteur envoie de lui-même une requête HTTP, avec un corps JSON décrivant l'événement, vers l'adresse créée par le nœud Webhook Trigger de n8n. La leçon cite justement l'outil de signature électronique qui prévient qu'un contrat est signé.",
+      "source": {
+        "title": "n8n Academy — N8N102 Integrations: APIs & Connected Workflows",
+        "url": "https://learn.n8n.io/courses/course-v1:n8n+N8N102+2026H2/about"
+      }
+    },
+    {
+      "id": "N1-E71",
+      "lessonId": "L024",
+      "competence": "C1.5",
+      "type": "qcm",
+      "q": "Un outil de facturation renvoie ce JSON : { \"numero\": \"F-2026-118\", \"client\": { \"nom\": \"Garage Leroy\", \"ville\": \"Angers\" }, \"lignes\": [ { \"article\": \"Pont élévateur\", \"prix_ht\": 4200.00 }, { \"article\": \"Compresseur\", \"prix_ht\": 950.00 } ] }. Quel chemin désigne le prix hors taxes du compresseur ?",
+      "options": [
+        "lignes[2].prix_ht",
+        "prix_ht[Compresseur]",
+        "lignes[1].prix_ht",
+        "client.lignes.prix_ht"
+      ],
+      "answer": 2,
+      "explanation": "Les crochets délimitent une liste, et l'on compte à partir de zéro : le pont élévateur est lignes[0] et le compresseur lignes[1]. On suit ensuite le chemin des clés avec un point, d'où lignes[1].prix_ht. La liste lignes n'est pas imbriquée dans l'objet client, qui ne contient que le nom et la ville ; dans une expression n8n, on écrirait {{ $json.lignes[1].prix_ht }}.",
+      "source": {
+        "title": "JSON — présentation officielle (version française)",
+        "url": "https://www.json.org/json-fr.html"
+      }
+    },
+    {
+      "id": "N1-E72",
+      "lessonId": "L025",
+      "competence": "C1.5",
+      "type": "mise_en_situation",
+      "q": "Une PME auto-héberge n8n avec Docker. Son workflow « chaque lundi à 8 h, résumé des avis clients par e-mail » s'exécute sans aucune erreur, mais l'e-mail arrive à 9 h en hiver et à 10 h en été. Quelle est la cause la plus probable ?",
+      "options": [
+        "Le nœud Basic LLM Chain met une à deux heures à produire le résumé, selon la charge des serveurs du fournisseur",
+        "Gmail retient pendant une à deux heures les e-mails envoyés par une automatisation, pour un contrôle anti-spam",
+        "Le Schedule Trigger ajoute une heure de délai par semaine d'ancienneté du workflow, remise à zéro à l'activation",
+        "La variable GENERIC_TIMEZONE n'est pas réglée : le déclencheur suit l'heure UTC du serveur et non l'heure française"
+      ],
+      "answer": 3,
+      "explanation": "La leçon met en garde contre l'oubli de GENERIC_TIMEZONE dans le fichier docker-compose.yml : sans ce réglage, le « lundi 8 h » tombe à l'heure UTC du serveur, soit 9 h ou 10 h en France selon la saison. Un retard d'une heure en hiver et de deux heures en été est la signature de ce problème, que rappelle le guide Docker Compose de n8n.",
+      "source": {
+        "title": "n8n Docs — Install using Docker Compose",
+        "url": "https://docs.n8n.io/deploy/host-n8n/install-options/install-using-docker-compose.md"
+      }
+    },
+    {
+      "id": "N1-E73",
+      "lessonId": "L026",
+      "competence": "C1.5",
+      "type": "mise_en_situation",
+      "q": "Un agent IA chargé de préparer les rendez-vous commerciaux remet un rapport qui cite trois clients « historiques » de l'entreprise et le montant de leurs dernières commandes. Vérification faite, ces clients n'existent pas. L'agent dispose d'une recherche web et de l'agenda, mais d'aucun accès au CRM. Quelle analyse est la plus juste ?",
+      "options": [
+        "Le modèle est trop petit : un modèle haut de gamme aurait retrouvé les vrais clients dans ses données d'entraînement",
+        "La recherche web a renvoyé les clients d'un concurrent : il suffit de la désactiver pour obtenir un rapport exact",
+        "L'agent a été piraté par une injection de prompt venue de l'agenda : il faut le remplacer par un workflow à étapes fixes",
+        "Sans accès au CRM, l'agent a comblé le vide : lister les informations dont il a besoin et lui donner l'outil qui les fournit"
+      ],
+      "answer": 3,
+      "explanation": "La leçon prévient : un agent ne connaît que ce que ses outils lui renvoient et ce que ses instructions lui disent, et un agent sans accès au CRM inventera des clients avec un aplomb parfait. Avant de déployer, on liste les informations dont il a besoin et l'on vérifie qu'un outil les lui fournit, avec des permissions minimales (lecture seule). Aucun modèle, même haut de gamme, ne connaît les clients de votre entreprise.",
+      "source": {
+        "title": "Claude Platform — Tool use overview",
+        "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview"
+      }
+    },
+    {
+      "id": "N1-E74",
+      "lessonId": "L027",
+      "competence": "C1.5",
+      "type": "mise_en_situation",
+      "q": "Un collègue a trouvé sur un forum un serveur MCP « CRM gratuit », d'auteur inconnu, et veut le brancher sur l'agent commercial avec tous les droits, écriture et suppression comprises, « pour voir ce que ça donne ». Quelle réponse applique les trois questions de sécurité de la formation ?",
+      "options": [
+        "Accepter : MCP étant un standard ouvert géré par la Linux Foundation, chaque serveur publié est vérifié par la fondation",
+        "Refuser MCP et passer par A2A, le protocole conçu pour relier un agent à un CRM de façon sécurisée et sans injection",
+        "Préférer un serveur officiel ou d'un registre, démarrer en lecture seule avec des outils activés un à un, valider avant tout envoi",
+        "Accepter à condition d'utiliser le transport stdio, qui empêche par construction toute injection de prompt dans l'agent"
+      ],
+      "answer": 2,
+      "explanation": "La leçon pose trois questions : qui a écrit ce serveur (préférer les serveurs officiels ou ceux des registres), quels droits lui donner (lecture seule d'abord, outils activés un par un) et que se passe-t-il si une donnée lue contient une consigne piégée (validation humaine avant toute action sortante). Le transport stdio indique seulement que le serveur tourne en local, et A2A relie deux agents entre eux, pas un agent à un outil.",
+      "source": {
+        "title": "Claude Academy — Introduction to Model Context Protocol",
+        "url": "https://academy.claude.com/courses/introduction-to-model-context-protocol"
+      }
+    },
+    {
+      "id": "N1-E75",
+      "lessonId": "L028",
+      "competence": "C1.6",
+      "type": "mise_en_situation",
+      "q": "Le client d'une agence de voyages exerce son droit d'accès RGPD et demande ce que l'agence a fait de ses données, notamment de ses e-mails, que le conseiller a fait résumer par un assistant IA. Le conseiller ne se souvient ni de l'outil utilisé ni de la date. Quelle pratique de la leçon aurait permis de répondre ?",
+      "options": [
+        "Répondre que les données confiées à une IA sortent du champ du RGPD dès lors qu'elles ont été résumées par l'outil",
+        "Conserver sans limite de durée tous les historiques de conversation, au cas où un client poserait un jour la question",
+        "Tenir une trace de chaque usage d'IA portant sur des données personnelles : quel outil, quelle finalité, quelle date",
+        "Renvoyer le client vers l'éditeur de l'assistant, seul responsable de traitement des données collées dans un prompt"
+      ],
+      "answer": 2,
+      "explanation": "La leçon rappelle que les personnes disposent de droits (accès, rectification, effacement, opposition) et qu'un client peut demander ce que vous avez fait de ses données et à qui vous les avez transmises. Répondre « je ne sais pas, c'était dans ChatGPT » pose problème : il faut tenir une trace (outil, finalité, date). Le responsable de traitement est l'employeur, et la minimisation interdit de garder les historiques « au cas où ».",
+      "source": {
+        "title": "CNIL — IA : finalisation des recommandations sur le développement des systèmes d'IA",
+        "url": "https://cnil.fr/fr/ia-finalisation-recommandations-developpement-des-systemes-ia"
+      }
+    },
+    {
+      "id": "N1-E76",
+      "lessonId": "L028",
+      "competence": "C1.6",
+      "type": "qcm",
+      "q": "Selon la CNIL, la finalité d'un traitement doit être précise. Laquelle de ces formulations, inscrite dans la charte d'usage IA d'une PME, constitue une véritable finalité au sens du RGPD ?",
+      "options": [
+        "Explorer librement les possibilités de l'IA avec toutes les données disponibles dans l'entreprise",
+        "Générer des réponses types aux réclamations clients à partir de la politique SAV de l'entreprise",
+        "Utiliser les outils d'IA les plus performants du marché, quelle que soit la tâche à accomplir",
+        "Améliorer la productivité de l'ensemble des services grâce à l'intelligence artificielle générative"
+      ],
+      "answer": 1,
+      "explanation": "La leçon reprend le message de la CNIL : « améliorer la productivité » n'est pas une finalité, alors que « générer des réponses types aux réclamations clients » en est une. Une finalité précise permet ensuite d'appliquer la minimisation, en n'envoyant que les données strictement nécessaires à ce but. Explorer « avec toutes les données disponibles » contredit directement ce principe.",
+      "source": {
+        "title": "CNIL — Développement des systèmes d'IA : les recommandations de la CNIL pour respecter le RGPD",
+        "url": "https://www.cnil.fr/fr/developpement-des-systemes-dia-les-recommandations-de-la-cnil-pour-respecter-le-rgpd"
+      }
+    },
+    {
+      "id": "N1-E77",
+      "lessonId": "L029",
+      "competence": "C1.6",
+      "type": "mise_en_situation",
+      "q": "Une agence de communication (PME, chiffre d'affaires annuel mondial de 4 M€) publie des vidéos deepfake sans les signaler, en violation de l'article 50 de l'AI Act. Pour ce manquement, le plafond est de 15 M€ ou 3 % du chiffre d'affaires et, pour les PME, le règlement retient le montant le plus bas des deux. Quel plafond d'amende s'applique ?",
+      "options": [
+        "15 000 000 €",
+        "280 000 €",
+        "120 000 €",
+        "35 000 000 €"
+      ],
+      "answer": 2,
+      "explanation": "3 % de 4 M€ = 120 000 €, montant à comparer à la somme fixe de 15 M€ : pour une PME, c'est le plus bas des deux qui s'applique, soit 120 000 €. 280 000 € correspondrait à 7 % du chiffre d'affaires, taux réservé aux pratiques interdites de l'article 5, dont la somme fixe est de 35 M€. La leçon invite à vérifier l'article 99 sur EUR-Lex avant de citer ces règles dans un document.",
+      "source": {
+        "title": "Sénat — Réponse ministérielle sur les deepfakes et l'AI Act (5 février 2026)",
+        "url": "https://www.senat.fr/questions/base/2025/qSEQ251006478.html"
+      }
+    },
+    {
+      "id": "N1-E78",
+      "lessonId": "L029",
+      "competence": "C1.6",
+      "type": "mise_en_situation",
+      "q": "Un éditeur de logiciels de gestion pour garages utilisait Claude en interne pour rédiger ses documents. Il lance maintenant, sous sa propre marque, un assistant « DiagAuto IA » qu'il vend à ses clients garagistes. Comment évolue sa qualification au regard de l'AI Act ?",
+      "options": [
+        "Il reste déployeur pour son usage interne et devient fournisseur pour l'assistant mis sur le marché sous son propre nom",
+        "Il n'est ni déployeur ni fournisseur tant qu'il compte moins de 250 salariés, l'AI Act exemptant entièrement les PME",
+        "Il devient fournisseur pour tous ses usages, internes compris, et cesse donc d'être tenu par l'article 4 envers ses salariés",
+        "Il reste uniquement déployeur, car le modèle sous-jacent est développé par Anthropic, seul fournisseur de toute la chaîne"
+      ],
+      "answer": 0,
+      "explanation": "L'AI Act distingue le fournisseur, qui développe et met sur le marché un système, et le déployeur, qui l'utilise sous sa responsabilité dans un cadre professionnel. Une entreprise qui utilise Claude est déployeur ; elle devient fournisseur si elle met sur le marché un système sous son propre nom, par exemple un assistant vendu à ses clients. L'article 4 s'applique aux fournisseurs comme aux déployeurs.",
+      "source": {
+        "title": "EUR-Lex — Règlement (UE) 2024/1689 (AI Act)",
+        "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+      }
+    },
+    {
+      "id": "N1-E79",
+      "lessonId": "L030",
+      "competence": "C1.6",
+      "type": "mise_en_situation",
+      "q": "Une photographe professionnelle ne veut plus que les images de son portfolio en ligne servent à entraîner des modèles d'IA. Quelle démarche correspond à l'état du droit présenté en formation (nov. 2026) ?",
+      "options": [
+        "Réserver ses droits par des moyens lisibles par machine (TDMRep, ai.txt, robots.txt) et une clause des mentions légales, pour l'avenir",
+        "Ne rien faire : l'exception de fouille de textes et de données interdit déjà tout usage commercial des œuvres pour l'entraînement",
+        "Invoquer la présomption d'utilisation des contenus culturels, en vigueur en France depuis son adoption par le Sénat en avril 2026",
+        "Exiger que les modèles déjà entraînés « oublient » ses images, ce que l'opt-out impose rétroactivement à tous les fournisseurs"
+      ],
+      "answer": 0,
+      "explanation": "L'article 4 de la directive 2019/790, transposé à l'article L122-5-3 du CPI, autorise la fouille de textes et de données y compris à des fins commerciales, sauf si le titulaire a réservé ses droits par un procédé lisible par machine. Faute de standard unique, les praticiens recommandent de cumuler TDMRep, ai.txt, robots.txt et une clause dans les mentions légales. L'opt-out ne vaut que pour l'avenir, et la présomption d'utilisation n'est pas en vigueur.",
+      "source": {
+        "title": "donneespersonnelles.fr — Droit d'auteur et IA générative (état sept. 2026)",
+        "url": "https://www.donneespersonnelles.fr/droit-auteur-ia-generative"
+      }
+    },
+    {
+      "id": "N1-E80",
+      "lessonId": "L031",
+      "competence": "C1.6",
+      "type": "mise_en_situation",
+      "q": "La comptable d'une PME reçoit un e-mail impeccable, à l'en-tête d'un fournisseur habituel : « nous avons changé de banque, merci de régler désormais nos factures sur ce nouvel IBAN ». Le ton, le jargon et la signature sont parfaits. Quelle réaction applique la règle de la formation ?",
+      "options": [
+        "Rappeler le fournisseur sur un numéro déjà connu de l'entreprise, jamais celui du message, avant toute modification",
+        "Vérifier l'orthographe du message : en 2026, l'absence de fautes suffit à écarter une tentative d'hameçonnage",
+        "Faire analyser l'e-mail par l'assistant IA de l'entreprise, qui reconnaît à coup sûr les messages générés par IA",
+        "Répondre à l'e-mail pour demander confirmation du nouvel IBAN, puis payer si l'expéditeur confirme par écrit"
+      ],
+      "answer": 0,
+      "explanation": "La leçon explique que les fautes et formulations étranges, longtemps nos meilleurs indices, ont disparu avec les modèles de langage : le contenu ne permet plus de détecter la fraude, c'est le processus qui protège. Toute demande de modification de coordonnées bancaires est le signal d'alerte du scénario « faux fournisseur » et appelle la règle du double canal : rappeler sur un canal choisi par vous-même. Répondre à l'e-mail revient à interroger le fraudeur.",
+      "source": {
+        "title": "OWASP GenAI Security Project",
+        "url": "https://genai.owasp.org/"
+      }
+    }
+  ]
+}

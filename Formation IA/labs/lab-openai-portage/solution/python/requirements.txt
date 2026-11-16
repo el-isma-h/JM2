@@ -1,0 +1,6 @@
+# Mode simulé (tests hors ligne)
+pydantic>=2.8
+pytest>=8
+# Mode réel : décommentez selon le fournisseur (SDK v2, oct.-nov. 2026 — voir L083)
+# openai>=2
+# anthropic>=2.0

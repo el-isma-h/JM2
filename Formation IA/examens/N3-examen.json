@@ -1,0 +1,1624 @@
+{
+  "levelId": "N3",
+  "title": "Examen de certification — Niveau 3 Développeur IA",
+  "passScore": 70,
+  "timeLimitMinutes": 60,
+  "bankSize": 80,
+  "drawPerAttempt": 40,
+  "competences": {
+    "C3.1": [
+      "N3-E01",
+      "N3-E02",
+      "N3-E03",
+      "N3-E04",
+      "N3-E05",
+      "N3-E06",
+      "N3-E09",
+      "N3-E10",
+      "N3-E15",
+      "N3-E18",
+      "N3-E19",
+      "N3-E20",
+      "N3-E41",
+      "N3-E42",
+      "N3-E43",
+      "N3-E44",
+      "N3-E45",
+      "N3-E46",
+      "N3-E47",
+      "N3-E52",
+      "N3-E53",
+      "N3-E57",
+      "N3-E58",
+      "N3-E59",
+      "N3-E60"
+    ],
+    "C3.2": [
+      "N3-E07",
+      "N3-E08",
+      "N3-E13",
+      "N3-E14",
+      "N3-E16",
+      "N3-E48",
+      "N3-E49",
+      "N3-E54",
+      "N3-E55",
+      "N3-E56"
+    ],
+    "C3.3": [
+      "N3-E22",
+      "N3-E23",
+      "N3-E24",
+      "N3-E25",
+      "N3-E26",
+      "N3-E61",
+      "N3-E62",
+      "N3-E63",
+      "N3-E64",
+      "N3-E65"
+    ],
+    "C3.4": [
+      "N3-E11",
+      "N3-E12",
+      "N3-E17",
+      "N3-E27",
+      "N3-E28",
+      "N3-E29",
+      "N3-E30",
+      "N3-E31",
+      "N3-E50",
+      "N3-E51",
+      "N3-E66",
+      "N3-E67",
+      "N3-E68",
+      "N3-E69",
+      "N3-E70"
+    ],
+    "C3.5": [
+      "N3-E21",
+      "N3-E32",
+      "N3-E33",
+      "N3-E34",
+      "N3-E35",
+      "N3-E71",
+      "N3-E72",
+      "N3-E73",
+      "N3-E74",
+      "N3-E75"
+    ],
+    "C3.6": [
+      "N3-E36",
+      "N3-E37",
+      "N3-E38",
+      "N3-E39",
+      "N3-E40",
+      "N3-E76",
+      "N3-E77",
+      "N3-E78",
+      "N3-E79",
+      "N3-E80"
+    ]
+  },
+  "questions": [
+    {
+      "id": "N3-E01",
+      "lessonId": "L066",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Un script doit classer 200 e-mails « en parallèle, 5 à la fois ». Il met 200 fois la durée d'un appel. Où est le problème ?\n\n```python\nclient = Anthropic()\nsem = asyncio.Semaphore(5)\n\nasync def classer(email: str) -> str:\n    async with sem:\n        msg = client.messages.create(model=\"claude-haiku-5-5\", max_tokens=10,\n                                     messages=[{\"role\": \"user\", \"content\": email}])\n        return msg.content[0].text\n\nasync def main():\n    return await asyncio.gather(*(classer(e) for e in EMAILS), return_exceptions=True)\n```",
+      "options": [
+        "Le sémaphore de 5 est trop bas : il faut le monter à 200 pour que `gather` lance réellement tous les appels en même temps",
+        "Le client synchrone `Anthropic()` bloque la boucle d'événements : il faut `AsyncAnthropic()` et `await client.messages.create(...)`",
+        "`return_exceptions=True` force `gather` à exécuter les coroutines une par une pour pouvoir capturer chaque erreur séparément dans la liste",
+        "`max_tokens=10` est trop faible : la réponse est tronquée et le SDK relance l'appel en boucle jusqu'à obtenir `end_turn`"
+      ],
+      "answer": 1,
+      "explanation": "Appeler le client bloquant à l'intérieur d'une coroutine gèle toute la boucle asyncio : chaque appel attend le précédent, et le sémaphore ne sert plus à rien. La leçon L066 l'énonce comme piège fréquent : dans du code async, `AsyncAnthropic` et `await`, systématiquement. `return_exceptions=True` n'impose aucun ordre (il évite seulement qu'une erreur annule les autres résultats), et un `max_tokens` bas tronque sans déclencher de relance.",
+      "source": {
+        "title": "Claude Platform — Streaming Messages",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/streaming"
+      }
+    },
+    {
+      "id": "N3-E02",
+      "lessonId": "L067",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Votre palier autorise, pour le modèle utilisé, 60 requêtes/min et 400 000 tokens d'entrée/min (ITPM). Chaque appel envoie environ 30 000 tokens d'entrée et dure 10 secondes. En appliquant la règle du cours (« concurrence ≈ débit autorisé × durée d'un appel × 0,8 ») sans oublier les tokens, quelle valeur donnez-vous au sémaphore ?",
+      "options": [
+        "8 : 60 req/min × (10/60) min × 0,8, la limite en requêtes est la seule qui compte pour un sémaphore",
+        "13 : 400 000 / 30 000, soit le nombre d'appels autorisés par minute, que l'on lance tous en parallèle",
+        "48 : 8 appels en vol toutes les 10 secondes, soit 48 par minute dans la limite des 60 requêtes",
+        "Environ 2 : l'ITPM limite à ≈ 13 appels/min (≈ 10,7 avec la marge), soit ≈ 10,7 × 1/6 min ≈ 1,8 appel en vol"
+      ],
+      "answer": 3,
+      "explanation": "La règle en requêtes donne 8 appels simultanés, mais 8 appels de 30 000 tokens toutes les 10 secondes représentent 1,44 M tokens/min, bien au-delà de l'ITPM de 400 000. C'est la contrainte la plus serrée qui fixe la concurrence : 400 000 / 30 000 ≈ 13 appels/min, ×0,8 ≈ 10,7, multipliés par la durée d'un appel (1/6 min) ≈ 1,8, donc 2 en vol. La leçon L067 insiste : vérifiez aussi les tokens, sinon les 429 arrivent en cascade.",
+      "source": {
+        "title": "Claude Platform — Rate limits",
+        "url": "https://platform.claude.com/docs/en/api/rate-limits"
+      }
+    },
+    {
+      "id": "N3-E03",
+      "lessonId": "L067",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Assistant interne sur claude-sonnet-5-5 (nov. 2026 : entrée 2 $, écriture de cache 5 min 2,50 $, lecture de cache 0,10 $ par MTok). Le prompt système stable fait 8 000 tokens. 200 questions par jour arrivent en continu (jamais plus de 3 minutes d'écart). Quel est le coût quotidien de la seule partie « prompt système » sans cache, puis avec le prompt caching correctement configuré ?",
+      "options": [
+        "≈ 3,20 $ sans cache ; ≈ 0,18 $ avec cache (1 écriture à 0,02 $ puis 199 lectures ≈ 0,16 $)",
+        "≈ 3,20 $ sans cache ; ≈ 4,00 $ avec cache, car chaque appel paie l'écriture à 1,25×",
+        "≈ 1,60 $ sans cache ; ≈ 0,16 $ avec cache",
+        "≈ 3,20 $ sans cache ; ≈ 0,32 $ avec cache, la lecture coûtant 0,1× le prix d'entrée sur tous les modèles"
+      ],
+      "answer": 0,
+      "explanation": "Sans cache : 200 × 8 000 = 1,6 M tokens × 2 $ = 3,20 $. Avec cache : le TTL de 5 minutes est rafraîchi gratuitement à chaque lecture et les questions arrivent toutes les 3 minutes au plus, donc une seule écriture (8 000 × 2,50 $/M = 0,02 $) puis 199 lectures (1,59 M × 0,10 $/M ≈ 0,16 $). Sur Sonnet 5.5, la lecture coûte 0,05× l'entrée (0,10 $), pas 0,1×. Payer l'écriture à chaque appel (4,00 $) est le symptôme d'un cache cassé (préfixe qui change), pas le fonctionnement normal.",
+      "source": {
+        "title": "Claude Platform — Prompt caching",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+      }
+    },
+    {
+      "id": "N3-E04",
+      "lessonId": "L066",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Un développeur reprend la boucle `appeler_avec_retry` du cours (5 tentatives) mais garde `client = Anthropic()` avec ses réglages par défaut au lieu de `Anthropic(max_retries=0)`. Pendant une panne, l'API renvoie 529 à chaque requête. Combien de requêtes HTTP un seul appel métier envoie-t-il au maximum, et pourquoi est-ce un problème ?",
+      "options": [
+        "5 : le SDK détecte la boucle maison et désactive ses propres retries pour éviter le cumul",
+        "7 : 5 tentatives maison plus 2 retries du SDK sur la dernière tentative seulement, les autres étant interrompues par la boucle",
+        "15 : chaque tentative maison déclenche jusqu'à 3 requêtes (1 + `max_retries=2`) ; on martèle une API déjà surchargée",
+        "10 : le SDK réessaie une fois par défaut, donc 2 requêtes par tentative maison, sans délai supplémentaire"
+      ],
+      "answer": 2,
+      "explanation": "Le SDK Anthropic réessaie par défaut deux fois (`max_retries=2`) les 408, 409, 429, 5xx et 529. Chaque appel à `messages.create` dans la boucle maison peut donc produire 3 requêtes, soit 5 × 3 = 15. C'est pourquoi la leçon L066 désactive les retries du SDK (`max_retries=0`) dès qu'on écrit sa propre politique : un seul étage de retry, avec plafond, jitter et journal.",
+      "source": {
+        "title": "Claude Platform — API overview",
+        "url": "https://platform.claude.com/docs/en/api/overview"
+      }
+    },
+    {
+      "id": "N3-E05",
+      "lessonId": "L065",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Votre politique de sécurité impose une rotation trimestrielle des clés API de production (aucune fuite constatée). L'application tourne sur trois instances derrière un répartiteur. Quel ordre d'opérations applique la règle 4 du cours sans provoquer d'interruption ?",
+      "options": [
+        "Révoquer l'ancienne clé, créer la nouvelle, puis redéployer les trois instances le plus vite possible",
+        "Créer la nouvelle clé, la déployer sur toutes les instances et vérifier les appels, puis révoquer l'ancienne",
+        "Créer la nouvelle clé et la commiter dans un fichier `.env.production` versionné pour que les trois instances la récupèrent au prochain `git pull`",
+        "Conserver la même clé et activer seulement un plafond de dépense : la rotation n'a d'intérêt qu'en cas de fuite"
+      ],
+      "answer": 1,
+      "explanation": "Pour une rotation planifiée, la leçon L065 donne l'ordre « créer la nouvelle, déployer, révoquer l'ancienne » : les deux clés coexistent le temps du déploiement, donc aucune requête n'échoue. En cas de fuite avérée, l'ordre s'inverse : on révoque d'abord (L109), quitte à subir une courte coupure. Une clé ne va jamais dans un fichier versionné, et le plafond de dépense complète la rotation sans la remplacer.",
+      "source": {
+        "title": "Claude Platform — Get started",
+        "url": "https://platform.claude.com/docs/en/get-started"
+      }
+    },
+    {
+      "id": "N3-E06",
+      "lessonId": "L068",
+      "competence": "C3.1",
+      "type": "trouve_erreur",
+      "q": "Ce mini-chat fonctionne, sauf après un incident : l'utilisateur reçoit « Service saturé », retape sa question, et Claude répond alors en traitant la question deux fois (« Comme vous me le demandez à nouveau… »). Quelle est la cause ?\n\n```python\nhistorique = []\n\ndef tour(texte: str) -> str:\n    historique.append({\"role\": \"user\", \"content\": texte})\n    try:\n        r = client.messages.create(model=\"claude-sonnet-5-5\", max_tokens=500, messages=historique)\n    except anthropic.RateLimitError:\n        return \"Service saturé, réessayez.\"\n    historique.append({\"role\": \"assistant\", \"content\": r.content})\n    return r.content[0].text\n```",
+      "options": [
+        "Après le 429, le message `user` reste sans réponse dans `historique` : la question est envoyée deux fois ; il faut retirer ce message en cas d'échec",
+        "`RateLimitError` met le client en mode dégradé : il renvoie désormais l'historique deux fois à chaque requête tant que le client n'est pas recréé avec `Anthropic()`",
+        "Il manque le paramètre `system` : il devient obligatoire dès que l'historique dépasse deux messages",
+        "`r.content` est une liste de blocs ; la renvoyer comme `content` d'un message `assistant` est refusé, il faut n'y mettre que le texte"
+      ],
+      "answer": 0,
+      "explanation": "L'API est sans état : c'est l'application qui maintient l'historique. Le chemin d'erreur laisse un message `user` orphelin ; au tour suivant, deux messages `user` se suivent et sont fusionnés en un seul tour, d'où la question vue en double. Renvoyer `r.content` tel quel est au contraire la bonne pratique (indispensable avec les outils), et `system` reste facultatif.",
+      "source": {
+        "title": "Claude Platform — Using the Messages API",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/working-with-messages"
+      }
+    },
+    {
+      "id": "N3-E07",
+      "lessonId": "L070",
+      "competence": "C3.2",
+      "type": "trouve_erreur",
+      "q": "Pour « alléger l'historique », un développeur modifie la boucle d'outils du cours. Dès qu'un outil est appelé, l'API répond 400. Pourquoi ?\n\n```python\nr = client.messages.create(model=\"claude-sonnet-5-5\", max_tokens=1000,\n                           tools=OUTILS, messages=messages)\n# On ne garde que le texte de l'assistant\nmessages.append({\"role\": \"assistant\",\n                 \"content\": [b for b in r.content if b.type == \"text\"]})\nif r.stop_reason == \"tool_use\":\n    resultats = [{\"type\": \"tool_result\", \"tool_use_id\": b.id, \"content\": executer(b)}\n                 for b in r.content if b.type == \"tool_use\"]\n    messages.append({\"role\": \"user\", \"content\": resultats})\n```",
+      "options": [
+        "Les résultats d'outils doivent être envoyés dans un message de rôle `tool`, pas `user`, comme dans l'API Chat Completions",
+        "`tool_use_id` doit reprendre le nom de l'outil (`b.name`) et non son identifiant",
+        "Il faut un message `user` séparé par `tool_result` quand plusieurs outils sont appelés dans la même réponse",
+        "Les blocs `tool_use` ont été retirés du message `assistant` : les `tool_result` pointent vers des identifiants absents"
+      ],
+      "answer": 3,
+      "explanation": "Chaque `tool_result` doit répondre à un bloc `tool_use` présent dans le tour assistant précédent, avec le même `tool_use_id`. En filtrant le contenu, on supprime ces blocs et l'API rejette la requête. La boucle du cours fait `messages.append({\"role\": \"assistant\", \"content\": r.content})` (« on garde les blocs tels quels ») et renvoie tous les résultats dans un seul message `user` ; le rôle `tool` n'existe pas dans la Messages API.",
+      "source": {
+        "title": "Claude Platform — How tool use works",
+        "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works"
+      }
+    },
+    {
+      "id": "N3-E08",
+      "lessonId": "L071",
+      "competence": "C3.2",
+      "type": "mise_en_situation",
+      "q": "Un syndic veut extraire de chaque règlement de copropriété (PDF) un JSON conforme à un schéma (charges, quotes-parts, clauses) et, pour chaque champ, le passage source affiché à l'utilisateur. Le développeur envoie une requête avec `citations` activées sur le document **et** `output_config.format`. Que se passe-t-il, et que faire ?",
+      "options": [
+        "La requête passe, mais les citations sont silencieusement ignorées ; il suffit de les relire ensuite dans le champ `usage`",
+        "La requête passe et les citations sont insérées automatiquement dans le JSON sous une clé `_citations`",
+        "Refus : citations et sorties structurées sont incompatibles ; faire deux appels, ou prévoir des champs `citation_texte` dans le schéma contrôlés par le code",
+        "La requête est refusée parce que les PDF ne supportent pas les citations ; il faut convertir le document en texte brut avant de l'envoyer avec le schéma de sortie"
+      ],
+      "answer": 2,
+      "explanation": "Les leçons L071 et L072 le précisent : une requête combinant `citations` et `output_config.format` est refusée. Deux contournements : enchaîner deux appels, ou demander dans le schéma des champs de citation textuelle que le code vérifie (le passage existe-t-il dans le document ?). Les PDF supportent bien les citations, avec des numéros de page.",
+      "source": {
+        "title": "Claude Platform — Structured outputs",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/structured-outputs"
+      }
+    },
+    {
+      "id": "N3-E09",
+      "lessonId": "L073",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Vous migrez vers claude-sonnet-5-5 un appel écrit en 2025 qui renvoie maintenant une erreur 400. Quelle configuration est valide sur ce modèle (nov. 2026) pour obtenir un raisonnement poussé avec un résumé lisible ?",
+      "options": [
+        "`thinking={\"type\": \"enabled\", \"budget_tokens\": 4000}, temperature=1`",
+        "`thinking={\"type\": \"adaptive\", \"display\": \"summarized\"}, output_config={\"effort\": \"high\"}`, sans `temperature`",
+        "`thinking={\"type\": \"enabled\", \"budget_tokens\": 4000}` et un préremplissage `assistant` « <thinking> » pour forcer l'affichage",
+        "`output_config={\"effort\": \"xhigh\"}, top_p=0.9` : le thinking s'active automatiquement quand l'effort dépasse `high`"
+      ],
+      "answer": 1,
+      "explanation": "Sur Claude 5, le mode `extended` avec `budget_tokens` est refusé (400) ; le mode recommandé est `{\"type\": \"adaptive\"}`, avec `display: \"summarized\"` pour un résumé du raisonnement, et l'intensité se règle par `effort` (`low`, `medium`, `high`, `xhigh`, `max`). `temperature`, `top_p` et `top_k` provoquent une erreur 400 sur les modèles ≥ 4.7 et le préremplissage n'est plus supporté depuis 4.6. Les tokens de raisonnement sont facturés au tarif de sortie.",
+      "source": {
+        "title": "Claude Platform — Thinking",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/thinking"
+      }
+    },
+    {
+      "id": "N3-E10",
+      "lessonId": "L073",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Un agent envoie à chaque requête 14 outils puis un prompt système stable de 3 000 tokens, avec un `cache_control` sur le dernier bloc `system`. Pour « aider le modèle », le code trie les outils par pertinence (score calculé sur la question) avant chaque appel. Dans `usage`, `cache_creation_input_tokens` vaut ≈ 6 000 à chaque appel et `cache_read_input_tokens` reste à 0. Quelle est la cause ?",
+      "options": [
+        "Le préfixe caché suit l'ordre `tools` → `system` → `messages` : trier les outils change le préfixe à chaque requête ; figer leur ordre",
+        "Le TTL de 5 minutes est trop court pour un agent : passer à `\"ttl\": \"1h\"` règle le problème entre deux appels",
+        "Les définitions d'outils ne peuvent pas être mises en cache ; il faut les déplacer dans le prompt système, après le `cache_control`",
+        "Un seul point de cache ne suffit pas au-delà de 4 096 tokens : il faut placer les quatre breakpoints autorisés, dont un sur les outils et un sur `system`"
+      ],
+      "answer": 0,
+      "explanation": "Le cache porte sur un préfixe identique octet pour octet, dans l'ordre `tools` → `system` → `messages`. Les outils étant en tête, leur réordonnancement invalide tout ce qui suit, prompt système compris : on paie l'écriture (1,25×) à chaque appel sans jamais lire. La leçon L073 cite justement « l'ordre des outils qui change d'une requête à l'autre » parmi les pièges. Les outils se mettent en cache (L070), et un TTL plus long n'aide en rien si le préfixe change.",
+      "source": {
+        "title": "Claude Platform — Prompt caching",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+      }
+    },
+    {
+      "id": "N3-E11",
+      "lessonId": "L075",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "Un backend Python appelle la Messages API. Vous voulez qu'il utilise un serveur MCP d'ERP qui tourne aujourd'hui en **stdio** sur une machine du réseau interne, sans accès entrant depuis Internet. Un collègue propose de passer ce serveur dans `mcp_servers` (MCP connector). Quelle analyse est juste ?",
+      "options": [
+        "Ça fonctionne tel quel : le connector lance le processus stdio sur la machine qui exécute le SDK, puis relaie ses outils à l'API",
+        "Ça fonctionne si l'on ajoute l'en-tête bêta `mcp-client-2025-11-20` et le chemin du script dans `url`, le SDK se chargeant de lancer le processus en local",
+        "Ce n'est possible qu'avec Claude Code : la Messages API ne sait pas consommer d'outils MCP, ni distants ni locaux",
+        "Le connector tourne côté Anthropic et ne joint que des serveurs distants : exposer le serveur en HTTP authentifié (ou tunnel MCP), ou écrire son propre hôte stdio"
+      ],
+      "answer": 3,
+      "explanation": "Avec le MCP connector, c'est Anthropic qui joue le rôle de client MCP : le serveur doit donc être distant et joignable (L075 §6), avec un jeton d'autorisation ; les MCP tunnels existent pour un serveur local. L'alternative est l'hôte minimal de la leçon (§4.1) : votre code ouvre la session stdio, liste les outils (`tools/list`), les déclare dans `tools` et exécute les `tool_use` lui-même. La Messages API consomme bien MCP, et l'en-tête bêta ne change rien à la joignabilité.",
+      "source": {
+        "title": "Claude Platform — MCP connector",
+        "url": "https://platform.claude.com/docs/en/agents-and-tools/mcp-connector"
+      }
+    },
+    {
+      "id": "N3-E12",
+      "lessonId": "L074",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "Une mutuelle veut un agent qui, chaque nuit, lit des centaines de fichiers de remboursement, exécute des scripts de contrôle et écrit un rapport. Les données sont des données de santé, et le contrat avec Anthropic exige la conservation zéro (ZDR). L'équipe ne veut pas réécrire une boucle d'outils fichiers/bash. Quelle option retenez-vous ?",
+      "options": [
+        "Managed Agents : la boucle est hébergée par Anthropic dans une sandbox cloud, ce qui évite toute infrastructure à maintenir en interne",
+        "Claude Code en mode headless dans la CI de production, avec les secrets de la base et l'accès réseau complet",
+        "Le Claude Agent SDK dans votre propre conteneur isolé, avec hooks `PreToolUse`, permissions restreintes et `max_budget_usd`",
+        "Une boucle Messages API écrite à la main avec un outil `bash` exécuté directement sur le serveur de base de données"
+      ],
+      "answer": 2,
+      "explanation": "L'Agent SDK fournit la boucle de Claude Code (fichiers, bash, sous-agents, hooks) dans votre propre environnement : c'est le cas « agent qui lit/écrit des fichiers et exécute des commandes » de L074. Les Managed Agents sont signalés non éligibles ZDR/HIPAA (L100), ce qui les exclut ici. Une CI avec secrets de production et réseau ouvert est le piège signalé en L074 (injection indirecte), et un bash sur le serveur de base viole le moindre privilège.",
+      "source": {
+        "title": "Claude Agent SDK — Overview",
+        "url": "https://code.claude.com/docs/en/agent-sdk/overview"
+      }
+    },
+    {
+      "id": "N3-E13",
+      "lessonId": "L077",
+      "competence": "C3.2",
+      "type": "mise_en_situation",
+      "q": "Devis-Express produit un devis via une sortie structurée (lignes, total HT, TVA, total TTC). Sur 30 cas d'évaluation, le JSON est toujours valide, mais 2 devis ont un total TTC faux et 1 applique 20 % au lieu de 10 %. Quelle correction est conforme à l'architecture du projet ?",
+      "options": [
+        "Faire choisir au modèle les lignes du catalogue et les réponses client, puis calculer totaux et TVA en code ; le schéma garantit la forme, pas les valeurs",
+        "Passer de Sonnet 5.5 à Fable 5.1 avec `effort: \"high\"` : le calcul arithmétique devient fiable sur des devis courts",
+        "Ajouter `minimum` et `maximum` sur les champs numériques du schéma pour que l'API rejette les totaux incohérents avant de renvoyer le devis au client",
+        "Demander au modèle de vérifier ses calculs deux fois dans le prompt système, en majuscules"
+      ],
+      "answer": 0,
+      "explanation": "Le « À retenir » de L077 est explicite : les prix et la TVA viennent du code, l'écriture passe par l'humain ; le modèle comprend, cherche et structure. Une sortie structurée garantit la conformité au schéma, jamais l'exactitude (L071). Les contraintes `minimum`/`maximum` peuvent être ignorées par le sous-ensemble JSON Schema supporté et ne vérifieraient de toute façon pas la cohérence d'un total ; les consignes martelées en majuscules sont déconseillées sur les modèles 5.5.",
+      "source": {
+        "title": "Claude Platform — Structured outputs",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/structured-outputs"
+      }
+    },
+    {
+      "id": "N3-E14",
+      "lessonId": "L083",
+      "competence": "C3.2",
+      "type": "trouve_erreur",
+      "q": "Lors du portage de l'assistant devis vers la Responses API, cette boucle échoue. Que faut-il corriger ?\n\n```python\nfor it in r.output:\n    if it.type == \"function_call\":\n        res = FONCTIONS[it.name](**it.arguments)\n        entrees.append({\"role\": \"user\", \"type\": \"function_call_output\",\n                        \"call_id\": it.call_id, \"output\": json.dumps(res)})\n```",
+      "options": [
+        "Seulement `call_id`, qui doit être remplacé par `tool_use_id` comme chez Anthropic",
+        "`it.arguments` est une chaîne JSON à décoder (`json.loads`), et `function_call_output` est un item de premier niveau sans `role`",
+        "Seulement `json.dumps(res)` : `output` doit être un objet Python, pas une chaîne",
+        "Rien dans la boucle : il faut seulement passer `tool_choice=\"required\"` pour que les arguments arrivent sous forme d'objet Python"
+      ],
+      "answer": 1,
+      "explanation": "La table de correspondance de L083 souligne les deux pièges : chez OpenAI, `arguments` est une chaîne JSON (contrairement à `input`, déjà un objet, chez Anthropic), et le résultat est un item `{\"type\": \"function_call_output\", \"call_id\", \"output\"}` sans rôle ; l'envelopper dans un rôle `user` donne une erreur 400 peu explicite. `output` est bien une chaîne, et `tool_choice` n'a aucun effet sur le format des arguments.",
+      "source": {
+        "title": "OpenAI Developers — Function calling",
+        "url": "https://developers.openai.com/api/docs/guides/agents-api/tools/functions"
+      }
+    },
+    {
+      "id": "N3-E15",
+      "lessonId": "L078",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Le DPO d'un client interdit tout stockage des échanges chez le fournisseur. Le développeur passe `store=False` sur ses appels Responses API mais garde `previous_response_id=r1.id` pour enchaîner les tours. Que se passe-t-il, et quelle est la bonne mise en œuvre ?",
+      "options": [
+        "Tout fonctionne : `previous_response_id` est conservé 30 jours en mémoire chiffrée, même avec `store=False`",
+        "OpenAI ignore `store=False` dès qu'un `previous_response_id` est présent, ce qui respecte le besoin fonctionnel sans enfreindre la consigne",
+        "Le chaînage repose sur la réponse stockée, donc échoue sans stockage : il faut renvoyer soi-même l'historique en items dans `input`",
+        "Il suffit de remplacer `previous_response_id` par le paramètre `n=2` pour obtenir les deux tours dans la même réponse"
+      ],
+      "answer": 2,
+      "explanation": "La leçon L078 explique que `previous_response_id` suppose une réponse stockée côté OpenAI (`store` vaut `true` par défaut). Si la politique de données l'interdit, on passe `store=False` et l'on gère l'historique soi-même en renvoyant les items dans `input`, exactement comme avec la Messages API. Le paramètre `n` a été supprimé de la Responses API.",
+      "source": {
+        "title": "OpenAI Developers — Conversation state",
+        "url": "https://developers.openai.com/api/docs/guides/conversation-state"
+      }
+    },
+    {
+      "id": "N3-E16",
+      "lessonId": "L079",
+      "competence": "C3.2",
+      "type": "mise_en_situation",
+      "q": "Un assistant de caisse expose deux fonctions : `debiter_carte(montant)` puis `envoyer_recu(transaction_id)`, qui exige l'identifiant renvoyé par le débit. En test, le modèle émet parfois les deux `function_call` dans la même réponse, et `envoyer_recu` part avec un identifiant inventé. Quelle combinaison de mesures retenez-vous ?",
+      "options": [
+        "`tool_choice=\"required\"` pour forcer l'appel des deux fonctions à chaque tour",
+        "`strict: true` sur les deux fonctions : le mode strict interdit les appels parallèles et valide l'identifiant",
+        "Exécuter les appels dans l'ordre inverse de leur émission pour que le reçu attende toujours le résultat effectif du débit",
+        "`parallel_tool_calls=False`, vérification en code que `transaction_id` existe, et confirmation humaine avant le débit"
+      ],
+      "answer": 3,
+      "explanation": "La leçon L079 indique que le modèle peut émettre plusieurs `function_call` par réponse et que `parallel_tool_calls=False` le désactive « si vos fonctions ont des effets de bord ordonnés ». L'identifiant doit en outre être contrôlé par le code, et une fonction de paiement ne s'exécute jamais sur la seule foi du modèle (human in the loop, Safety best practices). `strict` garantit la conformité des arguments au schéma, pas l'ordre des appels.",
+      "source": {
+        "title": "OpenAI Developers — Function calling",
+        "url": "https://developers.openai.com/api/docs/guides/agents-api/tools/functions"
+      }
+    },
+    {
+      "id": "N3-E17",
+      "lessonId": "L081",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "Dans un cabinet comptable, l'agent d'accueil (OpenAI Agents SDK) doit **toujours** répondre lui-même au client, dans le ton du cabinet, en s'appuyant sur les avis d'un spécialiste TVA et d'un spécialiste paie qu'il peut consulter plusieurs fois. Quel mécanisme choisissez-vous ?",
+      "options": [
+        "Exposer les spécialistes comme outils (`agent.as_tool(...)`) : l'accueil garde la main et reformule leurs avis",
+        "Des handoffs (`handoffs=[agent_paie, agent_tva]`) : le spécialiste reprend la conversation et répond directement au client",
+        "Un guardrail d'entrée qui route la demande vers le bon spécialiste avant l'exécution de l'accueil",
+        "Une session SQLite partagée entre les trois agents, chacun répondant à tour de rôle"
+      ],
+      "answer": 0,
+      "explanation": "La leçon L081 distingue les deux patrons : un handoff est un outil `transfer_to_…` qui bascule la conversation vers le spécialiste (c'est lui qui répond ensuite), tandis qu'« agent en tant qu'outil » laisse le contrôle à l'agent principal, « à préférer quand c'est l'accueil qui doit répondre au client ». Un guardrail valide une entrée ou une sortie, il ne délègue pas ; une session partagée gère la mémoire, pas la délégation.",
+      "source": {
+        "title": "OpenAI — Agents SDK Python (documentation)",
+        "url": "https://openai.github.io/openai-agents-python/"
+      }
+    },
+    {
+      "id": "N3-E18",
+      "lessonId": "L084",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Un appel grok-4.7 envoie 250 000 tokens d'entrée, produit 2 000 tokens et déclenche 4 appels de l'outil `web_search`. Tarifs xAI (nov. 2026) : 2 $ / 6 $ par MTok, 4 $ / 12 $ au-delà de 200 k tokens (on applique ce tarif à toute la requête), `web_search` 5 $ / 1 000 appels. Quel est le coût de l'appel ?",
+      "options": [
+        "≈ 0,53 $ (0,50 $ d'entrée, 0,012 $ de sortie, 0,02 $ d'outils)",
+        "≈ 1,04 $ (1,00 $ d'entrée, 0,024 $ de sortie, 0,02 $ d'outils)",
+        "≈ 1,06 $ (1,00 $ d'entrée, 0,024 $ de sortie, 0,04 $ d'outils à 10 $ / 1 000)",
+        "≈ 0,52 $ (le tarif majoré ne concerne que la sortie)"
+      ],
+      "answer": 1,
+      "explanation": "Au-delà de 200 k tokens, grok-4.7 passe à 4 $ / 12 $ : 250 000 × 4 / 10⁶ = 1,00 $ ; 2 000 × 12 / 10⁶ = 0,024 $ ; 4 × 5 / 1 000 = 0,02 $ ; total ≈ 1,04 $. Le `web_search` de xAI coûte 5 $ / 1 000 (10 $ / 1 000 est le tarif Claude et OpenAI). La leçon L088 rappelle que ces paliers obligent le routeur à connaître la taille de l'entrée avant de choisir un fournisseur.",
+      "source": {
+        "title": "xAI — Pricing",
+        "url": "https://docs.x.ai/developers/pricing"
+      }
+    },
+    {
+      "id": "N3-E19",
+      "lessonId": "L085",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Via l'Agent API de Perplexity (SDK OpenAI, `client.responses.create`), cet appel fonctionne avec `model=\"openai/gpt-6.1-sol\"` mais échoue dès que vous passez à un modèle `anthropic/…`. Quel paramètre manque le plus probablement ?\n\n```python\nr = client.responses.create(\n    model=\"anthropic/claude-sonnet-5-5\",\n    instructions=\"Répondez en français avec des citations numérotées.\",\n    input=\"Quel taux de TVA pour la rénovation énergétique en 2026 ?\",\n    tools=[{\"type\": \"web_search\", \"search_domain_filter\": [\"impots.gouv.fr\"]}],\n)\n```",
+      "options": [
+        "`temperature=0`, obligatoire pour les modèles Anthropic routés par l'Agent API",
+        "`stream=True`, car les modèles Anthropic ne répondent qu'en flux via l'Agent API de Perplexity",
+        "`reasoning={\"effort\": \"xhigh\"}`, requis pour activer `web_search` sur les modèles tiers comme Claude",
+        "`max_output_tokens`, exigé pour les modèles Anthropic (comme `max_tokens` dans la Messages API)"
+      ],
+      "answer": 3,
+      "explanation": "La leçon L085 précise que les modèles `anthropic/...` de l'Agent API « exigent `max_output_tokens` », reflet du `max_tokens` obligatoire de la Messages API ; L088 le range parmi les différences que l'adaptateur doit toujours combler (« Toujours le fournir »). `temperature` provoquerait au contraire une erreur sur Claude ≥ 4.7, et ni le streaming ni l'effort ne conditionnent l'outil de recherche.",
+      "source": {
+        "title": "Perplexity — Agent API models & pricing",
+        "url": "https://docs.perplexity.ai/docs/agent-api/models.md"
+      }
+    },
+    {
+      "id": "N3-E20",
+      "lessonId": "L086",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Vous intégrez Codestral dans un éditeur interne : le curseur est au milieu d'une fonction Python, avec la signature au-dessus et des tests `assert` en dessous. Quel appel du SDK Mistral correspond au mode prévu pour ce cas ?",
+      "options": [
+        "`client.chat.complete(model=\"codestral-latest\", messages=[{\"role\": \"user\", \"content\": avant + après}])`",
+        "`client.chat.complete(model=\"mistral-large-latest\", messages=[...], response_format={\"type\": \"json_object\"})`",
+        "`client.fim.complete(model=\"codestral-latest\", prompt=avant_curseur, suffix=apres_curseur, max_tokens=128, temperature=0)`",
+        "`client.embeddings.create(model=\"codestral-embed\", inputs=[avant, après])`, puis génération à partir du vecteur le plus proche"
+      ],
+      "answer": 2,
+      "explanation": "Le fill-in-the-middle (FIM) remplit le trou entre ce qui précède et ce qui suit : l'endpoint dédié prend un `prompt` (avant le curseur) et un `suffix` (après), comme dans l'exemple de L086. Une température basse (0) rend la complétion déterministe, ce qui augmente le nombre de versions qui passent les `assert`. Concaténer avant et après dans un chat fait perdre la position du trou ; Codestral Embed sert au RAG de code, pas à la complétion.",
+      "source": {
+        "title": "Mistral — Codestral 25.08",
+        "url": "https://docs.mistral.ai/models/codestral-25-08"
+      }
+    },
+    {
+      "id": "N3-E21",
+      "lessonId": "L088",
+      "competence": "C3.5",
+      "type": "mise_en_situation",
+      "q": "Un routeur par difficulté envoie désormais 75 % des requêtes vers Haiku 5.5 au lieu de Sonnet 5.5 : la facture baisse de 60 %, mais le support signale des réponses « moins bonnes », sans chiffre. Que mettez-vous en place en priorité ?",
+      "options": [
+        "Journaliser le palier par requête, mesurer le taux de reprise et évaluer chaque palier sur le jeu de test commun",
+        "Revenir à 100 % Sonnet 5.5 : un routeur par coût dégrade toujours la qualité perçue, quelle que soit la répartition",
+        "Remplacer le classifieur par un tirage aléatoire 50/50, plus équitable entre les modèles et plus simple à auditer",
+        "Comparer les deux modèles sur le nombre moyen de tokens consommés par réponse et sur la latence moyenne par palier"
+      ],
+      "answer": 0,
+      "explanation": "La leçon L088 avertit que le routage par coût dégrade silencieusement la qualité si le classifieur se trompe : il faut journaliser le palier et mesurer le taux de reprise, sinon « ce n'est pas un routeur, c'est un pari ». La qualité « se mesure » : chaque palier ne contient que les modèles qui atteignent le score minimal sur votre jeu de test (section 7, promptfoo multi-fournisseurs). Comparer des tokens entre modèles n'a pas de sens (tokenizers et prix différents).",
+      "source": {
+        "title": "promptfoo — documentation",
+        "url": "https://www.promptfoo.dev/docs"
+      }
+    },
+    {
+      "id": "N3-E22",
+      "lessonId": "L092",
+      "competence": "C3.3",
+      "type": "mise_en_situation",
+      "q": "Recherche hybride avec fusion RRF (k = 60). Classement vectoriel : D1, D4, D2. Classement lexical (BM25) : D3, D2, …, D4 en 5e position. Quel est l'ordre final ?",
+      "options": [
+        "D1, D3, D2, D4 : les premiers de chaque liste passent devant, puis les autres",
+        "D2, D1, D4, D3 : on additionne les scores bruts cosinus et BM25 de chaque document",
+        "D2 (≈ 0,0320), D4 (≈ 0,0315), puis D1 et D3 ex æquo (≈ 0,0164)",
+        "D4, D2, D1, D3 : D4 apparaît dans les deux listes avec le meilleur rang vectoriel"
+      ],
+      "answer": 2,
+      "explanation": "RRF somme 1 / (k + rang) sur chaque liste où le document apparaît, sans jamais mélanger les scores bruts. D2 : 1/63 + 1/62 ≈ 0,0320 ; D4 : 1/62 + 1/65 ≈ 0,0315 ; D1 et D3 n'apparaissent qu'une fois, en 1re position : 1/61 ≈ 0,0164. Comme le dit L092, un document bien classé dans les deux listes bat un document premier dans une seule.",
+      "source": {
+        "title": "pgvector — dépôt officiel",
+        "url": "https://github.com/pgvector/pgvector"
+      }
+    },
+    {
+      "id": "N3-E23",
+      "lessonId": "L089",
+      "competence": "C3.3",
+      "type": "mise_en_situation",
+      "q": "Avec pgvector et un index HNSW, la recherche `WHERE d.service = 'Juridique' ORDER BY embedding <=> q LIMIT 5` ne renvoie que 2 morceaux, alors que le service Juridique en compte plusieurs dizaines (il représente 1 % du corpus). Quelle explication et quelle correction ?",
+      "options": [
+        "Le seuil de similarité par défaut de pgvector (0,8) élimine les autres morceaux ; il faut l'abaisser à 0,5 dans la requête",
+        "L'index explore `ef_search` candidats avant le filtre, qui en laisse moins de k ; augmenter `hnsw.ef_search`, activer le scan itératif ou partitionner",
+        "L'opérateur `<=>` est incompatible avec une clause `WHERE` ; il faut filtrer en Python après la requête",
+        "L'index HNSW ne contient que les vecteurs insérés après sa création ; il faut le reconstruire chaque nuit après l'ingestion des nouveaux documents du corpus"
+      ],
+      "answer": 1,
+      "explanation": "C'est le piège signalé en L089 : HNSW explore un nombre limité de candidats (`ef_search`, 40 par défaut), puis le filtre s'applique ; avec un service qui pèse 1 % du corpus, il ne reste que quelques résultats. Les remèdes du cours : augmenter `hnsw.ef_search`, activer `hnsw.iterative_scan` (versions récentes, à vérifier sur le dépôt), ou partitionner. pgvector n'applique pas de seuil de similarité implicite et l'index se met à jour à l'insertion.",
+      "source": {
+        "title": "pgvector — dépôt officiel",
+        "url": "https://github.com/pgvector/pgvector"
+      }
+    },
+    {
+      "id": "N3-E24",
+      "lessonId": "L093",
+      "competence": "C3.3",
+      "type": "mise_en_situation",
+      "q": "Sur 4 questions de test (k = 5), le premier morceau attendu apparaît : Q1 au rang 1, Q2 au rang 3, Q3 absent du top 5, Q4 au rang 2. Que valent le hit rate@5 et le MRR ?",
+      "options": [
+        "Hit rate@5 = 1,00 ; MRR = 0,61",
+        "Hit rate@5 = 0,75 ; MRR = 0,61 (Q3 est exclue du calcul)",
+        "Hit rate@5 = 0,50 ; MRR = 0,46",
+        "Hit rate@5 = 0,75 ; MRR ≈ 0,46"
+      ],
+      "answer": 3,
+      "explanation": "Hit rate@5 : 3 questions sur 4 ont au moins un morceau attendu dans le top 5, soit 0,75. MRR : moyenne de 1/rang du premier morceau attendu, 0 s'il est absent : (1 + 1/3 + 0 + 1/2) / 4 = 1,833 / 4 ≈ 0,46. Seuls les cas hors périmètre (sans contexte attendu) sont exclus dans `evaluer_recherche` de L093, pas les questions où la recherche échoue.",
+      "source": {
+        "title": "Ragas — dépôt officiel",
+        "url": "https://github.com/vibrantlabsai/ragas"
+      }
+    },
+    {
+      "id": "N3-E25",
+      "lessonId": "L092",
+      "competence": "C3.3",
+      "type": "mise_en_situation",
+      "q": "Un collègue ajoute un cross-encoder de reranking à la chaîne : `rechercher_hybride(question)[:5]` → reranking → 5 morceaux dans le prompt. Le jeu de test ne montre aucun gain de context recall, et 200 ms de latence en plus. Quelle est la correction la plus pertinente ?",
+      "options": [
+        "Donner 20 à 50 candidats au reranker et n'en garder que 5 à 8 : il ne peut pas faire remonter un morceau non récupéré",
+        "Remplacer le cross-encoder par un bi-encoder plus rapide, qui améliore aussi le rappel en recalculant les embeddings des candidats",
+        "Supprimer la recherche lexicale, qui perturbe le reranker avec des scores BM25 non normalisés sur les 5 morceaux",
+        "Passer le reranking avant la recherche hybride pour qu'il filtre le corpus entier"
+      ],
+      "answer": 0,
+      "explanation": "La leçon L092 le dit explicitement : « Reranker 5 candidats » est un piège ; le reranking apporte la précision sur un ensemble large produit par l'hybride (le rappel). Avec 5 candidats en entrée et 5 en sortie, il ne peut qu'en changer l'ordre, sans effet sur le context recall. Un cross-encoder sur tout le corpus serait beaucoup trop lent, et la fusion RRF combine des rangs, pas des scores BM25.",
+      "source": {
+        "title": "Anthropic — Introducing Contextual Retrieval",
+        "url": "https://www.anthropic.com/news/contextual-retrieval"
+      }
+    },
+    {
+      "id": "N3-E26",
+      "lessonId": "L093",
+      "competence": "C3.3",
+      "type": "mise_en_situation",
+      "q": "Campagne Ragas sur 60 cas : faithfulness moyenne 0,91, context recall 0,88. Trié par score croissant, le CSV montre que les 9 cas « hors périmètre » ont une faithfulness d'environ 0,2 : le modèle y répond avec des informations absentes des contextes. Quelle action est prioritaire ?",
+      "options": [
+        "Changer de modèle d'embedding, puisque la fidélité dépend de la qualité des vecteurs utilisés pour la récupération des contextes pertinents",
+        "Augmenter k de 5 à 20 pour que ces questions trouvent davantage de contexte pertinent dans la base",
+        "Corriger la génération : autoriser « je n'ai pas cette information », fixer un seuil de refus, garder ces cas en tests bloquants",
+        "Retirer les cas hors périmètre du jeu de test, puisqu'ils n'ont pas de contexte attendu et faussent la moyenne"
+      ],
+      "answer": 2,
+      "explanation": "Une fidélité faible avec un bon rappel désigne la génération : le modèle ajoute ce qu'il « sait ». La leçon L093 insiste sur deux points : les cas hors périmètre sont les plus importants (leur bonne réponse est un refus) et une moyenne de 0,9 peut cacher des cas à 0,2, d'où la lecture des pires lignes. Plus de contexte n'aide pas une question dont la réponse n'existe pas, et retirer ces cas reviendrait à masquer le défaut.",
+      "source": {
+        "title": "Ragas — dépôt officiel",
+        "url": "https://github.com/vibrantlabsai/ragas"
+      }
+    },
+    {
+      "id": "N3-E27",
+      "lessonId": "L096",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "Dans le graphe de réclamations de L096, un développeur simplifie l'état ainsi : `class Etat(TypedDict): messages: list; nb_appels_outils: int` (sans `Annotated[list, add_messages]`). Les nœuds sont inchangés (`noeud_agent` renvoie `{\"messages\": [reponse]}`, `ToolNode` renvoie les messages d'outils). Que se passe-t-il dès le premier appel d'outil ?",
+      "options": [
+        "Rien de visible : LangGraph applique `add_messages` par défaut à tout champ nommé `messages` dans un TypedDict",
+        "Chaque mise à jour remplace la liste au lieu de l'allonger : question et appel d'outil disparaissent de l'historique",
+        "Le graphe refuse de compiler : un TypedDict sans réducteur est interdit par `StateGraph` dès qu'un champ est une liste",
+        "Les messages sont dupliqués à chaque tour, ce qui double le coût d'entrée sans changer les réponses du modèle"
+      ],
+      "answer": 1,
+      "explanation": "La leçon L096 l'explique : `add_messages` est un réducteur qui ajoute au lieu de remplacer ; sans lui, renvoyer `{\"messages\": [reponse]}` remplace l'historique. Après `ToolNode`, la liste ne contient plus que les messages d'outils, sans la question ni le message assistant qui portait les `tool_calls`. Le graphe compile sans erreur : c'est un bogue silencieux, d'où l'intérêt de tester les nœuds isolément.",
+      "source": {
+        "title": "LangChain Docs — LangGraph overview",
+        "url": "https://docs.langchain.com/oss/python/langgraph/overview"
+      }
+    },
+    {
+      "id": "N3-E28",
+      "lessonId": "L095",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "Un agent ReAct sur Sonnet 5.5 (2 $ / 10 $ par MTok) tourne 10 tours sans compaction. Au tour 1, le contexte envoyé fait 2 000 tokens ; il grossit de 1 000 tokens à chaque tour (11 000 au tour 10). Chaque tour produit 400 tokens. Quel est le coût de la tâche ?",
+      "options": [
+        "≈ 0,026 $ : seul le dernier contexte (11 000 tokens) est facturé, l'historique étant déjà payé",
+        "≈ 0,13 $ : 65 000 tokens d'entrée, la sortie étant négligeable",
+        "≈ 1,30 $ : 650 000 tokens d'entrée cumulés sur les 10 tours",
+        "≈ 0,17 $ : 65 000 tokens d'entrée (0,13 $) et 4 000 tokens de sortie (0,04 $)"
+      ],
+      "answer": 3,
+      "explanation": "Chaque tour renvoie toute la conversation : l'entrée cumulée vaut 2 000 + 3 000 + … + 11 000 = 65 000 tokens, soit 0,13 $ ; la sortie, 10 × 400 = 4 000 tokens à 10 $/M, soit 0,04 $ (pas négligeable, elle coûte 5× l'entrée). Total ≈ 0,17 $. C'est le coût « quadratique » décrit en L095 ; les leviers sont le prompt caching du préfixe stable, la compaction et un plafond de tours.",
+      "source": {
+        "title": "Claude Platform — Pricing",
+        "url": "https://platform.claude.com/docs/en/about-claude/pricing"
+      }
+    },
+    {
+      "id": "N3-E29",
+      "lessonId": "L098",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "Vous automatisez la réponse à des appels d'offres publics : un agent rédige un mémoire technique, puis doit le corriger tant qu'il ne respecte pas une grille de 12 critères explicites (pièces exigées, longueur, mentions obligatoires). Quelle architecture multi-agents correspond, et avec quelle borne ?",
+      "options": [
+        "Handoffs : le rédacteur transfère la conversation au client, qui valide le mémoire critère par critère",
+        "Séquentiel strict A → B → C, sans retour arrière possible une fois le mémoire rédigé",
+        "Évaluateur-optimiseur : un évaluateur note contre la grille et renvoie ses remarques, 2 à 3 cycles maximum puis « échec documenté »",
+        "Hiérarchique avec un manager qui crée dynamiquement autant de sous-agents que de critères, sans limite d'itérations ni sortie d'échec"
+      ],
+      "answer": 2,
+      "explanation": "La question clé de L098 est « qui décide de la prochaine étape ? » : ici, un critique, donc le patron évaluateur-optimiseur (implémenté dans le cookbook Anthropic). Le piège « débat sans fin » se pare par un nombre maximal de cycles (2-3), des critères d'acceptation explicites et une sortie d'échec documentée. Un manager sans limite d'itérations cumule l'explosion de coût et l'état incohérent.",
+      "source": {
+        "title": "Claude Cookbook — Orchestrator-workers",
+        "url": "https://platform.claude.com/cookbook/patterns-agents-orchestrator-workers"
+      }
+    },
+    {
+      "id": "N3-E30",
+      "lessonId": "L099",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "Votre agent interne utilise un serveur MCP HTTP « CRM » qui s'authentifie auprès du CRM avec un seul jeton administrateur. Un commercial obtient, en le demandant à l'agent, les contrats d'une autre région qu'il n'a pas le droit de consulter. De quelle menace s'agit-il, et quelle parade le cours recommande-t-il ?",
+      "options": [
+        "Un « confused deputy » : l'agent prête ses droits larges à un utilisateur non autorisé ; jetons par utilisateur (OAuth 2.1), moindre privilège",
+        "Un « rug pull » : le serveur a changé de comportement ; il faut épingler sa version et comparer l'empreinte de `tools/list` à chaque démarrage de l'agent",
+        "Une carte d'agent falsifiée : il faut activer les Agent Cards signées d'A2A 1.2 entre l'agent et le CRM",
+        "Une consommation illimitée : il faut ajouter des délais et des quotas côté client, par utilisateur et par région"
+      ],
+      "answer": 0,
+      "explanation": "La table de sécurité de L099 décrit exactement ce cas : un agent aux droits larges amené à agir pour un tiers non autorisé (délégation abusive). La parade : des jetons par utilisateur, jamais une clé « maître » partagée, avec l'autorisation OAuth 2.1 que la spécification MCP définit pour les serveurs HTTP. Le rug pull concerne une description d'outil modifiée après validation, les cartes signées concernent A2A entre organisations.",
+      "source": {
+        "title": "Model Context Protocol — spécification",
+        "url": "https://modelcontextprotocol.io/specification"
+      }
+    },
+    {
+      "id": "N3-E31",
+      "lessonId": "L097",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "Un service Python d'agent RH doit : changer de fournisseur en modifiant une chaîne, être testé sans appel réseau, plafonner requêtes et tokens, et, si le modèle renvoie « accepté » pour plus de 10 jours ouvrés, lui faire corriger sa sortie plutôt que d'échouer. Avec Pydantic AI, quels mécanismes utilisez-vous ?",
+      "options": [
+        "`handoffs` vers un agent contrôleur et `max_turns`, avec un guardrail tripwire en sortie et `Runner.run_sync` pour les tests",
+        "`output_type` + `@agent.output_validator` levant `ModelRetry`, `UsageLimits` pour les plafonds et `TestModel` pour les tests",
+        "Un hook `PreToolUse` qui renvoie `deny` et `max_budget_usd` pour le plafond de coût",
+        "Une sortie structurée stricte suffit : le schéma empêche la combinaison « accepté » et plus de 10 jours ouvrés grâce à `maximum`"
+      ],
+      "answer": 1,
+      "explanation": "Ce sont les mécanismes de Pydantic AI présentés en L097 : modèle en chaîne `fournisseur:modele`, `output_type` validé, `output_validator` et `ModelRetry` qui transforment une règle métier en observation réinjectée, `UsageLimits` (requêtes, tokens) et `TestModel` pour tester sans réseau. Les hooks et `max_budget_usd` appartiennent au Claude Agent SDK, les handoffs et tripwires à l'OpenAI Agents SDK. Un schéma ne garantit pas une cohérence entre deux champs.",
+      "source": {
+        "title": "Pydantic AI — documentation",
+        "url": "https://ai.pydantic.dev"
+      }
+    },
+    {
+      "id": "N3-E32",
+      "lessonId": "L101",
+      "competence": "C3.5",
+      "type": "trouve_erreur",
+      "q": "Ce route handler Next.js, copié d'un tutoriel de 2024, échoue avec la version actuelle du Vercel AI SDK et Claude Sonnet 5.5. Quelles corrections sont nécessaires ?\n\n```ts\nconst result = streamText({\n  model: anthropic(\"claude-sonnet-5-5\"),\n  temperature: 0.3,\n  maxSteps: 5,\n  messages: await convertToModelMessages(messages),\n  tools: { echeanceTva: tool({ description: \"…\", parameters: z.object({ regime: z.string() }), execute }) },\n});\nreturn result.toDataStreamResponse();\n```",
+      "options": [
+        "Uniquement remplacer `anthropic(...)` par `openai(...)`, car le fournisseur Anthropic ne gère pas les outils en streaming ni `maxSteps`",
+        "Uniquement supprimer `temperature`, le reste du code étant compatible avec le SDK v5 grâce à la couche de rétrocompatibilité",
+        "Uniquement passer `runtime = \"edge\"`, requis par `streamText`",
+        "Supprimer `temperature` (400 sur Claude ≥ 4.7) et passer aux noms v5 : `stopWhen: stepCountIs(5)`, `inputSchema`, `toUIMessageStreamResponse()`"
+      ],
+      "answer": 3,
+      "explanation": "La leçon L101 signale les renommages de la version 5 du SDK (`maxSteps` → `stopWhen`, `parameters` → `inputSchema`, `toDataStreamResponse` → `toUIMessageStreamResponse`) et rappelle que le code du cours ne passe pas de `temperature`, refusée (400) par les modèles Claude ≥ 4.7 et transmise telle quelle par le SDK. Le runtime Node est d'ailleurs requis dans l'exemple (client `pg`), et le fournisseur Anthropic gère les outils.",
+      "source": {
+        "title": "Vercel AI SDK — documentation",
+        "url": "https://ai-sdk.dev"
+      }
+    },
+    {
+      "id": "N3-E33",
+      "lessonId": "L102",
+      "competence": "C3.5",
+      "type": "mise_en_situation",
+      "q": "Le cache sémantique de Compta-Chat (pgvector, seuil cosinus 0,92) a servi à une collaboratrice la réponse « Le régime de TVA de la SARL Dupont est le réel normal mensuel » alors qu'elle demandait le régime de la SAS Martin. Quelle correction respecte les garde-fous du cours ?",
+      "options": [
+        "Exclure du cache les questions propres à un dossier (ou mettre client et utilisateur dans la clé) et les réponses issues d'outils variables",
+        "Monter le seuil à 0,99 : à ce niveau, deux noms de sociétés différents ne peuvent plus se confondre dans l'espace d'embedding utilisé par le cache",
+        "Passer le TTL du cache de 7 jours à 1 heure pour limiter les réponses périmées",
+        "Remplacer le cache sémantique par du prompt caching, qui garantit les mêmes économies sur les réponses déjà générées"
+      ],
+      "answer": 0,
+      "explanation": "La leçon L102 pose deux garde-fous : n'utiliser le cache sémantique que pour les questions sans contexte personnel (une réponse sur la SARL Dupont ne doit pas servir une question sur la SAS Martin, même si les phrases se ressemblent) et ne jamais cacher une réponse issue d'un appel d'outil dont le résultat change. Un seuil plus haut réduit le risque sans le supprimer, et le prompt caching réduit le coût du préfixe sans éviter l'appel.",
+      "source": {
+        "title": "pgvector — dépôt officiel",
+        "url": "https://github.com/pgvector/pgvector"
+      }
+    },
+    {
+      "id": "N3-E34",
+      "lessonId": "L104",
+      "competence": "C3.5",
+      "type": "mise_en_situation",
+      "q": "La suite promptfoo de Compta-Chat compte 20 lignes. 19 réussissent (aucune n'est un cas critique en échec), le coût moyen est de 0,0051 $. Les latences triées sont : 19 valeurs entre 2 100 et 8 600 ms, puis 12 400 ms. Avec `verifier-seuils.mjs` (`tauxReussiteMin` 0,92, `coutMoyenMax` 0,006, `latenceP95Max` 9 000, `p95 = latences[Math.floor(latences.length * 0.95)]`), que fait le job CI ?",
+      "options": [
+        "Il réussit : 95 % des latences sont sous 9 000 ms, donc le p95 est conforme au seuil `latenceP95Max` du script",
+        "Il échoue sur le taux de réussite : 19/20 = 95 % est inférieur au seuil de 92 % exprimé en assertions",
+        "Il échoue sur la latence : `Math.floor(20 × 0,95)` = 19, dernier indice, donc p95 = 12 400 ms > 9 000 ms",
+        "Il échoue sur le coût : 0,0051 $ dépasse le seuil une fois converti en euros"
+      ],
+      "answer": 2,
+      "explanation": "Avec 20 valeurs, l'indice calculé vaut 19 : le « p95 » du script est donc la valeur maximale (12 400 ms), qui dépasse 9 000 ms ; `erreurs` n'est pas vide et `process.exit(1)` rend la pull request rouge. Le taux (95 % ≥ 92 %) et le coût (0,0051 $ ≤ 0,006 $) passent. Moralité : sur un petit échantillon, un percentile élevé revient à surveiller le pire cas, d'où l'intérêt d'avoir assez de cas et de lire la définition exacte du seuil.",
+      "source": {
+        "title": "promptfoo — documentation",
+        "url": "https://www.promptfoo.dev/docs"
+      }
+    },
+    {
+      "id": "N3-E35",
+      "lessonId": "L105",
+      "competence": "C3.5",
+      "type": "mise_en_situation",
+      "q": "Compta-Chat est déployé sur Vercel. Pour les résumés nocturnes de PDF (file pg-boss), un développeur fait appeler toutes les 5 minutes, par un cron externe, une route `/api/worker` qui traite les jobs en attente. Après quelques nuits : jobs bloqués à l'état actif, rejoués, et appels LLM facturés deux fois. Quelle est la cause et la correction ?",
+      "options": [
+        "Le cron est trop fréquent : deux appels se chevauchent ; il suffit de passer à un appel toutes les heures pour laisser chaque lot se terminer",
+        "La fonction serverless est coupée à `maxDuration` en plein job, ensuite rejoué : il faut un worker permanent hébergé ailleurs et des jobs idempotents",
+        "pg-boss ne fonctionne pas sur Vercel ; il faut migrer vers BullMQ et Redis, dont les verrous empêchent les rejeux",
+        "Il faut augmenter `retryLimit` pour que les jobs finissent par aboutir malgré les coupures"
+      ],
+      "answer": 1,
+      "explanation": "C'est le piège décrit en L105 : lancer le worker « dans » une route API appelée par un cron externe. La fonction est coupée à `maxDuration`, les jobs restent actifs puis sont rejoués, et vous payez deux fois. Un worker est un processus permanent (conteneur à part), et L102 ajoute les verrous d'idempotence (clé d'unicité, vérification avant appel, écriture atomique). Plus de retries aggraverait la double facturation.",
+      "source": {
+        "title": "Vercel — documentation",
+        "url": "https://vercel.com/docs"
+      }
+    },
+    {
+      "id": "N3-E36",
+      "lessonId": "L106",
+      "competence": "C3.6",
+      "type": "mise_en_situation",
+      "q": "Un SaaS de support stocke dans une unique collection Chroma les e-mails de tous ses clients professionnels. La requête de recherche n'applique aucun filtre de tenant ; un utilisateur du client A reçoit une réponse fondée sur un e-mail du client B. À quels risques OWASP Top 10 LLM 2026 ce constat se rattache-t-il principalement ?",
+      "options": [
+        "LLM05 Data and Model Poisoning uniquement, l'e-mail de B ayant empoisonné l'index",
+        "LLM01 Prompt Injection et LLM07 Misinformation",
+        "LLM06 Unbounded Consumption et LLM04 Supply Chain",
+        "LLM09 Vector and Embedding Weaknesses et LLM02 Sensitive Information Disclosure"
+      ],
+      "answer": 3,
+      "explanation": "La liste 2026 décrit LLM09 comme les fuites et l'empoisonnement des bases vectorielles, « surtout multi-tenant », avec précisément l'exemple d'une base Chroma qui mélange tous les clients sans filtre de tenant ; la conséquence est une fuite de données d'autres utilisateurs (LLM02). Contre-mesure (L110, V03) : une collection par client ou un filtre `client` imposé côté serveur à chaque requête.",
+      "source": {
+        "title": "OWASP GenAI Security Project",
+        "url": "https://genai.owasp.org/"
+      }
+    },
+    {
+      "id": "N3-E37",
+      "lessonId": "L107",
+      "competence": "C3.6",
+      "type": "trouve_erreur",
+      "q": "Pour limiter l'envoi d'e-mails de DevisBot aux adresses de l'entreprise, ce contrôle a été ajouté. Pourquoi un auditeur le juge-t-il insuffisant ?\n\n```python\nif nom == \"envoyer_email\":\n    if not args[\"a\"].lower().endswith(\"plomberie-martin.example\"):\n        return \"Refusé : destinataire externe non autorisé.\"\n```",
+      "options": [
+        "Une adresse comme `pirate@faux-plomberie-martin.example` passe le test ; il faut comparer exactement le domaine extrait à une liste blanche",
+        "Le contrôle est correct, mais il doit être placé dans le prompt système pour que le modèle ne tente même pas l'envoi vers une adresse externe",
+        "`lower()` rend le test vulnérable aux homoglyphes ; il suffit de le retirer",
+        "Le test doit porter sur la partie locale de l'adresse (avant `@`), le domaine pouvant être usurpé par l'en-tête From"
+      ],
+      "answer": 0,
+      "explanation": "`endswith` accepte tout domaine qui se termine par la chaîne attendue, y compris un domaine voisin contrôlé par l'attaquant. La couche 1 de L107 extrait le domaine (`args[\"a\"].split(\"@\")[-1].lower()`) et le compare à un ensemble `DOMAINES_EMAIL_AUTORISES` : les règles vivent dans le code, avec une égalité stricte. Une règle dans le prompt ne protège pas contre une injection, et retirer `lower()` n'apporte rien.",
+      "source": {
+        "title": "Claude Platform — Mitigate jailbreaks and prompt injections",
+        "url": "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks"
+      }
+    },
+    {
+      "id": "N3-E38",
+      "lessonId": "L107",
+      "competence": "C3.6",
+      "type": "mise_en_situation",
+      "q": "Le front d'un assistant affiche les réponses ainsi : `zone.innerHTML = marked.parse(reponse)`. Un audit montre qu'un e-mail piégé, résumé par l'agent, fait apparaître dans la réponse un lien `<a href=\"javascript:…\">`. Quel risque et quelle contre-mesure ?",
+      "options": [
+        "LLM08 Hidden Context Exposure ; ajouter un canari dans le prompt système et bloquer les réponses qui le contiennent",
+        "LLM06 Unbounded Consumption ; plafonner `max_tokens` pour que la charge malveillante ne tienne pas dans la réponse",
+        "LLM10 Improper Output Handling (XSS) ; valider la sortie et sanitiser le Markdown rendu au lieu de l'injecter brut dans le DOM",
+        "LLM01 Prompt Injection uniquement ; un modèle garde en entrée suffit, la sortie n'a plus besoin d'être traitée côté front ni côté serveur"
+      ],
+      "answer": 2,
+      "explanation": "Insérer la sortie du modèle comme HTML sans échappement relève de LLM10 (attaque A4 de L107, constat V10 de L110). La couche 4 de L107 valide la sortie (contenu actif, données sensibles, canari) puis échappe le HTML ; la contre-mesure listée en L110 est l'échappement ou un rendu Markdown sanitisé. L'injection indirecte (LLM01) est la porte d'entrée, mais la défense en profondeur exige aussi de traiter la sortie : un filtre d'entrée ne bloque jamais tout.",
+      "source": {
+        "title": "Claude Platform — Mitigate jailbreaks and prompt injections",
+        "url": "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks"
+      }
+    },
+    {
+      "id": "N3-E39",
+      "lessonId": "L109",
+      "competence": "C3.6",
+      "type": "mise_en_situation",
+      "q": "Un chatbot public sur Claude Haiku 5.5 (0,10 $/MTok en entrée jusqu'à 100 k tokens, 0,50 $/MTok au-delà) n'a aucune limite de taille d'entrée. Un week-end, un script envoie 2 000 requêtes de 900 000 tokens. En négligeant la sortie, combien coûte l'attaque, et combien coûterait-elle avec un plafond applicatif de 4 000 tokens d'entrée par requête ?",
+      "options": [
+        "≈ 180 $ sans plafond ; ≈ 0,80 $ avec plafond",
+        "≈ 900 $ sans plafond ; ≈ 8 $ avec plafond",
+        "≈ 90 $ sans plafond ; ≈ 0,80 $ avec plafond",
+        "≈ 900 $ sans plafond ; ≈ 0,80 $ avec plafond"
+      ],
+      "answer": 3,
+      "explanation": "Au-delà de 100 k tokens, Haiku 5.5 passe à 0,50 $/MTok : 900 000 × 0,50 / 10⁶ = 0,45 $ par requête, × 2 000 = 900 $. Avec un plafond de 4 000 tokens (refus 413 au-delà), chaque requête coûte au plus 4 000 × 0,10 / 10⁶ = 0,0004 $, soit 0,80 $ pour 2 000. C'est le « déni de portefeuille » (LLM06:2026) de L109 : on limite les requêtes, les tokens et surtout les dollars.",
+      "source": {
+        "title": "Claude Platform — Pricing",
+        "url": "https://platform.claude.com/docs/en/about-claude/pricing"
+      }
+    },
+    {
+      "id": "N3-E40",
+      "lessonId": "L110",
+      "competence": "C3.6",
+      "type": "mise_en_situation",
+      "q": "Lors de l'audit, une injection indirecte par document fait divulguer le salaire d'un autre salarié une fois sur cinq. Vous cotez la probabilité à 2 et l'impact à 4 (données de paie, notification CNIL possible). Selon la grille probabilité × impact du cours, quel niveau et quel délai indiquez-vous dans le rapport ?",
+      "options": [
+        "Critique, bloquant avant toute mise en production, car l'impact est maximal",
+        "Élevé (score 8), correction sous 30 jours",
+        "Moyen (score 6), correction sous 90 jours",
+        "Faible : le modèle a refusé quatre fois sur cinq, le risque peut être accepté par écrit"
+      ],
+      "answer": 1,
+      "explanation": "Le score est le produit : 2 × 4 = 8, ce qui correspond au niveau Élevé (8-9) et à une correction sous 30 jours ; Critique commence à 12. Le niveau ne se déduit pas de l'impact seul. Quant au taux de 1 sur 5, L110 rappelle qu'une injection qui passe une fois sur cinq réussit en moyenne 28 fois sur 140 tentatives : ce n'est jamais un argument pour conclure « non vulnérable ».",
+      "source": {
+        "title": "Coralogix — OWASP Top 10 for LLM Applications",
+        "url": "https://coralogix.com/ai-blog/owasp-top-10-for-llm-applications/"
+      }
+    },
+    {
+      "id": "N3-E41",
+      "lessonId": "L065",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Après une rotation de clé, une développeuse place la nouvelle clé dans `.env` et révoque l'ancienne. Son script appelle `load_dotenv()` puis `Anthropic()`, et reçoit une erreur 401. Dans son terminal, `echo $ANTHROPIC_API_KEY` affiche encore l'ancienne clé, exportée depuis son `~/.zshrc`. Quelle est l'explication ?",
+      "options": [
+        "Le SDK v2 lit d'abord le profil de configuration sur disque, qui contient encore l'ancienne clé, avant toute variable",
+        "Le SDK v2 envoie `Authorization: Bearer`, que l'API refuse pour les clés créées après le 21 octobre 2026",
+        "`load_dotenv()` n'écrase pas une variable déjà définie : c'est la clé révoquée, exportée par le shell, que le client lit",
+        "Une nouvelle clé n'est active qu'après un premier appel de test lancé depuis la Console du fournisseur"
+      ],
+      "answer": 2,
+      "explanation": "La leçon L065 le précise en commentaire : `load_dotenv()` charge `.env` sans écraser une variable déjà présente dans l'environnement. L'ordre de résolution du SDK est argument explicite, puis `ANTHROPIC_API_KEY`, puis profil : la variable exportée par le shell, révoquée, gagne et produit le 401. Il faut mettre à jour ou retirer cet export ; l'en-tête Bearer des SDK v2 ne pose problème qu'à un proxy qui lirait `X-Api-Key`.",
+      "source": {
+        "title": "Claude Platform — Get an API key",
+        "url": "https://platform.claude.com/docs/en/get-api-key"
+      }
+    },
+    {
+      "id": "N3-E42",
+      "lessonId": "L066",
+      "competence": "C3.1",
+      "type": "trouve_erreur",
+      "q": "Ce relais de streaming fonctionne tant que Claude répond en texte, mais il plante dès que le modèle décide d'appeler l'un des outils déclarés. Pourquoi ?\n\n```python\nwith client.messages.create(model=\"claude-sonnet-5-5\", max_tokens=800, stream=True,\n                            tools=OUTILS, messages=messages) as flux:\n    for ev in flux:\n        if ev.type == \"content_block_delta\":\n            envoyer_au_navigateur(ev.delta.text)\n        elif ev.type == \"message_delta\":\n            journaliser(ev.delta.stop_reason, ev.usage.output_tokens)\n```",
+      "options": [
+        "`message_delta` n'est pas émis quand `stop_reason` vaut `tool_use` : la ligne de journalisation lève une exception en fin de flux",
+        "Les arguments d'outil arrivent en `input_json_delta`, qui n'a pas de `.text` : il faut tester `ev.delta.type == \"text_delta\"`",
+        "Le streaming est incompatible avec `tools` : dès qu'un outil est déclaré, il faut un appel sans `stream=True`",
+        "Un appel d'outil ouvre un second flux SSE séparé, que la boucle `for ev in flux` ne lit pas et qui reste bloqué"
+      ],
+      "answer": 1,
+      "explanation": "La leçon L066 liste les types de delta : `text_delta` pour le texte, `input_json_delta` pour les arguments d'un outil, `thinking_delta` et `signature_delta` pour le raisonnement. Lire `.text` sur un delta d'arguments échoue : le code de référence teste `ev.delta.type == \"text_delta\"`. La séquence d'événements ne change pas avec les outils : `message_delta` porte toujours le `stop_reason` et l'usage de sortie, dans le même flux.",
+      "source": {
+        "title": "Claude Platform — Streaming Messages",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/streaming"
+      }
+    },
+    {
+      "id": "N3-E43",
+      "lessonId": "L066",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Vous réglez la boucle `appeler_avec_retry` du cours avec `tentatives_max=5`, `delai_base=2` et `plafond=10`, sur un client `Anthropic(max_retries=0)`. Pendant une surcharge, chaque requête reçoit un 529 sans en-tête `retry-after`. Combien de requêtes partent, et quelle attente cumulée précède l'exception finale ?",
+      "options": [
+        "5 requêtes ; 30 s d'attente (2 + 4 + 8 + 16), le plafond ne jouant qu'au-delà de la 5e tentative",
+        "5 requêtes ; 34 s d'attente (2 + 4 + 8 + 10 + 10), le code attendant aussi après la dernière tentative",
+        "15 requêtes ; 24 s d'attente, chaque tentative maison déclenchant deux retries supplémentaires du SDK",
+        "5 requêtes ; 24 s d'attente (2 + 4 + 8 + 10), plus un jitter de 0 à 4 s au total"
+      ],
+      "answer": 3,
+      "explanation": "Le délai vaut min(plafond, delai_base × 2^(k−1)) : 2, 4, 8, puis 16 plafonné à 10 s, soit 24 s, auxquels s'ajoute un jitter uniforme de 0 à 1 s par attente. À la 5e tentative, le code remonte l'exception sans dormir (`tentative == tentatives_max`). Avec `max_retries=0`, le SDK ne réessaie rien lui-même : on a bien 5 requêtes, et non 15 comme avec les réglages par défaut.",
+      "source": {
+        "title": "Claude Platform — Messages API reference",
+        "url": "https://platform.claude.com/docs/en/api/messages/create"
+      }
+    },
+    {
+      "id": "N3-E44",
+      "lessonId": "L067",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Le garde-fou `ClientBudgete` du cours (plafond 1,00 $, `max_tokens_entree=20 000`) a déjà dépensé 0,95 $ sur claude-sonnet-5-5 (2 $ / 10 $ par MTok). Trois requêtes arrivent ; `count_tokens` renvoie : R1 10 000 tokens avec `max_tokens=1000` ; R2 2 000 tokens avec `max_tokens=6000` ; R3 22 000 tokens avec `max_tokens=100`. Lesquelles sont refusées avant envoi ?",
+      "options": [
+        "R2 et R3 : le pire cas de R2 (≈ 0,064 $) dépasse les 0,05 $ restants, et l'entrée de R3 dépasse 20 000 tokens",
+        "R2 seulement : le contrôle de taille ne vise que les requêtes au-delà de 100 000 tokens d'entrée",
+        "Aucune : le garde-fou ne compare que la dépense réelle, comptabilisée après chaque appel",
+        "Les trois : toute requête est refusée dès que la dépense a dépassé 80 % du plafond"
+      ],
+      "answer": 0,
+      "explanation": "Le garde-fou de L067 refuse d'abord toute entrée estimée au-delà de `max_tokens_entree` (R3 : 22 000 > 20 000), puis calcule le pire cas entrée + `max_tokens` : R1 = 0,02 + 0,01 = 0,03 $ (0,98 $ ≤ 1 $, acceptée), R2 = 0,004 + 0,06 = 0,064 $ (1,014 $ > 1 $, refusée). Le seuil de 80 % ne déclenche qu'une alerte, et la dépense réelle n'est ajoutée qu'après l'appel.",
+      "source": {
+        "title": "Claude Platform — Pricing",
+        "url": "https://platform.claude.com/docs/en/about-claude/pricing"
+      }
+    },
+    {
+      "id": "N3-E45",
+      "lessonId": "L068",
+      "competence": "C3.1",
+      "type": "trouve_erreur",
+      "q": "Ce code écrit en 2025 renvoie désormais une erreur 400 sur claude-sonnet-5-5. Quelle correction le cours recommande-t-il ?\n\n```python\nr = client.messages.create(\n    model=\"claude-sonnet-5-5\", max_tokens=500,\n    messages=[\n        {\"role\": \"user\", \"content\": f\"Extrais le client et le montant de ce devis en JSON :\\n{texte}\"},\n        {\"role\": \"assistant\", \"content\": \"{\"},   # force une réponse qui commence par une accolade\n    ],\n)\ndonnees = json.loads(\"{\" + r.content[0].text)\n```",
+      "options": [
+        "Deux messages de rôles différents ne peuvent pas se suivre dans `messages` : il faut fusionner l'accolade dans le message `user`",
+        "Le dernier message doit être de rôle `user` : il suffit d'ajouter un message `user` vide après l'accolade",
+        "`max_tokens=500` est trop faible pour un JSON : le relever à 4 096 fait disparaître l'erreur 400",
+        "Le préremplissage `assistant` n'est plus supporté (modèles ≥ 4.6) : imposer le format par une sortie structurée"
+      ],
+      "answer": 3,
+      "explanation": "La leçon L068 indique que le préremplissage (commencer soi-même le message `assistant`) n'est plus supporté sur les modèles ≥ 4.6 ; pour imposer un format, on passe par les sorties structurées de L071. L'alternance user/assistant est normale, et `max_tokens` trop bas tronque la réponse (`stop_reason: max_tokens`) sans provoquer de 400.",
+      "source": {
+        "title": "Claude Platform — Using the Messages API",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/working-with-messages"
+      }
+    },
+    {
+      "id": "N3-E46",
+      "lessonId": "L072",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Un groupe veut faire analyser son rapport annuel, un PDF de 720 pages de texte dense, par claude-sonnet-5-5 (contexte 1M). En reprenant l'ordre de grandeur du cours (≈ 1 500 tokens de texte + ≈ 1 500 tokens d'image par page), que proposez-vous ?",
+      "options": [
+        "L'envoyer par la Files API : un `file_id` n'est pas soumis aux limites de pages ni de fenêtre de contexte",
+        "Le découper en 3 parties d'environ 240 pages (≈ 720 000 tokens chacune) : sous 600 pages et sous 1M de contexte",
+        "Le découper en 2 parties de 360 pages : chacune passe sous la limite de 600 pages par requête",
+        "Le passer en Batch API : une requête de lot accepte 256 Mo, donc le PDF entier en un seul appel"
+      ],
+      "answer": 1,
+      "explanation": "Deux limites s'appliquent : 600 pages par requête (L072) et 1M de tokens de contexte. 720 pages × ≈ 3 000 tokens ≈ 2,16 M tokens ; deux parties de 360 pages feraient encore ≈ 1,08 M tokens chacune, trois parties de 240 pages ≈ 720 000 tokens. La Files API évite de renvoyer le fichier mais il est relu en entier à chaque requête, et les 256 Mo concernent la taille d'un lot, pas le contexte d'une requête ; pour des questions répétées, un RAG (M20) devient préférable.",
+      "source": {
+        "title": "Claude Platform — PDF support",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/pdf-support"
+      }
+    },
+    {
+      "id": "N3-E47",
+      "lessonId": "L073",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Un assistant sur claude-sonnet-5-5 (entrée 2 $, écriture de cache 2,50 $ en 5 min et 4 $ en 1 h, lecture 0,10 $ par MTok) joint à chaque question un mémento de 30 000 tokens. Il reçoit une question toutes les 20 minutes, 10 heures par jour (30 questions). En comptant prudemment, comme le défi du cours, une réécriture du cache 1 h par heure, quelle analyse de la seule partie « mémento » est juste ?",
+      "options": [
+        "Cache 5 min : ≈ 0,09 $/jour, car toutes les questions sauf la première lisent le cache à 0,10 $",
+        "Cache 1 h : ≈ 3,60 $/jour, l'écriture à 2× rendant l'option 1 h toujours plus chère que l'option 5 min",
+        "Cache 5 min : ≈ 2,25 $/jour, plus cher que sans cache (≈ 1,80 $) ; cache 1 h : ≈ 1,26 $/jour",
+        "Sans cache, ≈ 1,80 $/jour : le cache n'est rentable que pour plus d'une question par minute"
+      ],
+      "answer": 2,
+      "explanation": "Sans cache : 30 × 30 000 × 2 $/M = 1,80 $. Avec un TTL de 5 minutes et 20 minutes entre deux questions, le cache a expiré à chaque appel : 30 écritures à 2,50 $/M = 2,25 $, soit plus cher que rien. Avec le TTL d'une heure : 10 écritures à 4 $/M (1,20 $) et 20 lectures à 0,10 $/M (0,06 $), soit ≈ 1,26 $. Le TTL se choisit selon l'intervalle réel entre les requêtes (L073).",
+      "source": {
+        "title": "Claude Platform — Prompt caching",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+      }
+    },
+    {
+      "id": "N3-E48",
+      "lessonId": "L070",
+      "competence": "C3.2",
+      "type": "mise_en_situation",
+      "q": "Une PME branche sur son assistant claude-sonnet-5-5 un serveur MCP qui expose 80 outils de son ERP : chaque requête embarque environ 15 000 tokens de définitions. Avec 2 000 requêtes par jour, l'équipe constate aussi que le modèle se trompe souvent d'outil. Quelle évaluation et quelle correction ?",
+      "options": [
+        "≈ 60 $/jour de définitions sans cache ; charger les outils à la demande (`tool_search`) ou les regrouper",
+        "≈ 6 $/jour, coût négligeable : il suffit de forcer l'outil voulu avec `tool_choice` à chaque requête",
+        "≈ 60 $/jour ; passer `strict: true` sur les 80 outils, ce qui raccourcit les schémas et fiabilise le choix d'outil",
+        "≈ 60 $/jour ; basculer sur Haiku 5.5, qui ne facture pas les définitions d'outils non utilisées"
+      ],
+      "answer": 0,
+      "explanation": "15 000 tokens × 2 000 requêtes × 2 $/M = 60 $ par jour avant même la question. Le cours (L070, L075) donne les parades : `tool_search` au-delà d'une vingtaine d'outils (définitions chargées à la demande), regroupement en outils paramétrés ou sous-ensembles par tâche, cache des définitions. `strict` garantit la forme des arguments, pas le choix de l'outil, et le forçage par `tool_choice` renvoie une erreur 400 sur Sonnet 5.5.",
+      "source": {
+        "title": "Claude Platform — Tool search tool",
+        "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool"
+      }
+    },
+    {
+      "id": "N3-E49",
+      "lessonId": "L071",
+      "competence": "C3.2",
+      "type": "mise_en_situation",
+      "q": "Un négociant extrait les bons de livraison avec `client.messages.parse()` et un modèle Pydantic qui déclare `siret_fournisseur: str`. Sur 50 cas de test, les 20 bons manuscrits sans SIRET reviennent tous avec un SIRET à 14 chiffres plausible, mais faux. Quelle correction choisissez-vous ?",
+      "options": [
+        "Activer les citations sur le document, pour que le modèle ne puisse renvoyer que des SIRET présents dans le texte",
+        "Ajouter un `pattern` de 14 chiffres au schéma : le décodage contraint empêchera alors tout SIRET inventé",
+        "Remplacer `messages.parse()` par la forme brute `output_config.format`, seule à respecter les champs facultatifs",
+        "Rendre le champ nullable (`str | None`) et ajouter un champ `incertitudes` : un champ requis oblige à remplir"
+      ],
+      "answer": 3,
+      "explanation": "C'est le piège décrit en L071 : un champ `required` que le document ne contient pas est rempli quand même, par invention. On le rend optionnel (type `[\"string\", \"null\"]`) et on ajoute un champ « incertitudes ». Les citations sont incompatibles avec les sorties structurées, un `pattern` peut être ignoré et n'empêcherait de toute façon pas un numéro inventé bien formé, et les helpers Pydantic produisent le même schéma que la forme brute.",
+      "source": {
+        "title": "Claude Platform — Structured outputs",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/structured-outputs"
+      }
+    },
+    {
+      "id": "N3-E50",
+      "lessonId": "L074",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "Un job de CI lance Claude Code sur chaque pull request, y compris celles de contributeurs externes. Le RSSI exige : aucune écriture ni commande shell, une sortie exploitable par le script suivant, une exécution bornée. Quelle commande respecte ces trois exigences ?",
+      "options": [
+        "`claude \"Relis ce diff et liste les risques en JSON\" --output-format json --allowedTools \"Read,Grep,Bash\" --max-turns 8`",
+        "`claude -p \"Relis ce diff et liste les risques en JSON\" --output-format json --allowedTools \"Read,Grep\" --max-turns 8`",
+        "`claude -p \"Relis ce diff et liste les risques en JSON\" --output-format text --allowedTools \"Read,Write\" --max-turns 8`",
+        "`claude -p \"Relis ce diff et liste les risques en JSON\" --output-format json --max-turns 80`"
+      ],
+      "answer": 1,
+      "explanation": "Le mode headless de L074 combine `-p` (exécution non interactive), `--output-format json` (sortie exploitable), `--allowedTools \"Read,Grep\"` (lecture seule) et `--max-turns` (borne). Autoriser `Bash` ou `Write`, ou ne restreindre aucun outil, expose le job à une injection indirecte cachée dans les fichiers d'une PR externe, que la leçon signale comme le piège principal de la CI.",
+      "source": {
+        "title": "Claude Code — Headless mode",
+        "url": "https://code.claude.com/docs/en/headless.md"
+      }
+    },
+    {
+      "id": "N3-E51",
+      "lessonId": "L075",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "Dans le serveur MCP de la menuiserie, l'outil `enregistrer_demande` porte la docstring « À n'appeler qu'après confirmation explicite de l'utilisateur ». En recette, un e-mail piégé lu par l'hôte déclenche pourtant un enregistrement sans aucune confirmation. Quelle mesure apporte une vraie garantie ?",
+      "options": [
+        "Passer le serveur de stdio à Streamable HTTP avec OAuth 2.1, qui impose une confirmation à chaque appel d'outil",
+        "Déclarer `enregistrer_demande` comme resource plutôt que comme tool, pour que le modèle ne puisse plus l'appeler seul",
+        "Exiger la confirmation hors du modèle (permission de l'hôte sur cet outil ou élicitation), en séparant outils de lecture et d'écriture",
+        "Écrire la consigne en majuscules dans la docstring et la répéter dans le prompt `devis_rapide`"
+      ],
+      "answer": 2,
+      "explanation": "Une docstring devient la description lue par le modèle : c'est une consigne, que l'injection par ressource ou par résultat d'outil (L075, section Sécurité) peut faire ignorer. Le moindre privilège passe par l'hôte : confirmation (permissions, élicitation) avant toute écriture et séparation lecture/écriture. OAuth 2.1 authentifie le client sans confirmer l'action, et une resource n'est qu'une donnée en lecture, incapable d'enregistrer quoi que ce soit.",
+      "source": {
+        "title": "Model Context Protocol — spécification",
+        "url": "https://modelcontextprotocol.io/specification"
+      }
+    },
+    {
+      "id": "N3-E52",
+      "lessonId": "L078",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Un développeur réutilise pour OpenAI la formule de coût qu'il avait écrite pour Anthropic. Pour un appel gpt-6.1-terra (1 $ / 0,05 $ en cache / 5 $ par MTok) dont l'usage indique `input_tokens=1200`, `cached_tokens=800` et `output_tokens=350`, sa fonction renvoie 0,00299 $. Que se passe-t-il ?\n\n```python\ndef cout(u):\n    caches = u.input_tokens_details.cached_tokens\n    return (u.input_tokens * 1.00 + caches * 0.05 + u.output_tokens * 5.00) / 1e6\n```",
+      "options": [
+        "Chez OpenAI, `input_tokens` inclut les tokens en cache : il faut en retrancher les 800, soit ≈ 0,00219 $",
+        "Le tarif « cached » de GPT-6.1 Terra est de 0,10 $ et non de 0,05 $ : le bon montant est donc ≈ 0,00303 $",
+        "Rien : chez OpenAI comme chez Anthropic, `input_tokens` exclut déjà les tokens lus en cache",
+        "Les tokens en cache sont gratuits chez OpenAI : il suffit d'ôter le terme `caches`, soit ≈ 0,00295 $"
+      ],
+      "answer": 0,
+      "explanation": "Le calculateur de L078 retranche les tokens en cache (`entree_pleine = input_tokens − cached_tokens`) : chez OpenAI, `input_tokens` les inclut, alors que chez Anthropic `input_tokens` ne compte que l'entrée non cachée (L067, L073). Bon calcul : 400 × 1 + 800 × 0,05 + 350 × 5 = 2 190, soit ≈ 0,00219 $. La formule copiée facture deux fois les 800 tokens, une fois plein tarif et une fois au tarif cached.",
+      "source": {
+        "title": "OpenAI Developers — Pricing",
+        "url": "https://developers.openai.com/api/docs/pricing"
+      }
+    },
+    {
+      "id": "N3-E53",
+      "lessonId": "L082",
+      "competence": "C3.1",
+      "type": "trouve_erreur",
+      "q": "Le lot de 5 000 factures soumis à la Batch API d'OpenAI est `completed`, mais ce script de lecture plante dès la première ligne. Pourquoi ?\n\n```python\ncontenu = client.files.content(batch.output_file_id).text\nfor ligne in contenu.splitlines():\n    res = json.loads(ligne)\n    print(res[\"custom_id\"], res[\"response\"][\"body\"][\"output_text\"])\n```",
+      "options": [
+        "Un résultat de lot n'a pas le raccourci `output_text` : il faut parcourir `output[]` jusqu'aux contenus texte",
+        "Les lignes du fichier de sortie suivent l'ordre d'envoi : `custom_id` n'y figure pas et la clé est absente",
+        "Le fichier de sortie n'est téléchargeable qu'au terme de la fenêtre de 24 h, même pour un lot déjà terminé",
+        "Un lot sur `/v1/responses` renvoie du Chat Completions : il faut lire `choices[0].message.content`"
+      ],
+      "answer": 0,
+      "explanation": "Comme le souligne L082, dans un résultat de batch il n'y a pas de raccourci `output_text` (piège déjà signalé en L078) : le code de référence parcourt `output[]` jusqu'aux contenus de type `output_text`. Le `custom_id` est justement là pour recoller les résultats, et le fichier est lisible dès la fin du lot. Pensez aussi à lire `error_file_id` pour les requêtes en échec.",
+      "source": {
+        "title": "OpenAI Developers — Batch API",
+        "url": "https://developers.openai.com/api/docs/guides/batch"
+      }
+    },
+    {
+      "id": "N3-E54",
+      "lessonId": "L079",
+      "competence": "C3.2",
+      "type": "mise_en_situation",
+      "q": "Un client écrit « Où en sont mes commandes CMD-48213 et CMD-50122 ? ». L'assistant ne donne jamais de statut fiable pour la seconde. Que corrigez-vous dans cette boucle TypeScript ?\n\n```typescript\nconst appel = r1.output.find((i) => i.type === \"function_call\");\nif (appel && appel.type === \"function_call\") {\n  const { numero } = JSON.parse(appel.arguments);\n  const r2 = await client.responses.create({\n    model: \"gpt-6.1-terra\", instructions, tools: outils, previous_response_id: r1.id,\n    input: [{ type: \"function_call_output\", call_id: appel.call_id,\n              output: JSON.stringify(chercherCommande(numero)) }],\n  });\n  console.log(r2.output_text);\n}\n```",
+      "options": [
+        "`previous_response_id` interdit d'envoyer un `function_call_output` : il faut renvoyer tout l'historique dans `input`",
+        "`JSON.parse` échoue sur le second numéro, car `arguments` est déjà un objet et non une chaîne JSON",
+        "Deux `function_call` arrivent en parallèle et `find` ne garde que le premier : il faut traiter tous les items",
+        "Le mode `strict: true` limite le modèle à un seul appel de fonction par réponse : il faut le désactiver"
+      ],
+      "answer": 2,
+      "explanation": "La leçon L079 rappelle que le modèle peut émettre plusieurs `function_call` dans une même réponse et que la boucle doit traiter tous les items, pas seulement le premier (`find` s'arrête au premier) ; `parallel_tool_calls: false` sert seulement quand l'ordre des effets compte. L'exemple TypeScript du cours envoie bien des `function_call_output` avec `previous_response_id`, et `arguments` est une chaîne JSON à parser.",
+      "source": {
+        "title": "OpenAI Developers — Function calling",
+        "url": "https://developers.openai.com/api/docs/guides/agents-api/tools/functions"
+      }
+    },
+    {
+      "id": "N3-E55",
+      "lessonId": "L079",
+      "competence": "C3.2",
+      "type": "mise_en_situation",
+      "q": "Un cabinet comptable reçoit 1 000 e-mails par jour ; 30 % seulement sont des demandes de pièce à chercher dans la GED. Chaque appel consomme environ 1 500 tokens d'entrée et 100 de sortie (Luna : 0,10 $ / 0,50 $ ; Terra : 1 $ / 5 $ par MTok). Vous comparez une fonction unique strict sur Terra pour tous les e-mails et la stratégie en deux étapes du cours. Quel résultat est juste ?",
+      "options": [
+        "Fonction unique : ≈ 2,00 $/jour, moins cher que deux étapes, qui doublent les appels de tous les e-mails",
+        "Deux étapes : ≈ 0,80 $/jour (0,20 $ de tri sur Luna + 0,60 $ d'action sur Terra), contre ≈ 2,00 $ en fonction unique",
+        "Deux étapes : ≈ 2,60 $/jour, car les 300 e-mails à traiter paient deux appels Terra au lieu d'un",
+        "Les deux se valent (≈ 2,00 $/jour) : le tarif Batch s'applique d'office aux appels de tri"
+      ],
+      "answer": 1,
+      "explanation": "Fonction unique : 1 000 × (1 500 × 1 + 100 × 5) / 10⁶ = 2,00 $. Deux étapes : tri de tous les e-mails sur Luna, 1 000 × (150 + 50) / 10⁶ = 0,20 $, puis action sur Terra pour les 300 concernés, 300 × 0,002 = 0,60 $, soit 0,80 $. C'est le cas d'usage indiqué par L079 : quand une partie des e-mails ne déclenche aucune action, on trie avec le petit modèle et on réserve Terra à l'action. Le Batch ne s'applique jamais d'office.",
+      "source": {
+        "title": "OpenAI Developers — Structured outputs",
+        "url": "https://developers.openai.com/api/docs/guides/structured-outputs"
+      }
+    },
+    {
+      "id": "N3-E56",
+      "lessonId": "L083",
+      "competence": "C3.2",
+      "type": "trouve_erreur",
+      "q": "Lors du portage de l'assistant devis, la facture d'entrée du second appel est presque doublée et le modèle répond parfois comme si la demande avait été posée deux fois. Quelle correction appliquez-vous ?\n\n```python\nentree = [{\"role\": \"user\", \"content\": demande}]\nr1 = client.responses.create(model=\"gpt-6.1-sol\", instructions=SYSTEM, tools=OUTILS, input=entree)\nsorties = [{\"type\": \"function_call_output\", \"call_id\": it.call_id,\n            \"output\": json.dumps(executer(it.name, json.loads(it.arguments)))}\n           for it in r1.output if it.type == \"function_call\"]\nr2 = client.responses.create(model=\"gpt-6.1-sol\", instructions=SYSTEM, tools=OUTILS,\n                             previous_response_id=r1.id,\n                             input=entree + list(r1.output) + sorties)\n```",
+      "options": [
+        "Supprimer `previous_response_id` et passer `store=True`, seul moyen de chaîner deux appels de la Responses API",
+        "Envelopper chaque `function_call_output` dans un message `{\"role\": \"user\"}`, comme le `tool_result` d'Anthropic",
+        "Retirer `instructions` du second appel : déjà stockées avec r1, ce sont elles qui sont comptées deux fois",
+        "Avec `previous_response_id`, n'envoyer que les `function_call_output` : le reste est déjà stocké chez OpenAI"
+      ],
+      "answer": 3,
+      "explanation": "C'est le second piège de L083 : avec `previous_response_id`, OpenAI recharge le contexte stocké, il ne faut donc renvoyer que les nouveaux items. Ici, la question et le `function_call` arrivent deux fois, d'où les doublons et le surcoût. L'autre voie consiste à tout renvoyer dans `input` sans `previous_response_id`. Envelopper le résultat dans un rôle `user` provoque une erreur 400, et le code de référence repasse bien `instructions` au second appel.",
+      "source": {
+        "title": "OpenAI Developers — Conversation state",
+        "url": "https://developers.openai.com/api/docs/guides/conversation-state"
+      }
+    },
+    {
+      "id": "N3-E57",
+      "lessonId": "L085",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Un comparateur d'assurances interroge l'Agent API de Perplexity avec `openai/gpt-6-luna` (0,10 $ / 0,50 $ par MTok). Une réponse type déclenche 3 `web_search` en mode fast (1 $ / 1 000), 2 `fetch_url` (0,0005 $ l'appel), lit 8 000 tokens et en produit 500. Combien coûte une réponse, et quel poste domine ?",
+      "options": [
+        "≈ 0,005 $ par réponse, dont près de 80 % pour les outils (recherches et lectures de pages)",
+        "≈ 0,001 $ par réponse : les outils de l'Agent API sont inclus dans le prix des tokens",
+        "≈ 0,0105 $ par réponse, les tokens de Luna représentant l'essentiel de la facture",
+        "≈ 0,0096 $ par réponse, `web_search` restant facturé 2,50 $ / 1 000 même en mode fast"
+      ],
+      "answer": 0,
+      "explanation": "Outils : 3 × 0,001 + 2 × 0,0005 = 0,004 $. Tokens : 8 000 × 0,10 / 10⁶ + 500 × 0,50 / 10⁶ = 0,00105 $. Total ≈ 0,00505 $, dont 79 % pour les outils : avec un modèle routé bon marché, ce sont les appels d'outils qui font la facture (L085, section 6). Le mode fast de `web_search` coûte 1 $ / 1 000 au lieu de 2,50 $.",
+      "source": {
+        "title": "Perplexity — Pricing",
+        "url": "https://docs.perplexity.ai/getting-started/pricing"
+      }
+    },
+    {
+      "id": "N3-E58",
+      "lessonId": "L086",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Un cabinet d'avocats, tenu au secret professionnel et doté d'une petite équipe capable d'exploiter vLLM sur GPU, veut auto-héberger « Mistral Large 4 dès lundi » sur ses propres serveurs. Que lui répondez-vous (nov. 2026) ?",
+      "options": [
+        "Télécharger Large 4 sur Hugging Face sous licence Apache 2.0, comme tous les modèles Mistral depuis 2026",
+        "Large 4 n'a pas encore de poids ouverts (Public Preview) : auto-héberger Small 4 ou Ministral 3 (Apache 2.0)",
+        "Prendre l'API Mistral avec inférence régionale : les données ne quittent alors jamais le SI du cabinet",
+        "Héberger Large 4 sur un cloud américain : la nationalité française du modèle suffit à rester souverain"
+      ],
+      "answer": 1,
+      "explanation": "Le catalogue de L086 donne Mistral Large 4 en Public Preview, sous Mistral Ecosystem Open Weight License, avec des poids ouverts annoncés plus tard ; seuls Small 4 et Ministral 3 sont aujourd'hui sous Apache 2.0. La grille de la leçon oriente les données qui ne doivent jamais sortir du SI vers l'auto-hébergement, ce qui exclut l'API, même régionale, et le lieu d'hébergement compte plus que l'origine du modèle.",
+      "source": {
+        "title": "Mistral — Changelogs",
+        "url": "https://docs.mistral.ai/resources/changelogs"
+      }
+    },
+    {
+      "id": "N3-E59",
+      "lessonId": "L087",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Votre tableau de bord calcule le coût des appels gemini-3.8-flash (0,75 $ / 3,75 $ par MTok, nov. 2026) avec le code ci-dessous. Un appel affiche `promptTokenCount` 12 000, `candidatesTokenCount` 800 et `thoughtsTokenCount` 3 200. Le code affiche 0,012 $. Qu'en concluez-vous ?\n\n```typescript\nconst u = r.usageMetadata!;\nconst cout = (u.promptTokenCount! * 0.75 + u.candidatesTokenCount! * 3.75) / 1e6;\n```",
+      "options": [
+        "Le calcul est exact : les tokens de réflexion de Gemini ne sont pas facturés, seul le texte produit compte",
+        "Il faut ajouter la réflexion au tarif d'entrée, puisque le modèle la relit : ≈ 0,0144 $",
+        "Les tokens de réflexion sont facturés au tarif de sortie : l'appel coûte ≈ 0,024 $, soit le double de l'affichage",
+        "Le calcul est exact : `candidatesTokenCount` inclut déjà les 3 200 tokens de réflexion"
+      ],
+      "answer": 2,
+      "explanation": "Sur la page Pricing de Gemini, le prix de sortie inclut les tokens de réflexion (L087, corrigée en novembre 2026) : il faut ajouter `thoughtsTokenCount × 3,75`. Soit 12 000 × 0,75 + (800 + 3 200) × 3,75 = 24 000, donc ≈ 0,024 $ au lieu de 0,012 $. Sur un modèle qui réfléchit beaucoup, l'oubli peut diviser par deux le coût affiché.",
+      "source": {
+        "title": "Google — Gemini API pricing",
+        "url": "https://ai.google.dev/gemini-api/docs/pricing"
+      }
+    },
+    {
+      "id": "N3-E60",
+      "lessonId": "L088",
+      "competence": "C3.1",
+      "type": "mise_en_situation",
+      "q": "Dans la passerelle `llm_gateway.py` du cours, un développeur ajoute `temperature=0.2` à l'interface commune et le transmet à tous les adaptateurs. Depuis, 100 % des requêtes du palier « simple » sont servies par Mistral Small et les journaux répètent « erreur non réessayable sur anthropic : … 400 ». Quel diagnostic et quelle correction ?",
+      "options": [
+        "Haiku 5.5 est saturé : il faut augmenter `max_retries` de la passerelle pour insister davantage sur Anthropic",
+        "Le cache exact a mémorisé la première réponse de Mistral et la ressert à toutes les questions suivantes",
+        "`is_retryable` classe le 400 parmi les erreurs transitoires : la passerelle réessaie trois fois avant de basculer",
+        "`temperature` renvoie 400 sur Claude (SDK v2), d'où un repli systématique : passer ce réglage en option par fournisseur"
+      ],
+      "answer": 3,
+      "explanation": "Avec la version d'API 2026-10-21 des SDK v2, `temperature` renvoie 400 sur tous les modèles Claude. Un 400 ne figure pas dans `RETRYABLE` : la passerelle bascule immédiatement vers le fournisseur suivant, à chaque requête. La section « pièges de l'abstraction » de L088 recommande de laisser ces paramètres hors de l'interface commune et de les passer par un dictionnaire d'options propre à chaque fournisseur. Le cache exact est indexé par requête et ne sert pas une réponse à une autre question.",
+      "source": {
+        "title": "Claude Platform — Migration to API version 2026-10-21",
+        "url": "https://platform.claude.com/docs/en/api/migration-2026-10-21"
+      }
+    },
+    {
+      "id": "N3-E61",
+      "lessonId": "L089",
+      "competence": "C3.3",
+      "type": "mise_en_situation",
+      "q": "Un éditeur de logiciel RH prépare un RAG multi-clients : environ 20 millions de vecteurs, recherche hybride dense + sparse, quantification pour tenir en mémoire, et données obligatoirement hébergées sur ses propres serveurs. Il n'utilise pas PostgreSQL aujourd'hui. Quelle base vectorielle le tableau de décision du cours désigne-t-il ?",
+      "options": [
+        "Qdrant, moteur dédié auto-hébergé avec hybride dense + sparse et quantification",
+        "pgvector, la voie royale tant que l'on reste sous quelques dizaines de millions de vecteurs",
+        "Chroma en mode embarqué, partagé entre les instances de l'application",
+        "Pinecone, pour n'avoir aucune infrastructure vectorielle à exploiter"
+      ],
+      "answer": 0,
+      "explanation": "Le tableau de L089 réserve pgvector aux équipes qui ont déjà PostgreSQL et à moins de quelques millions de vecteurs, Chroma aux prototypes mono-poste, et Pinecone à un service managé, données hors de chez vous. Qdrant (Apache 2.0) est indiqué pour la production auto-hébergée avec hybride dense + sparse et quantification, au prix d'un service de plus à exploiter.",
+      "source": {
+        "title": "Qdrant — documentation",
+        "url": "https://qdrant.tech/documentation/"
+      }
+    },
+    {
+      "id": "N3-E62",
+      "lessonId": "L090",
+      "competence": "C3.3",
+      "type": "mise_en_situation",
+      "q": "Après avoir mesuré qu'un découpage de 500 tokens améliore le rappel, vous changez la configuration de 300 à 500 et relancez l'ingestion nocturne `ingerer_dossier()` du cours. Les statistiques affichent `inchanges: 412, nouveaux: 0, mis_a_jour: 0`, et la campagne d'évaluation suivante donne exactement les mêmes scores. Pourquoi, et que faire ?",
+      "options": [
+        "500 tokens dépassent la longueur maximale du modèle d'embedding, qui renvoie alors silencieusement les anciens vecteurs",
+        "L'empreinte ne porte que sur le fichier, donc rien n'est redécoupé : forcer une ré-ingestion complète",
+        "`decouper_blocs` ignore la taille demandée pour les FAQ et les tableaux, qui composent ici tout le corpus",
+        "La transaction échoue sur chaque document et `ingerer_dossier` comptabilise ces échecs comme des fichiers inchangés"
+      ],
+      "answer": 1,
+      "explanation": "Le pipeline incrémental de L090 saute tout fichier dont l'empreinte est identique à celle de la base : c'est ce qui le rend idempotent, mais il ignore les changements de paramètres de découpage. Il faut donc une ré-ingestion forcée (purge puis réindexation) ou une clé de comparaison qui inclut la configuration du pipeline. Les erreurs de parsing sont comptées à part, dans `erreurs`.",
+      "source": {
+        "title": "Claude Cookbook — RAG guide",
+        "url": "https://platform.claude.com/cookbook/capabilities-retrieval-augmented-generation-guide"
+      }
+    },
+    {
+      "id": "N3-E63",
+      "lessonId": "L092",
+      "competence": "C3.3",
+      "type": "mise_en_situation",
+      "q": "Un service juridique interroge 300 contrats et rapports de 30 à 80 pages. Les juristes posent des questions précises et bien formulées ; la recherche hybride est déjà en place, mais beaucoup de morceaux du type « Le délai est porté à 60 jours » ne disent pas de quel contrat ni de quelle clause ils parlent. Le budget de latence est serré. Quelle brique ajouter en priorité ?",
+      "options": [
+        "Le multi-query : trois reformulations par question multiplient les chances de retrouver le bon contrat",
+        "HyDE : une réponse hypothétique rédigée par le LLM ressemble davantage aux clauses que la question",
+        "Toutes les briques à la fois (multi-query, HyDE, reranking), puis une mesure du gain global",
+        "Le contextual retrieval : chaque morceau est situé dans son document à l'ingestion, sans latence ajoutée à la requête"
+      ],
+      "answer": 3,
+      "explanation": "L'ordre de priorité de L092 est hybride, puis contextual retrieval (gain fort sur les documents longs), puis reranking, puis multi-query et HyDE, réservés aux questions courtes ou floues. Ici, le défaut vient de morceaux qui ignorent leur contexte, et l'enrichissement se fait une fois, à l'ingestion, avec le prompt caching. Multi-query et HyDE ajoutent des appels à chaque requête, et l'on n'ajoute une brique que si le jeu de test montre un gain.",
+      "source": {
+        "title": "Claude Cookbook — Contextual embeddings guide",
+        "url": "https://platform.claude.com/cookbook/capabilities-contextual-embeddings-guide"
+      }
+    },
+    {
+      "id": "N3-E64",
+      "lessonId": "L093",
+      "competence": "C3.3",
+      "type": "mise_en_situation",
+      "q": "Entre deux campagnes Ragas, l'équipe a porté les morceaux de 300 à 450 tokens, changé de reranker et ajouté 15 nouveaux cas à `tests.jsonl`. La fidélité passe de 0,88 à 0,91 et le context recall de 0,84 à 0,80. Le chef de produit veut « garder la nouvelle version ». Que recommandez-vous ?",
+      "options": [
+        "Garder la nouvelle version : trois points de fidélité gagnés compensent largement quatre points de rappel perdus",
+        "Annuler seulement le nouveau reranker, responsable évident de la baisse du rappel, et garder le reste",
+        "Rejouer sur le jeu d'origine, une variable à la fois, en relançant chaque campagne pour mesurer le bruit",
+        "Passer de Ragas à DeepEval, dont les seuils pytest rendent ce type d'écart directement interprétable"
+      ],
+      "answer": 2,
+      "explanation": "La boucle d'amélioration de L093 impose une variable à la fois et un jeu de test figé pendant une série d'expériences : ici, trois éléments ont changé en même temps, dont le jeu lui-même, et rien n'est attribuable. Il faut aussi relancer pour connaître l'écart entre deux exécutions du juge avant de conclure (le défi 0,91 / 0,88 de la leçon). Accuser le reranker est une hypothèse, pas une mesure.",
+      "source": {
+        "title": "Claude Cookbook — Building evals",
+        "url": "https://platform.claude.com/cookbook/misc-building-evals"
+      }
+    },
+    {
+      "id": "N3-E65",
+      "lessonId": "L094",
+      "competence": "C3.3",
+      "type": "mise_en_situation",
+      "q": "Reprenez les hypothèses de coût du RAG de Bréval (300 questions par mois ; par appel : 2 140 tokens d'entrée non cachée, system prompt de 800 tokens lu en cache, 250 tokens de sortie), mais avec claude-opus-5-5 (4 $ / 20 $, lecture de cache 0,20 $ par MTok) et un taux de cache exact de 60 %. Que vaut la facture API mensuelle de génération, et quel poste domine ?",
+      "options": [
+        "≈ 1,65 $ par mois, dominé par l'entrée non cachée (les extraits), devant la sortie",
+        "≈ 2,88 $ par mois, dominé par la sortie, cinq fois plus chère que l'entrée",
+        "≈ 5,03 $ par mois, le cache exact ne s'appliquant pas aux appels sur Opus 5.5",
+        "≈ 0,83 $ par mois, les extraits étant eux aussi lus en cache à 0,05× sur Opus 5.5"
+      ],
+      "answer": 0,
+      "explanation": "60 % de cache exact laissent 120 appels au modèle. Entrée non cachée : 120 × 2 140 × 4 / 10⁶ ≈ 1,03 $ ; lecture du system prompt : 120 × 800 × 0,20 / 10⁶ ≈ 0,02 $ ; sortie : 120 × 250 × 20 / 10⁶ = 0,60 $ ; total ≈ 1,65 $. Avec 30 % de cache (210 appels), on obtiendrait ≈ 2,88 $. Les extraits changent à chaque question : ils ne profitent pas du prompt caching, d'où leur poids dans la facture (L094).",
+      "source": {
+        "title": "Claude Platform — Pricing",
+        "url": "https://platform.claude.com/docs/en/about-claude/pricing"
+      }
+    },
+    {
+      "id": "N3-E66",
+      "lessonId": "L095",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "L'agent de facturation d'un cabinet s'arrête régulièrement sur « nombre de tours maximal atteint » (25 tours). Le journal montre qu'après un numéro de facture inexistant, l'outil `rechercher_facture` renvoie « erreur » sans autre détail, et que le modèle essaie des variantes du numéro tour après tour. Quelle correction est la bonne ?",
+      "options": [
+        "Relever `max_tours` à 50 : avec plus de marge, la tâche finira par aboutir sans changer les outils",
+        "Renvoyer une erreur explicite et offrir un outil `abandonner(raison)`, en gardant le plafond de tours",
+        "Masquer les erreurs d'outil au modèle, pour qu'il cesse de réessayer ce qui a échoué",
+        "Passer sur Opus 5.5, qui reconnaît seul qu'une tâche est impossible et s'arrête de lui-même"
+      ],
+      "answer": 1,
+      "explanation": "Le défi de L095 cite trois causes : description d'outil ambiguë, outil qui renvoie toujours une erreur sans explication, tâche impossible que le modèle ne sait pas déclarer. Remède : un message d'erreur exploitable et un outil `abandonner(raison)` explicite. Relever le plafond augmente le coût, qui croît avec le nombre de tours, et masquer l'erreur prive le modèle de l'observation qui lui permet de changer de plan.",
+      "source": {
+        "title": "Claude Platform — How tool use works",
+        "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works"
+      }
+    },
+    {
+      "id": "N3-E67",
+      "lessonId": "L096",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "Le graphe LangGraph de validation des avoirs (avec `interrupt()`) est déployé sur trois instances derrière un répartiteur de charge, compilé avec `InMemorySaver`. Quand un gestionnaire valide un avoir deux heures plus tard depuis un formulaire web, la reprise échoue souvent : le graphe ne retrouve pas l'état suspendu. Quelle correction ?",
+      "options": [
+        "Utiliser un checkpointer Postgres partagé par les instances et reprendre avec `Command(resume=…)` sur le même `thread_id`",
+        "Remplacer `InMemorySaver` par un `SqliteSaver` local à chaque instance : la reprise devient alors garantie",
+        "Stocker la décision du gestionnaire dans l'`InMemoryStore`, prévu pour les faits partagés entre threads",
+        "Appeler `interrupt()` une seconde fois au moment de la reprise pour recharger l'état depuis le modèle"
+      ],
+      "answer": 0,
+      "explanation": "`interrupt()` persiste l'état via le checkpointer : avec `InMemorySaver`, cet état n'existe que dans la mémoire de l'instance qui a suspendu le graphe, et disparaît au redémarrage. La leçon L096 réserve SQLite au service mono-instance et Postgres (`langgraph-checkpoint-postgres`) aux déploiements multi-instances ; la reprise, éventuellement dans un autre processus, se fait avec `Command(resume=...)` sur le même `thread_id`. Le store sert à la mémoire longue, pas aux checkpoints.",
+      "source": {
+        "title": "LangChain Docs — LangGraph overview",
+        "url": "https://docs.langchain.com/oss/python/langgraph/overview"
+      }
+    },
+    {
+      "id": "N3-E68",
+      "lessonId": "L097",
+      "competence": "C3.4",
+      "type": "trouve_erreur",
+      "q": "En recette, l'agent RH (Claude Agent SDK) enregistre un congé de 14 jours ouvrés sans validation du manager, alors que le journal montre que le hook est bien appelé. Où est l'erreur ?\n\n```python\nasync def garde_fou(input_data, tool_use_id, context):\n    if input_data.get(\"tool_name\") == \"poser_conge\":\n        a = input_data[\"tool_input\"]\n        if jours_ouvres(date.fromisoformat(a[\"debut\"]), date.fromisoformat(a[\"fin\"])) > 10:\n            return {\"hookSpecificOutput\": {\"hookEventName\": \"PreToolUse\", \"permissionDecision\": \"deny\",\n                    \"permissionDecisionReason\": \"Plus de 10 jours ouvrés : validation manager requise.\"}}\n    return {}\n\noptions = ClaudeAgentOptions(\n    mcp_servers={\"rh\": serveur_rh},\n    allowed_tools=[\"mcp__rh__solde_conges\", \"mcp__rh__poser_conge\"],\n    hooks={\"PreToolUse\": [HookMatcher(matcher=\"mcp__rh__poser_conge\", hooks=[garde_fou])]},\n)\n```",
+      "options": [
+        "Un hook `PreToolUse` ne peut pas bloquer un outil d'un serveur MCP en mémoire, seulement les outils intégrés",
+        "`permissionDecision` doit valoir `\"block\"` : la valeur `\"deny\"` n'est qu'un avis consultatif transmis au modèle",
+        "L'outil s'appelle `mcp__rh__poser_conge` : le test sur `\"poser_conge\"` n'est jamais vrai, le hook renvoie `{}`",
+        "Sans `max_budget_usd` renseigné, le SDK n'applique pas les décisions de refus renvoyées par les hooks"
+      ],
+      "answer": 2,
+      "explanation": "Les outils d'un serveur MCP interne sont exposés sous la forme `mcp__<serveur>__<outil>` : le code de L097 les autorise et les filtre sous le nom `mcp__rh__poser_conge`. Ici le matcher est juste, donc le hook s'exécute, mais le test interne compare `tool_name` à `\"poser_conge\"` et ne refuse jamais. La bonne réponse de refus est bien `permissionDecision: \"deny\"`, et un hook bloque aussi les outils MCP : c'est tout l'intérêt de cette règle en code.",
+      "source": {
+        "title": "Claude Agent SDK — Hooks",
+        "url": "https://code.claude.com/docs/en/agent-sdk/hooks"
+      }
+    },
+    {
+      "id": "N3-E69",
+      "lessonId": "L099",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "L'agent « achats » d'une PME délègue en A2A le chiffrage de transport à l'agent de son partenaire Transports Durand. Un attaquant publie, sur un domaine voisin, une Agent Card qui imite celle du partenaire ; l'agent achats lui envoie des détails de commande confidentiels. Quelle parade le cours associe-t-il à cette menace ?",
+      "options": [
+        "Épingler la version de l'agent partenaire et comparer une empreinte de `tools/list` à chaque démarrage",
+        "Remplacer l'agent partenaire par un serveur MCP, qui vérifie l'autorisation à chaque requête depuis 2026-07-28",
+        "Passer à des jetons OAuth 2.1 par utilisateur, la parade de la délégation abusive (« confused deputy »)",
+        "Exiger des Agent Cards signées et liées au domaine (A2A 1.2, DID ou DNS), une liste d'agents autorisés et du TLS mutuel"
+      ],
+      "answer": 3,
+      "explanation": "Le tableau de sécurité de L099 nomme cette menace « carte d'agent falsifiée » : la parade combine les cartes signées liées au domaine introduites par A2A 1.2 (DID, enregistrement DNS TXT ou well-known), une liste d'autorisation d'agents et du TLS mutuel entre organisations. L'empreinte de `tools/list` détecte un rug pull MCP, les jetons par utilisateur traitent le confused deputy, et MCP relie un agent à des outils, pas à l'agent d'une autre organisation.",
+      "source": {
+        "title": "A2A Protocol",
+        "url": "https://a2a-protocol.org/"
+      }
+    },
+    {
+      "id": "N3-E70",
+      "lessonId": "L100",
+      "competence": "C3.4",
+      "type": "mise_en_situation",
+      "q": "Le client de l'agent de recherche et de rédaction exige que « chaque fait de la note soit vérifié à la source ». Un collègue répond que c'est déjà le cas, grâce au relecteur Opus 5.5 et au filtre d'URL. Quelle réponse est conforme à l'architecture et aux limites documentées du projet ?",
+      "options": [
+        "C'est déjà le cas : le relecteur Opus 5.5, distinct du rédacteur, vérifie la véracité de chaque affirmation",
+        "C'est déjà le cas : une URL renvoyée par les moteurs prouve que la page dit ce que la preuve affirme",
+        "Ajouter un contrôle qui ouvre chaque page citée pour y retrouver l'extrait, plus une relecture humaine",
+        "Passer la recherche Perplexity en effort `high` (ex-Deep Research), qui garantit l'exactitude des sources"
+      ],
+      "answer": 2,
+      "explanation": "La leçon L100 est explicite : le relecteur vérifie la cohérence entre la note et le dossier, pas la vérité du monde ; le filtre d'URL garantit seulement que l'URL a bien été renvoyée par un moteur. Une URL réelle peut ne pas dire ce que la preuve affirme : seul un humain, ou un contrôle qui ouvre la page et y cherche l'extrait, vérifie la source. Cette limite fait partie des limites à documenter du critère C3.4.",
+      "source": {
+        "title": "Claude Platform — Web search tool",
+        "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-search-tool"
+      }
+    },
+    {
+      "id": "N3-E71",
+      "lessonId": "L101",
+      "competence": "C3.5",
+      "type": "mise_en_situation",
+      "q": "Le journal `onFinish` de Compta-Chat montre que 30 % des réponses vont jusqu'à `maxOutputTokens`, alors que les utilisateurs ont fermé l'onglet dès les premières lignes. Quelle option manque dans ce `streamText` pour ne plus payer ces tokens ?\n\n```typescript\nconst result = streamText({\n  model: choisirModele(), system: SYSTEM,\n  messages: await convertToModelMessages(messages),\n  tools: { rechercherClient, echeanceTva },\n  stopWhen: stepCountIs(5),\n  maxOutputTokens: 1024,\n});\n```",
+      "options": [
+        "`export const maxDuration = 60` : Vercel interrompt alors la fonction dès que le client se déconnecte",
+        "`stopWhen: stepCountIs(1)` : une seule étape empêche le modèle de poursuivre la génération inutilement",
+        "`maxOutputTokens: 256` : seul un plafond plus bas évite de payer les réponses que personne ne lit",
+        "`abortSignal: req.signal` : fermer l'onglet coupe la requête au fournisseur, sans facturer la suite"
+      ],
+      "answer": 3,
+      "explanation": "La leçon L101 explique que `abortSignal: req.signal` propage l'annulation du navigateur jusqu'au fournisseur : la génération s'arrête et les tokens non produits ne sont pas facturés. `maxDuration` plafonne la durée d'une fonction sans réagir à la déconnexion, `stopWhen` limite les allers-retours avec les outils, et un `maxOutputTokens` plus bas réduit toutes les réponses, y compris celles qui sont lues.",
+      "source": {
+        "title": "Vercel AI SDK — documentation",
+        "url": "https://ai-sdk.dev"
+      }
+    },
+    {
+      "id": "N3-E72",
+      "lessonId": "L102",
+      "competence": "C3.5",
+      "type": "mise_en_situation",
+      "q": "Le scénario « routage » du cours (70 % Haiku 5.5, 30 % Sonnet 5.5, avec cache) coûte ≈ 7,50 $ par jour pour 2 000 conversations de 3 tours, soit ≈ 165 $ sur 22 jours ouvrés. Le budget mensuel est plafonné à 300 $. Combien de conversations par jour l'application peut-elle absorber au total, à profil constant ?",
+      "options": [
+        "≈ 2 670 par jour, en répartissant les 300 $ sur 30 jours calendaires plutôt que sur 22 jours ouvrés",
+        "≈ 3 600 par jour, soit environ 1 600 de plus (13,64 $/jour ÷ ≈ 0,00375 $ par conversation)",
+        "≈ 10 900 par jour, chaque conversation coûtant ≈ 0,00125 $ comme un tour isolé",
+        "≈ 4 000 par jour : un budget presque double de 165 $ permet presque de doubler le volume"
+      ],
+      "answer": 1,
+      "explanation": "Budget quotidien : 300 / 22 ≈ 13,64 $. Coût d'une conversation de 3 tours : 7,50 / 2 000 ≈ 0,00375 $. Capacité : 13,64 / 0,00375 ≈ 3 635 conversations par jour, soit ≈ 1 600 de plus. Diviser par 30 jours contredit l'hypothèse de 22 jours ouvrés du cours (L102), 0,00125 $ est le coût d'un tour et non d'une conversation, et le ratio des budgets vaut 300 / 165 ≈ 1,82, pas 2.",
+      "source": {
+        "title": "Claude Platform — Pricing",
+        "url": "https://platform.claude.com/docs/en/about-claude/pricing"
+      }
+    },
+    {
+      "id": "N3-E73",
+      "lessonId": "L103",
+      "competence": "C3.5",
+      "type": "mise_en_situation",
+      "q": "Avant de rendre bloquant un juge LLM (Haiku 5.5, échelle de 1 à 10, critère « la réponse est-elle bonne ? »), l'équipe le calibre sur 30 réponses notées à la main par un expert-comptable : le juge est d'accord avec l'humain sur 24 d'entre elles. Que décidez-vous ?",
+      "options": [
+        "L'activer : 80 % d'accord dépasse ce que l'on obtient en moyenne entre deux annotateurs humains",
+        "Pas encore : faire juger les réponses par le modèle évalué lui-même, qui connaît mieux son propre style",
+        "Pas encore : 80 % < 85 % ; expliciter les critères, passer à une échelle binaire, puis recalibrer",
+        "L'activer en passant l'échelle de 1-10 à 1-100, pour gagner en finesse sans recalibrer"
+      ],
+      "answer": 2,
+      "explanation": "Les règles d'hygiène de L103 fixent la calibration à plus de 85 % d'accord juge/humain avant de faire confiance au juge, avec des critères explicites (pas « la réponse est bonne ») et une échelle binaire ou à 3 niveaux, plus stable qu'une échelle 1-10. Le juge doit être différent du modèle évalué pour limiter l'auto-complaisance, et une échelle plus fine aggrave l'instabilité au lieu de la corriger.",
+      "source": {
+        "title": "Claude Platform — Define success criteria and build evals",
+        "url": "https://platform.claude.com/docs/en/test-and-evaluate/develop-tests"
+      }
+    },
+    {
+      "id": "N3-E74",
+      "lessonId": "L104",
+      "competence": "C3.5",
+      "type": "mise_en_situation",
+      "q": "Après trois jours de canary à 5 %, le prompt v4 de Compta-Chat totalise 260 traces : pouce haut 86 % (v3 : 83 %), erreurs d'outil 2,0 % (v3 : 2,5 %), coût moyen par trace 0,0046 $ (v3 : 0,0040 $). En appliquant le protocole de déploiement progressif du cours, que faites-vous ?",
+      "options": [
+        "Ne pas élargir : le coût par trace augmente de 15 % (> +10 %) ; analyser d'abord les traces de la v4",
+        "Passer à 25 % : deux critères de qualité sur trois s'améliorent et l'échantillon dépasse 200 traces",
+        "Passer directement à 100 % : la satisfaction utilisateur est le critère principal du protocole",
+        "Prolonger le canary : le protocole exige au moins 2 000 traces par version avant d'élargir"
+      ],
+      "answer": 0,
+      "explanation": "Le tableau de L104 exige, pour quitter le canary, un pouce haut v4 ≥ v3, des erreurs d'outil ≤ v3 et un coût par trace ≤ +10 %, avec au moins 200 traces par version. Les deux premiers critères et l'échantillon sont bons, mais 0,0046 / 0,0040 = 1,15, soit +15 % : on n'élargit pas, et l'on cherche la cause dans les traces taguées par version (prompt plus long, étapes d'outils supplémentaires…), avec retour à 0 si nécessaire.",
+      "source": {
+        "title": "Langfuse — documentation",
+        "url": "https://langfuse.com"
+      }
+    },
+    {
+      "id": "N3-E75",
+      "lessonId": "L105",
+      "competence": "C3.5",
+      "type": "mise_en_situation",
+      "q": "Pour « prouver que l'IA fonctionne », un développeur fait envoyer par `/api/health` un « ping » à Haiku 5.5. La sonde est interrogée toutes les 10 secondes. Lors d'un incident chez Anthropic, l'orchestrateur juge l'application en panne et redémarre le conteneur en boucle : le modèle de repli OpenAI ne sert plus aucune requête. Que corrigez-vous ?",
+      "options": [
+        "Remplacer Haiku 5.5 par GPT-6 Luna dans la sonde : un fournisseur différent de celui du chat évite le problème",
+        "Espacer la sonde à une fois par heure, ce qui réduit à la fois la facture et le nombre de redémarrages",
+        "Mettre la réponse de la sonde en cache sémantique, pour ne plus appeler le modèle à chaque vérification",
+        "La sonde ne vérifie que l'application et sa base (`SELECT 1`) ; une panne du fournisseur relève du repli"
+      ],
+      "answer": 3,
+      "explanation": "L'architecture cible de L105 précise que `/api/health` exécute un `SELECT 1` et ne fait jamais d'appel LLM : la sonde mesure la santé de l'application, pas celle d'un tiers. L'exigence de disponibilité prévoit une dégradation propre, avec un modèle de repli et un message explicite, quand le fournisseur est indisponible. Changer de fournisseur dans la sonde ou l'espacer ne fait que déplacer ou retarder le même problème, en laissant une dépense inutile.",
+      "source": {
+        "title": "Next.js — documentation",
+        "url": "https://nextjs.org/docs"
+      }
+    },
+    {
+      "id": "N3-E76",
+      "lessonId": "L106",
+      "competence": "C3.6",
+      "type": "mise_en_situation",
+      "q": "Dans un système multi-agents de comptabilité fournisseurs, l'agent collecteur invente un numéro de facture « F-2026-0457 » ; l'agent de paiement, qui lui fait confiance, programme le virement, puis l'agent comptable l'enregistre. Quelle entrée de l'OWASP Top 10 for Agentic Applications 2026 décrit le mieux cet enchaînement ?",
+      "options": [
+        "ASI08 Cascading Failures",
+        "ASI06 Memory & Context Poisoning",
+        "ASI09 Human-Agent Trust Exploitation",
+        "ASI10 Rogue Agents"
+      ],
+      "answer": 0,
+      "explanation": "Le document OWASP cité en L106 décrit les « hallucinations en cascade » : un agent invente, le suivant exécute. Dans la liste 2026, c'est ASI08 Cascading Failures. ASI06 vise une fausse information qui persiste en mémoire d'une session à l'autre, ASI09 la manipulation de la confiance d'un humain. Parades vues en L098 : résultats d'agents traités comme des données non fiables, objets structurés validés, validation humaine avant le virement.",
+      "source": {
+        "title": "OWASP — Top 10 for Agentic Applications for 2026",
+        "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+      }
+    },
+    {
+      "id": "N3-E77",
+      "lessonId": "L107",
+      "competence": "C3.6",
+      "type": "trouve_erreur",
+      "q": "Lors de l'audit de la version sécurisée de DevisBot, un testeur connecté avec un simple compte client obtient une remise de 8 % et l'envoi d'un e-mail. Quelle faille relevez-vous ?\n\n```python\n@app.post(\"/chat\")\ndef chat(req: dict, session=Depends(session_courante)):\n    role = req.get(\"role\", \"client\")          # rôle transmis par le front\n    ...\n    for bloc in reponse.content:\n        if bloc.type == \"tool_use\":\n            resultat = executer_securise(bloc.name, bloc.input, role)\n```",
+      "options": [
+        "Le plafond de remise automatique de 10 % est trop haut : il faut le descendre à 5 % pour tous les rôles",
+        "Le rôle vient du corps de la requête : il doit être déduit, côté serveur, de l'identité authentifiée",
+        "`executer_securise` ne contrôle pas le domaine des e-mails envoyés par un utilisateur de rôle commercial",
+        "L'allow-list des outils par rôle devrait figurer dans le prompt système pour que le modèle la respecte"
+      ],
+      "answer": 1,
+      "explanation": "La couche 1 de L107 (allow-list par rôle, plafonds dans le code) ne vaut que si le rôle est fiable : ici, le client le choisit lui-même et se déclare commercial, qui a droit à `appliquer_remise` (8 % ≤ 10 %, sans validation) et à `envoyer_email`. Comme le filtre `service` du RAG (L094), le rôle se déduit de la session côté serveur, jamais d'un champ envoyé par le front. Le contrôle de domaine s'applique bien à tous les rôles, et une règle placée dans le prompt n'est pas une barrière.",
+      "source": {
+        "title": "Claude Platform — Mitigate jailbreaks and prompt injections",
+        "url": "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks"
+      }
+    },
+    {
+      "id": "N3-E78",
+      "lessonId": "L108",
+      "competence": "C3.6",
+      "type": "mise_en_situation",
+      "q": "Une mutuelle fait résumer les e-mails d'adhérents avec `pseudo_pipeline.py` (détection par les regex de `pii_fr.py`). Un e-mail type : « Mme Sophie Leroy, diabétique, 12 rue des Lilas à Nanterre, tél. 06 12 34 56 78, conteste un remboursement. » Le DPO demande si ce qui part chez le fournisseur est anonyme, donc hors RGPD. Que répondez-vous ?",
+      "options": [
+        "Oui : chaque donnée personnelle est remplacée par un jeton, et la table de correspondance reste sur nos serveurs",
+        "Non tant que la table de correspondance n'est pas chiffrée ; une fois chiffrée, les données envoyées deviennent anonymes",
+        "Oui, à condition de désactiver la conservation des réponses chez le fournisseur, ce qui anonymise le flux",
+        "Non : les regex ignorent nom, adresse et pathologie, et des données pseudonymisées restent personnelles"
+      ],
+      "answer": 3,
+      "explanation": "La leçon L108 précise que les regex repèrent les identifiants formatés (téléphone, e-mail, IBAN, NIR) mais très mal les noms, adresses et pathologies : il faut une reconnaissance d'entités nommées (Presidio avec un modèle français). Surtout, des données pseudonymisées dont la table de correspondance existe restent des données personnelles ; seule une anonymisation irréversible sort du RGPD. Chiffrer la table ou désactiver la rétention protège, mais n'anonymise pas.",
+      "source": {
+        "title": "CNIL — Les fiches pratiques IA",
+        "url": "https://cnil.fr/fr/les-fiches-pratiques-ia"
+      }
+    },
+    {
+      "id": "N3-E79",
+      "lessonId": "L109",
+      "competence": "C3.6",
+      "type": "trouve_erreur",
+      "q": "Le front de DevisBot ajoute l'en-tête `X-User-Id` en JavaScript (une valeur conservée dans le `localStorage`) et appelle directement le service ci-dessous, tiré de `garde_budget.py`. Un samedi, un script envoie 50 000 requêtes ; à 11 h, tous les clients reçoivent « Service momentanément indisponible ». Quelle faille l'auditeur relève-t-il ?\n\n```python\n@app.post(\"/chat\")\ndef chat(q: Question, x_user_id: str = Header(...)) -> dict:\n    verifier_debit(x_user_id)\n    verifier_budget(x_user_id)\n    ...\n```",
+      "options": [
+        "`count_tokens` est appelé après la génération : chaque requête du script est donc facturée en entier avant d'être refusée",
+        "`max_tokens` n'est pas fixé : chaque réponse au script peut atteindre 128K tokens de sortie sur les modèles 5.5",
+        "L'identifiant vient d'un en-tête libre : en le changeant à chaque requête, le script contourne les quotas par utilisateur",
+        "Le budget est compté en nombre de requêtes et non en dollars, ce que le script exploite avec des messages longs"
+      ],
+      "answer": 2,
+      "explanation": "Le commentaire de `garde_budget.py` le dit : `x_user_id` doit provenir de l'authentification (session, JWT), jamais d'un champ libre. Avec un identifiant différent à chaque requête, chaque appel repart d'un compteur vierge : ni la limite de 10 requêtes par minute ni les 0,50 $ par jour ne jouent, et seul le coupe-circuit global de 30 $ arrête l'attaque, en renvoyant 503 à tout le monde. Dans ce code, `count_tokens` précède l'appel, `max_tokens` vaut 600 et le budget est suivi en dollars.",
+      "source": {
+        "title": "OpenAI Developers — Safety best practices",
+        "url": "https://developers.openai.com/api/docs/guides/safety-best-practices"
+      }
+    },
+    {
+      "id": "N3-E80",
+      "lessonId": "L110",
+      "competence": "C3.6",
+      "type": "mise_en_situation",
+      "q": "Pendant l'audit de PaieAssist, l'injection indirecte par document réussit une fois sur cinq rejeux. Le développeur conclut : « risque marginal, le modèle refuse 80 % du temps ». En supposant les tentatives indépendantes, quelle est la probabilité qu'un attaquant obtienne au moins une réussite en 10 essais, et qu'en concluez-vous ?",
+      "options": [
+        "≈ 20 % : la probabilité de réussite ne dépend pas du nombre de tentatives",
+        "≈ 89 % (1 − 0,8¹⁰) : le constat est bien réel et doit être coté puis corrigé",
+        "≈ 0 % : il faudrait que les dix essais réussissent (0,2¹⁰), le risque est donc négligeable",
+        "100 % : 10 × 0,2 = 2, l'attaquant obtient forcément deux réussites sur dix essais"
+      ],
+      "answer": 1,
+      "explanation": "La probabilité qu'aucun des 10 essais ne réussisse vaut 0,8¹⁰ ≈ 0,107, donc au moins une réussite ≈ 89 %. C'est l'avertissement de L110 : un modèle qui refuse une fois ne prouve rien, chaque test se rejoue cinq fois et un attaquant patient n'a besoin que d'une réussite. 0,2¹⁰ est la probabilité que tous les essais réussissent, et 10 × 0,2 est une espérance (deux réussites en moyenne), pas une certitude.",
+      "source": {
+        "title": "promptfoo — documentation",
+        "url": "https://www.promptfoo.dev/docs"
+      }
+    }
+  ]
+}

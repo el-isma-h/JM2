@@ -1,0 +1,190 @@
+{
+  "name": "Lab L048 — RAG Lacombe : consultation",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Workflow 2 — Consultation avec citation des sources (section 1.3)\nOuvrez le chat (bouton *Open chat*) et posez les 10 questions de `questions-test.json`.\n- Modèle de chat : **Ollama gemma4:e4b** (sans clé). Pour comparer, remplacez-le par *Anthropic Chat Model*\n  (`claude-sonnet-5-5`) ou *Mistral Cloud Chat Model* : c'est le seul nœud à changer.\n- Outil : même *Simple Vector Store* (`lacombe-procedures`) et **même modèle d'embeddings** que l'ingestion.\n- Variante sans agent : *Question and Answer Chain* + *Vector Store Retriever* (plus déterministe).",
+        "height": 300,
+        "width": 680
+      },
+      "id": "86081272-2d4f-5ebf-b6ce-7f0cfb2ce200",
+      "name": "Note — consultation",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        -420
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "57023100-74cf-57df-b5d7-733b00a3542d",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -380,
+        60
+      ],
+      "webhookId": "5a0e3c1b-7d2f-4e8a-9b6c-1d2e3f4a5b6c"
+    },
+    {
+      "parameters": {
+        "promptType": "auto",
+        "options": {
+          "systemMessage": "Tu es l'assistant interne de Menuiserie Lacombe. Tu réponds UNIQUEMENT à partir\ndes passages renvoyés par l'outil « procedures_lacombe ». Pour chaque affirmation,\nindique entre crochets le titre du document source (métadonnée `titre`).\nSi les passages ne permettent pas de répondre, dis-le explicitement et propose\nde contacter le responsable d'atelier. Ne devine jamais une valeur numérique.",
+          "maxIterations": 5
+        }
+      },
+      "id": "73f6ac04-1c2c-58d7-a0d1-ca30c4222668",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -120,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gemma4:e4b",
+        "options": {}
+      },
+      "id": "9dd958e6-4df8-5d6d-b2b9-5e10a3af1bd8",
+      "name": "Ollama Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -260,
+        300
+      ],
+      "credentials": {
+        "ollamaApi": {
+          "name": "Ollama local"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 5
+      },
+      "id": "45b80064-4596-5b67-98ad-3a65e575f360",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "procedures_lacombe",
+        "toolDescription": "Procédures, sécurité, tarifs et CGV de Menuiserie Lacombe",
+        "memoryKey": "lacombe-procedures",
+        "topK": 5
+      },
+      "id": "3d17a9c4-c3c2-5ae5-966a-7d9a10073a95",
+      "name": "procedures_lacombe",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1,
+      "position": [
+        80,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text"
+      },
+      "id": "5527f752-2b06-5b58-b0a2-146822321117",
+      "name": "Embeddings Ollama",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        100,
+        500
+      ],
+      "credentials": {
+        "ollamaApi": {
+          "name": "Ollama local"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procedures_lacombe": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "procedures_lacombe",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Paris",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "active": false,
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": [
+    {
+      "name": "lab-L048"
+    }
+  ]
+}
